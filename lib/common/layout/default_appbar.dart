@@ -7,12 +7,14 @@ class DefaultAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String title;
   final List<Widget>? action;
   final Widget? leading;
+  final double? elevation;
 
   const DefaultAppBar({
     Key? key,
     required this.title,
     this.leading,
     this.action,
+    this.elevation,
   }) : super(key: key);
 
   @override
@@ -38,7 +40,7 @@ class _DefaultAppBarState extends State<DefaultAppBar> {
       leading: widget.leading,
       centerTitle: true,
       actions: widget.action,
-      elevation: 0.3,
+      elevation: widget.elevation ?? 0.3,
       backgroundColor: BACKGROUND_COLOR,
       foregroundColor: DEFAULT_TEXT_COLOR,
     );

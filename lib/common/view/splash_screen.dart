@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:true_counter/common/const/colors.dart';
 import 'package:true_counter/common/layout/default_layout.dart';
 import 'package:true_counter/common/route/routes.dart';
 
@@ -13,7 +14,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    delay();
+    // delay();
   }
 
   @override
@@ -23,9 +24,31 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const SizedBox(height: 16.0),
-            const Text('Have Custom'),
-            const SizedBox(height: 10.0),
+            const Text(
+              'TRUE COUNTER',
+              style: TextStyle(
+                color: PRIMARY_COLOR,
+                fontSize: 36.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 36.0),
+            const Text(
+              '실시간 참여자 수',
+              style: TextStyle(
+                color: SECONDARY_COLOR,
+                fontSize: 28.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const Text(
+              '집계 시스템',
+              style: TextStyle(
+                color: SECONDARY_COLOR,
+                fontSize: 28.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ],
         ),
       ),

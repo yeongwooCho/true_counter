@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 // Main
 const PRIMARY_COLOR = Color(0xFF4273B1);
+const SECONDARY_COLOR = Color(0xFF081F5C);
 
 // Text Color
 const DEFAULT_TEXT_COLOR = Color(0xFF1C1C1E);

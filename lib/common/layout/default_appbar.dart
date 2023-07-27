@@ -19,7 +19,8 @@ class DefaultAppBar extends StatefulWidget implements PreferredSizeWidget {
   State<DefaultAppBar> createState() => _DefaultAppBarState();
 
   @override
-  Size get preferredSize => const Size(double.infinity, DefaultAppBar.defaultAppBarHeight);
+  Size get preferredSize =>
+      const Size(double.infinity, DefaultAppBar.defaultAppBarHeight);
 }
 
 class _DefaultAppBarState extends State<DefaultAppBar> {
@@ -27,8 +28,12 @@ class _DefaultAppBarState extends State<DefaultAppBar> {
   Widget build(BuildContext context) {
     return AppBar(
       title: Text(
-          widget.title,
-          style: bodyBoldTextStyle
+        widget.title,
+        style: const TextStyle(
+          fontSize: 18.0,
+          fontWeight: FontWeight.bold,
+          color: DEFAULT_TEXT_COLOR,
+        ),
       ),
       leading: widget.leading,
       centerTitle: true,

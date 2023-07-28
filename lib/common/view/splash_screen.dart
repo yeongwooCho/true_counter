@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:true_counter/common/const/colors.dart';
+import 'package:true_counter/common/const/text_style.dart';
 import 'package:true_counter/common/layout/default_layout.dart';
 import 'package:true_counter/common/route/routes.dart';
 
@@ -24,29 +25,23 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(
+            Text(
               'TRUE COUNTER',
-              style: TextStyle(
+              style: appNameTextStyle.copyWith(
                 color: PRIMARY_COLOR,
-                fontSize: 36.0,
-                fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(height: 36.0),
-            const Text(
+            Text(
               '실시간 참여자 수',
-              style: TextStyle(
+              style: titleTextStyle.copyWith(
                 color: SECONDARY_COLOR,
-                fontSize: 28.0,
-                fontWeight: FontWeight.bold,
               ),
             ),
-            const Text(
+            Text(
               '집계 시스템',
-              style: TextStyle(
+              style: titleTextStyle.copyWith(
                 color: SECONDARY_COLOR,
-                fontSize: 28.0,
-                fontWeight: FontWeight.bold,
               ),
             ),
           ],

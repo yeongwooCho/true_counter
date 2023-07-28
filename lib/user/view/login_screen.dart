@@ -1,10 +1,21 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:true_counter/common/component/custom_text_form_field.dart';
+import 'package:true_counter/common/const/button_style.dart';
 import 'package:true_counter/common/const/colors.dart';
+import 'package:true_counter/common/const/text_style.dart';
 import 'package:true_counter/common/layout/default_appbar.dart';
 import 'package:true_counter/common/layout/default_layout.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  bool isAutoLogin = true;
 
   @override
   Widget build(BuildContext context) {
@@ -20,12 +31,11 @@ class LoginScreen extends StatelessWidget {
               children: [
                 Text(
                   '둘러보기',
-                  style: TextStyle(
+                  style: bodyBoldTextStyle.copyWith(
                     color: DARK_GREY_COLOR,
-                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                Icon(
+                const Icon(
                   Icons.chevron_right,
                   color: DARK_GREY_COLOR,
                 ),
@@ -34,10 +44,53 @@ class LoginScreen extends StatelessWidget {
           ),
         ],
       ),
-      child: Column(
-        children: [
-          renderIntroduceWidget(),
-        ],
+      child: SingleChildScrollView(
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              renderIntroduceWidget(),
+              const SizedBox(height: 48.0),
+              CustomTextFormField(
+                title: '아이디',
+                hintText: '휴대전화번호 뒤 8자리',
+              ),
+              const SizedBox(height: 12.0),
+              CustomTextFormField(
+                title: '비밀번호',
+                hintText: '비밀번호',
+              ),
+              const SizedBox(height: 16.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  const Text(
+                    '자동 로그인',
+                    style: bodyBoldTextStyle,
+                  ),
+                  const SizedBox(width: 6.0),
+                  CupertinoSwitch(
+                    activeColor: PRIMARY_COLOR,
+                    value: isAutoLogin,
+                    onChanged: (bool value) {
+                      setState(() {
+                        isAutoLogin = value;
+                      });
+                    },
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12.0),
+              ElevatedButton(
+                onPressed: () {},
+                style: defaultButtonStyle,
+                child: Text('로그인'),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -50,48 +103,38 @@ Widget renderIntroduceWidget() {
     children: [
       const SizedBox(
         width: double.infinity,
-        height: 48.0,
+        height: 36.0,
       ),
-      const Text(
+      Text(
         'TRUE COUNTER',
-        style: TextStyle(
+        style: appNameTextStyle.copyWith(
           color: PRIMARY_COLOR,
-          fontSize: 36.0,
-          fontWeight: FontWeight.bold,
         ),
       ),
       const SizedBox(height: 36.0),
-      const Text(
+      Text(
         '실시간 참여자 수',
-        style: TextStyle(
+        style: titleTextStyle.copyWith(
           color: SECONDARY_COLOR,
-          fontSize: 28.0,
-          fontWeight: FontWeight.bold,
         ),
       ),
-      const Text(
+      Text(
         '집계 시스템',
-        style: TextStyle(
+        style: titleTextStyle.copyWith(
           color: SECONDARY_COLOR,
-          fontSize: 28.0,
-          fontWeight: FontWeight.bold,
         ),
       ),
       const SizedBox(height: 24.0),
-      const Text(
+      Text(
         '트루카운터는 행사 취지에 공감하고',
-        style: TextStyle(
-          color: DEFAULT_TEXT_COLOR,
+        style: bodyMediumTextStyle.copyWith(
           fontSize: 16.0,
-          fontWeight: FontWeight.normal,
         ),
       ),
-      const Text(
+      Text(
         '행사장 반경 안에 있는 누구나 참여 가능합니다.',
-        style: TextStyle(
-          color: DEFAULT_TEXT_COLOR,
+        style: bodyMediumTextStyle.copyWith(
           fontSize: 16.0,
-          fontWeight: FontWeight.normal,
         ),
       ),
     ],

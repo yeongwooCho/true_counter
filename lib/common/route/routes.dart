@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:true_counter/common/model/screen_arguments.dart';
 import 'package:true_counter/user/view/login_screen.dart';
+import 'package:true_counter/user/view/terms_providing_info_screen.dart';
+import 'package:true_counter/user/view/terms_screen.dart';
 
 class RouteNames {
   // initial
@@ -9,25 +11,27 @@ class RouteNames {
 
   // login, register, findID, passwordReset
   static const String login = '/login';
-  static const String emailLogin = '/email/login';
-  static const String emailRegister = '/email/register';
-  static const String emailFind = '/email/find/';
-  static const String emailPasswordReset = '/email/password/reset';
+
+  // static const String emailLogin = '/email/login';
+  // static const String emailRegister = '/email/register';
+  // static const String emailFind = '/email/find/';
+  // static const String emailPasswordReset = '/email/password/reset';
   static const String terms = '/terms';
+  static const String termsProviding = '/terms/providing';
 
   // root tab
   static const String root = '/root';
 
-  // custom
-  static const String selectFabric = '/select/fabric';
-  static const String printing = '/printing';
-  static const String customGuide = '/custom/guide';
-
-  // search
-  static const String productDetail = '/product/detail';
-
-  // purchase
-  static const String purchase = '/purchase';
+// // custom
+// static const String selectFabric = '/select/fabric';
+// static const String printing = '/printing';
+// static const String customGuide = '/custom/guide';
+//
+// // search
+// static const String productDetail = '/product/detail';
+//
+// // purchase
+// static const String purchase = '/purchase';
 }
 
 Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
@@ -45,6 +49,8 @@ Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
 
   // login, register, findID, passwordReset
   RouteNames.login: (_) => LoginScreen(),
+  RouteNames.terms: (_) => TermsScreen(),
+  RouteNames.termsProviding: (_) => TermsProvidingInfoScreen(),
   // RouteNames.emailLogin: (_) => EmailLoginScreen(),
   // RouteNames.emailRegister: (_) => EmailRegisterScreen(),
   // RouteNames.emailFind: (_) => EmailFindScreen(),

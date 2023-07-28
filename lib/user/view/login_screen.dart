@@ -6,6 +6,7 @@ import 'package:true_counter/common/const/colors.dart';
 import 'package:true_counter/common/const/text_style.dart';
 import 'package:true_counter/common/layout/default_appbar.dart';
 import 'package:true_counter/common/layout/default_layout.dart';
+import 'package:true_counter/common/route/routes.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -84,7 +85,11 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(height: 12.0),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pushNamed(
+                    RouteNames.terms,
+                  );
+                },
                 style: defaultButtonStyle,
                 child: Text('로그인'),
               ),

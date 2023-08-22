@@ -30,3 +30,8 @@ const INPUT_BORDER_COLOR = Color(0xFFAEAEB2);
 // Stroke Color
 const STROKE_TEXT_FIELD_COLOR = Color(0XFFAEAEB2);
 const SHADOW_COLOR = Colors.black;
+
+
+// KAKAO LOGIN
+const KAKAO_TEXT_COLOR = Color(0xD9000000);
+const KAKAO_CONTAINER_COLOR = Color(0xFFFEE500);

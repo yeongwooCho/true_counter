@@ -13,6 +13,19 @@ ButtonStyle defaultButtonStyle = ElevatedButton.styleFrom(
   textStyle: bodyBoldWhiteTextStyle,
 );
 
+ButtonStyle kakaoLoginButtonStyle = ElevatedButton.styleFrom(
+  foregroundColor: KAKAO_TEXT_COLOR,
+  backgroundColor: KAKAO_CONTAINER_COLOR,
+  elevation: 0,
+  shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(12.0),
+  ),
+  minimumSize: const Size(100, 60),
+  textStyle: bodyBoldWhiteTextStyle.copyWith(
+    color: KAKAO_TEXT_COLOR,
+  ),
+);
+
 ButtonStyle deactivateButtonStyle = ElevatedButton.styleFrom(
   foregroundColor: DARK_GREY_COLOR,
   backgroundColor: LIGHT_GREY_COLOR,

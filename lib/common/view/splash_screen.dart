@@ -52,7 +52,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> delay() async {
     Future.delayed(const Duration(seconds: 2), () {
-      String startRoute = RouteNames.login;
+      String startRoute = RouteNames.onBoarding;
       Navigator.of(context).popAndPushNamed(startRoute);
     });
   }

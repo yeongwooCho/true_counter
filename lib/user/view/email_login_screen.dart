@@ -8,42 +8,21 @@ import 'package:true_counter/common/layout/default_appbar.dart';
 import 'package:true_counter/common/layout/default_layout.dart';
 import 'package:true_counter/common/route/routes.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class EmailLoginScreen extends StatefulWidget {
+  const EmailLoginScreen({Key? key}) : super(key: key);
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<EmailLoginScreen> createState() => _EmailLoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _EmailLoginScreenState extends State<EmailLoginScreen> {
   bool isAutoLogin = true;
 
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(
-      appbar: DefaultAppBar(
-        title: '',
-        elevation: 0.0,
-        action: [
-          TextButton(
-            onPressed: () {},
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  '둘러보기',
-                  style: bodyBoldTextStyle.copyWith(
-                    color: DARK_GREY_COLOR,
-                  ),
-                ),
-                const Icon(
-                  Icons.chevron_right,
-                  color: DARK_GREY_COLOR,
-                ),
-              ],
-            ),
-          ),
-        ],
+      appbar: const DefaultAppBar(
+        title: '이메일 로그인',
       ),
       child: SingleChildScrollView(
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
@@ -91,8 +70,47 @@ class _LoginScreenState extends State<LoginScreen> {
                   );
                 },
                 style: defaultButtonStyle,
-                child: Text('로그인'),
+                child: const Text('로그인'),
               ),
+              const SizedBox(height: 24.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pushNamed(
+                          RouteNames.register,
+                        );
+                      },
+                      child: Text(
+                        '회원가입',
+                        style: descriptionTextStyle,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    color: DARK_GREY_COLOR,
+                    width: 1.0,
+                    height: 14.0,
+                  ),
+                  Expanded(
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pushNamed(
+                          RouteNames.passwordReset,
+                        );
+                      },
+                      child: const Text(
+                        '비밀번호 초기화',
+                        style: descriptionTextStyle,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 24.0),
             ],
           ),
         ),
@@ -132,15 +150,11 @@ Widget renderIntroduceWidget() {
       const SizedBox(height: 24.0),
       Text(
         '트루카운터는 행사 취지에 공감하고',
-        style: bodyMediumTextStyle.copyWith(
-          fontSize: 16.0,
-        ),
+        style: subBodyTextStyle,
       ),
       Text(
         '행사장 반경 안에 있는 누구나 참여 가능합니다.',
-        style: bodyMediumTextStyle.copyWith(
-          fontSize: 16.0,
-        ),
+        style: subBodyTextStyle,
       ),
     ],
   );

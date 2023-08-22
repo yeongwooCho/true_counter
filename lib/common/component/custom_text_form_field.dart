@@ -31,42 +31,33 @@ class CustomTextFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.center,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         if (title != null)
-          SizedBox(
-            width: 120.0,
-            child: Text(
-              title!,
-              style: bodyMediumTextStyle,
-            ),
+          Text(
+            title!,
+            style: bodyMediumTextStyle,
           ),
-        if (title != null) const SizedBox(width: 16.0),
-        Expanded(
-          child: SizedBox(
-            height: 48.0,
-            child: TextFormField(
-              obscureText: obscureText,
-              onChanged: onChanged,
-              decoration: InputDecoration(
-                // contentPadding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 0.0),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                hintText: hintText,
-              ),
-              maxLength: maxLength,
-              keyboardType: keyboardType == KeyboardType.number
-                  ? TextInputType.number
-                  : TextInputType.multiline,
-              inputFormatters: keyboardType == KeyboardType.number
-                  ? [FilteringTextInputFormatter.digitsOnly]
-                  : [],
-              readOnly: realOnly ?? false,
+        if (title != null) const SizedBox(height: 8.0),
+        TextFormField(
+          obscureText: obscureText,
+          onChanged: onChanged,
+          decoration: InputDecoration(
+            contentPadding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8.0),
             ),
+            hintText: hintText,
           ),
+          maxLength: maxLength,
+          keyboardType: keyboardType == KeyboardType.number
+              ? TextInputType.number
+              : TextInputType.multiline,
+          inputFormatters: keyboardType == KeyboardType.number
+              ? [FilteringTextInputFormatter.digitsOnly]
+              : [],
+          readOnly: realOnly ?? false,
         ),
       ],
     );

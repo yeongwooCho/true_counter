@@ -31,6 +31,12 @@ const bodyMediumTextStyle = TextStyle(
   color: DEFAULT_TEXT_COLOR,
 );
 
+const subBodyTextStyle = TextStyle(
+  fontSize: 16.0,
+  fontWeight: FontWeight.w500,
+  color: DEFAULT_TEXT_COLOR,
+);
+
 const descriptionTextStyle = TextStyle(
   fontSize: 14.0,
   fontWeight: FontWeight.w500,

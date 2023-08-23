@@ -6,10 +6,31 @@ import 'package:true_counter/common/const/colors.dart';
 import 'package:true_counter/common/const/text_style.dart';
 import 'package:true_counter/common/layout/default_appbar.dart';
 import 'package:true_counter/common/layout/default_layout.dart';
+import 'package:true_counter/common/route/routes.dart';
 import 'package:true_counter/common/util/datetime.dart';
 
-class EmailRegisterScreen extends StatelessWidget {
+class EmailRegisterScreen extends StatefulWidget {
   const EmailRegisterScreen({Key? key}) : super(key: key);
+
+  @override
+  State<EmailRegisterScreen> createState() => _EmailRegisterScreenState();
+}
+
+class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
+  bool? gender;
+  DateTime? birthday;
+
+  void onGenderSelected({required bool gender}) {
+    setState(() {
+      this.gender = gender;
+    });
+  }
+
+  void onDaySelected({required DateTime birthday}) {
+    setState(() {
+      this.birthday = birthday;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,49 +38,55 @@ class EmailRegisterScreen extends StatelessWidget {
       appbar: const DefaultAppBar(
         title: '회원가입',
       ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                const SizedBox(height: 24.0),
-                const Text(
-                  '트루카운터에서 사용할\n계정 정보를 입력해주세요.',
-                  style: titleTextStyle,
-                ),
-                const SizedBox(height: 48.0),
-                CustomTextFormField(
-                  title: '이메일',
-                  hintText: 'ex) qwer1234@naver.com',
-                  buttonText: '중복확인',
-                  onPressedButton: () {},
-                ),
-                const SizedBox(height: 24.0),
-                CustomTextFormField(
-                  title: '비밀번호',
-                  hintText: '영문, 숫자 합 7자리 이상',
-                ),
-                const SizedBox(height: 24.0),
-                CustomTextFormField(
-                  title: '비밀번호 확인',
-                  hintText: '영문, 숫자 합 7자리 이상',
-                ),
-                const SizedBox(height: 24.0),
-                _SelectedGender(),
-                const SizedBox(height: 24.0),
-                _BirthYear(),
-              ],
-            ),
-            ElevatedButton(
-              onPressed: () {},
-              style: defaultButtonStyle,
-              child: const Text('회원가입 완료'),
-            )
-          ],
+      child: SingleChildScrollView(
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const SizedBox(height: 24.0),
+              const Text(
+                '트루카운터에서 사용할\n계정 정보를 입력해주세요.',
+                style: titleTextStyle,
+              ),
+              const SizedBox(height: 48.0),
+              CustomTextFormField(
+                title: '이메일',
+                hintText: 'ex) qwer1234@naver.com',
+                buttonText: '중복확인',
+                onPressedButton: () {},
+              ),
+              const SizedBox(height: 24.0),
+              CustomTextFormField(
+                title: '비밀번호',
+                hintText: '영문, 숫자 합 7자리 이상',
+              ),
+              const SizedBox(height: 24.0),
+              CustomTextFormField(
+                title: '비밀번호 확인',
+                hintText: '영문, 숫자 합 7자리 이상',
+              ),
+              const SizedBox(height: 24.0),
+              _SelectedGender(
+                gender: gender,
+                onTap: onGenderSelected,
+              ),
+              const SizedBox(height: 24.0),
+              _BirthYear(
+                birthday: birthday,
+                onDaySelected: onDaySelected,
+              ),
+              const SizedBox(height: 24.0),
+              ElevatedButton(
+                onPressed: gender == null || birthday == null ? null : () {
+                  Navigator.of(context).pushNamed(RouteNames.terms);
+                },
+                style: defaultButtonStyle,
+                child: const Text('다음'),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -67,15 +94,20 @@ class EmailRegisterScreen extends StatelessWidget {
 }
 
 class _SelectedGender extends StatefulWidget {
-  const _SelectedGender({Key? key}) : super(key: key);
+  final bool? gender;
+  final void Function({required bool gender})? onTap;
+
+  const _SelectedGender({
+    Key? key,
+    required this.gender,
+    required this.onTap,
+  }) : super(key: key);
 
   @override
   State<_SelectedGender> createState() => _SelectedGenderState();
 }
 
 class _SelectedGenderState extends State<_SelectedGender> {
-  bool? isMale;
-
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -94,9 +126,7 @@ class _SelectedGenderState extends State<_SelectedGender> {
             children: [
               GestureDetector(
                 onTap: () {
-                  setState(() {
-                    isMale = false;
-                  });
+                  widget.onTap!(gender: false);
                 },
                 child: Container(
                   color: BACKGROUND_COLOR,
@@ -104,15 +134,17 @@ class _SelectedGenderState extends State<_SelectedGender> {
                   child: Row(
                     children: [
                       Icon(
-                        isMale == null
+                        widget.gender == null
                             ? Icons.circle_outlined
-                            : (isMale!
+                            : (widget.gender!
                                 ? Icons.circle_outlined
                                 : Icons.check_circle),
                         size: 30.0,
-                        color: isMale == null
+                        color: widget.gender == null
                             ? DARK_GREY_COLOR
-                            : (isMale! ? DARK_GREY_COLOR : PRIMARY_COLOR),
+                            : (widget.gender!
+                                ? DARK_GREY_COLOR
+                                : PRIMARY_COLOR),
                       ),
                       const SizedBox(width: 8.0),
                       SizedBox(
@@ -132,9 +164,7 @@ class _SelectedGenderState extends State<_SelectedGender> {
               ),
               GestureDetector(
                 onTap: () {
-                  setState(() {
-                    isMale = true;
-                  });
+                  widget.onTap!(gender: true);
                 },
                 child: Container(
                   color: BACKGROUND_COLOR,
@@ -143,15 +173,17 @@ class _SelectedGenderState extends State<_SelectedGender> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Icon(
-                        isMale == null
+                        widget.gender == null
                             ? Icons.circle_outlined
-                            : (isMale!
+                            : (widget.gender!
                                 ? Icons.check_circle
                                 : Icons.circle_outlined),
                         size: 30.0,
-                        color: isMale == null
+                        color: widget.gender == null
                             ? DARK_GREY_COLOR
-                            : (isMale! ? PRIMARY_COLOR : DARK_GREY_COLOR),
+                            : (widget.gender!
+                                ? PRIMARY_COLOR
+                                : DARK_GREY_COLOR),
                       ),
                       const SizedBox(width: 8.0),
                       SizedBox(
@@ -178,15 +210,20 @@ class _SelectedGenderState extends State<_SelectedGender> {
 }
 
 class _BirthYear extends StatefulWidget {
-  const _BirthYear({Key? key}) : super(key: key);
+  final DateTime? birthday;
+  final void Function({required DateTime birthday})? onDaySelected;
+
+  const _BirthYear({
+    Key? key,
+    required this.birthday,
+    required this.onDaySelected,
+  }) : super(key: key);
 
   @override
   State<_BirthYear> createState() => _BirthYearState();
 }
 
 class _BirthYearState extends State<_BirthYear> {
-  DateTime? firstDay;
-
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -220,13 +257,13 @@ class _BirthYearState extends State<_BirthYear> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(
-                      firstDay == null
+                      widget.birthday == null
                           ? '선택'
-                          : convertDateTimeToDate(datetime: firstDay!),
+                          : convertDateTimeToDate(datetime: widget.birthday!),
                       style: descriptionTextStyle,
                     ),
                     const SizedBox(width: 8.0),
-                    Icon(Icons.keyboard_arrow_down_rounded)
+                    const Icon(Icons.keyboard_arrow_down_rounded)
                   ],
                 ),
               ),
@@ -269,9 +306,7 @@ class _BirthYearState extends State<_BirthYear> {
                       dateOrder: DatePickerDateOrder.ymd,
                       mode: CupertinoDatePickerMode.date,
                       onDateTimeChanged: (DateTime value) {
-                        setState(() {
-                          firstDay = value;
-                        });
+                        widget.onDaySelected!(birthday: value);
                       },
                     ),
                   ),

@@ -65,8 +65,9 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
               const SizedBox(height: 12.0),
               ElevatedButton(
                 onPressed: () {
+                  // TODO: 로그인 제어
                   Navigator.of(context).pushNamed(
-                    RouteNames.terms,
+                    RouteNames.root,
                   );
                 },
                 style: defaultButtonStyle,

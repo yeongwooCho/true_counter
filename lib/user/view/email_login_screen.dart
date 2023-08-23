@@ -34,13 +34,13 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
               renderIntroduceWidget(),
               const SizedBox(height: 48.0),
               CustomTextFormField(
-                title: '아이디',
-                hintText: '휴대전화번호 뒤 8자리',
+                title: '이메일',
+                hintText: '이메일 입력',
               ),
-              const SizedBox(height: 12.0),
+              const SizedBox(height: 24.0),
               CustomTextFormField(
                 title: '비밀번호',
-                hintText: '비밀번호',
+                hintText: '비밀번호 입력',
               ),
               const SizedBox(height: 16.0),
               Row(
@@ -84,9 +84,9 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                           RouteNames.register,
                         );
                       },
-                      child: Text(
+                      child: const Text(
                         '회원가입',
-                        style: descriptionTextStyle,
+                        style: descriptionGreyTextStyle,
                       ),
                     ),
                   ),
@@ -104,7 +104,7 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                       },
                       child: const Text(
                         '비밀번호 초기화',
-                        style: descriptionTextStyle,
+                        style: descriptionGreyTextStyle,
                       ),
                     ),
                   ),
@@ -150,11 +150,11 @@ Widget renderIntroduceWidget() {
       const SizedBox(height: 24.0),
       Text(
         '트루카운터는 행사 취지에 공감하고',
-        style: subBodyTextStyle,
+        style: descriptionTextStyle,
       ),
       Text(
         '행사장 반경 안에 있는 누구나 참여 가능합니다.',
-        style: subBodyTextStyle,
+        style: descriptionTextStyle,
       ),
     ],
   );

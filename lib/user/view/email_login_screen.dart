@@ -100,7 +100,7 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                     child: TextButton(
                       onPressed: () {
                         Navigator.of(context).pushNamed(
-                          RouteNames.passwordReset,
+                          RouteNames.emailPasswordReset,
                         );
                       },
                       child: const Text(

@@ -50,7 +50,7 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                 '트루카운터에서 사용할\n계정 정보를 입력해주세요.',
                 style: titleTextStyle,
               ),
-              const SizedBox(height: 48.0),
+              const SizedBox(height: 32.0),
               CustomTextFormField(
                 title: '이메일',
                 hintText: 'ex) qwer1234@naver.com',

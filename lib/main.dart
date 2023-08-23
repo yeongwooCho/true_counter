@@ -9,6 +9,7 @@ import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:true_counter/common/route/routes.dart';
 import 'package:true_counter/common/view/splash_screen.dart';
 import 'package:true_counter/user/view/email_register_completion_screen.dart';
+import 'package:true_counter/user/view/email_password_reset_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -51,8 +52,7 @@ class MyApp extends StatelessWidget {
           settings: settings,
         );
       },
-      // home: SplashScreen(),
-      home: EmailRegisterCompletionScreen()
+      home: SplashScreen(),
     );
   }
 }

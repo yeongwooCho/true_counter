@@ -4,6 +4,7 @@ import 'package:true_counter/common/model/screen_arguments.dart';
 import 'package:true_counter/common/view/on_boarding_screen.dart';
 import 'package:true_counter/common/view/root_tab.dart';
 import 'package:true_counter/user/view/email_login_screen.dart';
+import 'package:true_counter/user/view/email_register_completion_screen.dart';
 import 'package:true_counter/user/view/password_reset_screen.dart';
 import 'package:true_counter/user/view/email_register_screen.dart';
 import 'package:true_counter/user/view/terms_providing_info_screen.dart';
@@ -21,6 +22,7 @@ class RouteNames {
   static const String passwordReset = '/password/reset';
   static const String terms = '/terms';
   static const String termsProviding = '/terms/providing';
+  static const String emailRegisterCompletion = '/email/register/completion';
 
   // root tab
   static const String root = '/root';
@@ -57,6 +59,7 @@ Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
   RouteNames.terms: (_) => TermsScreen(),
   RouteNames.termsProviding: (_) => TermsProvidingInfoScreen(),
   RouteNames.passwordReset: (_) => PasswordResetScreen(),
+  RouteNames.emailRegisterCompletion: (_) => EmailRegisterCompletionScreen(),
 
   // root tab
   RouteNames.root: (_) => RootTab(),

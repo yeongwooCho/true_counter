@@ -6,10 +6,25 @@ ButtonStyle defaultButtonStyle = ElevatedButton.styleFrom(
   foregroundColor: WHITE_TEXT_COLOR,
   backgroundColor: PRIMARY_COLOR,
   elevation: 0,
+  minimumSize: const Size(100, 50),
   shape: RoundedRectangleBorder(
     borderRadius: BorderRadius.circular(8.0),
   ),
+  textStyle: bodyBoldWhiteTextStyle,
+);
+
+ButtonStyle secondButtonStyle = ElevatedButton.styleFrom(
+  foregroundColor: DEFAULT_TEXT_COLOR,
+  backgroundColor: WHITE_TEXT_COLOR,
+  elevation: 0,
   minimumSize: const Size(100, 50),
+  shape: RoundedRectangleBorder(
+    side: const BorderSide(
+      width: 1.0,
+      color: DEFAULT_TEXT_COLOR,
+    ),
+    borderRadius: BorderRadius.circular(8.0),
+  ),
   textStyle: bodyBoldWhiteTextStyle,
 );
 
@@ -29,13 +44,4 @@ ButtonStyle kakaoLoginButtonStyle = ElevatedButton.styleFrom(
 ButtonStyle deactivateButtonStyle = ElevatedButton.styleFrom(
   foregroundColor: DARK_GREY_COLOR,
   backgroundColor: LIGHT_GREY_COLOR,
-);
-
-ButtonStyle secondButtonStyle = ElevatedButton.styleFrom(
-  foregroundColor: DEFAULT_TEXT_COLOR,
-  backgroundColor: WHITE_TEXT_COLOR,
-  side: BorderSide(
-    width: 2.0,
-    color: DEFAULT_TEXT_COLOR,
-  ),
 );

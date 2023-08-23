@@ -119,7 +119,7 @@ class _TermsScreenState extends State<TermsScreen> {
               onPressed: (isCheckPersonalInfo)
                   ? () {
                       Navigator.of(context).pushNamedAndRemoveUntil(
-                          RouteNames.root, (route) => false);
+                          RouteNames.emailRegisterCompletion, (route) => false);
                     }
                   : null,
               style: defaultButtonStyle,

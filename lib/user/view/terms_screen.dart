@@ -15,14 +15,12 @@ class TermsScreen extends StatefulWidget {
 
 class _TermsScreenState extends State<TermsScreen> {
   bool isCheckTotalContainer = false;
-  bool isCheckLocation = false;
-  bool isCheckService = false;
   bool isCheckPersonalInfo = false;
 
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(
-      appbar: DefaultAppBar(
+      appbar: const DefaultAppBar(
         title: '이용약관',
       ),
       child: Padding(
@@ -38,7 +36,7 @@ class _TermsScreenState extends State<TermsScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const Text(
-                  '트루카운터 서비스 이용약관과\n권한에 동의해주세요.',
+                  '트루카운터 서비스\n이용약관에 동의해주세요.',
                   style: titleTextStyle,
                 ),
                 const SizedBox(height: 20.0),
@@ -46,13 +44,9 @@ class _TermsScreenState extends State<TermsScreen> {
                   onTap: () {
                     if (isCheckTotalContainer == true) {
                       isCheckTotalContainer = false;
-                      isCheckLocation = false;
-                      isCheckService = false;
                       isCheckPersonalInfo = false;
                     } else {
                       isCheckTotalContainer = true;
-                      isCheckLocation = true;
-                      isCheckService = true;
                       isCheckPersonalInfo = true;
                     }
                     setState(() {});
@@ -94,35 +88,14 @@ class _TermsScreenState extends State<TermsScreen> {
                 const SizedBox(height: 12.0),
                 GestureDetector(
                   onTap: () {
-                    isCheckLocation = !isCheckLocation;
-                    checkTotal();
-                    setState(() {});
-                  },
-                  child: CustomTerm(
-                    isCheck: isCheckLocation,
-                    title: '위치 접근 권한 동의(필수)',
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    isCheckService = !isCheckService;
-                    checkTotal();
-                    setState(() {});
-                  },
-                  child: CustomTerm(
-                    isCheck: isCheckService,
-                    title: '연락처 접근 권한 동의(필수)',
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
                     isCheckPersonalInfo = !isCheckPersonalInfo;
                     checkTotal();
                     setState(() {});
                   },
                   child: CustomTerm(
                     isCheck: isCheckPersonalInfo,
-                    title: '정보 제공 동의(필수)',
+                    title: '정보 제공 동의',
+                    isRequired: true,
                     iconButton: SizedBox(
                       height: 50.0,
                       width: 50.0,
@@ -142,17 +115,16 @@ class _TermsScreenState extends State<TermsScreen> {
                 ),
               ],
             ),
-            // ElevatedButton(
-            //   onPressed:
-            //       (isCheckLocation && isCheckService && isCheckPersonalInfo)
-            //           ? () {
-            //               Navigator.of(context).pushNamedAndRemoveUntil(
-            //                   RouteNames.root, (route) => false);
-            //             }
-            //           : null,
-            //   style: defaultButtonStyle,
-            //   child: const Text('동의 완료'),
-            // ),
+            ElevatedButton(
+              onPressed: (isCheckPersonalInfo)
+                  ? () {
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                          RouteNames.root, (route) => false);
+                    }
+                  : null,
+              style: defaultButtonStyle,
+              child: const Text('회원가입 완료'),
+            ),
           ],
         ),
       ),
@@ -160,9 +132,7 @@ class _TermsScreenState extends State<TermsScreen> {
   }
 
   void checkTotal() {
-    if (isCheckLocation == true &&
-        isCheckService == true &&
-        isCheckPersonalInfo == true) {
+    if (isCheckPersonalInfo == true) {
       isCheckTotalContainer = true;
     } else {
       isCheckTotalContainer = false;
@@ -172,12 +142,14 @@ class _TermsScreenState extends State<TermsScreen> {
 
 class CustomTerm extends StatelessWidget {
   final String title;
+  final bool isRequired;
   final bool isCheck;
   final Widget? iconButton;
 
   const CustomTerm({
     Key? key,
     required this.title,
+    required this.isRequired,
     required this.isCheck,
     this.iconButton,
   }) : super(key: key);
@@ -216,9 +188,23 @@ class CustomTerm extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 8.0),
-                Text(
-                  title,
-                  style: textStyle,
+                Row(
+                  children: [
+                    Text(
+                      title,
+                      style: textStyle,
+                    ),
+                    const SizedBox(width: 4.0),
+                    isRequired
+                        ? Text('(필수)',
+                            style: textStyle.copyWith(
+                              color: PRIMARY_COLOR,
+                            ))
+                        : Text(
+                            '(선택)',
+                            style: textStyle.copyWith(color: DARK_GREY_COLOR),
+                          ),
+                  ],
                 ),
               ],
             ),

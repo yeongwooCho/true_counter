@@ -52,6 +52,9 @@ class _RootTabState extends State<RootTab> with TickerProviderStateMixin {
         child: TabBarView(
           controller: controller,
           children: [
+            Center(child: Text('111')),
+            Center(child: Text('222')),
+            Center(child: Text('333')),
             // CustomScreen(),
             // SearchScreen(),
             // MypageScreen(),

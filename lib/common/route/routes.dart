@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:true_counter/common/model/screen_arguments.dart';
 import 'package:true_counter/common/view/on_boarding_screen.dart';
+import 'package:true_counter/common/view/root_tab.dart';
 import 'package:true_counter/user/view/email_login_screen.dart';
 import 'package:true_counter/user/view/password_reset_screen.dart';
 import 'package:true_counter/user/view/email_register_screen.dart';
@@ -51,16 +52,14 @@ Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
 
   // onBoarding, login, register, findID, passwordReset
   RouteNames.onBoarding: (_) => OnBoardingScreen(),
-
   RouteNames.emailLogin: (_) => EmailLoginScreen(),
   RouteNames.emailRegister: (_) => EmailRegisterScreen(),
   RouteNames.terms: (_) => TermsScreen(),
   RouteNames.termsProviding: (_) => TermsProvidingInfoScreen(),
   RouteNames.passwordReset: (_) => PasswordResetScreen(),
 
-
-  // // root tab
-  // RouteNames.root: (_) => RootTab(),
+  // root tab
+  RouteNames.root: (_) => RootTab(),
   //
   // // custom
   // RouteNames.customGuide: (_) => CustomGuideScreen(),

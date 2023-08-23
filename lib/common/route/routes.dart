@@ -4,7 +4,7 @@ import 'package:true_counter/common/model/screen_arguments.dart';
 import 'package:true_counter/common/view/on_boarding_screen.dart';
 import 'package:true_counter/user/view/email_login_screen.dart';
 import 'package:true_counter/user/view/password_reset_screen.dart';
-import 'package:true_counter/user/view/register_screen.dart';
+import 'package:true_counter/user/view/email_register_screen.dart';
 import 'package:true_counter/user/view/terms_providing_info_screen.dart';
 import 'package:true_counter/user/view/terms_screen.dart';
 
@@ -16,7 +16,7 @@ class RouteNames {
   static const String onBoarding = '/onBoarding';
 
   static const String emailLogin = '/email/login';
-  static const String register = '/register';
+  static const String emailRegister = '/email/register';
   static const String passwordReset = '/password/reset';
   static const String terms = '/terms';
   static const String termsProviding = '/terms/providing';
@@ -53,10 +53,11 @@ Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
   RouteNames.onBoarding: (_) => OnBoardingScreen(),
 
   RouteNames.emailLogin: (_) => EmailLoginScreen(),
+  RouteNames.emailRegister: (_) => EmailRegisterScreen(),
   RouteNames.terms: (_) => TermsScreen(),
   RouteNames.termsProviding: (_) => TermsProvidingInfoScreen(),
   RouteNames.passwordReset: (_) => PasswordResetScreen(),
-  RouteNames.register: (_) => RegisterScreen(),
+
 
   // // root tab
   // RouteNames.root: (_) => RootTab(),

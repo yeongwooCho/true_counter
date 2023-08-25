@@ -8,6 +8,7 @@ import 'package:true_counter/common/layout/default_appbar.dart';
 import 'package:true_counter/common/layout/default_layout.dart';
 import 'package:true_counter/common/route/routes.dart';
 import 'package:true_counter/common/util/datetime.dart';
+import 'package:true_counter/common/util/regular_expression_pattern.dart';
 
 class EmailRegisterScreen extends StatefulWidget {
   const EmailRegisterScreen({Key? key}) : super(key: key);
@@ -17,8 +18,25 @@ class EmailRegisterScreen extends StatefulWidget {
 }
 
 class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
+  final GlobalKey<FormState> formKey = GlobalKey();
+  bool isValidEmail = false;
+  FocusNode emailFocus = FocusNode();
+  FocusNode passwordFocus = FocusNode();
+  FocusNode passwordCheckFocus = FocusNode();
+  String? emailText;
+  String? passwordText;
+  String? passwordCheckText;
   bool? gender;
   DateTime? birthday;
+
+  @override
+  void dispose() {
+    emailFocus.dispose();
+    passwordFocus.dispose();
+    passwordCheckFocus.dispose();
+
+    super.dispose();
+  }
 
   void onGenderSelected({required bool gender}) {
     setState(() {
@@ -39,67 +57,125 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
         title: '회원가입',
       ),
       child: SingleChildScrollView(
-        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const SizedBox(height: 24.0),
-              const Text(
-                '트루카운터에서 사용할\n계정 정보를 입력해주세요.',
-                style: titleTextStyle,
-              ),
-              const SizedBox(height: 32.0),
-              CustomTextFormField(
-                onSaved: (String? newValue) {},
-                validator: (String? value) {
-                  return null;
-                },
-                title: '이메일',
-                hintText: 'ex) qwer1234@naver.com',
-                buttonText: '중복확인',
-                onPressedButton: () {},
-              ),
-              const SizedBox(height: 24.0),
-              CustomTextFormField(
-                onSaved: (String? newValue) {},
-                validator: (String? value) {
-                  return null;
-                },
-                title: '비밀번호',
-                hintText: '영문, 숫자, 특수문자 포함 8자 이상 15자 이내로 입력 해주세요.',
-              ),
-              const SizedBox(height: 24.0),
-              CustomTextFormField(
-                onSaved: (String? newValue) {},
-                validator: (String? value) {
-                  return null;
-                },
-                title: '비밀번호 확인',
-                hintText: '영문, 숫자 합 7자리 이상',
-              ),
-              const SizedBox(height: 24.0),
-              _SelectedGender(
-                gender: gender,
-                onTap: onGenderSelected,
-              ),
-              const SizedBox(height: 24.0),
-              _BirthYear(
-                birthday: birthday,
-                onDaySelected: onDaySelected,
-              ),
-              const SizedBox(height: 24.0),
-              ElevatedButton(
-                onPressed: gender == null || birthday == null
-                    ? null
-                    : () {
-                        Navigator.of(context).pushNamed(RouteNames.terms);
-                      },
-                style: defaultButtonStyle,
-                child: const Text('다음'),
-              )
-            ],
+        child: Form(
+          key: formKey,
+          autovalidateMode: AutovalidateMode.always,
+          child: Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(height: 24.0),
+                const Text(
+                  '트루카운터에서 사용할\n계정 정보를 입력해주세요.',
+                  style: titleTextStyle,
+                ),
+                const SizedBox(height: 32.0),
+                CustomTextFormField(
+                  onChanged: (String? value) {
+                    emailText = value;
+                  },
+                  onSaved: (String? value) {
+                    emailText = value;
+                  },
+                  validator: TextValidator.emailValidator,
+                  focusNode: emailFocus,
+                  onEditingComplete: () {
+                    if (formKey.currentState!.validate()) {
+                      passwordFocus.requestFocus();
+                    } else {
+                      emailFocus.requestFocus();
+                    }
+                  },
+                  title: '이메일',
+                  hintText: '예) abc@true.com',
+                  buttonText: '중복확인',
+                  textInputType: TextInputType.emailAddress,
+                  onPressedButton: isValidEmail
+                      ? null
+                      : () {
+                          // TODO: 이메일 중복 확인 완료
+                          if (true) {
+                            setState(() {
+                              isValidEmail = true;
+                            });
+                          }
+                        },
+                ),
+                const SizedBox(height: 24.0),
+                CustomTextFormField(
+                  onChanged: (String? value) {
+                    passwordText = value;
+                  },
+                  onSaved: (String? value) {
+                    passwordText = value;
+                  },
+                  validator: TextValidator.passwordValidator,
+                  focusNode: passwordFocus,
+                  onEditingComplete: () {
+                    if (formKey.currentState!.validate()) {
+                      passwordCheckFocus.requestFocus();
+                    } else {
+                      passwordFocus.requestFocus();
+                    }
+                  },
+                  title: '비밀번호',
+                  hintText: '영문, 숫자, 특수문자 포함 8~15자',
+                  textInputType: TextInputType.visiblePassword,
+                ),
+                const SizedBox(height: 24.0),
+                CustomTextFormField(
+                  onChanged: (String? value) {
+                    passwordCheckText = value;
+                  },
+                  onSaved: (String? value) {
+                    passwordCheckText = value;
+                  },
+                  validator: (String? value) {
+                    return TextValidator.passwordCheckValidator(
+                        passwordText, value);
+                  },
+                  focusNode: passwordCheckFocus,
+                  onEditingComplete: () {
+                    print(123123);
+                    if (formKey.currentState!.validate()) {
+                      passwordCheckFocus.unfocus();
+                      print(456456);
+                    }
+                  },
+                  title: '비밀번호 확인',
+                  hintText: '영문, 숫자, 특수문자 포함 8~15자',
+                  textInputType: TextInputType.visiblePassword,
+                ),
+                const SizedBox(height: 24.0),
+                _SelectedGender(
+                  gender: gender,
+                  onTap: onGenderSelected,
+                ),
+                const SizedBox(height: 24.0),
+                _BirthYear(
+                  birthday: birthday,
+                  onDaySelected: onDaySelected,
+                ),
+                const SizedBox(height: 48.0),
+                ElevatedButton(
+                  onPressed: formKey.currentState!.validate() &&
+                          emailText != null &&
+                          isValidEmail == true &&
+                          passwordText != null &&
+                          passwordCheckText != null &&
+                          gender != null &&
+                          birthday != null
+                      ? () {
+                          Navigator.of(context).pushNamed(RouteNames.terms);
+                        }
+                      : null,
+                  style: defaultButtonStyle,
+                  child: const Text('다음'),
+                )
+              ],
+            ),
           ),
         ),
       ),

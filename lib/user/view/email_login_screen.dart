@@ -24,8 +24,6 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
   String? emailText;
   String? passwordText;
 
-  TextEditingController emailTextController = TextEditingController();
-
   bool isAutoLogin = true; // 자동 로그인 선택 여부
 
   @override
@@ -57,7 +55,7 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                   onSaved: (String? value) {
                     emailText = value;
                   },
-                  validator: emailValidator,
+                  validator: TextValidator.emailValidator,
                   focusNode: emailFocus,
                   onEditingComplete: () {
                     if (formKey.currentState!.validate()) {
@@ -68,13 +66,14 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                   },
                   title: '이메일',
                   hintText: '이메일 입력',
+                  textInputType: TextInputType.emailAddress,
                 ),
                 const SizedBox(height: 24.0),
                 CustomTextFormField(
                   onSaved: (String? value) {
                     passwordText = value;
                   },
-                  validator: passwordValidator,
+                  validator: TextValidator.passwordValidator,
                   focusNode: passwordFocus,
                   onEditingComplete: () {
                     if (formKey.currentState!.validate()) {
@@ -84,6 +83,7 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                   title: '비밀번호',
                   hintText: '비밀번호 입력',
                   obscureText: true,
+                  textInputType: TextInputType.visiblePassword,
                 ),
                 const SizedBox(height: 16.0),
                 Row(
@@ -158,39 +158,12 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
     );
   }
 
-  String? emailValidator(String? val) {
-    if (val == null || val.isEmpty) {
-      // return '이메일을 입력 해주세요';
-      return null;
-    }
-
-    if (!val.isValidEmailFormat()) {
-      return '알맞은 이메일 형식을 입력 해주세요.';
-    }
-
-    return null;
-  }
-
-  String? passwordValidator(String? val) {
-    if (val == null || val.isEmpty) {
-      // return '값을 입력해주세요';
-      return null;
-    }
-
-    if (!val.isValidPasswordFormat()) {
-      return '영문,숫자,특수문자 포함 8~15자로 입력 해주세요.';
-    }
-
-    return null;
-  }
-
   void onLoginPressed(BuildContext context) {
     // 해당 키를 가진 TextFormField 의 validate()를 모두 호출
     if (formKey.currentState!.validate()) {
       // 해당 키를 가진 TextFormField 의 onSaved()를 모두 호출
       formKey.currentState!.save();
     }
-
 
     if (emailText == null ||
         passwordText == null ||

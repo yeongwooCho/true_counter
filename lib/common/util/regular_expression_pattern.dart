@@ -18,3 +18,44 @@ extension InputValidate on String {
     return RegExp(r'^010-?([0-9]{4})-?([0-9]{4})$').hasMatch(this);
   }
 }
+
+class TextValidator {
+  static String? emailValidator(String? value) {
+    if (value == null || value.isEmpty) {
+      // return '이메일을 입력 해주세요';
+      return null;
+    }
+
+    if (!value.isValidEmailFormat()) {
+      return '알맞은 이메일 형식을 입력 해주세요.';
+    }
+
+    return null;
+  }
+
+  static String? passwordValidator(String? value) {
+    if (value == null || value.isEmpty) {
+      // return '값을 입력해주세요';
+      return null;
+    }
+
+    if (!value.isValidPasswordFormat()) {
+      return '영문,숫자,특수문자 포함 8~15자로 입력 해주세요.';
+    }
+
+    return null;
+  }
+
+  static String? passwordCheckValidator(String? previousValue, String? value) {
+    if (value == null || value.isEmpty) {
+      // return '값을 입력해주세요';
+      return null;
+    }
+
+    if (value != previousValue) {
+      return '비밀번호가 일치하지 않습니다.';
+    }
+
+    return null;
+  }
+}

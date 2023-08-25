@@ -53,6 +53,7 @@ class CustomTextFormField extends StatelessWidget {
         if (title != null) const SizedBox(height: 8.0),
         if (buttonText != null)
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
                 child: TextFormField(
@@ -64,17 +65,20 @@ class CustomTextFormField extends StatelessWidget {
                   onChanged: onChanged,
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.symmetric(
-                        vertical: 8.0, horizontal: 12.0),
+                      vertical: 8.0,
+                      horizontal: 12.0,
+                    ),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                     hintText: hintText,
                   ),
                   maxLength: maxLength,
+                  textInputAction: TextInputAction.done,
+                  keyboardType: textInputType,
                   // keyboardType: keyboardType == KeyboardType.number
                   //     ? TextInputType.number
                   //     : TextInputType.multiline,
-                  keyboardType: TextInputType.emailAddress,
                   inputFormatters: textInputType == TextInputType.number
                       ? [FilteringTextInputFormatter.digitsOnly]
                       : [],
@@ -95,12 +99,13 @@ class CustomTextFormField extends StatelessWidget {
             validator: validator,
             onEditingComplete: onEditingComplete,
             focusNode: focusNode,
-            textInputAction: TextInputAction.done,
             obscureText: obscureText,
             onChanged: onChanged,
             decoration: InputDecoration(
-              contentPadding:
-                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
+              contentPadding: const EdgeInsets.symmetric(
+                vertical: 8.0,
+                horizontal: 12.0,
+              ),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8.0),
               ),
@@ -108,6 +113,7 @@ class CustomTextFormField extends StatelessWidget {
             ),
             style: descriptionTextStyle,
             maxLength: maxLength,
+            textInputAction: TextInputAction.done,
             keyboardType: textInputType,
             inputFormatters: textInputType == TextInputType.number
                 ? [FilteringTextInputFormatter.digitsOnly]

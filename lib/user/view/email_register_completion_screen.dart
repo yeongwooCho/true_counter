@@ -15,6 +15,7 @@ class EmailRegisterCompletionScreen extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const SizedBox(height: 112.0),
             const Center(
@@ -33,30 +34,15 @@ class EmailRegisterCompletionScreen extends StatelessWidget {
                 ],
               ),
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                      RouteNames.root,
-                          (route) => false,
-                    );
-                  },
-                  style: defaultButtonStyle,
-                  child: const Text('로그인 후 홈으로 이동'),
-                ),
-                const SizedBox(height: 12.0),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pushNamed(
-                      RouteNames.emailLogin,
-                    );
-                  },
-                  style: secondButtonStyle,
-                  child: const Text('로그인 화면으로 이동'),
-                )
-              ],
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                  RouteNames.root,
+                      (route) => false,
+                );
+              },
+              style: defaultButtonStyle,
+              child: const Text('홈으로 이동'),
             ),
           ],
         ),

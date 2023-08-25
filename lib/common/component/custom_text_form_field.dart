@@ -17,7 +17,8 @@ class CustomTextFormField extends StatelessWidget {
   final bool obscureText;
   final String? hintText;
   final int? maxLength;
-  final bool? realOnly;
+  final bool realOnly;
+  final bool enabled;
   final FormFieldSetter<String>? onSaved;
   final FormFieldValidator<String>? validator;
   final VoidCallback? onEditingComplete;
@@ -33,7 +34,8 @@ class CustomTextFormField extends StatelessWidget {
     this.obscureText = false,
     this.hintText,
     this.maxLength,
-    this.realOnly,
+    this.realOnly = false,
+    this.enabled = true,
     required this.onSaved,
     required this.validator,
     this.onEditingComplete,
@@ -82,7 +84,8 @@ class CustomTextFormField extends StatelessWidget {
                   inputFormatters: textInputType == TextInputType.number
                       ? [FilteringTextInputFormatter.digitsOnly]
                       : [],
-                  readOnly: realOnly ?? false,
+                  readOnly: realOnly,
+                  enabled: enabled,
                 ),
               ),
               const SizedBox(width: 12.0),
@@ -118,7 +121,8 @@ class CustomTextFormField extends StatelessWidget {
             inputFormatters: textInputType == TextInputType.number
                 ? [FilteringTextInputFormatter.digitsOnly]
                 : [],
-            readOnly: realOnly ?? false,
+            readOnly: realOnly,
+            enabled: enabled,
           ),
       ],
     );

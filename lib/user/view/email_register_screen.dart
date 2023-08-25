@@ -19,14 +19,25 @@ class EmailRegisterScreen extends StatefulWidget {
 }
 
 class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
+  // form focus
   final GlobalKey<FormState> formKey = GlobalKey();
-  bool isValidEmail = false;
   FocusNode emailFocus = FocusNode();
   FocusNode passwordFocus = FocusNode();
   FocusNode passwordCheckFocus = FocusNode();
+  FocusNode phoneCheckFocus = FocusNode();
+  FocusNode certificationFocus = FocusNode();
+
+  // 유효 체크 완료 여부
+  bool isValidEmail = false;
+  bool isPressedCertificationResponse = false;
+  bool isValidCertification = false;
+
+  // user info
   String? emailText;
   String? passwordText;
   String? passwordCheckText;
+  String? phoneText;
+  String? certificationText;
   bool? gender;
   DateTime? birthday;
 
@@ -97,17 +108,22 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                       ? null
                       : () {
                           // TODO: 이메일 중복 확인 완료
-                          if (true) { // 사용 가능한 이메일일 경우
+                          if (true) {
+                            // 사용 가능한 이메일일 경우
                             setState(() {
                               isValidEmail = true;
-                              emailFocus.unfocus();
+                              passwordFocus.requestFocus();
                             });
                           } else {
-                            showCustomToast(context, '사용할 수 없는 이메일입니다.');
+                            showCustomToast(
+                              context,
+                              msg: '사용할 수 없는 이메일입니다.',
+                            );
                           }
                         },
+                  enabled: isValidEmail ? false : true,
                 ),
-                const SizedBox(height: 24.0),
+                const SizedBox(height: 16.0),
                 CustomTextFormField(
                   onChanged: (String? value) {
                     passwordText = value;
@@ -129,7 +145,7 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                   hintText: '영문, 숫자, 특수문자 포함 8~15자',
                   textInputType: TextInputType.visiblePassword,
                 ),
-                const SizedBox(height: 24.0),
+                const SizedBox(height: 16.0),
                 CustomTextFormField(
                   onChanged: (String? value) {
                     passwordCheckText = value;
@@ -145,24 +161,105 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                   onEditingComplete: () {
                     if (formKey.currentState != null &&
                         formKey.currentState!.validate()) {
-                      passwordCheckFocus.unfocus();
+                      phoneCheckFocus.requestFocus();
+                    } else {
+                      passwordCheckFocus.requestFocus();
                     }
                   },
                   title: '비밀번호 확인',
                   hintText: '영문, 숫자, 특수문자 포함 8~15자',
                   textInputType: TextInputType.visiblePassword,
                 ),
-                const SizedBox(height: 24.0),
+
+                // TODO: 여기서부터
+                const SizedBox(height: 16.0),
+
+                CustomTextFormField(
+                  onChanged: (String? value) {
+                    phoneText = value;
+                  },
+                  onSaved: (String? value) {
+                    phoneText = value;
+                  },
+                  validator: TextValidator.phoneValidator,
+                  focusNode: phoneCheckFocus,
+                  onEditingComplete: () {
+                    if (formKey.currentState != null &&
+                        formKey.currentState!.validate()) {
+                      phoneCheckFocus.unfocus();
+                    }
+                  },
+                  title: '휴대폰 번호',
+                  hintText: '예) 01012341234',
+                  buttonText: '인증번호 받기',
+                  onPressedButton: isValidCertification
+                      ? null
+                      : () {
+                          // TODO: 휴대폰 번호에 인증코드 전송번호 전달
+                          isPressedCertificationResponse = true;
+                          certificationFocus.requestFocus();
+                          showCustomToast(
+                            context,
+                            msg: '인증번호가 전송되었습니다.',
+                          );
+                          setState(() {});
+                        },
+                  textInputType: TextInputType.phone,
+                  enabled: isValidCertification ? false : true,
+                ),
+                const SizedBox(height: 4.0),
+                if (isPressedCertificationResponse)
+                  CustomTextFormField(
+                    onSaved: (String? value) {
+                      certificationText = value;
+                    },
+                    validator: (String? value) {
+                      return null;
+                    },
+                    focusNode: certificationFocus,
+                    onEditingComplete: () {
+                      if (formKey.currentState != null &&
+                          formKey.currentState!.validate()) {
+                        certificationFocus.unfocus();
+                      }
+                    },
+                    hintText: '인증번호 입력',
+                    buttonText: '인증번호 확인',
+                    onPressedButton: isValidCertification
+                        ? null
+                        : () {
+                            // TODO: 인증번호가 일치하는지 확인
+                            if (true) {
+                              isValidCertification = true;
+                              certificationFocus.unfocus();
+                              showCustomToast(
+                                context,
+                                msg: '인증번호이 정상적으로 확인되었습니다.',
+                              );
+                              setState(() {});
+                            } else {
+                              showCustomToast(
+                                context,
+                                msg: '인증번호가 일치하지 않습니다.',
+                              );
+                            }
+                          },
+                    enabled: isValidCertification ? false : true,
+                  ),
+
+                // TODO: 여기까지
+
+                const SizedBox(height: 16.0),
                 _SelectedGender(
                   gender: gender,
                   onTap: onGenderSelected,
                 ),
-                const SizedBox(height: 24.0),
+                const SizedBox(height: 16.0),
                 _BirthYear(
                   birthday: birthday,
                   onDaySelected: onDaySelected,
                 ),
-                const SizedBox(height: 48.0),
+                const SizedBox(height: 32.0),
                 ElevatedButton(
                   onPressed: formKey.currentState != null &&
                           formKey.currentState!.validate() &&
@@ -170,6 +267,7 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                           isValidEmail == true &&
                           passwordText != null &&
                           passwordCheckText != null &&
+                          isValidCertification &&
                           gender != null &&
                           birthday != null
                       ? () {

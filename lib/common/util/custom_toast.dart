@@ -3,18 +3,25 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:true_counter/common/const/colors.dart';
 import 'package:true_counter/common/const/text_style.dart';
 
-void showCustomToast(context, text) {
+void showCustomToast(
+  context, {
+  required String msg,
+  Color backgroundColor = MIDDLE_GREY_COLOR,
+  Color foregroundColor = DEFAULT_TEXT_COLOR,
+}) {
   final fToast = FToast();
   fToast.init(context);
   Widget toast = Container(
     padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(8.0),
-      color: ERROR_COLOR,
+      color: backgroundColor,
     ),
     child: Text(
-      text,
-      style: bodyBoldWhiteTextStyle,
+      msg,
+      style: bodyBoldTextStyle.copyWith(
+        color: foregroundColor,
+      ),
     ),
   );
 

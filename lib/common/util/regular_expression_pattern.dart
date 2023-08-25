@@ -15,7 +15,7 @@ extension InputValidate on String {
 
   // 대쉬를 포함하는 010 휴대폰 번호 포맷 검증 (010-1234-5678)
   bool isValidPhoneNumberFormat() {
-    return RegExp(r'^010-?([0-9]{4})-?([0-9]{4})$').hasMatch(this);
+    return RegExp(r'^010([0-9]{4})([0-9]{4})$').hasMatch(this);
   }
 }
 
@@ -54,6 +54,19 @@ class TextValidator {
 
     if (value != previousValue) {
       return '비밀번호가 일치하지 않습니다.';
+    }
+
+    return null;
+  }
+
+  static String? phoneValidator(String? value) {
+    if (value == null || value.isEmpty) {
+      // return '값을 입력해주세요';
+      return null;
+    }
+
+    if (!value.isValidPhoneNumberFormat()) {
+      return '유효한 휴대폰 번호가 아닙니다.';
     }
 
     return null;

@@ -169,7 +169,7 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
         passwordText == null ||
         emailText!.isEmpty ||
         passwordText!.isEmpty) {
-      showCustomToast(context, '올바른 계정 정보를 입력해주세요.');
+      showCustomToast(context, msg: '올바른 계정 정보를 입력해주세요.');
     } else {
       // TODO: 로그인 제어
       Navigator.of(context).pushNamed(

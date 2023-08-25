@@ -7,6 +7,7 @@ import 'package:true_counter/common/const/text_style.dart';
 import 'package:true_counter/common/layout/default_appbar.dart';
 import 'package:true_counter/common/layout/default_layout.dart';
 import 'package:true_counter/common/route/routes.dart';
+import 'package:true_counter/common/util/custom_toast.dart';
 import 'package:true_counter/common/util/datetime.dart';
 import 'package:true_counter/common/util/regular_expression_pattern.dart';
 
@@ -96,10 +97,13 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                       ? null
                       : () {
                           // TODO: 이메일 중복 확인 완료
-                          if (true) {
+                          if (true) { // 사용 가능한 이메일일 경우
                             setState(() {
                               isValidEmail = true;
+                              emailFocus.unfocus();
                             });
+                          } else {
+                            showCustomToast(context, '사용할 수 없는 이메일입니다.');
                           }
                         },
                 ),
@@ -114,7 +118,8 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                   validator: TextValidator.passwordValidator,
                   focusNode: passwordFocus,
                   onEditingComplete: () {
-                    if (formKey.currentState!.validate()) {
+                    if (formKey.currentState != null &&
+                        formKey.currentState!.validate()) {
                       passwordCheckFocus.requestFocus();
                     } else {
                       passwordFocus.requestFocus();
@@ -138,10 +143,9 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                   },
                   focusNode: passwordCheckFocus,
                   onEditingComplete: () {
-                    print(123123);
-                    if (formKey.currentState!.validate()) {
+                    if (formKey.currentState != null &&
+                        formKey.currentState!.validate()) {
                       passwordCheckFocus.unfocus();
-                      print(456456);
                     }
                   },
                   title: '비밀번호 확인',
@@ -160,7 +164,8 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                 ),
                 const SizedBox(height: 48.0),
                 ElevatedButton(
-                  onPressed: formKey.currentState!.validate() &&
+                  onPressed: formKey.currentState != null &&
+                          formKey.currentState!.validate() &&
                           emailText != null &&
                           isValidEmail == true &&
                           passwordText != null &&
@@ -216,7 +221,9 @@ class _SelectedGenderState extends State<_SelectedGender> {
             children: [
               GestureDetector(
                 onTap: () {
-                  widget.onTap!(gender: false);
+                  if (widget.onTap != null) {
+                    widget.onTap!(gender: false);
+                  }
                 },
                 child: Container(
                   color: BACKGROUND_COLOR,
@@ -254,7 +261,9 @@ class _SelectedGenderState extends State<_SelectedGender> {
               ),
               GestureDetector(
                 onTap: () {
-                  widget.onTap!(gender: true);
+                  if (widget.onTap != null) {
+                    widget.onTap!(gender: true);
+                  }
                 },
                 child: Container(
                   color: BACKGROUND_COLOR,

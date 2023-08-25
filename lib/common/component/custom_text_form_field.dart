@@ -3,33 +3,41 @@ import 'package:flutter/services.dart';
 import 'package:true_counter/common/const/button_style.dart';
 import 'package:true_counter/common/const/text_style.dart';
 
-enum KeyboardType {
-  number,
-  everything,
-}
+// enum KeyboardType {
+//   number,
+//   everything,
+// }
 
 class CustomTextFormField extends StatelessWidget {
   final String? title;
   final String? buttonText;
   final GestureTapCallback? onPressedButton;
-  final KeyboardType keyboardType;
+  final TextInputType textInputType;
   final ValueChanged<String>? onChanged;
   final bool obscureText;
   final String? hintText;
   final int? maxLength;
   final bool? realOnly;
+  final FormFieldSetter<String>? onSaved;
+  final FormFieldValidator<String>? validator;
+  final VoidCallback? onEditingComplete;
+  final FocusNode? focusNode;
 
   const CustomTextFormField({
     Key? key,
     this.title,
     this.buttonText,
     this.onPressedButton,
-    this.keyboardType = KeyboardType.everything,
+    this.textInputType = TextInputType.text,
     this.onChanged,
     this.obscureText = false,
     this.hintText,
     this.maxLength,
     this.realOnly,
+    required this.onSaved,
+    required this.validator,
+    this.onEditingComplete,
+    this.focusNode,
   }) : super(key: key);
 
   @override
@@ -48,6 +56,10 @@ class CustomTextFormField extends StatelessWidget {
             children: [
               Expanded(
                 child: TextFormField(
+                  onSaved: onSaved,
+                  validator: validator,
+                  onEditingComplete: onEditingComplete,
+                  focusNode: focusNode,
                   obscureText: obscureText,
                   onChanged: onChanged,
                   decoration: InputDecoration(
@@ -59,10 +71,11 @@ class CustomTextFormField extends StatelessWidget {
                     hintText: hintText,
                   ),
                   maxLength: maxLength,
-                  keyboardType: keyboardType == KeyboardType.number
-                      ? TextInputType.number
-                      : TextInputType.multiline,
-                  inputFormatters: keyboardType == KeyboardType.number
+                  // keyboardType: keyboardType == KeyboardType.number
+                  //     ? TextInputType.number
+                  //     : TextInputType.multiline,
+                  keyboardType: TextInputType.emailAddress,
+                  inputFormatters: textInputType == TextInputType.number
                       ? [FilteringTextInputFormatter.digitsOnly]
                       : [],
                   readOnly: realOnly ?? false,
@@ -78,6 +91,11 @@ class CustomTextFormField extends StatelessWidget {
           ),
         if (buttonText == null)
           TextFormField(
+            onSaved: onSaved,
+            validator: validator,
+            onEditingComplete: onEditingComplete,
+            focusNode: focusNode,
+            textInputAction: TextInputAction.done,
             obscureText: obscureText,
             onChanged: onChanged,
             decoration: InputDecoration(
@@ -88,11 +106,10 @@ class CustomTextFormField extends StatelessWidget {
               ),
               hintText: hintText,
             ),
+            style: descriptionTextStyle,
             maxLength: maxLength,
-            keyboardType: keyboardType == KeyboardType.number
-                ? TextInputType.number
-                : TextInputType.multiline,
-            inputFormatters: keyboardType == KeyboardType.number
+            keyboardType: textInputType,
+            inputFormatters: textInputType == TextInputType.number
                 ? [FilteringTextInputFormatter.digitsOnly]
                 : [],
             readOnly: realOnly ?? false,

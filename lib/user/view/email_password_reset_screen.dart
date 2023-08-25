@@ -5,9 +5,15 @@ import 'package:true_counter/common/const/text_style.dart';
 import 'package:true_counter/common/layout/default_appbar.dart';
 import 'package:true_counter/common/layout/default_layout.dart';
 
-class EmailPasswordResetScreen extends StatelessWidget {
+class EmailPasswordResetScreen extends StatefulWidget {
   const EmailPasswordResetScreen({Key? key}) : super(key: key);
 
+  @override
+  State<EmailPasswordResetScreen> createState() =>
+      _EmailPasswordResetScreenState();
+}
+
+class _EmailPasswordResetScreenState extends State<EmailPasswordResetScreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(
@@ -26,14 +32,22 @@ class EmailPasswordResetScreen extends StatelessWidget {
             ),
             const SizedBox(height: 48.0),
             CustomTextFormField(
+              onSaved: (String? newValue) {},
+              validator: (String? value) {
+                return null;
+              },
               title: '휴대폰 번호',
               buttonText: '인증번호 받기',
-              onPressedButton: (){},
+              onPressedButton: () {},
             ),
             const SizedBox(height: 8.0),
             CustomTextFormField(
+              onSaved: (String? newValue) {},
+              validator: (String? value) {
+                return null;
+              },
               buttonText: '인증번호 확인',
-              onPressedButton: (){},
+              onPressedButton: () {},
             ),
             const SizedBox(height: 48.0),
             ElevatedButton(

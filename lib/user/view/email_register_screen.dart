@@ -52,6 +52,10 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
               ),
               const SizedBox(height: 32.0),
               CustomTextFormField(
+                onSaved: (String? newValue) {},
+                validator: (String? value) {
+                  return null;
+                },
                 title: '이메일',
                 hintText: 'ex) qwer1234@naver.com',
                 buttonText: '중복확인',
@@ -59,11 +63,19 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
               ),
               const SizedBox(height: 24.0),
               CustomTextFormField(
+                onSaved: (String? newValue) {},
+                validator: (String? value) {
+                  return null;
+                },
                 title: '비밀번호',
-                hintText: '영문, 숫자 합 7자리 이상',
+                hintText: '영문, 숫자, 특수문자 포함 8자 이상 15자 이내로 입력 해주세요.',
               ),
               const SizedBox(height: 24.0),
               CustomTextFormField(
+                onSaved: (String? newValue) {},
+                validator: (String? value) {
+                  return null;
+                },
                 title: '비밀번호 확인',
                 hintText: '영문, 숫자 합 7자리 이상',
               ),
@@ -79,9 +91,11 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
               ),
               const SizedBox(height: 24.0),
               ElevatedButton(
-                onPressed: gender == null || birthday == null ? null : () {
-                  Navigator.of(context).pushNamed(RouteNames.terms);
-                },
+                onPressed: gender == null || birthday == null
+                    ? null
+                    : () {
+                        Navigator.of(context).pushNamed(RouteNames.terms);
+                      },
                 style: defaultButtonStyle,
                 child: const Text('다음'),
               )

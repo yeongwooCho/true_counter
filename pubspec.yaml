@@ -37,14 +37,13 @@ dependencies:
   cupertino_icons: ^1.0.2
   intl: 0.18.0
   flutter_dotenv: ^5.1.0
+  fluttertoast: ^8.2.2
+  flutter_svg: ^2.0.7
+  flutter_localizations: # intl 0.18.0 을 의존하고 있음
+    sdk: flutter
 
   kakao_flutter_sdk_user: ^1.5.0 # 카카오 로그인
   flutter_secure_storage: ^8.0.0
-
-  flutter_svg: ^2.0.7
-
-  flutter_localizations: # intl 0.18.0 을 의존하고 있음
-    sdk: flutter
 
 
 

@@ -22,7 +22,12 @@ class DefaultLayout extends StatelessWidget {
       appBar: appbar,
       backgroundColor: backgroundColor ?? Colors.white,
       // 기본배경이 완전 흰색은 아니다.
-      body: child,
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+        child: child,
+      ),
       bottomNavigationBar: bottomNavigationBar,
       floatingActionButton: floatingActionButton,
     );

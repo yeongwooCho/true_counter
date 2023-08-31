@@ -3,6 +3,105 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+class FirebasePhoneAuthUtil {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  late String verificationId; // 폰 인증 요청 시 callback 받는 값이며 smsCode 와 같이 인증에 쓰임.
+
+  final String phone; // format: 01012341234
+  final String smsCode;
+
+  FirebasePhoneAuthUtil({
+    required this.phone,
+    required this.smsCode,
+  });
+
+  Future<bool> verifyUser() async {
+    PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.credential(
+      verificationId: verificationId,
+      smsCode: smsCode,
+    );
+
+    bool isSuccess = await signInWithPhoneAuthCredential(
+      phoneAuthCredential: phoneAuthCredential,
+    );
+
+    return isSuccess;
+  }
+
+  Future<bool> signInWithPhoneAuthCredential({
+    required PhoneAuthCredential phoneAuthCredential,
+  }) async {
+    try {
+      UserCredential authCredential =
+          await _auth.signInWithCredential(phoneAuthCredential);
+
+      // 유저가 생성되면 휴대폰 번호는 유효한 것이다.
+      if (authCredential.user != null) {
+        // 유효 함이 확인 되면 유저를 삭제 시킨다.
+        await _auth.currentUser?.delete();
+        print("auth정보삭제");
+
+        // Firebase Auth 를 로그아웃 한다.
+        _auth.signOut();
+        print("phone로그인된것 로그아웃");
+      }
+      return true;
+    } on FirebaseAuthException catch (e) {
+      await Fluttertoast.showToast(
+          msg: "${e.message}",
+          toastLength: Toast.LENGTH_SHORT,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          fontSize: 16.0);
+
+      return false;
+    }
+  }
+
+  Future<bool> requestSmsCode() async {
+    bool isSuccess = false;
+
+    await _auth.verifyPhoneNumber(
+      timeout: const Duration(seconds: 60),
+      codeAutoRetrievalTimeout: (
+        String verificationId,
+      ) {
+        // Auto-resolution timed out...
+      },
+      phoneNumber: "+8210${phone.trim().split('010').first.trim()}",
+      verificationCompleted: (
+        phoneAuthCredential,
+      ) async {
+        print("otp 문자옴");
+      },
+      verificationFailed: (
+        verificationFailed,
+      ) async {
+        print(verificationFailed.code);
+        print("코드발송실패");
+        isSuccess = false;
+      },
+      codeSent: (
+        verificationId,
+        resendingToken,
+      ) async {
+        print("코드보냄");
+        Fluttertoast.showToast(
+          msg: "$phone 로 인증코드를 발송하였습니다. 문자가 올때까지 잠시만 기다려 주세요.",
+          toastLength: Toast.LENGTH_SHORT,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.green,
+          fontSize: 12.0,
+        );
+        this.verificationId = verificationId;
+        isSuccess = true;
+      },
+    );
+
+    return isSuccess;
+  }
+}
+
 class PhoneAuthTest extends StatefulWidget {
   const PhoneAuthTest({super.key});
 
@@ -40,7 +139,7 @@ class _PhoneAuthTestState extends State<PhoneAuthTest> {
     });
     try {
       final authCredential =
-      await _auth.signInWithCredential(phoneAuthCredential);
+          await _auth.signInWithCredential(phoneAuthCredential);
       setState(() {
         showLoading = false;
       });
@@ -238,114 +337,119 @@ class _PhoneAuthTestState extends State<PhoneAuthTest> {
                           children: [
                             Expanded(
                                 child: Row(
-                                  children: [
-                                    Expanded(
-                                        flex: 1,
-                                        child: numberInsert(
-                                          editAble: false,
-                                          hintText: "010",
-                                        )),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    Expanded(
-                                      flex: 1,
-                                      child: numberInsert(
-                                        editAble: authOk ? false : true,
-                                        hintText: "0000",
-                                        focusNode: phoneNumberFocusNode1,
-                                        controller: phoneNumberController1,
-                                        textInputAction: TextInputAction.next,
-                                        maxLength: 4,
-                                        widgetFunction: () {
-                                          FocusScope.of(context)
-                                              .requestFocus(phoneNumberFocusNode2);
-                                        },
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    Expanded(
-                                      flex: 1,
-                                      child: numberInsert(
-                                        editAble: authOk ? false : true,
-                                        hintText: "0000",
-                                        focusNode: phoneNumberFocusNode2,
-                                        controller: phoneNumberController2,
-                                        textInputAction: TextInputAction.done,
-                                        maxLength: 4,
-                                      ),
-                                    ),
-                                  ],
-                                )),
+                              children: [
+                                Expanded(
+                                    flex: 1,
+                                    child: numberInsert(
+                                      editAble: false,
+                                      hintText: "010",
+                                    )),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Expanded(
+                                  flex: 1,
+                                  child: numberInsert(
+                                    editAble: authOk ? false : true,
+                                    hintText: "0000",
+                                    focusNode: phoneNumberFocusNode1,
+                                    controller: phoneNumberController1,
+                                    textInputAction: TextInputAction.next,
+                                    maxLength: 4,
+                                    widgetFunction: () {
+                                      FocusScope.of(context)
+                                          .requestFocus(phoneNumberFocusNode2);
+                                    },
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Expanded(
+                                  flex: 1,
+                                  child: numberInsert(
+                                    editAble: authOk ? false : true,
+                                    hintText: "0000",
+                                    focusNode: phoneNumberFocusNode2,
+                                    controller: phoneNumberController2,
+                                    textInputAction: TextInputAction.done,
+                                    maxLength: 4,
+                                  ),
+                                ),
+                              ],
+                            )),
                             SizedBox(
                               width: 5,
                             ),
                             authOk
                                 ? ElevatedButton(
-                              onPressed: () {},
-                              child: Text("인증완료"),
-                            )
+                                    onPressed: () {},
+                                    child: Text("인증완료"),
+                                  )
                                 : phoneNumberController1.text.length == 4 &&
-                                phoneNumberController2.text.length == 4
-                                ? ElevatedButton(
-                                onPressed: () async {
-                                  setState(() {
-                                    showLoading = true;
-                                  });
-                                  await _auth.verifyPhoneNumber(
-                                    timeout:
-                                    const Duration(seconds: 60),
-                                    codeAutoRetrievalTimeout:
-                                        (String verificationId) {
-                                      // Auto-resolution timed out...
-                                    },
-                                    phoneNumber: "+8210" +
-                                        phoneNumberController1.text
-                                            .trim() +
-                                        phoneNumberController2.text
-                                            .trim(),
-                                    verificationCompleted:
-                                        (phoneAuthCredential) async {
-                                      print("otp 문자옴");
-                                    },
-                                    verificationFailed:
-                                        (verificationFailed) async {
-                                      print(verificationFailed.code);
+                                        phoneNumberController2.text.length == 4
+                                    ? ElevatedButton(
+                                        onPressed: () async {
+                                          setState(() {
+                                            showLoading = true;
+                                          });
+                                          await _auth.verifyPhoneNumber(
+                                            timeout:
+                                                const Duration(seconds: 60),
+                                            codeAutoRetrievalTimeout: (
+                                              String verificationId,
+                                            ) {
+                                              // Auto-resolution timed out...
+                                            },
+                                            phoneNumber: "+8210" +
+                                                phoneNumberController1.text
+                                                    .trim() +
+                                                phoneNumberController2.text
+                                                    .trim(),
+                                            verificationCompleted: (
+                                              phoneAuthCredential,
+                                            ) async {
+                                              print("otp 문자옴");
+                                            },
+                                            verificationFailed: (
+                                              verificationFailed,
+                                            ) async {
+                                              print(verificationFailed.code);
 
-                                      print("코드발송실패");
-                                      setState(() {
-                                        showLoading = false;
-                                      });
-                                    },
-                                    codeSent: (verificationId,
-                                        resendingToken) async {
-                                      print("코드보냄");
-                                      Fluttertoast.showToast(
-                                          msg:
-                                          "010-${phoneNumberController1.text}-${phoneNumberController2.text} 로 인증코드를 발송하였습니다. 문자가 올때까지 잠시만 기다려 주세요.",
-                                          toastLength:
-                                          Toast.LENGTH_SHORT,
-                                          timeInSecForIosWeb: 1,
-                                          backgroundColor: Colors.green,
-                                          fontSize: 12.0);
-                                      setState(() {
-                                        requestedAuth = true;
-                                        FocusScope.of(context)
-                                            .requestFocus(otpFocusNode);
-                                        showLoading = false;
-                                        this.verificationId =
-                                            verificationId;
-                                      });
-                                    },
-                                  );
-                                },
-                                child: Text("인증요청"))
-                                : ElevatedButton(
-                              onPressed: () {},
-                              child: Text("인증요청"),
-                            ),
+                                              print("코드발송실패");
+                                              setState(() {
+                                                showLoading = false;
+                                              });
+                                            },
+                                            codeSent: (
+                                              verificationId,
+                                              resendingToken,
+                                            ) async {
+                                              print("코드보냄");
+                                              Fluttertoast.showToast(
+                                                msg:
+                                                    "010-${phoneNumberController1.text}-${phoneNumberController2.text} 로 인증코드를 발송하였습니다. 문자가 올때까지 잠시만 기다려 주세요.",
+                                                toastLength: Toast.LENGTH_SHORT,
+                                                timeInSecForIosWeb: 1,
+                                                backgroundColor: Colors.green,
+                                                fontSize: 12.0,
+                                              );
+                                              setState(() {
+                                                requestedAuth = true;
+                                                FocusScope.of(context)
+                                                    .requestFocus(otpFocusNode);
+                                                showLoading = false;
+                                                this.verificationId =
+                                                    verificationId;
+                                              });
+                                            },
+                                          );
+                                        },
+                                        child: Text("인증요청"))
+                                    : ElevatedButton(
+                                        onPressed: () {},
+                                        child: Text("인증요청"),
+                                      ),
                           ],
                         ),
                       ),
@@ -357,46 +461,46 @@ class _PhoneAuthTestState extends State<PhoneAuthTest> {
                   authOk
                       ? SizedBox()
                       : Visibility(
-                    visible: requestedAuth,
-                    child: Row(
-                      children: [
-                        Expanded(flex: 1, child: Text("")),
-                        Expanded(
-                          flex: 3,
+                          visible: requestedAuth,
                           child: Row(
                             children: [
+                              Expanded(flex: 1, child: Text("")),
                               Expanded(
-                                child: numberInsert(
-                                  editAble: true,
-                                  hintText: "6자리 입력",
-                                  focusNode: otpFocusNode,
-                                  controller: otpController,
-                                  textInputAction: TextInputAction.done,
-                                  maxLength: 6,
+                                flex: 3,
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: numberInsert(
+                                        editAble: true,
+                                        hintText: "6자리 입력",
+                                        focusNode: otpFocusNode,
+                                        controller: otpController,
+                                        textInputAction: TextInputAction.done,
+                                        maxLength: 6,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    ElevatedButton(
+                                        onPressed: () {
+                                          PhoneAuthCredential
+                                              phoneAuthCredential =
+                                              PhoneAuthProvider.credential(
+                                                  verificationId:
+                                                      verificationId,
+                                                  smsCode: otpController.text);
+
+                                          signInWithPhoneAuthCredential(
+                                              phoneAuthCredential);
+                                        },
+                                        child: Text("확인")),
+                                  ],
                                 ),
                               ),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              ElevatedButton(
-                                  onPressed: () {
-                                    PhoneAuthCredential
-                                    phoneAuthCredential =
-                                    PhoneAuthProvider.credential(
-                                        verificationId:
-                                        verificationId,
-                                        smsCode: otpController.text);
-
-                                    signInWithPhoneAuthCredential(
-                                        phoneAuthCredential);
-                                  },
-                                  child: Text("확인")),
                             ],
                           ),
                         ),
-                      ],
-                    ),
-                  ),
                   SizedBox(
                     height: 10,
                   ),
@@ -448,7 +552,7 @@ class _PhoneAuthTestState extends State<PhoneAuthTest> {
                     style: ElevatedButton.styleFrom(
                         primary: Colors.black,
                         padding:
-                        EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+                            EdgeInsets.symmetric(horizontal: 50, vertical: 10),
                         minimumSize: Size(double.infinity, 0),
                         textStyle: TextStyle(fontWeight: FontWeight.bold)),
                   ),
@@ -471,28 +575,28 @@ class _PhoneAuthTestState extends State<PhoneAuthTest> {
                               color: Colors.white,
                               child: Center(
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      SizedBox(
-                                          width: 20,
-                                          height: 20,
-                                          child: CircularProgressIndicator()),
-                                      SizedBox(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SizedBox(
+                                      width: 20,
+                                      height: 20,
+                                      child: CircularProgressIndicator()),
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  Text("잠시만 기다려 주세요"),
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  Opacity(
+                                    opacity: 0,
+                                    child: SizedBox(
                                         width: 20,
-                                      ),
-                                      Text("잠시만 기다려 주세요"),
-                                      SizedBox(
-                                        width: 20,
-                                      ),
-                                      Opacity(
-                                        opacity: 0,
-                                        child: SizedBox(
-                                            width: 20,
-                                            height: 20,
-                                            child: CircularProgressIndicator()),
-                                      ),
-                                    ],
-                                  )))))),
+                                        height: 20,
+                                        child: CircularProgressIndicator()),
+                                  ),
+                                ],
+                              )))))),
             )
           ],
         ));
@@ -514,7 +618,7 @@ class _PhoneAuthTestState extends State<PhoneAuthTest> {
       ),
       decoration: InputDecoration(
         contentPadding:
-        new EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+            new EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
         isDense: true,
         counterText: "",
         hintText: hintText,

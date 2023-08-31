@@ -16,6 +16,7 @@ class CustomTextFormField extends StatelessWidget {
   final ValueChanged<String>? onChanged;
   final bool obscureText;
   final String? hintText;
+  final Widget? suffixIcon;
   final int? maxLength;
   final bool realOnly;
   final bool enabled;
@@ -33,6 +34,7 @@ class CustomTextFormField extends StatelessWidget {
     this.onChanged,
     this.obscureText = false,
     this.hintText,
+    this.suffixIcon,
     this.maxLength,
     this.realOnly = false,
     this.enabled = true,
@@ -74,6 +76,7 @@ class CustomTextFormField extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                     hintText: hintText,
+                    suffixIcon: suffixIcon,
                   ),
                   maxLength: maxLength,
                   textInputAction: TextInputAction.done,
@@ -113,6 +116,7 @@ class CustomTextFormField extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8.0),
               ),
               hintText: hintText,
+              suffixIcon: suffixIcon,
             ),
             style: descriptionTextStyle,
             maxLength: maxLength,

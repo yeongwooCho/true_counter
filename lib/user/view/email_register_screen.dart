@@ -29,8 +29,9 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
   FocusNode? phoneFocus;
   FocusNode? certificationFocus;
 
-  // 유효 체크 완료 여부
   bool isValidEmail = false; // 중복확인
+  bool isVisiblePassword = false; // 패스워드 보이게
+  bool isVisiblePasswordCheck = false; // 패스워드 보이게
   bool isRequestCertification = false; // 인증번호 받기
   bool isValidCertification = false; // 인증 번호 확인
 
@@ -137,6 +138,19 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                 ),
                 const SizedBox(height: 16.0),
                 CustomTextFormField(
+                  obscureText: !isVisiblePassword,
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      isVisiblePassword = !isVisiblePassword;
+                      setState(() {});
+                    },
+                    icon: Icon(
+                      isVisiblePassword
+                          ? Icons.visibility_rounded
+                          : Icons.visibility_off_rounded,
+                      color: DEFAULT_TEXT_COLOR,
+                    ),
+                  ),
                   onChanged: (String? value) {
                     passwordText = value;
                   },
@@ -159,6 +173,19 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                 ),
                 const SizedBox(height: 16.0),
                 CustomTextFormField(
+                  obscureText: !isVisiblePasswordCheck,
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      isVisiblePasswordCheck = !isVisiblePasswordCheck;
+                      setState(() {});
+                    },
+                    icon: Icon(
+                      isVisiblePasswordCheck
+                          ? Icons.visibility_rounded
+                          : Icons.visibility_off_rounded,
+                      color: DEFAULT_TEXT_COLOR,
+                    ),
+                  ),
                   onChanged: (String? value) {
                     passwordCheckText = value;
                   },

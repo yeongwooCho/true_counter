@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:true_counter/common/component/custom_drop_down_button.dart';
 import 'package:true_counter/common/component/custom_text_form_field.dart';
 import 'package:true_counter/common/const/button_style.dart';
 import 'package:true_counter/common/const/colors.dart';
+import 'package:true_counter/common/const/data.dart';
 import 'package:true_counter/common/const/text_style.dart';
 import 'package:true_counter/common/layout/default_appbar.dart';
 import 'package:true_counter/common/layout/default_layout.dart';
@@ -41,8 +43,11 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
   String? passwordCheckText;
   String? phoneText;
   String? certificationText;
+
+  // no text form field
   bool? gender;
   DateTime? birthday;
+  String? location;
 
   @override
   void initState() {
@@ -198,7 +203,7 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                   },
                   focusNode: passwordCheckFocus,
                   onEditingComplete: () {
-                    if(isValidCertification) {
+                    if (isValidCertification) {
                       passwordCheckFocus?.unfocus();
                       return;
                     }
@@ -290,6 +295,29 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                   birthday: birthday,
                   onDaySelected: onDaySelected,
                 ),
+                const SizedBox(height: 16.0),
+                Row(
+                  children: [
+                    const SizedBox(
+                      width: 120.0,
+                      child: Text(
+                        '거주지역',
+                        style: bodyMediumTextStyle,
+                      ),
+                    ),
+                    const SizedBox(width: 16.0),
+                    Expanded(
+                      child: CustomDropDownButton(
+                        dropdownList: locations,
+                        defaultValue: location == null ? '선택' : location!,
+                        onChanged: (String? value) {
+                          location = value;
+                          setState(() {});
+                        },
+                      ),
+                    ),
+                  ],
+                ),
                 const SizedBox(height: 32.0),
                 ElevatedButton(
                   onPressed: emailText != null &&
@@ -303,6 +331,9 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                           isValidCertification &&
                           gender != null &&
                           birthday != null &&
+                          location != null &&
+                          location!.isNotEmpty &&
+                          location != '선택' &&
                           formKey.currentState != null &&
                           formKey.currentState!.validate()
                       ? () {
@@ -526,6 +557,131 @@ class _BirthYearState extends State<_BirthYear> {
         return Align(
           alignment: Alignment.bottomCenter,
           child: Container(
+            height: 200.0,
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.vertical(
+                top: Radius.circular(16.0),
+              ),
+              color: BACKGROUND_COLOR,
+            ),
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 0.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Expanded(
+                    child: CupertinoDatePicker(
+                      dateOrder: DatePickerDateOrder.ymd,
+                      mode: CupertinoDatePickerMode.date,
+                      onDateTimeChanged: (DateTime value) {
+                        widget.onDaySelected!(birthday: value);
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _Location extends StatefulWidget {
+  final String? location;
+  final void Function({required String location})? onLocationSelected;
+
+  const _Location({
+    Key? key,
+    required this.location,
+    required this.onLocationSelected,
+  }) : super(key: key);
+
+  @override
+  State<_Location> createState() => _LocationState();
+}
+
+class _LocationState extends State<_Location> {
+  List<String> locations = [
+    '서울특별시',
+    '부산광역시',
+    '대구광역시',
+    '인천광역시',
+    '광주광역시',
+    '대전광역시',
+    '울산광역시',
+    '세종특별자치시',
+    '경기도',
+    '강원도',
+    '충청북도',
+    '충청남도',
+    '전라북도',
+    '전라남도',
+    '경상북도',
+    '경상남도',
+    '제주특별자치도',
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        const SizedBox(
+          width: 120.0,
+          child: Text(
+            '생년월일',
+            style: bodyMediumTextStyle,
+          ),
+        ),
+        const SizedBox(width: 16.0),
+        Expanded(
+          child: GestureDetector(
+            onTap: () {
+              onBirthPressed();
+            },
+            child: Container(
+              height: 48.0,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  width: 1.0,
+                  color: DARK_GREY_COLOR,
+                ),
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    // Text(
+                    //   widget.location == null
+                    //       ? '선택'
+                    //       : convertDateTimeToDate(datetime: widget.location),
+                    //   style: descriptionTextStyle,
+                    // ),
+                    const SizedBox(width: 8.0),
+                    const Icon(Icons.keyboard_arrow_down_rounded)
+                  ],
+                ),
+              ),
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
+  void onBirthPressed() {
+    showCupertinoDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return Align(
+          alignment: Alignment.bottomCenter,
+          child: Container(
             height: 300.0,
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.vertical(
@@ -550,7 +706,7 @@ class _BirthYearState extends State<_BirthYear> {
                       dateOrder: DatePickerDateOrder.ymd,
                       mode: CupertinoDatePickerMode.date,
                       onDateTimeChanged: (DateTime value) {
-                        widget.onDaySelected!(birthday: value);
+                        // widget.onDaySelected!(birthday: value);
                       },
                     ),
                   ),

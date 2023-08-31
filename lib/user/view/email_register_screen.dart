@@ -24,7 +24,7 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
   FocusNode emailFocus = FocusNode();
   FocusNode passwordFocus = FocusNode();
   FocusNode passwordCheckFocus = FocusNode();
-  FocusNode phoneCheckFocus = FocusNode();
+  FocusNode phoneFocus = FocusNode();
   FocusNode certificationFocus = FocusNode();
 
   // 유효 체크 완료 여부
@@ -161,7 +161,7 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                   onEditingComplete: () {
                     if (formKey.currentState != null &&
                         formKey.currentState!.validate()) {
-                      phoneCheckFocus.requestFocus();
+                      phoneFocus.requestFocus();
                     } else {
                       passwordCheckFocus.requestFocus();
                     }
@@ -170,10 +170,7 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                   hintText: '영문, 숫자, 특수문자 포함 8~15자',
                   textInputType: TextInputType.visiblePassword,
                 ),
-
-                // TODO: 여기서부터
                 const SizedBox(height: 16.0),
-
                 CustomTextFormField(
                   onChanged: (String? value) {
                     phoneText = value;
@@ -182,11 +179,11 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                     phoneText = value;
                   },
                   validator: TextValidator.phoneValidator,
-                  focusNode: phoneCheckFocus,
+                  focusNode: phoneFocus,
                   onEditingComplete: () {
                     if (formKey.currentState != null &&
                         formKey.currentState!.validate()) {
-                      phoneCheckFocus.unfocus();
+                      phoneFocus.unfocus();
                     }
                   },
                   title: '휴대폰 번호',
@@ -246,9 +243,6 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                           },
                     enabled: isValidCertification ? false : true,
                   ),
-
-                // TODO: 여기까지
-
                 const SizedBox(height: 16.0),
                 _SelectedGender(
                   gender: gender,

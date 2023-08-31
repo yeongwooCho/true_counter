@@ -198,6 +198,10 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                   },
                   focusNode: passwordCheckFocus,
                   onEditingComplete: () {
+                    if(isValidCertification) {
+                      passwordCheckFocus?.unfocus();
+                      return;
+                    }
                     if (formKey.currentState != null &&
                         formKey.currentState!.validate()) {
                       phoneFocus?.requestFocus();
@@ -227,7 +231,7 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                   },
                   title: '휴대폰 번호',
                   hintText: '예) 01012341234',
-                  buttonText: '인증번호 받기',
+                  buttonText: isValidCertification ? '인증 완료' : '인증번호 받기',
                   onPressedButton: isValidCertification
                       ? null
                       : () {
@@ -240,11 +244,11 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                           );
                           setState(() {});
                         },
-                  textInputType: TextInputType.phone,
+                  textInputType: TextInputType.number,
                   enabled: isValidCertification ? false : true,
                 ),
                 const SizedBox(height: 4.0),
-                if (isRequestCertification)
+                if (isRequestCertification && !isValidCertification)
                   CustomTextFormField(
                     onSaved: (String? value) {
                       certificationText = value;
@@ -253,12 +257,6 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                       return null;
                     },
                     focusNode: certificationFocus,
-                    onEditingComplete: () {
-                      if (formKey.currentState != null &&
-                          formKey.currentState!.validate()) {
-                        certificationFocus?.unfocus();
-                      }
-                    },
                     hintText: '인증번호 입력',
                     buttonText: '인증번호 확인',
                     onPressedButton: isValidCertification
@@ -294,15 +292,19 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                 ),
                 const SizedBox(height: 32.0),
                 ElevatedButton(
-                  onPressed: formKey.currentState != null &&
-                          formKey.currentState!.validate() &&
-                          emailText != null &&
+                  onPressed: emailText != null &&
+                          emailText!.isNotEmpty &&
                           isValidEmail == true &&
                           passwordText != null &&
+                          passwordText!.isNotEmpty &&
                           passwordCheckText != null &&
+                          passwordCheckText!.isNotEmpty &&
+                          isRequestCertification &&
                           isValidCertification &&
                           gender != null &&
-                          birthday != null
+                          birthday != null &&
+                          formKey.currentState != null &&
+                          formKey.currentState!.validate()
                       ? () {
                           Navigator.of(context).pushNamed(RouteNames.terms);
                         }

@@ -21,16 +21,18 @@ class EmailRegisterScreen extends StatefulWidget {
 class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
   // form focus
   final GlobalKey<FormState> formKey = GlobalKey();
-  FocusNode emailFocus = FocusNode();
-  FocusNode passwordFocus = FocusNode();
-  FocusNode passwordCheckFocus = FocusNode();
-  FocusNode phoneFocus = FocusNode();
-  FocusNode certificationFocus = FocusNode();
+  final GlobalKey<FormState> emailFormKey = GlobalKey();
+
+  FocusNode? emailFocus;
+  FocusNode? passwordFocus;
+  FocusNode? passwordCheckFocus;
+  FocusNode? phoneFocus;
+  FocusNode? certificationFocus;
 
   // 유효 체크 완료 여부
-  bool isValidEmail = false;
-  bool isPressedCertificationResponse = false;
-  bool isValidCertification = false;
+  bool isValidEmail = false; // 중복확인
+  bool isRequestCertification = false; // 인증번호 받기
+  bool isValidCertification = false; // 인증 번호 확인
 
   // user info
   String? emailText;
@@ -42,24 +44,25 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
   DateTime? birthday;
 
   @override
+  void initState() {
+    super.initState();
+
+    emailFocus = FocusNode();
+    passwordFocus = FocusNode();
+    passwordCheckFocus = FocusNode();
+    phoneFocus = FocusNode();
+    certificationFocus = FocusNode();
+  }
+
+  @override
   void dispose() {
-    emailFocus.dispose();
-    passwordFocus.dispose();
-    passwordCheckFocus.dispose();
+    emailFocus?.dispose();
+    passwordFocus?.dispose();
+    passwordCheckFocus?.dispose();
+    phoneFocus?.dispose();
+    certificationFocus?.dispose();
 
     super.dispose();
-  }
-
-  void onGenderSelected({required bool gender}) {
-    setState(() {
-      this.gender = gender;
-    });
-  }
-
-  void onDaySelected({required DateTime birthday}) {
-    setState(() {
-      this.birthday = birthday;
-    });
   }
 
   @override
@@ -84,44 +87,53 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                   style: titleTextStyle,
                 ),
                 const SizedBox(height: 32.0),
-                CustomTextFormField(
-                  onChanged: (String? value) {
-                    emailText = value;
-                  },
-                  onSaved: (String? value) {
-                    emailText = value;
-                  },
-                  validator: TextValidator.emailValidator,
-                  focusNode: emailFocus,
-                  onEditingComplete: () {
-                    if (formKey.currentState!.validate()) {
-                      passwordFocus.requestFocus();
-                    } else {
-                      emailFocus.requestFocus();
-                    }
-                  },
-                  title: '이메일',
-                  hintText: '예) abc@true.com',
-                  buttonText: '중복확인',
-                  textInputType: TextInputType.emailAddress,
-                  onPressedButton: isValidEmail
-                      ? null
-                      : () {
-                          // TODO: 이메일 중복 확인 완료
-                          if (true) {
-                            // 사용 가능한 이메일일 경우
-                            setState(() {
-                              isValidEmail = true;
-                              passwordFocus.requestFocus();
-                            });
-                          } else {
-                            showCustomToast(
-                              context,
-                              msg: '사용할 수 없는 이메일입니다.',
-                            );
+                Form(
+                  key: emailFormKey,
+                  autovalidateMode: AutovalidateMode.always,
+                  child: CustomTextFormField(
+                    onChanged: (String? value) {
+                      emailText = value;
+                      setState(() {});
+                    },
+                    onSaved: (String? value) {
+                      emailText = value;
+                    },
+                    validator: TextValidator.emailValidator,
+                    focusNode: emailFocus,
+                    onEditingComplete: () {
+                      if (formKey.currentState!.validate()) {
+                        passwordFocus?.requestFocus();
+                      } else {
+                        emailFocus?.requestFocus();
+                      }
+                    },
+                    title: '이메일',
+                    hintText: '예) abc@true.com',
+                    buttonText: '중복확인',
+                    textInputType: TextInputType.emailAddress,
+                    onPressedButton: !isValidEmail &&
+                            emailText != null &&
+                            emailText!.isNotEmpty &&
+                            (emailFormKey.currentState != null &&
+                                emailFormKey.currentState!.validate())
+                        ? () {
+                            // TODO: 이메일 중복 확인 완료
+                            if (true) {
+                              // 사용 가능한 이메일일 경우
+                              setState(() {
+                                isValidEmail = true;
+                                passwordFocus?.requestFocus();
+                              });
+                            } else {
+                              showCustomToast(
+                                context,
+                                msg: '사용할 수 없는 이메일입니다.',
+                              );
+                            }
                           }
-                        },
-                  enabled: isValidEmail ? false : true,
+                        : null,
+                    enabled: isValidEmail ? false : true,
+                  ),
                 ),
                 const SizedBox(height: 16.0),
                 CustomTextFormField(
@@ -136,9 +148,9 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                   onEditingComplete: () {
                     if (formKey.currentState != null &&
                         formKey.currentState!.validate()) {
-                      passwordCheckFocus.requestFocus();
+                      passwordCheckFocus?.requestFocus();
                     } else {
-                      passwordFocus.requestFocus();
+                      passwordFocus?.requestFocus();
                     }
                   },
                   title: '비밀번호',
@@ -161,9 +173,9 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                   onEditingComplete: () {
                     if (formKey.currentState != null &&
                         formKey.currentState!.validate()) {
-                      phoneFocus.requestFocus();
+                      phoneFocus?.requestFocus();
                     } else {
-                      passwordCheckFocus.requestFocus();
+                      passwordCheckFocus?.requestFocus();
                     }
                   },
                   title: '비밀번호 확인',
@@ -183,7 +195,7 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                   onEditingComplete: () {
                     if (formKey.currentState != null &&
                         formKey.currentState!.validate()) {
-                      phoneFocus.unfocus();
+                      phoneFocus?.unfocus();
                     }
                   },
                   title: '휴대폰 번호',
@@ -193,8 +205,8 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                       ? null
                       : () {
                           // TODO: 휴대폰 번호에 인증코드 전송번호 전달
-                          isPressedCertificationResponse = true;
-                          certificationFocus.requestFocus();
+                          isRequestCertification = true;
+                          certificationFocus?.requestFocus();
                           showCustomToast(
                             context,
                             msg: '인증번호가 전송되었습니다.',
@@ -205,7 +217,7 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                   enabled: isValidCertification ? false : true,
                 ),
                 const SizedBox(height: 4.0),
-                if (isPressedCertificationResponse)
+                if (isRequestCertification)
                   CustomTextFormField(
                     onSaved: (String? value) {
                       certificationText = value;
@@ -217,7 +229,7 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                     onEditingComplete: () {
                       if (formKey.currentState != null &&
                           formKey.currentState!.validate()) {
-                        certificationFocus.unfocus();
+                        certificationFocus?.unfocus();
                       }
                     },
                     hintText: '인증번호 입력',
@@ -228,7 +240,7 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                             // TODO: 인증번호가 일치하는지 확인
                             if (true) {
                               isValidCertification = true;
-                              certificationFocus.unfocus();
+                              certificationFocus?.unfocus();
                               showCustomToast(
                                 context,
                                 msg: '인증번호이 정상적으로 확인되었습니다.',
@@ -277,6 +289,18 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
         ),
       ),
     );
+  }
+
+  void onGenderSelected({required bool gender}) {
+    setState(() {
+      this.gender = gender;
+    });
+  }
+
+  void onDaySelected({required DateTime birthday}) {
+    setState(() {
+      this.birthday = birthday;
+    });
   }
 }
 

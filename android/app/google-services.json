@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "948254162789-vv2msbl7i6eelseu9okvg95flj728p18.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.truecounter.true_counter",
+            "certificate_hash": "7b4a1592de786eece7e70033e93c27c8a25eeb04"
+          }
+        },
+        {
           "client_id": "948254162789-502kucf1vtcbr2tsrv6lc58g2ogkihm4.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,6 +37,13 @@
             {
               "client_id": "948254162789-502kucf1vtcbr2tsrv6lc58g2ogkihm4.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "948254162789-ivdobbf0rumhj1mh8ob7r5p770e269u0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.truecounter.trueCounter"
+              }
             }
           ]
         }

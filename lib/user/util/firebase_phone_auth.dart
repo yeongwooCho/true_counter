@@ -2,33 +2,85 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:true_counter/common/util/custom_toast.dart';
 
 class FirebasePhoneAuthUtil {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  late String verificationId; // 폰 인증 요청 시 callback 받는 값이며 smsCode 와 같이 인증에 쓰임.
+  String? verificationId; // 폰 인증 요청 시 callback 받는 값이며 smsCode 와 같이 인증에 쓰임.
 
-  final String phone; // format: 01012341234
-  final String smsCode;
+  FirebasePhoneAuthUtil();
 
-  FirebasePhoneAuthUtil({
-    required this.phone,
-    required this.smsCode,
-  });
+  // 유효한 휴대폰 번호 보장.
+  Future<void> requestSmsCode({
+    required BuildContext context,
+    required String phone,
+  }) async {
+    bool isSuccess = false;
 
-  Future<bool> verifyUser() async {
+    String refinePhone = phone.trim().replaceFirst('010', '+8210');
+    print(refinePhone);
+
+    await _auth.verifyPhoneNumber(
+      timeout: const Duration(seconds: 60),
+      codeAutoRetrievalTimeout: (
+        String verificationId,
+      ) {
+        // Auto-resolution timed out...
+      },
+      phoneNumber: refinePhone,
+      verificationCompleted: (
+        phoneAuthCredential,
+      ) async {
+        print("otp 문자옴");
+      },
+      verificationFailed: (
+        verificationFailed,
+      ) async {
+        print(verificationFailed.code);
+        print("코드발송실패");
+      },
+      codeSent: (
+        verificationId,
+        resendingToken,
+      ) async {
+        print("코드보냄");
+
+        showCustomToast(
+          context,
+          msg: '인증코드를 발송하였습니다.\n잠시만 기다려 주세요.',
+        );
+        this.verificationId = verificationId;
+      },
+    );
+  }
+
+  Future<bool> verifyUser({
+    required String smsCode,
+  }) async {
+    if (verificationId == null || verificationId!.isEmpty) {
+      await Fluttertoast.showToast(
+        msg: "No VerificationId",
+        toastLength: Toast.LENGTH_SHORT,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        fontSize: 16.0,
+      );
+      return false;
+    }
+
     PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.credential(
-      verificationId: verificationId,
+      verificationId: verificationId!,
       smsCode: smsCode,
     );
 
-    bool isSuccess = await signInWithPhoneAuthCredential(
+    bool isSuccess = await _signInWithPhoneAuthCredential(
       phoneAuthCredential: phoneAuthCredential,
     );
 
     return isSuccess;
   }
 
-  Future<bool> signInWithPhoneAuthCredential({
+  Future<bool> _signInWithPhoneAuthCredential({
     required PhoneAuthCredential phoneAuthCredential,
   }) async {
     try {
@@ -48,57 +100,15 @@ class FirebasePhoneAuthUtil {
       return true;
     } on FirebaseAuthException catch (e) {
       await Fluttertoast.showToast(
-          msg: "${e.message}",
-          toastLength: Toast.LENGTH_SHORT,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.red,
-          fontSize: 16.0);
+        msg: "${e.message}",
+        toastLength: Toast.LENGTH_SHORT,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        fontSize: 16.0,
+      );
 
       return false;
     }
-  }
-
-  Future<bool> requestSmsCode() async {
-    bool isSuccess = false;
-
-    await _auth.verifyPhoneNumber(
-      timeout: const Duration(seconds: 60),
-      codeAutoRetrievalTimeout: (
-        String verificationId,
-      ) {
-        // Auto-resolution timed out...
-      },
-      phoneNumber: "+8210${phone.trim().split('010').first.trim()}",
-      verificationCompleted: (
-        phoneAuthCredential,
-      ) async {
-        print("otp 문자옴");
-      },
-      verificationFailed: (
-        verificationFailed,
-      ) async {
-        print(verificationFailed.code);
-        print("코드발송실패");
-        isSuccess = false;
-      },
-      codeSent: (
-        verificationId,
-        resendingToken,
-      ) async {
-        print("코드보냄");
-        Fluttertoast.showToast(
-          msg: "$phone 로 인증코드를 발송하였습니다. 문자가 올때까지 잠시만 기다려 주세요.",
-          toastLength: Toast.LENGTH_SHORT,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.green,
-          fontSize: 12.0,
-        );
-        this.verificationId = verificationId;
-        isSuccess = true;
-      },
-    );
-
-    return isSuccess;
   }
 }
 

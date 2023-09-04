@@ -12,6 +12,7 @@ import 'package:true_counter/common/route/routes.dart';
 import 'package:true_counter/common/util/custom_toast.dart';
 import 'package:true_counter/common/util/datetime.dart';
 import 'package:true_counter/common/util/regular_expression_pattern.dart';
+import 'package:true_counter/user/util/firebase_phone_auth.dart';
 
 class EmailRegisterScreen extends StatefulWidget {
   const EmailRegisterScreen({Key? key}) : super(key: key);
@@ -24,6 +25,10 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
   // form focus
   final GlobalKey<FormState> formKey = GlobalKey();
   final GlobalKey<FormState> emailFormKey = GlobalKey();
+  final GlobalKey<FormState> phoneFormKey = GlobalKey();
+  final FirebasePhoneAuthUtil _firebasePhoneAuthUtil = FirebasePhoneAuthUtil();
+
+  bool isLoading = false;
 
   FocusNode? emailFocus;
   FocusNode? passwordFocus;
@@ -219,42 +224,63 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                   textInputType: TextInputType.visiblePassword,
                 ),
                 const SizedBox(height: 16.0),
-                CustomTextFormField(
-                  onChanged: (String? value) {
-                    phoneText = value;
-                  },
-                  onSaved: (String? value) {
-                    phoneText = value;
-                  },
-                  validator: TextValidator.phoneValidator,
-                  focusNode: phoneFocus,
-                  onEditingComplete: () {
-                    if (formKey.currentState != null &&
-                        formKey.currentState!.validate()) {
-                      phoneFocus?.unfocus();
-                    }
-                  },
-                  title: '휴대폰 번호',
-                  hintText: '예) 01012341234',
-                  buttonText: isValidCertification ? '인증 완료' : '인증번호 받기',
-                  onPressedButton: isValidCertification
-                      ? null
-                      : () {
-                          // TODO: 휴대폰 번호에 인증코드 전송번호 전달
-                          isRequestCertification = true;
-                          certificationFocus?.requestFocus();
-                          showCustomToast(
-                            context,
-                            msg: '인증번호가 전송되었습니다.',
-                          );
-                          setState(() {});
-                        },
-                  textInputType: TextInputType.number,
-                  enabled: isValidCertification ? false : true,
+                Form(
+                  key: phoneFormKey,
+                  autovalidateMode: AutovalidateMode.always,
+                  child: CustomTextFormField(
+                    onChanged: (String? value) {
+                      phoneText = value;
+                      setState(() {});
+                    },
+                    onSaved: (String? value) {
+                      phoneText = value;
+                    },
+                    validator: TextValidator.phoneValidator,
+                    focusNode: phoneFocus,
+                    onEditingComplete: () {
+                      if (phoneFormKey.currentState != null &&
+                          phoneFormKey.currentState!.validate()) {
+                        phoneFocus?.unfocus();
+                      }
+                    },
+                    title: '휴대폰 번호',
+                    hintText: '예) 01012341234',
+                    buttonText: isValidCertification ? '인증 완료' : '인증번호 받기',
+                    onPressedButton: isValidCertification ||
+                            phoneText == null ||
+                            phoneText!.isEmpty
+                        ? null
+                        : () async {
+                            isLoading = true;
+                            isRequestCertification = true;
+                            setState(() {});
+
+                            if (isRequestCertification) {
+                              certificationFocus?.requestFocus();
+                            } else {
+                              phoneFocus?.requestFocus();
+                            }
+
+                            // TODO: 휴대폰 번호에 인증코드 전송번호 전달
+                            await _firebasePhoneAuthUtil.requestSmsCode(
+                              context: context,
+                              phone: phoneText!,
+                            );
+
+                            isLoading = false;
+                            setState(() {});
+                          },
+                    textInputType: TextInputType.number,
+                    enabled: isValidCertification ? false : true,
+                  ),
                 ),
                 const SizedBox(height: 4.0),
                 if (isRequestCertification && !isValidCertification)
                   CustomTextFormField(
+                    onChanged: (String? value) {
+                      certificationText = value;
+                      setState(() {});
+                    },
                     onSaved: (String? value) {
                       certificationText = value;
                     },
@@ -264,25 +290,31 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                     focusNode: certificationFocus,
                     hintText: '인증번호 입력',
                     buttonText: '인증번호 확인',
-                    onPressedButton: isValidCertification
-                        ? null
-                        : () {
-                            // TODO: 인증번호가 일치하는지 확인
-                            if (true) {
-                              isValidCertification = true;
-                              certificationFocus?.unfocus();
-                              showCustomToast(
-                                context,
-                                msg: '인증번호이 정상적으로 확인되었습니다.',
-                              );
-                              setState(() {});
-                            } else {
-                              showCustomToast(
-                                context,
-                                msg: '인증번호가 일치하지 않습니다.',
-                              );
-                            }
-                          },
+                    onPressedButton:
+                        isValidCertification || certificationText == null
+                            ? null
+                            : () async {
+                                bool isVerified =
+                                    await _firebasePhoneAuthUtil.verifyUser(
+                                  smsCode: certificationText!,
+                                );
+
+                                // TODO: 인증번호가 일치하는지 확인
+                                if (isVerified) {
+                                  isValidCertification = true;
+                                  certificationFocus?.unfocus();
+                                  showCustomToast(
+                                    context,
+                                    msg: '인증번호가 정상적으로 확인되었습니다.',
+                                  );
+                                  setState(() {});
+                                } else {
+                                  showCustomToast(
+                                    context,
+                                    msg: '인증번호가 일치하지 않습니다.',
+                                  );
+                                }
+                              },
                     enabled: isValidCertification ? false : true,
                   ),
                 const SizedBox(height: 16.0),

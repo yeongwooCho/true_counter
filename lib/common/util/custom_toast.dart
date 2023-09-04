@@ -22,12 +22,13 @@ void showCustomToast(
       style: bodyBoldTextStyle.copyWith(
         color: foregroundColor,
       ),
+      textAlign: TextAlign.center,
     ),
   );
 
   fToast.showToast(
       child: toast,
-      toastDuration: const Duration(seconds: 1),
+      toastDuration: const Duration(seconds: 2),
       positionedToastBuilder: (context, child) {
         return Stack(
           alignment: Alignment.topCenter,

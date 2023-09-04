@@ -15,10 +15,7 @@ class FirebasePhoneAuthUtil {
     required BuildContext context,
     required String phone,
   }) async {
-    bool isSuccess = false;
-
     String refinePhone = phone.trim().replaceFirst('010', '+8210');
-    print(refinePhone);
 
     await _auth.verifyPhoneNumber(
       timeout: const Duration(seconds: 60),

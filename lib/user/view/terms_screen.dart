@@ -4,7 +4,7 @@ import 'package:true_counter/common/const/colors.dart';
 import 'package:true_counter/common/const/text_style.dart';
 import 'package:true_counter/common/layout/default_appbar.dart';
 import 'package:true_counter/common/layout/default_layout.dart';
-import 'package:true_counter/common/route/routes.dart';
+import 'package:true_counter/common/variable/routes.dart';
 
 class TermsScreen extends StatefulWidget {
   const TermsScreen({Key? key}) : super(key: key);

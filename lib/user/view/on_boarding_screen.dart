@@ -1,3 +1,4 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:true_counter/common/const/button_style.dart';
@@ -5,10 +6,18 @@ import 'package:true_counter/common/const/colors.dart';
 import 'package:true_counter/common/const/text_style.dart';
 import 'package:true_counter/common/layout/default_appbar.dart';
 import 'package:true_counter/common/layout/default_layout.dart';
-import 'package:true_counter/common/route/routes.dart';
+import 'package:true_counter/common/variable/routes.dart';
+import 'package:true_counter/user/repository/user_repository.dart';
 
-class OnBoardingScreen extends StatelessWidget {
+class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({Key? key}) : super(key: key);
+
+  @override
+  State<OnBoardingScreen> createState() => _OnBoardingScreenState();
+}
+
+class _OnBoardingScreenState extends State<OnBoardingScreen> {
+  final UserRepository _userRepository = UserRepository();
 
   @override
   Widget build(BuildContext context) {
@@ -82,8 +91,10 @@ class OnBoardingScreen extends StatelessWidget {
             Column(
               children: [
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     // TODO: 카카오 로그인 구현
+                    // _userRepository.kakaoLogin();
+
                     print('카카오 로그인');
                   },
                   style: kakaoLoginButtonStyle,
@@ -91,8 +102,8 @@ class OnBoardingScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SvgPicture.asset('asset/img/sns/kakao.svg'),
-                      SizedBox(width: 12),
-                      Text('카카오로 3초 만에 시작하기'),
+                      const SizedBox(width: 12),
+                      const Text('카카오로 3초 만에 시작하기'),
                     ],
                   ),
                 ),

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:true_counter/common/model/screen_arguments.dart';
-import 'package:true_counter/common/view/on_boarding_screen.dart';
+import 'package:true_counter/user/view/on_boarding_screen.dart';
 import 'package:true_counter/common/view/root_tab.dart';
 import 'package:true_counter/user/view/email_login_screen.dart';
 import 'package:true_counter/user/view/email_register_completion_screen.dart';

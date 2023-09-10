@@ -7,7 +7,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
-import 'package:true_counter/common/route/routes.dart';
+import 'package:true_counter/common/variable/routes.dart';
 import 'package:true_counter/common/view/splash_screen.dart';
 import 'package:true_counter/firebase_options.dart';
 

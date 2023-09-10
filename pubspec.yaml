@@ -42,9 +42,6 @@ dependencies:
   flutter_localizations: # intl 0.18.0 을 의존하고 있음
     sdk: flutter
 
-#  dio: ^5.3.2
-#  dio: 4.6.0
-
   kakao_flutter_sdk_user: ^1.5.0 # 카카오 로그인
   flutter_secure_storage: ^8.0.0
 

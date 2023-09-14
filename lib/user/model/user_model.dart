@@ -1,36 +1,53 @@
+import 'package:true_counter/common/variable/local_storage.dart';
+
 class UserModel {
   late String id;
   late String email;
   late String username;
   late String phone;
   late String gender;
-  late DateTime birth;
+  late String birth;
   late String region;
   late String loginType;
+  late String token;
+  bool isDummy = false;
 
-  UserModel({
-    this.id = '',
-    this.email = '',
-    this.username = '',
-    this.phone = '',
-    this.gender = '',
-    required this.birth,
-    this.region = '',
-    this.loginType = '',
-  });
+  static UserModel? current; // 현재 유저가 있는지 여부
 
+  UserModel._internal(); // singleton pattern 을 위한 내부 생성자
 
+  // 둘러 보기 용 dummy 유저 생성
+  static void dummyLogin() {
+    UserModel.current = UserModel.fromJson(
+      json: {},
+      isDummy: true,
+    );
+  }
 
-  UserModel.fromJson({
+  // singleton Pattern 데이터 && UserModel 생성을 담당하는 공장
+  factory UserModel.fromJson({
     required Map<String, dynamic> json,
-  })  : id = json['id'],
-        email = json['email'],
-        username = json['username'],
-        phone = json['phone'],
-        gender = json['gender'],
-        birth = DateTime.parse(json['date']),
-        region = json['region'],
-        loginType = json['loginType'];
+    required bool isDummy,
+  }) {
+    UserModel user = UserModel._internal();
+
+    user.id = json['id'] ?? '';
+    user.email = json['email'] ?? '';
+    user.username = json['username'] ?? '';
+    user.phone = json['phone'] ?? '';
+    user.gender = json['gender'] ?? '';
+    user.birth = json['date'] ?? '';
+    user.region = json['region'] ?? '';
+    user.loginType = json['loginType'] ?? '';
+    user.token = json['token'] ?? '';
+    user.isDummy = isDummy;
+
+    if (user.token.isNotEmpty) {
+      current = user;
+    }
+
+    return user;
+  }
 
   Map<String, dynamic> toJson() {
     return {
@@ -39,33 +56,10 @@ class UserModel {
       'username': username,
       'phone': phone,
       'gender': gender,
-      'birth':
-          '${birth.year}-${birth.month.toString().padLeft(2, '0')}-${birth.day.toString().padLeft(2, '0')}',
+      'birth': birth,
       'region': region,
       'loginType': loginType,
     };
-  }
-
-  UserModel copyWith({
-    String? id,
-    String? email,
-    String? username,
-    String? phone,
-    String? gender,
-    DateTime? birth,
-    String? region,
-    String? loginType,
-  }) {
-    return UserModel(
-      id: id ?? this.id,
-      email: email ?? this.email,
-      username: username ?? this.username,
-      phone: phone ?? this.phone,
-      gender: gender ?? this.gender,
-      birth: birth ?? this.birth,
-      region: region ?? this.region,
-      loginType: loginType ?? this.loginType,
-    );
   }
 
   @override
@@ -80,5 +74,19 @@ class UserModel {
         'region: $region'
         'loginType: $loginType'
         ')';
+  }
+
+  Future<void> logout() async {
+    UserModel.current = null;
+    await LocalStorage.clear(
+      key: LocalStorageKey.token,
+    );
+  }
+
+  Future<void> autoLogin() async {
+    await LocalStorage.write(
+      key: LocalStorageKey.token,
+      value: token,
+    );
   }
 }

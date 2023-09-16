@@ -3,6 +3,7 @@ import 'package:true_counter/common/const/colors.dart';
 import 'package:true_counter/common/const/text_style.dart';
 import 'package:true_counter/common/layout/default_layout.dart';
 import 'package:true_counter/common/variable/routes.dart';
+import 'package:true_counter/notification/repository/notification_repository.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -12,9 +13,13 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  NotificationRepository notificationRepository = NotificationRepository();
+
   @override
   void initState() {
     super.initState();
+
+    notificationRepository.getNotification();
     delay();
   }
 
@@ -53,6 +58,9 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<void> delay() async {
     Future.delayed(const Duration(seconds: 2), () {
       String startRoute = RouteNames.onBoarding;
+
+
+
       Navigator.of(context).popAndPushNamed(startRoute);
     });
   }

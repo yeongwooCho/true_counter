@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:true_counter/common/layout/default_appbar.dart';
 import 'package:true_counter/common/layout/default_layout.dart';
-import 'package:true_counter/common/variable/data_dummy.dart';
+import 'package:true_counter/common/variable/data.dart';
 import 'package:true_counter/notification/component/notification_card.dart';
 
 class NotificationScreen extends StatelessWidget {

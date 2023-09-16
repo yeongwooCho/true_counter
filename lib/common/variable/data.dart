@@ -1,3 +1,5 @@
+import 'package:true_counter/notification/model/notification_model.dart';
+
 const List<String> locationData = [
   "전체",
   "서울특별시",
@@ -18,3 +20,5 @@ const List<String> locationData = [
   "경상남도",
   "제주특별자치도",
 ];
+
+List<NotificationModel> notifications = [];

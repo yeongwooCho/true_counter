@@ -45,6 +45,8 @@ dependencies:
   kakao_flutter_sdk_user: ^1.5.0 # 카카오 로그인
   flutter_secure_storage: ^8.0.0
 
+  remedi_kopo: ^0.0.2  # 카카오 주소
+
   # Firebase Phone Auth
   firebase_auth: ^4.9.0
   firebase_core: ^2.15.1

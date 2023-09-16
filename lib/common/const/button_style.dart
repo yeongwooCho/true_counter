@@ -45,3 +45,14 @@ ButtonStyle deactivateButtonStyle = ElevatedButton.styleFrom(
   foregroundColor: DARK_GREY_COLOR,
   backgroundColor: LIGHT_GREY_COLOR,
 );
+
+ButtonStyle festivalParticipateButton = ElevatedButton.styleFrom(
+  foregroundColor: WHITE_TEXT_COLOR,
+  backgroundColor: PRIMARY_COLOR,
+  elevation: 0,
+  minimumSize: const Size(50, 50),
+  shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(16.0),
+  ),
+  textStyle: bodyBoldWhiteTextStyle,
+);

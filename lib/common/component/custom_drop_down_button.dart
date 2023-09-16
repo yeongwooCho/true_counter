@@ -6,12 +6,14 @@ class CustomDropDownButton extends StatefulWidget {
   final List<String> dropdownList;
   final String? defaultValue;
   final ValueChanged<String?> onChanged;
+  final double menuMaxHeight;
 
   const CustomDropDownButton({
     Key? key,
     required this.dropdownList,
     required this.defaultValue,
     required this.onChanged,
+    this.menuMaxHeight = 300.0
   }) : super(key: key);
 
   @override
@@ -31,20 +33,16 @@ class _CustomDropDownButtonState extends State<CustomDropDownButton> {
       ),
       child: DropdownButton(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 0.0),
-        menuMaxHeight: 300.0,
+        menuMaxHeight: widget.menuMaxHeight,
         isExpanded: true,
         underline: const SizedBox(height: 1.0),
         style: descriptionTextStyle,
-        icon: const Icon(Icons.keyboard_arrow_down_rounded),
         value: widget.defaultValue,
         items: widget.dropdownList.map((String item) {
           return DropdownMenuItem<String>(
-            alignment: Alignment.centerRight,
+            alignment: Alignment.center,
             value: item,
-            child: Padding(
-              padding: const EdgeInsets.only(right: 8.0),
-              child: Text(item),
-            ),
+            child: Text(item),
           );
         }).toList(),
         onChanged: widget.onChanged,

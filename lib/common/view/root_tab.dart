@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:true_counter/common/const/colors.dart';
 import 'package:true_counter/common/layout/default_layout.dart';
+import 'package:true_counter/festival/view/home_screen.dart';
 
 class RootTab extends StatefulWidget {
   const RootTab({Key? key}) : super(key: key);
@@ -11,20 +12,6 @@ class RootTab extends StatefulWidget {
 
 class _RootTabState extends State<RootTab> with TickerProviderStateMixin {
   TabController? controller;
-  static const List<BottomNavigationBarItem> items = [
-    BottomNavigationBarItem(
-      icon: Icon(Icons.cut),
-      label: '커스텀',
-    ),
-    BottomNavigationBarItem(
-      icon: Icon(Icons.search),
-      label: '탐색',
-    ),
-    BottomNavigationBarItem(
-      icon: Icon(Icons.person),
-      label: '마이페이지',
-    ),
-  ];
 
   @override
   void initState() {
@@ -53,7 +40,7 @@ class _RootTabState extends State<RootTab> with TickerProviderStateMixin {
           controller: controller,
           children: [
             Center(child: Text('111')),
-            Center(child: Text('222')),
+            HomeScreen(),
             Center(child: Text('333')),
             // CustomScreen(),
             // SearchScreen(),
@@ -82,15 +69,24 @@ class _RootTabState extends State<RootTab> with TickerProviderStateMixin {
   List<BottomNavigationBarItem> getItems() {
     return const [
       BottomNavigationBarItem(
-        icon: Icon(Icons.cut),
-        label: '커스텀',
+        icon: Icon(
+          Icons.list,
+          size: 32.0,
+        ),
+        label: '행사리스트',
       ),
       BottomNavigationBarItem(
-        icon: Icon(Icons.search),
-        label: '탐색',
+        icon: Icon(
+          Icons.home_outlined,
+          size: 32.0,
+        ),
+        label: '홈',
       ),
       BottomNavigationBarItem(
-        icon: Icon(Icons.person),
+        icon: Icon(
+          Icons.person_outline_rounded,
+          size: 32.0,
+        ),
         label: '마이페이지',
       ),
     ];

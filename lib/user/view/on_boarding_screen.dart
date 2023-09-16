@@ -93,6 +93,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   onPressed: () async {
                     // TODO: 카카오 로그인 구현
                     // _userRepository.kakaoLogin();
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                      RouteNames.root,
+                          (route) => false,
+                    );
 
                     print('카카오 로그인');
                   },

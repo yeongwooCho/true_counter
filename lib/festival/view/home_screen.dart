@@ -4,6 +4,7 @@ import 'package:true_counter/common/const/text_style.dart';
 import 'package:true_counter/common/layout/default_appbar.dart';
 import 'package:true_counter/common/layout/default_layout.dart';
 import 'package:true_counter/common/variable/data.dart';
+import 'package:true_counter/common/variable/routes.dart';
 import 'package:true_counter/festival/component/custom_festival_card.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -23,7 +24,12 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(
+                context,
+                RouteNames.notification,
+              );
+            },
             icon: const Icon(
               Icons.notifications_none_rounded,
               size: 32.0,

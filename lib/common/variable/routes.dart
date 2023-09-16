@@ -1,12 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:true_counter/common/model/screen_arguments.dart';
-import 'package:true_counter/user/view/on_boarding_screen.dart';
 import 'package:true_counter/common/view/root_tab.dart';
+import 'package:true_counter/notification/model/notification_model.dart';
+import 'package:true_counter/notification/view/notification_detail_screen.dart';
+import 'package:true_counter/notification/view/notification_screen.dart';
 import 'package:true_counter/user/view/email_login_screen.dart';
-import 'package:true_counter/user/view/email_register_completion_screen.dart';
 import 'package:true_counter/user/view/email_password_reset_screen.dart';
+import 'package:true_counter/user/view/email_register_completion_screen.dart';
 import 'package:true_counter/user/view/email_register_screen.dart';
+import 'package:true_counter/user/view/on_boarding_screen.dart';
 import 'package:true_counter/user/view/terms_providing_info_screen.dart';
 import 'package:true_counter/user/view/terms_screen.dart';
 
@@ -26,6 +29,10 @@ class RouteNames {
 
   // root tab
   static const String root = '/root';
+
+  // notification
+  static const String notification = '/notification';
+  static const String notificationDetail = '/notification/detail';
 
 // // custom
 // static const String selectFabric = '/select/fabric';
@@ -63,6 +70,16 @@ Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
 
   // root tab
   RouteNames.root: (_) => RootTab(),
+
+  RouteNames.notification: (_) => NotificationScreen(),
+  RouteNames.notificationDetail: (context) {
+    final args = ModalRoute.of(context)?.settings.arguments
+        as ScreenArguments<NotificationModel>;
+
+    return NotificationDetailScreen(
+      notificationModel: args.data,
+    );
+  },
   //
   // // custom
   // RouteNames.customGuide: (_) => CustomGuideScreen(),

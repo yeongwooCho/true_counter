@@ -1,6 +1,7 @@
-class ScreenArguments {
-  final String title;
-  final String message;
+class ScreenArguments<T> {
+  final T data;
 
-  ScreenArguments(this.title, this.message);
+  ScreenArguments({
+    required this.data,
+  });
 }

@@ -13,7 +13,7 @@ class CustomDropDownButton extends StatefulWidget {
     required this.dropdownList,
     required this.defaultValue,
     required this.onChanged,
-    this.menuMaxHeight = 300.0
+    this.menuMaxHeight = 300.0,
   }) : super(key: key);
 
   @override
@@ -32,7 +32,7 @@ class _CustomDropDownButtonState extends State<CustomDropDownButton> {
         borderRadius: BorderRadius.circular(8.0),
       ),
       child: DropdownButton(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 0.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
         menuMaxHeight: widget.menuMaxHeight,
         isExpanded: true,
         underline: const SizedBox(height: 1.0),

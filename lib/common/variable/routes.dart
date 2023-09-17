@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:true_counter/common/model/screen_arguments.dart';
 import 'package:true_counter/common/view/root_tab.dart';
 import 'package:true_counter/my_page/view/settings_screen.dart';
+import 'package:true_counter/my_page/view/withdraw_screen.dart';
 import 'package:true_counter/notification/model/notification_model.dart';
 import 'package:true_counter/notification/view/notification_detail_screen.dart';
 import 'package:true_counter/notification/view/notification_screen.dart';
@@ -39,6 +40,7 @@ class RouteNames {
   // mypage
   static const String mypage = '/mypage';
   static const String settings = '/settings';
+  static const String withdraw = '/withdraw';
 
 // // custom
 // static const String selectFabric = '/select/fabric';
@@ -95,6 +97,9 @@ Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
       userModel: args.data,
     );
   },
+  RouteNames.withdraw: (_) => WithdrawScreen(),
+
+
   //
   // // custom
   // RouteNames.customGuide: (_) => CustomGuideScreen(),

@@ -27,7 +27,7 @@ class UserModel {
   // singleton Pattern 데이터 && UserModel 생성을 담당하는 공장
   factory UserModel.fromJson({
     required Map<String, dynamic> json,
-    required bool isDummy,
+    bool isDummy = false,
   }) {
     UserModel user = UserModel._internal();
 
@@ -59,6 +59,7 @@ class UserModel {
       'birth': birth,
       'region': region,
       'loginType': loginType,
+      'token': token,
     };
   }
 
@@ -73,6 +74,8 @@ class UserModel {
         'birth: $birth'
         'region: $region'
         'loginType: $loginType'
+        'token: $token'
+        'isDummy: $isDummy'
         ')';
   }
 

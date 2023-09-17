@@ -5,7 +5,9 @@ import 'package:true_counter/common/const/colors.dart';
 import 'package:true_counter/common/const/text_style.dart';
 import 'package:true_counter/common/layout/default_appbar.dart';
 import 'package:true_counter/common/layout/default_layout.dart';
+import 'package:true_counter/common/variable/data_dummy.dart';
 import 'package:true_counter/common/variable/routes.dart';
+import 'package:true_counter/user/model/user_model.dart';
 import 'package:true_counter/user/repository/user_repository.dart';
 
 class OnBoardingScreen extends StatefulWidget {
@@ -26,7 +28,14 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         elevation: 0.0,
         action: [
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              UserModel.dummyLogin();
+
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                RouteNames.root,
+                (route) => false,
+              );
+            },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -93,9 +102,11 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   onPressed: () async {
                     // TODO: 카카오 로그인 구현
                     // _userRepository.kakaoLogin();
+                    UserModel.fromJson(json: dummyUserModel);
+                    
                     Navigator.of(context).pushNamedAndRemoveUntil(
                       RouteNames.root,
-                          (route) => false,
+                      (route) => false,
                     );
 
                     print('카카오 로그인');

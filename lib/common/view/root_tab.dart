@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:true_counter/common/const/colors.dart';
 import 'package:true_counter/common/layout/default_layout.dart';
 import 'package:true_counter/festival/view/home_screen.dart';
+import 'package:true_counter/my_page/view/my_page_screen.dart';
 
 class RootTab extends StatefulWidget {
   const RootTab({Key? key}) : super(key: key);
@@ -32,7 +33,6 @@ class _RootTabState extends State<RootTab> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return DefaultLayout(
       bottomNavigationBar: SizedBox(
-        height: 80.0,
         child: renderBottomNavigationBar(),
       ),
       child: Center(
@@ -41,10 +41,7 @@ class _RootTabState extends State<RootTab> with TickerProviderStateMixin {
           children: [
             Center(child: Text('111')),
             HomeScreen(),
-            Center(child: Text('333')),
-            // CustomScreen(),
-            // SearchScreen(),
-            // MypageScreen(),
+            MyPageScreen(),
           ],
         ),
       ),
@@ -53,10 +50,11 @@ class _RootTabState extends State<RootTab> with TickerProviderStateMixin {
 
   BottomNavigationBar renderBottomNavigationBar() {
     return BottomNavigationBar(
+      elevation: 1.0,
       backgroundColor: BACKGROUND_COLOR,
       selectedItemColor: DEFAULT_TEXT_COLOR,
       selectedFontSize: 12.0,
-      unselectedItemColor: DARK_GREY_COLOR,
+      unselectedItemColor: MIDDLE_GREY_COLOR,
       unselectedFontSize: 12.0,
       onTap: (int index) {
         controller?.animateTo(index);

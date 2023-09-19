@@ -583,7 +583,7 @@ class _BirthYearState extends State<_BirthYear> {
                     Text(
                       widget.birthday == null
                           ? '선택'
-                          : convertDateTimeToDate(datetime: widget.birthday!),
+                          : convertDateTimeToDateString(datetime: widget.birthday!),
                       style: descriptionTextStyle,
                     ),
                     const SizedBox(width: 8.0),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:true_counter/common/const/colors.dart';
 import 'package:true_counter/common/layout/default_layout.dart';
+import 'package:true_counter/festival_list/view/festival_list_screen.dart';
 import 'package:true_counter/festival/view/home_screen.dart';
 import 'package:true_counter/my_page/view/my_page_screen.dart';
 
@@ -39,7 +40,7 @@ class _RootTabState extends State<RootTab> with TickerProviderStateMixin {
         child: TabBarView(
           controller: controller,
           children: [
-            Center(child: Text('111')),
+            FestivalListScreen(),
             HomeScreen(),
             MyPageScreen(),
           ],

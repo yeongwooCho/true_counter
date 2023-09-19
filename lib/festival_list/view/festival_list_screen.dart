@@ -5,6 +5,7 @@ import 'package:true_counter/common/layout/default_layout.dart';
 import 'package:true_counter/common/util/datetime.dart';
 import 'package:true_counter/common/variable/data_dummy.dart';
 import 'package:true_counter/common/view/custom_list_screen.dart';
+import 'package:true_counter/festival/model/festival_model.dart';
 import 'package:true_counter/festival_list/component/custom_container_button.dart';
 
 class FestivalListScreen extends StatefulWidget {
@@ -16,6 +17,27 @@ class FestivalListScreen extends StatefulWidget {
 
 class _FestivalListScreenState extends State<FestivalListScreen> {
   int selectedItemIndex = 0;
+  DateTime now = DateTime(
+    DateTime.now().year,
+    DateTime.now().month,
+    DateTime.now().day,
+  );
+  List<FestivalModel> beingFestivals = [];
+  List<FestivalModel> toBeFestivals = [];
+  List<FestivalModel> beenFestivals = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+    // TODO: 이후 서버에서 가져온 값으로 로딩하도록 구현해야함.
+    if (beingFestivals.isEmpty) {
+      beingFestivals = festivalListData.where((festivalModel) {
+        return festivalModel.startAt.isBefore(now) &&
+            festivalModel.endAt.isAfter(now);
+      }).toList();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +66,13 @@ class _FestivalListScreenState extends State<FestivalListScreen> {
                     title: '진행중',
                     isSelected: selectedItemIndex == 0,
                     onTap: () {
+                      beingFestivals = festivalListData.where((festivalModel) {
+                        return (now.isAfter(festivalModel.startAt) ||
+                                now.isAtSameMomentAs(festivalModel.startAt)) &&
+                            (now.isBefore(festivalModel.endAt) ||
+                                now.isAtSameMomentAs(festivalModel.endAt));
+                      }).toList();
+
                       selectedItemIndex = 0;
                       setState(() {});
                     },
@@ -55,6 +84,11 @@ class _FestivalListScreenState extends State<FestivalListScreen> {
                     title: '예정',
                     isSelected: selectedItemIndex == 1,
                     onTap: () {
+                      toBeFestivals = festivalListData.where((festivalModel) {
+                        return festivalModel.startAt.isAfter(now) &&
+                            festivalModel.endAt.isAfter(now);
+                      }).toList();
+
                       selectedItemIndex = 1;
                       setState(() {});
                     },
@@ -66,6 +100,11 @@ class _FestivalListScreenState extends State<FestivalListScreen> {
                     title: '종료',
                     isSelected: selectedItemIndex == 2,
                     onTap: () {
+                      beenFestivals = festivalListData.where((festivalModel) {
+                        return festivalModel.startAt.isBefore(now) &&
+                            festivalModel.endAt.isBefore(now);
+                      }).toList();
+
                       selectedItemIndex = 2;
                       setState(() {});
                     },
@@ -75,12 +114,16 @@ class _FestivalListScreenState extends State<FestivalListScreen> {
             ),
             Expanded(
               child: CustomListScreen(
-                itemCount: festivalListData.length,
+                itemCount:
+                    selectedFestivals(selectedItemIndex: selectedItemIndex)
+                        .length,
                 itemBuilder: (BuildContext context, int index) {
                   return CustomListCard(
-                    title: festivalListData[index].title,
+                    title: selectedFestivals(
+                            selectedItemIndex: selectedItemIndex)[index]
+                        .title,
                     description:
-                        "행사 기간: ${convertDateTimeToDateString(datetime: festivalListData[index].startAt)} ~ ${convertDateTimeToDateString(datetime: festivalListData[index].endAt)}",
+                        "행사 기간: ${convertDateTimeToDateString(datetime: selectedFestivals(selectedItemIndex: selectedItemIndex)[index].startAt)} ~ ${convertDateTimeToDateString(datetime: selectedFestivals(selectedItemIndex: selectedItemIndex)[index].endAt)}",
                     onTap: () {
                       // Navigator.of(context).pushNamed(
                       //   RouteNames.notificationDetail,
@@ -97,5 +140,20 @@ class _FestivalListScreenState extends State<FestivalListScreen> {
         ),
       ),
     );
+  }
+
+  List<FestivalModel> selectedFestivals({
+    required int selectedItemIndex,
+  }) {
+    switch (selectedItemIndex) {
+      case 0:
+        return beingFestivals;
+      case 1:
+        return toBeFestivals;
+      case 2:
+        return beenFestivals;
+      default:
+        return [];
+    }
   }
 }

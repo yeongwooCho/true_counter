@@ -6,12 +6,26 @@ class CustomContainerButton extends StatelessWidget {
   final String title;
   final bool isSelected;
   final void Function()? onTap;
+  final Color activeBackgroundColor;
+  final Color activeForegroundColor;
+  final Color disableBackgroundColor;
+  final Color disableForegroundColor;
+  final Color? borderColor;
+  final double textPadding;
+  final double? width;
 
   const CustomContainerButton({
     Key? key,
     required this.title,
     required this.isSelected,
     required this.onTap,
+    this.activeBackgroundColor = PRIMARY_COLOR,
+    this.activeForegroundColor = WHITE_TEXT_COLOR,
+    this.disableBackgroundColor = LIGHT_GREY_COLOR,
+    this.disableForegroundColor = DARK_GREY_COLOR,
+    this.borderColor,
+    this.textPadding = 16.0,
+    this.width,
   }) : super(key: key);
 
   @override
@@ -19,16 +33,25 @@ class CustomContainerButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
+        width: width,
         decoration: BoxDecoration(
-          color: isSelected ? PRIMARY_COLOR : LIGHT_GREY_COLOR,
+          color: isSelected ? activeBackgroundColor : disableBackgroundColor,
+          border: borderColor == null
+              ? null
+              : Border.all(
+                  width: 1.0,
+                  color: borderColor!,
+                ),
           borderRadius: BorderRadius.circular(8.0),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: EdgeInsets.all(textPadding),
           child: Text(
             title,
             style: bodyBoldTextStyle.copyWith(
-              color: isSelected ? WHITE_TEXT_COLOR : DARK_GREY_COLOR,
+              fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+              color:
+                  isSelected ? activeForegroundColor : disableForegroundColor,
             ),
             textAlign: TextAlign.center,
           ),

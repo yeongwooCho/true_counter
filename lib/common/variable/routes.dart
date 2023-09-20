@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:true_counter/common/model/screen_arguments.dart';
 import 'package:true_counter/common/view/root_tab.dart';
+import 'package:true_counter/festival_list/view/festival_register_screen.dart';
 import 'package:true_counter/my_page/view/settings_screen.dart';
 import 'package:true_counter/my_page/view/withdraw_screen.dart';
 import 'package:true_counter/notification/model/notification_model.dart';
@@ -41,6 +42,9 @@ class RouteNames {
   static const String mypage = '/mypage';
   static const String settings = '/settings';
   static const String withdraw = '/withdraw';
+
+  // festival_list
+  static const String festivalRegister = '/festival/register';
 
 // // custom
 // static const String selectFabric = '/select/fabric';
@@ -98,6 +102,11 @@ Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
     );
   },
   RouteNames.withdraw: (_) => WithdrawScreen(),
+
+  // festival list
+  RouteNames.festivalRegister: (_) => FestivalRegisterScreen(),
+
+
 
 
   //

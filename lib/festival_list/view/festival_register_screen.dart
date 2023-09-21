@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:remedi_kopo/remedi_kopo.dart';
+import 'package:kpostal/kpostal.dart';
 import 'package:true_counter/common/component/custom_text_form_field.dart';
 import 'package:true_counter/common/const/button_style.dart';
 import 'package:true_counter/common/const/colors.dart';
@@ -72,15 +71,34 @@ class _FestivalRegisterScreenState extends State<FestivalRegisterScreen> {
                 style: bodyBoldTextStyle,
               ),
               const SizedBox(height: 8.0),
-              GestureDetector(
-                onTap: () async {
-                  onTapDaumAddress(context: context);
-                },
-                child: Container(
-                  height: 50.0,
-                  color: Colors.green,
-                ),
-              ),
+              (zonecode != null ||
+                      address != null ||
+                      addressType != null ||
+                      userSelectedType != null ||
+                      roadAddress != null ||
+                      jibunAddress != null)
+                  ? Container(
+                      color: Colors.red,
+                      child: Column(
+                        children: [
+                          Text(zonecode!),
+                          Text(address!),
+                          Text(addressType!),
+                          Text(userSelectedType!),
+                          Text(roadAddress!),
+                          Text(jibunAddress!),
+                        ],
+                      ),
+                    )
+                  : CustomContainerButton(
+                      title: '주소 선택',
+                      isSelected: true,
+                      onTap: onTapKakaoAddress,
+                      borderColor: DARK_GREY_COLOR,
+                      disableBackgroundColor: WHITE_TEXT_COLOR,
+                      disableForegroundColor: DARK_GREY_COLOR,
+                      textPadding: 12.0,
+                    ),
               const SizedBox(height: 24.0),
               const Text(
                 '참여 가능한 반경',
@@ -145,27 +163,43 @@ class _FestivalRegisterScreenState extends State<FestivalRegisterScreen> {
     );
   }
 
-  void onTapDaumAddress({
-    required BuildContext context,
-  }) async {
-    KopoModel model = await Navigator.push(
-      context,
-      CupertinoPageRoute(
-        builder: (context) => RemediKopo(),
-      ),
-    );
-    zonecode = model.zonecode;
-    address = model.address;
-    addressType = model.addressType;
-    userSelectedType = model.userSelectedType;
-    roadAddress = model.roadAddress;
-    jibunAddress = model.jibunAddress;
-  }
+  // Future<void> onTapDaumAddress({
+  //   required BuildContext context,
+  // }) async {
+  //   KopoModel model = await Navigator.push(
+  //     context,
+  //     CupertinoPageRoute(
+  //       builder: (context) => RemediKopo(),
+  //     ),
+  //   );
+  //   zonecode = model.zonecode;
+  //   address = model.address;
+  //   addressType = model.addressType;
+  //   userSelectedType = model.userSelectedType;
+  //   roadAddress = model.roadAddress;
+  //   jibunAddress = model.jibunAddress;
+  // }
 
   void onTapRadius({
     required double radius,
   }) {
     this.radius = radius;
+  }
+
+  Future<void> onTapKakaoAddress() async {
+    // await onTapDaumAddress(context: context);
+
+    Kpostal result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => KpostalView(
+          appBar: DefaultAppBar(title: '주소 검색'),
+        ),
+      ),
+    );
+    print(result.address);
+
+    setState(() {});
   }
 }
 

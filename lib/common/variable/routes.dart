@@ -1,7 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 import 'package:true_counter/common/model/screen_arguments.dart';
 import 'package:true_counter/common/view/root_tab.dart';
+import 'package:true_counter/festival/model/festival_model.dart';
+import 'package:true_counter/festival/view/festival_detail_screen.dart';
+import 'package:true_counter/festival/view/kakao_map_screen.dart';
 import 'package:true_counter/festival_list/view/festival_register_screen.dart';
 import 'package:true_counter/my_page/view/settings_screen.dart';
 import 'package:true_counter/my_page/view/withdraw_screen.dart';
@@ -42,6 +46,10 @@ class RouteNames {
   static const String mypage = '/mypage';
   static const String settings = '/settings';
   static const String withdraw = '/withdraw';
+
+  // festival
+  static const String festivalDetail = '/festival/detail';
+  static const String kakaoMap = '/kakao/map';
 
   // festival_list
   static const String festivalRegister = '/festival/register';
@@ -103,11 +111,19 @@ Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
   },
   RouteNames.withdraw: (_) => WithdrawScreen(),
 
+  // festical
+  RouteNames.festivalDetail: (context) {
+    final args = ModalRoute.of(context)?.settings.arguments
+        as ScreenArguments<FestivalModel>;
+
+    return FestivalDetailScreen(
+      festivalModel: args.data,
+    );
+  },
+  RouteNames.kakaoMap: (_) => KakaoMapScreen(),
+
   // festival list
   RouteNames.festivalRegister: (_) => FestivalRegisterScreen(),
-
-
-
 
   //
   // // custom

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:true_counter/common/component/custom_list_card.dart';
 import 'package:true_counter/common/layout/default_appbar.dart';
 import 'package:true_counter/common/layout/default_layout.dart';
+import 'package:true_counter/common/model/screen_arguments.dart';
 import 'package:true_counter/common/util/datetime.dart';
 import 'package:true_counter/common/variable/data_dummy.dart';
 import 'package:true_counter/common/variable/routes.dart';
@@ -130,12 +131,13 @@ class _FestivalListScreenState extends State<FestivalListScreen> {
                     description:
                         "행사 기간: ${convertDateTimeToDateString(datetime: selectedFestivals(selectedItemIndex: selectedItemIndex)[index].startAt)} ~ ${convertDateTimeToDateString(datetime: selectedFestivals(selectedItemIndex: selectedItemIndex)[index].endAt)}",
                     onTap: () {
-                      // Navigator.of(context).pushNamed(
-                      //   RouteNames.notificationDetail,
-                      //   arguments: ScreenArguments<FestivalModel>(
-                      //     data: festivalListData[index],
-                      //   ),
-                      // );
+                      Navigator.of(context).pushNamed(
+                        RouteNames.festivalDetail,
+                        arguments: ScreenArguments<FestivalModel>(
+                          data: selectedFestivals(
+                              selectedItemIndex: selectedItemIndex)[index],
+                        ),
+                      );
                     },
                   );
                 },

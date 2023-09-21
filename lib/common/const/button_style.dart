@@ -14,13 +14,28 @@ ButtonStyle defaultButtonStyle = ElevatedButton.styleFrom(
 );
 
 ButtonStyle secondButtonStyle = ElevatedButton.styleFrom(
+  foregroundColor: PRIMARY_COLOR,
+  backgroundColor: WHITE_TEXT_COLOR,
+  elevation: 0,
+  minimumSize: const Size(100, 50),
+  shape: RoundedRectangleBorder(
+    side: const BorderSide(
+      width: 2.0,
+      color: PRIMARY_COLOR,
+    ),
+    borderRadius: BorderRadius.circular(8.0),
+  ),
+  textStyle: bodyBoldWhiteTextStyle,
+);
+
+ButtonStyle thirdButtonStyle = ElevatedButton.styleFrom(
   foregroundColor: DEFAULT_TEXT_COLOR,
   backgroundColor: WHITE_TEXT_COLOR,
   elevation: 0,
   minimumSize: const Size(100, 50),
   shape: RoundedRectangleBorder(
     side: const BorderSide(
-      width: 1.0,
+      width: 2.0,
       color: DEFAULT_TEXT_COLOR,
     ),
     borderRadius: BorderRadius.circular(8.0),

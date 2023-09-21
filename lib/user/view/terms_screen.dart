@@ -37,7 +37,7 @@ class _TermsScreenState extends State<TermsScreen> {
               children: [
                 const Text(
                   '트루카운터 서비스\n이용약관에 동의해주세요.',
-                  style: titleTextStyle,
+                  style: headTitleTextStyle,
                 ),
                 const SizedBox(height: 20.0),
                 GestureDetector(
@@ -78,7 +78,7 @@ class _TermsScreenState extends State<TermsScreen> {
                             '전체 약관에 동의합니다.',
                             style: isCheckTotalContainer
                                 ? bodyBoldWhiteTextStyle
-                                : bodyBoldTextStyle,
+                                : bodyTitleBoldTextStyle,
                           )
                         ],
                       ),

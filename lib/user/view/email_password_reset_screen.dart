@@ -44,7 +44,7 @@ class _EmailPasswordResetScreenState extends State<EmailPasswordResetScreen> {
                 const SizedBox(height: 24.0),
                 const Text(
                   '이메일 찾기를 위해\n휴대폰 인증을 해주세요.',
-                  style: titleTextStyle,
+                  style: headTitleTextStyle,
                 ),
                 const SizedBox(height: 48.0),
                 CustomTextFormField(

@@ -68,7 +68,7 @@ class _FestivalRegisterScreenState extends State<FestivalRegisterScreen> {
               const SizedBox(height: 24.0),
               const Text(
                 '행사장 위치',
-                style: bodyBoldTextStyle,
+                style: bodyTitleBoldTextStyle,
               ),
               const SizedBox(height: 8.0),
               (zonecode != null ||
@@ -102,7 +102,7 @@ class _FestivalRegisterScreenState extends State<FestivalRegisterScreen> {
               const SizedBox(height: 24.0),
               const Text(
                 '참여 가능한 반경',
-                style: bodyBoldTextStyle,
+                style: bodyTitleBoldTextStyle,
               ),
               const SizedBox(height: 8.0),
               _RadiusScope(

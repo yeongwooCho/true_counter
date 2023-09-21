@@ -52,7 +52,7 @@ class CustomTextFormField extends StatelessWidget {
         if (title != null)
           Text(
             title!,
-            style: bodyBoldTextStyle,
+            style: bodyTitleBoldTextStyle,
           ),
         if (title != null) const SizedBox(height: 8.0),
         if (buttonText != null)

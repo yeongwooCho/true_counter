@@ -36,7 +36,7 @@ class _MyPageScreenState extends State<MyPageScreen> {
                           UserModel.current?.isDummy == true
                       ? '로그인 후 이용해주세요.'
                       : UserModel.current!.username,
-                  style: titleTextStyle,
+                  style: headTitleTextStyle,
                 ),
                 IconButton(
                   onPressed: UserModel.current != null ? () {

@@ -27,7 +27,7 @@ class SettingsScreen extends StatelessWidget {
             children: [
               const Text(
                 '계정 정보',
-                style: titleTextStyle,
+                style: headTitleTextStyle,
               ),
               const SizedBox(height: 24.0),
               renderDescriptionRow(
@@ -61,7 +61,7 @@ class SettingsScreen extends StatelessWidget {
               ),
               const Text(
                 '계정 관리',
-                style: titleTextStyle,
+                style: headTitleTextStyle,
               ),
               const SizedBox(height: 16.0),
               TextButton(

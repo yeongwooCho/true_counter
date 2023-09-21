@@ -206,13 +206,13 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
         const SizedBox(height: 36.0),
         Text(
           '실시간 참여자 수',
-          style: titleTextStyle.copyWith(
+          style: headTitleTextStyle.copyWith(
             color: SECONDARY_COLOR,
           ),
         ),
         Text(
           '집계 시스템',
-          style: titleTextStyle.copyWith(
+          style: headTitleTextStyle.copyWith(
             color: SECONDARY_COLOR,
           ),
         ),

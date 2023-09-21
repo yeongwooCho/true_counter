@@ -7,8 +7,14 @@ const appNameTextStyle = TextStyle(
   color: DEFAULT_TEXT_COLOR,
 );
 
-const titleTextStyle = TextStyle(
+const headTitleTextStyle = TextStyle(
   fontSize: 24.0,
+  fontWeight: FontWeight.bold,
+  color: DEFAULT_TEXT_COLOR,
+);
+
+const bodyTitleBoldTextStyle = TextStyle(
+  fontSize: 20.0,
   fontWeight: FontWeight.bold,
   color: DEFAULT_TEXT_COLOR,
 );

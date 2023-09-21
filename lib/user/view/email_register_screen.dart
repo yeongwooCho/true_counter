@@ -98,7 +98,7 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                     const SizedBox(height: 24.0),
                     const Text(
                       '트루카운터에서 사용할\n계정 정보를 입력해주세요.',
-                      style: titleTextStyle,
+                      style: headTitleTextStyle,
                     ),
                     const SizedBox(height: 32.0),
                     Form(

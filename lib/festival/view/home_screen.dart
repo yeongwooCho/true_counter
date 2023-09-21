@@ -56,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   const Text(
                     '오늘 행사',
-                    style: titleTextStyle,
+                    style: headTitleTextStyle,
                   ),
                   SizedBox(
                     width: 180.0,

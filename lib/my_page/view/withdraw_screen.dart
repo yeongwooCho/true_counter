@@ -34,7 +34,7 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
                 const SizedBox(height: 24.0),
                 const Text(
                   '회원 탈퇴 시\n아래의 주의사항을 꼭 읽어주세요.',
-                  style: titleTextStyle,
+                  style: headTitleTextStyle,
                 ),
                 const SizedBox(height: 24.0),
                 const Padding(

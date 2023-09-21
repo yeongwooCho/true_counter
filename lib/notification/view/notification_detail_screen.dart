@@ -26,7 +26,7 @@ class NotificationDetailScreen extends StatelessWidget {
           children: [
             Text(
               notificationModel.title,
-              style: titleTextStyle,
+              style: headTitleTextStyle,
             ),
             const SizedBox(height: 16.0),
             Text(

@@ -35,7 +35,7 @@ class CustomFestivalCard extends StatelessWidget {
                 Expanded(
                   child: Text(
                     title,
-                    style: bodyBoldTextStyle,
+                    style: bodyTitleBoldTextStyle,
                   ),
                 ),
                 const SizedBox(width: 16.0),

@@ -6,6 +6,8 @@ import 'package:true_counter/common/util/money_format.dart';
 import 'package:true_counter/festival/model/festival_model.dart';
 
 class CustomFestivalCard extends StatelessWidget {
+  // Widget
+  // width: 343, height: 262
   final FestivalModel festivalModel;
 
   const CustomFestivalCard({
@@ -34,6 +36,8 @@ class CustomFestivalCard extends StatelessWidget {
                   child: Text(
                     "[${festivalModel.region}] ${festivalModel.title}",
                     style: bodyTitleBoldTextStyle,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
                 const SizedBox(width: 16.0),

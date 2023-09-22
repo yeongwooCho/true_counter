@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:true_counter/common/component/custom_drop_down_button.dart';
+import 'package:true_counter/common/const/colors.dart';
 import 'package:true_counter/common/const/data.dart';
 import 'package:true_counter/common/const/text_style.dart';
 import 'package:true_counter/common/layout/default_appbar.dart';
@@ -8,6 +9,7 @@ import 'package:true_counter/common/variable/data.dart';
 import 'package:true_counter/common/variable/data_dummy.dart';
 import 'package:true_counter/common/variable/routes.dart';
 import 'package:true_counter/festival/component/custom_festival_card.dart';
+import 'package:true_counter/festival/model/festival_model.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -46,52 +48,120 @@ class _HomeScreenState extends State<HomeScreen> {
           )
         ],
       ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 16.0),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  '오늘 행사',
+      child: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.only(left: 4.0),
+                    child: Text(
+                      '오늘 행사',
+                      style: headTitleTextStyle,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 180.0,
+                    child: CustomDropDownButton(
+                      dropdownList: locationData,
+                      defaultValue: location,
+                      onChanged: (String? value) {
+                        if (value != null) {
+                          location = value;
+                          setState(() {});
+                        }
+                      },
+                      menuMaxHeight: 465.0,
+                    ),
+                  )
+                ],
+              ),
+              const SizedBox(height: 16.0),
+              CustomListView(
+                festivals: festivalListData,
+                emptyMessage: '오늘의 행사는\n존재하지 않습니다',
+              ),
+              const Divider(
+                height: 120.0,
+                color: DARK_GREY_COLOR,
+              ),
+              const Padding(
+                padding: EdgeInsets.only(left: 8.0),
+                child: Text(
+                  '종료된 행사 (최근 10개)',
                   style: headTitleTextStyle,
                 ),
-                SizedBox(
-                  width: 180.0,
-                  child: CustomDropDownButton(
-                    dropdownList: locationData,
-                    defaultValue: location,
-                    onChanged: (String? value) {
-                      if (value != null) {
-                        location = value;
-                        setState(() {});
-                      }
-                    },
-                    menuMaxHeight: 465.0,
-                  ),
-                )
-              ],
-            ),
-            const SizedBox(height: 16.0),
-
-            Expanded(
-              child: ListView.separated(
-                // physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (BuildContext context, int index) {
-                  return CustomFestivalCard(
-                    festivalModel: festivalListData[index],
-                  );
-                },
-                separatorBuilder: (BuildContext context, int index) {
-                  return const SizedBox(height: 16.0);
-                },
-                itemCount: festivalListData.length,
               ),
-            ),
-          ],
+              const SizedBox(height: 24.0),
+              CustomListView(
+                festivals: festivalListData,
+                emptyMessage: '최근 종료된 행사가\n존재하지 않습니다',
+              ),
+            ],
+          ),
         ),
       ),
     );
+  }
+}
+
+class CustomListView extends StatefulWidget {
+  final List<FestivalModel> festivals;
+  final String emptyMessage;
+
+  const CustomListView({
+    Key? key,
+    required this.festivals,
+    required this.emptyMessage,
+  }) : super(key: key);
+
+  @override
+  State<CustomListView> createState() => _CustomListViewState();
+}
+
+class _CustomListViewState extends State<CustomListView> {
+  double itemsHeight = 0.0;
+  double separatorsHeight = 0.0;
+
+  @override
+  Widget build(BuildContext context) {
+    if (widget.festivals.isNotEmpty) {
+      itemsHeight = 262.0 * (widget.festivals.length);
+      separatorsHeight = 16.0 * (widget.festivals.length - 1);
+    }
+
+    return widget.festivals.isEmpty
+        ? SizedBox(
+            height: 100,
+            child: Center(
+              child: Text(
+                widget.emptyMessage,
+                style: bodyTitleBoldTextStyle.copyWith(
+                  color: DARK_GREY_COLOR,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          )
+        : SizedBox(
+            height: (itemsHeight + separatorsHeight),
+            child: ListView.separated(
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: widget.festivals.length,
+              separatorBuilder: (BuildContext context, int index) {
+                return const SizedBox(height: 16.0);
+              },
+              itemBuilder: (BuildContext context, int index) {
+                return CustomFestivalCard(
+                  festivalModel: widget.festivals[index],
+                );
+              },
+            ),
+          );
   }
 }

@@ -142,7 +142,7 @@ List<FestivalModel> myFestivalListData = [
 List<FestivalModel> festivalListData = [
   FestivalModel(
     id: 'id',
-    title: 'ㅇㅇㅇ를 위한 행사alsjflkasjdlfkjaskljdflasjdfkljasdljlfkjasldkfjlkasjdlfkjasdlkfjlksadjlfjasldkjf',
+    title: 'ㅇㅇㅇ를 위한 행사alsjflkasjdlfkjaskljdflasjdfkljasdljlfkjasldkfjlkasjdlfkjasdlkfjlksadjlfjasldkjf3412341234',
     region: '제주',
     applicant: '부산시청',
     applicantPhone: '01012341234',

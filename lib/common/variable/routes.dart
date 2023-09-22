@@ -120,7 +120,14 @@ Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
       festivalModel: args.data,
     );
   },
-  RouteNames.kakaoMap: (_) => KakaoMapScreen(),
+  RouteNames.kakaoMap: (context) {
+    final args =
+        ModalRoute.of(context)?.settings.arguments as ScreenArguments<LatLng>;
+
+    return KakaoMapScreen(
+      latLng: args.data,
+    );
+  },
 
   // festival list
   RouteNames.festivalRegister: (_) => FestivalRegisterScreen(),

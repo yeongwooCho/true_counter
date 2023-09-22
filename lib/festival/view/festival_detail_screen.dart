@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 import 'package:true_counter/common/const/button_style.dart';
 import 'package:true_counter/common/const/colors.dart';
 import 'package:true_counter/common/const/text_style.dart';
 import 'package:true_counter/common/layout/default_appbar.dart';
 import 'package:true_counter/common/layout/default_layout.dart';
+import 'package:true_counter/common/model/screen_arguments.dart';
 import 'package:true_counter/common/util/datetime.dart';
 import 'package:true_counter/common/variable/routes.dart';
 import 'package:true_counter/festival/model/festival_model.dart';
@@ -79,6 +81,12 @@ class FestivalDetailScreen extends StatelessWidget {
           onPressed: () {
             Navigator.of(context).pushNamed(
               RouteNames.kakaoMap,
+              arguments: ScreenArguments<LatLng>(
+                data: LatLng(
+                  festivalModel.latitude,
+                  festivalModel.longitude,
+                ),
+              ),
             );
           },
           style: secondButtonStyle,

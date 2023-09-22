@@ -5,6 +5,7 @@ import 'package:true_counter/common/const/text_style.dart';
 import 'package:true_counter/common/layout/default_appbar.dart';
 import 'package:true_counter/common/layout/default_layout.dart';
 import 'package:true_counter/common/variable/data.dart';
+import 'package:true_counter/common/variable/data_dummy.dart';
 import 'package:true_counter/common/variable/routes.dart';
 import 'package:true_counter/festival/component/custom_festival_card.dart';
 
@@ -45,61 +46,50 @@ class _HomeScreenState extends State<HomeScreen> {
           )
         ],
       ),
-      child: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 16.0),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    '오늘 행사',
-                    style: headTitleTextStyle,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 16.0),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  '오늘 행사',
+                  style: headTitleTextStyle,
+                ),
+                SizedBox(
+                  width: 180.0,
+                  child: CustomDropDownButton(
+                    dropdownList: locationData,
+                    defaultValue: location,
+                    onChanged: (String? value) {
+                      if (value != null) {
+                        location = value;
+                        setState(() {});
+                      }
+                    },
+                    menuMaxHeight: 465.0,
                   ),
-                  SizedBox(
-                    width: 180.0,
-                    child: CustomDropDownButton(
-                      dropdownList: locationData,
-                      defaultValue: location,
-                      onChanged: (String? value) {
-                        if (value != null) {
-                          location = value;
-                          setState(() {});
-                        }
-                      },
-                      menuMaxHeight: 465.0,
-                    ),
-                  )
-                ],
+                )
+              ],
+            ),
+            const SizedBox(height: 16.0),
+
+            Expanded(
+              child: ListView.separated(
+                // physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (BuildContext context, int index) {
+                  return CustomFestivalCard(
+                    festivalModel: festivalListData[index],
+                  );
+                },
+                separatorBuilder: (BuildContext context, int index) {
+                  return const SizedBox(height: 16.0);
+                },
+                itemCount: festivalListData.length,
               ),
-              const SizedBox(height: 16.0),
-              CustomFestivalCard(
-                title: '[서울] 대한민국에서 열리는 광복 100주년 맞이 광화문에서 열리는 축제',
-                cumulativeParticipant: 10000,
-                radius: 500,
-              ),
-              const SizedBox(height: 16.0),
-              CustomFestivalCard(
-                title: '[서울] 대한민국에서 열리는 광복 100주년 맞이 광화문에서 열리는 축제',
-                cumulativeParticipant: 10000,
-                radius: 500,
-              ),
-              const SizedBox(height: 16.0),
-              CustomFestivalCard(
-                title: '[서울] 대한민국에서 열리는 광복 100주년 맞이 광화문에서 열리는 축제',
-                cumulativeParticipant: 10000,
-                radius: 500,
-              ),
-              const SizedBox(height: 16.0),
-              CustomFestivalCard(
-                title: '[서울] 대한민국에서 열리는 광복 100주년 맞이 광화문에서 열리는 축제',
-                cumulativeParticipant: 10000,
-                radius: 500,
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

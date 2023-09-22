@@ -15,7 +15,7 @@ Map<String, dynamic> dummyUserModel = {
 List<FestivalModel> myFestivalListData = [
   FestivalModel(
     id: 'id',
-    title: '[제주] ㅇㅇㅇㅇ를 위한 행사',
+    title: 'ㅇㅇㅇ를 위한 행사alsjflkasjdlfkjaskljdflasjdfkljasdljlfkjasldkfjlkasjdlfkjasdlkfjlksadjlfjasldkjf',
     region: '제주',
     applicant: '부산시청',
     applicantPhone: '01012341234',
@@ -142,7 +142,7 @@ List<FestivalModel> myFestivalListData = [
 List<FestivalModel> festivalListData = [
   FestivalModel(
     id: 'id',
-    title: '[제주] ㅇㅇㅇㅇ를 위한 행사',
+    title: 'ㅇㅇㅇ를 위한 행사alsjflkasjdlfkjaskljdflasjdfkljasdljlfkjasldkfjlkasjdlfkjasdlkfjlksadjlfjasldkjf',
     region: '제주',
     applicant: '부산시청',
     applicantPhone: '01012341234',

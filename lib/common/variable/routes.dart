@@ -8,6 +8,7 @@ import 'package:true_counter/festival/view/festival_detail_screen.dart';
 import 'package:true_counter/festival/view/kakao_map_screen.dart';
 import 'package:true_counter/festival_list/view/festival_register_screen.dart';
 import 'package:true_counter/my_page/view/introduce_screen.dart';
+import 'package:true_counter/my_page/view/my_participation_screen.dart';
 import 'package:true_counter/my_page/view/settings_screen.dart';
 import 'package:true_counter/my_page/view/withdraw_screen.dart';
 import 'package:true_counter/notification/model/notification_model.dart';
@@ -48,6 +49,7 @@ class RouteNames {
   static const String settings = '/settings';
   static const String withdraw = '/withdraw';
   static const String introduce = '/introduce';
+  static const String myParticipation = '/my/participation';
 
   // festival
   static const String festivalDetail = '/festival/detail';
@@ -115,7 +117,7 @@ Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
   },
   RouteNames.withdraw: (_) => WithdrawScreen(),
   RouteNames.introduce: (_) => IntroduceScreen(),
-
+  RouteNames.myParticipation: (_) => MyParticipationScreen(),
 
   // festical
   RouteNames.festivalDetail: (context) {

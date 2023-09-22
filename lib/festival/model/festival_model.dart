@@ -12,6 +12,7 @@ class FestivalModel {
   late DateTime startAt; // 행사 시작 시간
   late DateTime endAt; // 행사 끝 시간
   late int cumulativeParticipantCount; // 누적 참여자 수
+  DateTime? userParticipationAt;
   // late bool isValid; // 관리자 허락한 데이터만 받으면 되기에 필요 X
   // late DateTime created_dt;
   // late DateTime update_dt;
@@ -32,6 +33,7 @@ class FestivalModel {
     required this.startAt,
     required this.endAt,
     required this.cumulativeParticipantCount,
+    this.userParticipationAt,
   });
 
   FestivalModel._internal();
@@ -55,6 +57,7 @@ class FestivalModel {
     festival.endAt = json['endAt'] ?? '';
     festival.cumulativeParticipantCount =
         json['cumulativeParticipantCount'] ?? '';
+    festival.userParticipationAt = json['userParticipationAt'] ?? '';
 
     return festival;
   }

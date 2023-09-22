@@ -41,7 +41,6 @@ class FestivalDetailScreen extends StatelessWidget {
                 ),
                 height: 300.0,
               ),
-              Text(festivalModel.region),
               Text('${festivalModel.radius}'),
               Text('${festivalModel.cumulativeParticipantCount}'),
               Text('${festivalModel.longitude}'),
@@ -64,7 +63,7 @@ class FestivalDetailScreen extends StatelessWidget {
       children: [
         _renderDescriptionRow(
           title: '행사명',
-          description: festivalModel.title,
+          description: "[${festivalModel.region}] ${festivalModel.title}",
         ),
         const SizedBox(height: 24.0),
         _renderDescriptionRow(

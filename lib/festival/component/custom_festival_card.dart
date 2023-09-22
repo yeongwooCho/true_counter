@@ -41,9 +41,9 @@ class CustomFestivalCard extends StatelessWidget {
                 const SizedBox(width: 16.0),
                 ElevatedButton(
                   onPressed: () {},
-                  style: festivalParticipateButton,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
+                  style: festivalParticipateButtonStyle,
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(
                       vertical: 12.0,
                       horizontal: 4.0,
                     ),

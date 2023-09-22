@@ -39,12 +39,15 @@ class _MyPageScreenState extends State<MyPageScreen> {
                   style: headTitleTextStyle,
                 ),
                 IconButton(
-                  onPressed: UserModel.current != null ? () {
-                    Navigator.of(context).pushNamed(
-                      RouteNames.settings,
-                      arguments: ScreenArguments(data: UserModel.current!),
-                    );
-                  } : null,
+                  onPressed: UserModel.current != null
+                      ? () {
+                          Navigator.of(context).pushNamed(
+                            RouteNames.settings,
+                            arguments:
+                                ScreenArguments(data: UserModel.current!),
+                          );
+                        }
+                      : null,
                   icon: const Icon(
                     Icons.settings_outlined,
                     size: 32.0,
@@ -56,7 +59,11 @@ class _MyPageScreenState extends State<MyPageScreen> {
             renderCustomButton(
               title: '트루카운터 소개 및 후원하기',
               iconName: Icons.volunteer_activism_outlined,
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).pushNamed(
+                  RouteNames.introduce,
+                );
+              },
             ),
             const SizedBox(height: 16.0),
             renderCustomButton(

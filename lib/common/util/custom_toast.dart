@@ -6,8 +6,8 @@ import 'package:true_counter/common/const/text_style.dart';
 void showCustomToast(
   context, {
   required String msg,
-  Color backgroundColor = MIDDLE_GREY_COLOR,
-  Color foregroundColor = DEFAULT_TEXT_COLOR,
+  Color backgroundColor = DEFAULT_TEXT_COLOR,
+  Color foregroundColor = WHITE_TEXT_COLOR,
 }) {
   final fToast = FToast();
   fToast.init(context);
@@ -15,7 +15,7 @@ void showCustomToast(
     padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(8.0),
-      color: backgroundColor,
+      color: backgroundColor.withOpacity(0.8),
     ),
     child: Text(
       msg,

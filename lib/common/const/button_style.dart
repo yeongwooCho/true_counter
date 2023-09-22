@@ -61,7 +61,7 @@ ButtonStyle deactivateButtonStyle = ElevatedButton.styleFrom(
   backgroundColor: LIGHT_GREY_COLOR,
 );
 
-ButtonStyle festivalParticipateButton = ElevatedButton.styleFrom(
+ButtonStyle festivalParticipateButtonStyle = ElevatedButton.styleFrom(
   foregroundColor: WHITE_TEXT_COLOR,
   backgroundColor: PRIMARY_COLOR,
   elevation: 0,

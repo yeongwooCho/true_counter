@@ -7,6 +7,7 @@ import 'package:true_counter/festival/model/festival_model.dart';
 import 'package:true_counter/festival/view/festival_detail_screen.dart';
 import 'package:true_counter/festival/view/kakao_map_screen.dart';
 import 'package:true_counter/festival_list/view/festival_register_screen.dart';
+import 'package:true_counter/my_page/view/introduce_screen.dart';
 import 'package:true_counter/my_page/view/settings_screen.dart';
 import 'package:true_counter/my_page/view/withdraw_screen.dart';
 import 'package:true_counter/notification/model/notification_model.dart';
@@ -46,6 +47,7 @@ class RouteNames {
   static const String mypage = '/mypage';
   static const String settings = '/settings';
   static const String withdraw = '/withdraw';
+  static const String introduce = '/introduce';
 
   // festival
   static const String festivalDetail = '/festival/detail';
@@ -91,6 +93,7 @@ Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
   // root tab
   RouteNames.root: (_) => RootTab(),
 
+  // notification
   RouteNames.notification: (_) => NotificationScreen(),
   RouteNames.notificationDetail: (context) {
     final args = ModalRoute.of(context)?.settings.arguments
@@ -101,6 +104,7 @@ Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
     );
   },
 
+  // mypage
   RouteNames.settings: (context) {
     final args = ModalRoute.of(context)?.settings.arguments
         as ScreenArguments<UserModel>;
@@ -110,6 +114,8 @@ Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
     );
   },
   RouteNames.withdraw: (_) => WithdrawScreen(),
+  RouteNames.introduce: (_) => IntroduceScreen(),
+
 
   // festical
   RouteNames.festivalDetail: (context) {

@@ -150,10 +150,5 @@ class IntroduceScreen extends StatelessWidget {
     await Clipboard.setData(
       ClipboardData(text: BANK_ACCOUNT),
     );
-
-    showCustomToast(
-      context,
-      msg: "계좌 번호가 복사되었습니다.",
-    );
   }
 }

@@ -126,7 +126,9 @@ class _FestivalRegisterScreenState extends State<FestivalRegisterScreen> {
               ),
               const SizedBox(height: 32.0),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
                 style: defaultButtonStyle,
                 child: const Text('등록 신청하기'),
               ),

@@ -8,6 +8,8 @@ import 'package:true_counter/common/layout/default_layout.dart';
 import 'package:true_counter/common/model/screen_arguments.dart';
 import 'package:true_counter/common/util/datetime.dart';
 import 'package:true_counter/common/variable/routes.dart';
+import 'package:true_counter/festival/component/custom_chart.dart';
+import 'package:true_counter/festival/component/custom_festival_card.dart';
 import 'package:true_counter/festival/model/festival_model.dart';
 
 class FestivalDetailScreen extends StatelessWidget {
@@ -31,20 +33,12 @@ class FestivalDetailScreen extends StatelessWidget {
             children: [
               _renderFestivalDescription(context: context),
               const SizedBox(height: 48.0),
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    width: 1.0,
-                    color: DEFAULT_TEXT_COLOR,
-                  ),
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                height: 300.0,
-              ),
-              Text('${festivalModel.radius}'),
-              Text('${festivalModel.cumulativeParticipantCount}'),
-              Text('${festivalModel.longitude}'),
-              Text('${festivalModel.latitude}'),
+              CustomFestivalCard(festivalModel: festivalModel),
+              // CustomChart(festivalModel: festivalModel),
+              // Text('${festivalModel.radius}'),
+              // Text('${festivalModel.cumulativeParticipantCount}'),
+              // Text('${festivalModel.longitude}'),
+              // Text('${festivalModel.latitude}'),
             ],
           ),
         ),
@@ -96,11 +90,12 @@ class FestivalDetailScreen extends StatelessWidget {
           title: '행사 기간',
           description: "$start ~ $end",
         ),
-        const SizedBox(height: 24.0),
-        _renderDescriptionRow(
-          title: '문의/전달사항',
-          description: festivalModel.message,
-        ),
+        if (festivalModel.message.isNotEmpty) const SizedBox(height: 24.0),
+        if (festivalModel.message.isNotEmpty)
+          _renderDescriptionRow(
+            title: '문의/전달사항',
+            description: festivalModel.message,
+          ),
       ],
     );
   }

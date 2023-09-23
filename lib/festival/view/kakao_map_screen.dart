@@ -20,6 +20,14 @@ class _KakaoMapScreenState extends State<KakaoMapScreen> {
   KakaoMapController? mapController;
 
   @override
+  void dispose() {
+    mapController?.clear();
+    mapController = null;
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return DefaultLayout(
       appbar: const DefaultAppBar(

@@ -48,3 +48,9 @@ const descriptionGreyTextStyle = TextStyle(
   fontWeight: FontWeight.w500,
   color: DARK_GREY_COLOR,
 );
+
+const smallGreyTextStyle = TextStyle(
+  fontSize: 14.0,
+  fontWeight: FontWeight.w300,
+  color: DARK_GREY_COLOR,
+);

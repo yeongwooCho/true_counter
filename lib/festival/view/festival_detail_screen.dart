@@ -151,7 +151,7 @@ class FestivalDetailScreen extends StatelessWidget {
         const SizedBox(height: 4.0),
         Text(
           description,
-          style: bodyMediumTextStyle,
+          style: bodyRegularTextStyle,
         ),
       ],
     );

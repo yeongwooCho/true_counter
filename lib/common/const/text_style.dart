@@ -37,15 +37,21 @@ const bodyMediumTextStyle = TextStyle(
   color: DEFAULT_TEXT_COLOR,
 );
 
+const bodyRegularTextStyle = TextStyle(
+  fontSize: 18.0,
+  fontWeight: FontWeight.w400,
+  color: DEFAULT_TEXT_COLOR,
+);
+
 const descriptionTextStyle = TextStyle(
   fontSize: 16.0,
-  fontWeight: FontWeight.w500,
+  fontWeight: FontWeight.w400,
   color: DEFAULT_TEXT_COLOR,
 );
 
 const descriptionGreyTextStyle = TextStyle(
   fontSize: 16.0,
-  fontWeight: FontWeight.w500,
+  fontWeight: FontWeight.w400,
   color: DARK_GREY_COLOR,
 );
 

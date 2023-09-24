@@ -61,13 +61,11 @@ class FestivalDetailScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 16.0),
                   _renderDescriptionContainer(),
-                  const SizedBox(height: 16.0),
-                  SizedBox(
-                    height: 1050,
-                    child: ChatScreen(
-                      chats: dummyChatListData,
-                    ),
+                  const SizedBox(height: 32.0),
+                  ChatScreen(
+                    chats: festivalModel.chats,
                   ),
+                  const SizedBox(height: 32.0),
                   CustomTextFormField(
                     onSaved: (String? value) {},
                     validator: (String? value) {

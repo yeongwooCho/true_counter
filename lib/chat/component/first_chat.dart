@@ -27,7 +27,7 @@ class FirstChat extends StatelessWidget {
                 style: bodyTitleBoldTextStyle,
               ),
               Container(
-                height: 40.0,
+                height: 32.0,
                 decoration: BoxDecoration(
                   color: DARK_GREY_COLOR,
                   borderRadius: BorderRadius.circular(8.0),
@@ -38,7 +38,7 @@ class FirstChat extends StatelessWidget {
                       onPressed: () {},
                       child: Text(
                         '댓글',
-                        style: bodyMediumTextStyle.copyWith(
+                        style: descriptionTextStyle.copyWith(
                           color: WHITE_TEXT_COLOR,
                         ),
                       ),
@@ -54,11 +54,12 @@ class FirstChat extends StatelessWidget {
                         Icons.thumb_up_outlined,
                         color: WHITE_TEXT_COLOR,
                       ),
+                      iconSize: 16.0,
                     ),
                     Container(
                       color: WHITE_TEXT_COLOR,
                       width: 1.0,
-                      height: 20.0,
+                      height: 16.0,
                     ),
                     IconButton(
                       onPressed: () {},
@@ -66,20 +67,22 @@ class FirstChat extends StatelessWidget {
                         Icons.notification_important_outlined,
                         color: WHITE_TEXT_COLOR,
                       ),
+                      iconSize: 16.0,
                     )
                   ],
                 ),
               )
             ],
           ),
-          const SizedBox(height: 8.0),
+          const SizedBox(height: 12.0),
           Text(
             chat.content,
             style: bodyMediumTextStyle.copyWith(
               color: DARK_GREY_COLOR,
+              fontWeight: FontWeight.w400,
             ),
           ),
-          const SizedBox(height: 8.0),
+          const SizedBox(height: 12.0),
           Row(
             children: [
               Text(
@@ -90,6 +93,7 @@ class FirstChat extends StatelessWidget {
               const Icon(
                 Icons.thumb_up_outlined,
                 color: ERROR_COLOR,
+                size: 16.0,
               ),
               const SizedBox(width: 4.0),
               Text(

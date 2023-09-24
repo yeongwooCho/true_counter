@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 import 'package:true_counter/chat/view/chat_screen.dart';
+import 'package:true_counter/common/component/custom_text_form_field.dart';
 import 'package:true_counter/common/const/button_style.dart';
 import 'package:true_counter/common/const/colors.dart';
 import 'package:true_counter/common/const/text_style.dart';
@@ -62,9 +63,20 @@ class FestivalDetailScreen extends StatelessWidget {
                   const SizedBox(height: 16.0),
                   _renderDescriptionContainer(),
                   const SizedBox(height: 16.0),
-                  ChatScreen(
-                    chats: dummyChatListData,
+                  SizedBox(
+                    height: 1200,
+                    child: ChatScreen(
+                      chats: dummyChatListData,
+                    ),
                   ),
+                  CustomTextFormField(
+                    onSaved: (String? value) {},
+                    validator: (String? value) {
+                      return null;
+                    },
+                    hintText: '댓글을 입력해 주세요.',
+                    suffixIcon: const Icon(Icons.edit),
+                  )
                 ],
               ),
             ),

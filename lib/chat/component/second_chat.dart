@@ -87,7 +87,7 @@ class SecondChat extends StatelessWidget {
                         convertDateTimeToMinute(datetime: chat.createdAt),
                         style: descriptionTextStyle,
                       ),
-                      const SizedBox(width: 12.0),
+                      const SizedBox(width: 16.0),
                       const Icon(
                         Icons.thumb_up_outlined,
                         color: ERROR_COLOR,

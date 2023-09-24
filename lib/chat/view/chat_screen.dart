@@ -13,22 +13,19 @@ class ChatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 1100.0,
-      child: ListView.separated(
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: chats.length,
-        separatorBuilder: (BuildContext context, int index) {
-          return const SizedBox(height: 16.0);
-        },
-        itemBuilder: (BuildContext context, int index) {
-          if (chats[index].parentChatId == null) {
-            return FirstChat(chat: chats[index]);
-          } else {
-            return SecondChat(chat: chats[index]);
-          }
-        },
-      ),
+    return ListView.separated(
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: chats.length,
+      separatorBuilder: (BuildContext context, int index) {
+        return const SizedBox(height: 16.0);
+      },
+      itemBuilder: (BuildContext context, int index) {
+        if (chats[index].parentChatId == null) {
+          return FirstChat(chat: chats[index]);
+        } else {
+          return SecondChat(chat: chats[index]);
+        }
+      },
     );
   }
 }

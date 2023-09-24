@@ -110,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class CustomListView extends StatefulWidget {
+class CustomListView extends StatelessWidget {
   final List<FestivalModel> festivals;
   final String emptyMessage;
 
@@ -121,26 +121,13 @@ class CustomListView extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<CustomListView> createState() => _CustomListViewState();
-}
-
-class _CustomListViewState extends State<CustomListView> {
-  double itemsHeight = 0.0;
-  double separatorsHeight = 0.0;
-
-  @override
   Widget build(BuildContext context) {
-    if (widget.festivals.isNotEmpty) {
-      itemsHeight = 362.0 * (widget.festivals.length);
-      separatorsHeight = 16.0 * (widget.festivals.length - 1);
-    }
-
-    return widget.festivals.isEmpty
+    return festivals.isEmpty
         ? SizedBox(
             height: 100,
             child: Center(
               child: Text(
-                widget.emptyMessage,
+                emptyMessage,
                 style: bodyTitleBoldTextStyle.copyWith(
                   color: DARK_GREY_COLOR,
                 ),
@@ -148,20 +135,18 @@ class _CustomListViewState extends State<CustomListView> {
               ),
             ),
           )
-        : SizedBox(
-            height: (itemsHeight + separatorsHeight),
-            child: ListView.separated(
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: widget.festivals.length,
-              separatorBuilder: (BuildContext context, int index) {
-                return const SizedBox(height: 16.0);
-              },
-              itemBuilder: (BuildContext context, int index) {
-                return CustomFestivalCard(
-                  festivalModel: widget.festivals[index],
-                );
-              },
-            ),
+        : ListView.separated(
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: festivals.length,
+            separatorBuilder: (BuildContext context, int index) {
+              return const SizedBox(height: 16.0);
+            },
+            itemBuilder: (BuildContext context, int index) {
+              return CustomFestivalCard(
+                festivalModel: festivals[index],
+              );
+            },
           );
   }
 }

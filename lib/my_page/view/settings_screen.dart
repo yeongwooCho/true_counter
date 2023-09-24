@@ -131,7 +131,7 @@ class SettingsScreen extends StatelessWidget {
         children: [
           Text(
             title,
-            style: bodyBoldTextStyle,
+            style: bodyMediumTextStyle,
           ),
           Text(
             description,

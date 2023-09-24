@@ -11,7 +11,6 @@ import 'package:true_counter/common/model/screen_arguments.dart';
 import 'package:true_counter/common/util/datetime.dart';
 import 'package:true_counter/common/variable/data_dummy.dart';
 import 'package:true_counter/common/variable/routes.dart';
-import 'package:true_counter/festival/component/custom_chart.dart';
 import 'package:true_counter/festival/component/custom_festival_card.dart';
 import 'package:true_counter/festival/model/festival_model.dart';
 
@@ -64,7 +63,7 @@ class FestivalDetailScreen extends StatelessWidget {
                   _renderDescriptionContainer(),
                   const SizedBox(height: 16.0),
                   SizedBox(
-                    height: 1200,
+                    height: 1050,
                     child: ChatScreen(
                       chats: dummyChatListData,
                     ),

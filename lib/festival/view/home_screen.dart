@@ -131,7 +131,7 @@ class _CustomListViewState extends State<CustomListView> {
   @override
   Widget build(BuildContext context) {
     if (widget.festivals.isNotEmpty) {
-      itemsHeight = 262.0 * (widget.festivals.length);
+      itemsHeight = 362.0 * (widget.festivals.length);
       separatorsHeight = 16.0 * (widget.festivals.length - 1);
     }
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kakao_map_plugin/kakao_map_plugin.dart';
+import 'package:true_counter/chat/view/chat_screen.dart';
 import 'package:true_counter/common/const/button_style.dart';
 import 'package:true_counter/common/const/colors.dart';
 import 'package:true_counter/common/const/text_style.dart';
@@ -7,6 +8,7 @@ import 'package:true_counter/common/layout/default_appbar.dart';
 import 'package:true_counter/common/layout/default_layout.dart';
 import 'package:true_counter/common/model/screen_arguments.dart';
 import 'package:true_counter/common/util/datetime.dart';
+import 'package:true_counter/common/variable/data_dummy.dart';
 import 'package:true_counter/common/variable/routes.dart';
 import 'package:true_counter/festival/component/custom_chart.dart';
 import 'package:true_counter/festival/component/custom_festival_card.dart';
@@ -26,21 +28,47 @@ class FestivalDetailScreen extends StatelessWidget {
       appbar: const DefaultAppBar(title: '행사 상세정보'),
       child: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 32.0, horizontal: 16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              _renderFestivalDescription(context: context),
-              const SizedBox(height: 48.0),
-              CustomFestivalCard(festivalModel: festivalModel),
-              // CustomChart(festivalModel: festivalModel),
-              // Text('${festivalModel.radius}'),
-              // Text('${festivalModel.cumulativeParticipantCount}'),
-              // Text('${festivalModel.longitude}'),
-              // Text('${festivalModel.latitude}'),
-            ],
-          ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 32.0, horizontal: 16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  _renderFestivalDescription(context: context),
+                  const SizedBox(height: 48.0),
+                  CustomFestivalCard(festivalModel: festivalModel),
+                ],
+              ),
+            ),
+            const SizedBox(height: 16.0),
+            Container(
+              color: LIGHT_GREY_COLOR,
+              height: 10.0,
+            ),
+            const SizedBox(height: 16.0),
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 32.0, horizontal: 16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const Text(
+                    '응원 댓글',
+                    style: headTitleTextStyle,
+                  ),
+                  const SizedBox(height: 16.0),
+                  _renderDescriptionContainer(),
+                  const SizedBox(height: 16.0),
+                  ChatScreen(
+                    chats: dummyChatListData,
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -117,6 +145,37 @@ class FestivalDetailScreen extends StatelessWidget {
           style: bodyMediumTextStyle,
         ),
       ],
+    );
+  }
+
+  Widget _renderDescriptionContainer() {
+    return Container(
+      decoration: BoxDecoration(
+        color: LIGHT_GREY_COLOR,
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+      child: const Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              "◦ 댓글 작성자는 ‘닉네임'으로만 표시됩니다.",
+              style: descriptionTextStyle,
+            ),
+            SizedBox(height: 8.0),
+            Text(
+              '◦ 서로의 의견이 존중될 수 있도록 배려해 주시고, 타인에게 불쾌감을 줄 수 있는 표현 및 권리침해에 해당하는 내용에 주의 해주세요.',
+              style: descriptionTextStyle,
+            ),
+            SizedBox(height: 8.0),
+            Text(
+              '◦ 작성한 댓글이 100명 이상에게 신고될 경우 자동 삭제됩니다.',
+              style: descriptionTextStyle,
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

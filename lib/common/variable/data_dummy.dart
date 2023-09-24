@@ -1,3 +1,4 @@
+import 'package:true_counter/chat/model/chat_model.dart';
 import 'package:true_counter/festival/model/festival_model.dart';
 
 Map<String, dynamic> dummyUserModel = {
@@ -12,11 +13,78 @@ Map<String, dynamic> dummyUserModel = {
   'token': 'xj0jx293jc02j3c',
 };
 
+List<ChatModel> dummyChatListData = [
+  ChatModel(
+    id: 1,
+    parentChatId: null,
+    username: 'AEFAG8667',
+    content: '1즐거운 자리였습니다. 모두 화이팅',
+    like: 10,
+    declaration: 12,
+    createdAt: DateTime(2023, 7, 10, 17, 45),
+  ),
+  ChatModel(
+    id: 2,
+    parentChatId: 1,
+    username: 'BEFAG8667',
+    content: '2즐거운 자리였습니다. 모두 화이팅',
+    like: 10,
+    declaration: 12,
+    createdAt: DateTime(2023, 7, 10, 17, 45),
+  ),
+  ChatModel(
+    id: 3,
+    parentChatId: 1,
+    username: 'CEFAG8667',
+    content: '3즐거운 자리였습니다. 모두 화이팅',
+    like: 10,
+    declaration: 12,
+    createdAt: DateTime(2023, 7, 10, 17, 45),
+  ),
+  ChatModel(
+    id: 4,
+    parentChatId: 1,
+    username: 'DEFAG8667',
+    content: '4즐거운 자리였습니다. 모두 화이팅',
+    like: 10,
+    declaration: 12,
+    createdAt: DateTime(2023, 7, 10, 17, 45),
+  ),
+  ChatModel(
+    id: 5,
+    parentChatId: null,
+    username: 'EEFAG8667',
+    content: '5즐거운 자리였습니다. 모두 화이팅alsdlfjasldkfjnlaskdfjnlaksndflnasdlkfnlaksdnflknasdlkfnalskdnflkasndfklnasldkfnalksndflknasdlkfnaslkdnflaskdnf',
+    like: 10,
+    declaration: 12,
+    createdAt: DateTime(2023, 7, 10, 17, 45),
+  ),
+  ChatModel(
+    id: 6,
+    parentChatId: 5,
+    username: 'FEFAG8667',
+    content: '6즐거운 자리였습니다. 모두 화이팅',
+    like: 10,
+    declaration: 12,
+    createdAt: DateTime(2023, 7, 10, 17, 45),
+  ),
+  ChatModel(
+    id: 7,
+    parentChatId: 5,
+    username: 'GEFAG8667',
+    content: '7즐거운 자리였습니다. 모두 화이팅213h4oiuhorh120hf08h028dfh8109hdf890h8902h1f890h2d98fhhasfkjlbaskljbkljsbfkajsbKjbafskjdfbaklsjdbfaksdjlb;fnjkasbdfk미ㅏ너유라머니ㅠㅇ라ㅣㅓㅠㅁㄴ',
+    like: 10,
+    declaration: 12,
+    createdAt: DateTime(2023, 7, 10, 17, 45),
+  ),
+
+];
+
 List<FestivalModel> myFestivalListData = [
   FestivalModel(
     id: 'id',
     title:
-    'ㅇㅇㅇ를 위한 행사alsjflkasjdlfkjaskljdflasjdfkljasdljlfkjasldkfjlkasjdlfkjasdlkfjlksadjlfjasldkjf3412341234',
+        'ㅇㅇㅇ를 위한 행사alsjflkasjdlfkjaskljdflasjdfkljasdljlfkjasldkfjlkasjdlfkjasdlkfjlksadjlfjasldkjf3412341234',
     region: '제주',
     applicant: '부산시청',
     applicantPhone: '01012341234',
@@ -29,7 +97,9 @@ List<FestivalModel> myFestivalListData = [
     endAt: DateTime(2023, 9, 5),
     cumulativeParticipantCount: 12346,
     userParticipationAt: DateTime(2023, 7, 10),
-    participants: '100/200/300/400/500/1234/2534/5467/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687',
+    participants:
+        '100/200/300/400/500/1234/2534/5467/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687',
+    chats: [],
   ),
   FestivalModel(
     id: 'id',
@@ -45,7 +115,9 @@ List<FestivalModel> myFestivalListData = [
     startAt: DateTime(2023, 9, 10),
     endAt: DateTime(2023, 9, 20),
     cumulativeParticipantCount: 10000,
-    participants: '100/200/300/400/500/1234/2534/5467/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687',
+    participants:
+        '100/200/300/400/500/1234/2534/5467/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687',
+    chats: [],
   ),
   FestivalModel(
     id: 'id',
@@ -61,8 +133,9 @@ List<FestivalModel> myFestivalListData = [
     startAt: DateTime(2023, 9, 18),
     endAt: DateTime(2023, 9, 19),
     cumulativeParticipantCount: 10000,
-    participants: '100/200/300/400/500/1234/2534/5467/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687',
-
+    participants:
+        '100/200/300/400/500/1234/2534/5467/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687',
+    chats: [],
   ),
   FestivalModel(
     id: 'id',
@@ -78,7 +151,9 @@ List<FestivalModel> myFestivalListData = [
     startAt: DateTime(2023, 9, 19),
     endAt: DateTime(2023, 9, 20),
     cumulativeParticipantCount: 10000,
-    participants: '100/200/300/400/500/1234/2534/5467/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687',
+    participants:
+        '100/200/300/400/500/1234/2534/5467/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687',
+    chats: [],
   ),
   FestivalModel(
     id: 'id',
@@ -94,8 +169,9 @@ List<FestivalModel> myFestivalListData = [
     startAt: DateTime(2023, 9, 20),
     endAt: DateTime(2023, 9, 21),
     cumulativeParticipantCount: 10000,
-    participants: '100/200/300/400/500/1234/2534/5467/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687',
-
+    participants:
+        '100/200/300/400/500/1234/2534/5467/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687',
+    chats: [],
   ),
   FestivalModel(
     id: 'id',
@@ -109,10 +185,11 @@ List<FestivalModel> myFestivalListData = [
     radius: 0.5,
     address: '부산시청 한 복판',
     startAt: DateTime(2023, 9, 22),
-    endAt:DateTime(2023, 9, 25),
+    endAt: DateTime(2023, 9, 25),
     cumulativeParticipantCount: 10000,
-    participants: '100/200/300/400/500/1234/2534/5467/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687',
-
+    participants:
+        '100/200/300/400/500/1234/2534/5467/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687',
+    chats: [],
   ),
   FestivalModel(
     id: 'id',
@@ -128,8 +205,9 @@ List<FestivalModel> myFestivalListData = [
     startAt: DateTime(2023, 3, 4),
     endAt: DateTime(2023, 3, 5),
     cumulativeParticipantCount: 10000,
-    participants: '100/200/300/400/500/1234/2534/5467/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687',
-
+    participants:
+        '100/200/300/400/500/1234/2534/5467/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687',
+    chats: [],
   ),
   FestivalModel(
     id: 'id',
@@ -142,10 +220,12 @@ List<FestivalModel> myFestivalListData = [
     longitude: 129.08333333333334,
     radius: 0.5,
     address: '부산시청 한 복판',
-    startAt:  DateTime(2023, 10, 10),
+    startAt: DateTime(2023, 10, 10),
     endAt: DateTime(2023, 10, 10),
     cumulativeParticipantCount: 10000,
-    participants: '100/200/300/400/500/1234/2534/5467/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687',
+    participants:
+        '100/200/300/400/500/1234/2534/5467/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687',
+    chats: [],
   ),
 ];
 
@@ -166,7 +246,9 @@ List<FestivalModel> festivalListData = [
     endAt: DateTime(2023, 9, 5),
     cumulativeParticipantCount: 12346,
     userParticipationAt: DateTime(2023, 7, 10),
-    participants: '100/200/300/400/500/1234/2534/5467/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687',
+    participants:
+        '100/200/300/400/500/1234/2534/5467/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687/9687',
+    chats: [],
   ),
   FestivalModel(
     id: 'id',
@@ -183,6 +265,7 @@ List<FestivalModel> festivalListData = [
     endAt: DateTime(2023, 9, 20),
     cumulativeParticipantCount: 10000,
     participants: '100/200/300/400/500/1234/2534/5467/9687',
+    chats: [],
   ),
   FestivalModel(
     id: 'id',
@@ -199,6 +282,7 @@ List<FestivalModel> festivalListData = [
     endAt: DateTime(2023, 9, 19),
     cumulativeParticipantCount: 10000,
     participants: '100/200/300/400/500/1234/2534/5467/9687',
+    chats: [],
   ),
   FestivalModel(
     id: 'id',
@@ -215,6 +299,7 @@ List<FestivalModel> festivalListData = [
     endAt: DateTime(2023, 9, 20),
     cumulativeParticipantCount: 10000,
     participants: '100/200/300/400/500/1234/2534/5467/9687',
+    chats: [],
   ),
   FestivalModel(
     id: 'id',
@@ -231,6 +316,7 @@ List<FestivalModel> festivalListData = [
     endAt: DateTime(2023, 9, 21),
     cumulativeParticipantCount: 10000,
     participants: '100/200/300/400/500/1234/2534/5467/9687',
+    chats: [],
   ),
   FestivalModel(
     id: 'id',
@@ -244,9 +330,10 @@ List<FestivalModel> festivalListData = [
     radius: 0.5,
     address: '부산시청 한 복판',
     startAt: DateTime(2023, 9, 22),
-    endAt:DateTime(2023, 9, 25),
+    endAt: DateTime(2023, 9, 25),
     cumulativeParticipantCount: 10000,
     participants: '100/200/300/400/500/1234/2534/5467/9687',
+    chats: [],
   ),
   FestivalModel(
     id: 'id',
@@ -263,6 +350,7 @@ List<FestivalModel> festivalListData = [
     endAt: DateTime(2023, 3, 5),
     cumulativeParticipantCount: 10000,
     participants: '100/200/300/400/500/1234/2534/5467/9687',
+    chats: [],
   ),
   FestivalModel(
     id: 'id',
@@ -275,9 +363,10 @@ List<FestivalModel> festivalListData = [
     longitude: 129.08333333333334,
     radius: 0.5,
     address: '부산시청 한 복판',
-    startAt:  DateTime(2023, 10, 10),
+    startAt: DateTime(2023, 10, 10),
     endAt: DateTime(2023, 10, 10),
     cumulativeParticipantCount: 10000,
     participants: '100/200/300/400/500/1234/2534/5467/9687',
+    chats: [],
   ),
 ];

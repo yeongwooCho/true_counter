@@ -1,3 +1,5 @@
+import 'package:true_counter/chat/model/chat_model.dart';
+
 class FestivalModel {
   late String id;
   late String title;
@@ -14,6 +16,7 @@ class FestivalModel {
   late int cumulativeParticipantCount; // 누적 참여자 수
   DateTime? userParticipationAt;
   late String participants;
+  late List<ChatModel> chats;
 
   // late bool isValid; // 관리자 허락한 데이터만 받으면 되기에 필요 X
   // late DateTime created_dt;
@@ -37,6 +40,7 @@ class FestivalModel {
     required this.cumulativeParticipantCount,
     this.userParticipationAt,
     required this.participants,
+    required this.chats,
   });
 
   FestivalModel._internal();
@@ -62,6 +66,7 @@ class FestivalModel {
         json['cumulativeParticipantCount'] ?? '';
     festival.userParticipationAt = json['userParticipationAt'] ?? '';
     festival.participants = json['participants'];
+    festival.chats = json['chats'];
 
     return festival;
   }

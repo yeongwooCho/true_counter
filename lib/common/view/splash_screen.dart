@@ -28,25 +28,37 @@ class _SplashScreenState extends State<SplashScreen> {
     return DefaultLayout(
       child: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Text(
-              'TRUE COUNTER',
-              style: appNameTextStyle.copyWith(
-                color: PRIMARY_COLOR,
-              ),
+            const SizedBox(height: 1.0),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'TRUE COUNTER',
+                  style: appNameTextStyle.copyWith(
+                    color: PRIMARY_COLOR,
+                  ),
+                ),
+                const SizedBox(height: 36.0),
+                Text(
+                  '실시간 참여자 수',
+                  style: headTitleTextStyle.copyWith(
+                    color: SECONDARY_COLOR,
+                  ),
+                ),
+                Text(
+                  '집계 시스템',
+                  style: headTitleTextStyle.copyWith(
+                    color: SECONDARY_COLOR,
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(height: 36.0),
             Text(
-              '실시간 참여자 수',
-              style: headTitleTextStyle.copyWith(
-                color: SECONDARY_COLOR,
-              ),
-            ),
-            Text(
-              '집계 시스템',
-              style: headTitleTextStyle.copyWith(
-                color: SECONDARY_COLOR,
+              '당신의 참여가\n역사가 됩니다.',
+              style: bodyTitleBoldTextStyle.copyWith(
+                color: DARK_GREY_COLOR,
               ),
             ),
           ],
@@ -57,11 +69,9 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> delay() async {
     Future.delayed(const Duration(seconds: 2), () {
-      String startRoute = RouteNames.onBoarding;
-
-
-
-      Navigator.of(context).popAndPushNamed(startRoute);
+      Navigator.of(context).popAndPushNamed(
+        RouteNames.onBoarding,
+      );
     });
   }
 }

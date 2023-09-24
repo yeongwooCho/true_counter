@@ -67,6 +67,12 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   height: 36.0,
                 ),
                 Text(
+                  '당신의 참여가 역사가 됩니다.',
+                  style: bodyTitleBoldTextStyle.copyWith(
+                    color: DARK_GREY_COLOR,
+                  ),
+                ),
+                Text(
                   'TRUE COUNTER',
                   style: appNameTextStyle.copyWith(
                     color: PRIMARY_COLOR,

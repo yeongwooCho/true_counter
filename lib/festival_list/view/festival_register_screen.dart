@@ -73,9 +73,10 @@ class _FestivalRegisterScreenState extends State<FestivalRegisterScreen> {
                 validator: (String? value) {
                   return null;
                 },
-                hintText: '20자 이내',
+                maxLength: 20,
+                hintText: ' 20자 이내',
               ),
-              const SizedBox(height: 24.0),
+              const SizedBox(height: 8.0),
               CustomTextFormField(
                 title: '주최자/단체 이름',
                 onChanged: (String? value) {
@@ -85,9 +86,10 @@ class _FestivalRegisterScreenState extends State<FestivalRegisterScreen> {
                 validator: (String? value) {
                   return null;
                 },
-                hintText: '20자 이내',
+                maxLength: 20,
+                hintText: ' 20자 이내',
               ),
-              const SizedBox(height: 24.0),
+              const SizedBox(height: 8.0),
               CustomTextFormField(
                 title: '주최자/단체 연락처',
                 onChanged: (String? value) {
@@ -97,10 +99,11 @@ class _FestivalRegisterScreenState extends State<FestivalRegisterScreen> {
                 validator: (String? value) {
                   return null;
                 },
-                hintText: '- 없이 입력',
+                maxLength: 13,
+                hintText: ' - 없이 입력',
                 textInputType: TextInputType.number,
               ),
-              const SizedBox(height: 24.0),
+              const SizedBox(height: 8.0),
               const Text(
                 '행사장 위치',
                 style: bodyTitleBoldTextStyle,
@@ -142,6 +145,7 @@ class _FestivalRegisterScreenState extends State<FestivalRegisterScreen> {
               SizedBox(
                 child: CustomTextFormField(
                   title: '문의/전달사항(선택사항)',
+                  hintText: '500자 이내',
                   onChanged: (String? value) {
                     message = value;
                   },
@@ -152,9 +156,10 @@ class _FestivalRegisterScreenState extends State<FestivalRegisterScreen> {
                   textInputType: TextInputType.multiline,
                   contentPaddingVertical: 12.0,
                   maxLines: 10,
+                  maxLength: 500,
                 ),
               ),
-              const SizedBox(height: 32.0),
+              const SizedBox(height: 24.0),
               ElevatedButton(
                 onPressed: festivalTitle == null ||
                         applicant == null ||

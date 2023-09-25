@@ -13,13 +13,38 @@ import 'package:true_counter/common/variable/routes.dart';
 import 'package:true_counter/festival/component/custom_festival_card.dart';
 import 'package:true_counter/festival/model/festival_model.dart';
 
-class FestivalDetailScreen extends StatelessWidget {
+class FestivalDetailScreen extends StatefulWidget {
   final FestivalModel festivalModel;
 
   const FestivalDetailScreen({
     Key? key,
     required this.festivalModel,
   }) : super(key: key);
+
+  @override
+  State<FestivalDetailScreen> createState() => _FestivalDetailScreenState();
+}
+
+class _FestivalDetailScreenState extends State<FestivalDetailScreen> {
+  String? chatText;
+  TextEditingController? chatController;
+  FocusNode? chatFocus;
+
+  @override
+  void initState() {
+    super.initState();
+
+    chatController = TextEditingController();
+    chatFocus = FocusNode();
+  }
+
+  @override
+  void dispose() {
+    chatFocus?.dispose();
+    chatController?.dispose();
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +57,19 @@ class FestivalDetailScreen extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
           child: CustomTextFormField(
+            controller: chatController,
+            focusNode: chatFocus,
+            onEditingComplete: () {
+              if (chatController != null && chatFocus != null) {
+                chatText = chatController!.text;
+                chatController!.clear();
+                chatFocus!.unfocus();
+
+                // TODO: request 댓글작성
+
+                setState(() {});
+              }
+            },
             onSaved: (String? value) {},
             validator: (String? value) {
               return null;
@@ -54,7 +92,7 @@ class FestivalDetailScreen extends StatelessWidget {
                 children: [
                   _renderFestivalDescription(context: context),
                   const SizedBox(height: 48.0),
-                  CustomFestivalCard(festivalModel: festivalModel),
+                  CustomFestivalCard(festivalModel: widget.festivalModel),
                 ],
               ),
             ),
@@ -78,7 +116,7 @@ class FestivalDetailScreen extends StatelessWidget {
                   _renderDescriptionContainer(),
                   const SizedBox(height: 32.0),
                   ChatScreen(
-                    chats: festivalModel.chats,
+                    chats: widget.festivalModel.chats,
                   ),
                 ],
               ),
@@ -92,25 +130,28 @@ class FestivalDetailScreen extends StatelessWidget {
   Widget _renderFestivalDescription({
     required BuildContext context,
   }) {
-    String start = convertDateTimeToDateString(datetime: festivalModel.startAt);
-    String end = convertDateTimeToDateString(datetime: festivalModel.endAt);
+    String start =
+        convertDateTimeToDateString(datetime: widget.festivalModel.startAt);
+    String end =
+        convertDateTimeToDateString(datetime: widget.festivalModel.endAt);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         _renderDescriptionRow(
           title: '행사명',
-          description: "[${festivalModel.region}] ${festivalModel.title}",
+          description:
+              "[${widget.festivalModel.region}] ${widget.festivalModel.title}",
         ),
         const SizedBox(height: 24.0),
         _renderDescriptionRow(
           title: '주최자/단체',
-          description: festivalModel.applicant,
+          description: widget.festivalModel.applicant,
         ),
         const SizedBox(height: 24.0),
         _renderDescriptionRow(
           title: '행사 장소',
-          description: festivalModel.address,
+          description: widget.festivalModel.address,
         ),
         const SizedBox(height: 8.0),
         ElevatedButton(
@@ -119,8 +160,8 @@ class FestivalDetailScreen extends StatelessWidget {
               RouteNames.kakaoMap,
               arguments: ScreenArguments<LatLng>(
                 data: LatLng(
-                  festivalModel.latitude,
-                  festivalModel.longitude,
+                  widget.festivalModel.latitude,
+                  widget.festivalModel.longitude,
                 ),
               ),
             );
@@ -133,11 +174,12 @@ class FestivalDetailScreen extends StatelessWidget {
           title: '행사 기간',
           description: "$start ~ $end",
         ),
-        if (festivalModel.message.isNotEmpty) const SizedBox(height: 24.0),
-        if (festivalModel.message.isNotEmpty)
+        if (widget.festivalModel.message.isNotEmpty)
+          const SizedBox(height: 24.0),
+        if (widget.festivalModel.message.isNotEmpty)
           _renderDescriptionRow(
             title: '문의/전달사항',
-            description: festivalModel.message,
+            description: widget.festivalModel.message,
           ),
       ],
     );

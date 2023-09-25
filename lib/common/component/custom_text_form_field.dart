@@ -3,11 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:true_counter/common/const/button_style.dart';
 import 'package:true_counter/common/const/text_style.dart';
 
-// enum KeyboardType {
-//   number,
-//   everything,
-// }
-
 class CustomTextFormField extends StatelessWidget {
   final TextEditingController? controller;
   final String? title;
@@ -89,9 +84,6 @@ class CustomTextFormField extends StatelessWidget {
                   maxLines: maxLines,
                   textInputAction: TextInputAction.done,
                   keyboardType: textInputType,
-                  // keyboardType: keyboardType == KeyboardType.number
-                  //     ? TextInputType.number
-                  //     : TextInputType.multiline,
                   inputFormatters: textInputType == TextInputType.number
                       ? [FilteringTextInputFormatter.digitsOnly]
                       : [],

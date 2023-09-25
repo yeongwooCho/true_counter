@@ -98,7 +98,7 @@ class _FestivalRegisterScreenState extends State<FestivalRegisterScreen> {
                   return null;
                 },
                 hintText: '- 없이 입력',
-                textInputType: TextInputType.phone,
+                textInputType: TextInputType.number,
               ),
               const SizedBox(height: 24.0),
               const Text(
@@ -149,6 +149,7 @@ class _FestivalRegisterScreenState extends State<FestivalRegisterScreen> {
                   validator: (String? value) {
                     return null;
                   },
+                  textInputType: TextInputType.multiline,
                   contentPaddingVertical: 12.0,
                   maxLines: 10,
                 ),

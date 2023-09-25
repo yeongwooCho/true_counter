@@ -9,7 +9,6 @@ import 'package:true_counter/common/layout/default_appbar.dart';
 import 'package:true_counter/common/layout/default_layout.dart';
 import 'package:true_counter/common/model/screen_arguments.dart';
 import 'package:true_counter/common/util/datetime.dart';
-import 'package:true_counter/common/variable/data_dummy.dart';
 import 'package:true_counter/common/variable/routes.dart';
 import 'package:true_counter/festival/component/custom_festival_card.dart';
 import 'package:true_counter/festival/model/festival_model.dart';
@@ -24,14 +23,15 @@ class FestivalDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bottomInset = MediaQuery.of(context).viewInsets.bottom;
+
     return DefaultLayout(
       appbar: const DefaultAppBar(title: '행사 상세정보'),
       bottomNavigationBar: SizedBox(
-        height: 64.0,
+        height: 64.0 + bottomInset,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
           child: CustomTextFormField(
-
             onSaved: (String? value) {},
             validator: (String? value) {
               return null;

@@ -26,6 +26,21 @@ class FestivalDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return DefaultLayout(
       appbar: const DefaultAppBar(title: '행사 상세정보'),
+      bottomNavigationBar: SizedBox(
+        height: 64.0,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+          child: CustomTextFormField(
+
+            onSaved: (String? value) {},
+            validator: (String? value) {
+              return null;
+            },
+            hintText: '댓글을 입력해 주세요.',
+            suffixIcon: const Icon(Icons.edit),
+          ),
+        ),
+      ),
       child: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(
@@ -65,15 +80,6 @@ class FestivalDetailScreen extends StatelessWidget {
                   ChatScreen(
                     chats: festivalModel.chats,
                   ),
-                  const SizedBox(height: 32.0),
-                  CustomTextFormField(
-                    onSaved: (String? value) {},
-                    validator: (String? value) {
-                      return null;
-                    },
-                    hintText: '댓글을 입력해 주세요.',
-                    suffixIcon: const Icon(Icons.edit),
-                  )
                 ],
               ),
             ),

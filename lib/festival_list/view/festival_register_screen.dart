@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kpostal/kpostal.dart';
 import 'package:true_counter/common/component/custom_text_form_field.dart';
@@ -6,6 +7,7 @@ import 'package:true_counter/common/const/colors.dart';
 import 'package:true_counter/common/const/text_style.dart';
 import 'package:true_counter/common/layout/default_appbar.dart';
 import 'package:true_counter/common/layout/default_layout.dart';
+import 'package:true_counter/common/util/datetime.dart';
 import 'package:true_counter/festival_list/component/custom_container_button.dart';
 
 class FestivalRegisterScreen extends StatefulWidget {
@@ -26,6 +28,10 @@ class _FestivalRegisterScreenState extends State<FestivalRegisterScreen> {
 
   // 참여 가능한 반경
   double radius = 0;
+
+  // 행사 기간
+  DateTime? startAt;
+  DateTime? endAt;
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +54,7 @@ class _FestivalRegisterScreenState extends State<FestivalRegisterScreen> {
                 validator: (String? value) {
                   return null;
                 },
+                hintText: '20자 이내',
               ),
               const SizedBox(height: 24.0),
               CustomTextFormField(
@@ -56,6 +63,7 @@ class _FestivalRegisterScreenState extends State<FestivalRegisterScreen> {
                 validator: (String? value) {
                   return null;
                 },
+                hintText: '20자 이내',
               ),
               const SizedBox(height: 24.0),
               CustomTextFormField(
@@ -64,6 +72,7 @@ class _FestivalRegisterScreenState extends State<FestivalRegisterScreen> {
                 validator: (String? value) {
                   return null;
                 },
+                hintText: '- 없이 입력',
               ),
               const SizedBox(height: 24.0),
               const Text(
@@ -109,20 +118,29 @@ class _FestivalRegisterScreenState extends State<FestivalRegisterScreen> {
                 onTapRadius: onTapRadius,
               ),
               const SizedBox(height: 24.0),
-              CustomTextFormField(
-                title: '행사 기간',
-                onSaved: (String? value) {},
-                validator: (String? value) {
-                  return null;
+              _FestivalDuration(
+                callBackData: ({
+                  required DateTime date,
+                  required bool isStart,
+                }) {
+                  if (isStart) {
+                    startAt = date;
+                  } else {
+                    endAt = date;
+                  }
                 },
               ),
               const SizedBox(height: 24.0),
-              CustomTextFormField(
-                title: '문의/전달사항(선택사항)',
-                onSaved: (String? value) {},
-                validator: (String? value) {
-                  return null;
-                },
+              SizedBox(
+                child: CustomTextFormField(
+                  title: '문의/전달사항(선택사항)',
+                  onSaved: (String? value) {},
+                  validator: (String? value) {
+                    return null;
+                  },
+                  contentPaddingVertival: 12.0,
+                  maxLines: 10,
+                ),
               ),
               const SizedBox(height: 32.0),
               ElevatedButton(
@@ -165,23 +183,6 @@ class _FestivalRegisterScreenState extends State<FestivalRegisterScreen> {
     );
   }
 
-  // Future<void> onTapDaumAddress({
-  //   required BuildContext context,
-  // }) async {
-  //   KopoModel model = await Navigator.push(
-  //     context,
-  //     CupertinoPageRoute(
-  //       builder: (context) => RemediKopo(),
-  //     ),
-  //   );
-  //   zonecode = model.zonecode;
-  //   address = model.address;
-  //   addressType = model.addressType;
-  //   userSelectedType = model.userSelectedType;
-  //   roadAddress = model.roadAddress;
-  //   jibunAddress = model.jibunAddress;
-  // }
-
   void onTapRadius({
     required double radius,
   }) {
@@ -199,6 +200,12 @@ class _FestivalRegisterScreenState extends State<FestivalRegisterScreen> {
         ),
       ),
     );
+    //   zonecode = model.zonecode;
+    //   address = model.address;
+    //   addressType = model.addressType;
+    //   userSelectedType = model.userSelectedType;
+    //   roadAddress = model.roadAddress;
+    //   jibunAddress = model.jibunAddress;
     print(result.address);
 
     setState(() {});
@@ -229,65 +236,222 @@ class _RadiusScopeState extends State<_RadiusScope> {
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        CustomContainerButton(
-          title: '무제한',
-          isSelected: selectedItemIndex == 0,
-          onTap: () {
-            selectedItemIndex = 0;
-            widget.onTapRadius(radius: 0);
+      children: List<Widget>.generate(
+        4,
+        (index) {
+          late String title;
+          late double radius;
 
-            setState(() {});
-          },
-          textPadding: 8.0,
-          borderColor: DARK_GREY_COLOR,
-          disableBackgroundColor: WHITE_TEXT_COLOR,
-          disableForegroundColor: DARK_GREY_COLOR,
-          width: buttonWidth,
+          switch (index) {
+            case 0:
+              title = '무제한';
+              radius = 0.0;
+            case 1:
+              title = '500m';
+              radius = 0.5;
+            case 2:
+              title = '1km';
+              radius = 1.0;
+            case 3:
+              title = '2km';
+              radius = 2.0;
+            default:
+              title = '';
+              radius = -1.0;
+          }
+
+          return CustomContainerButton(
+            title: title,
+            isSelected: selectedItemIndex == index,
+            onTap: () {
+              selectedItemIndex = index;
+              widget.onTapRadius(radius: radius);
+              setState(() {});
+            },
+            textPadding: 8.0,
+            borderColor: DARK_GREY_COLOR,
+            disableBackgroundColor: WHITE_TEXT_COLOR,
+            disableForegroundColor: DARK_GREY_COLOR,
+            width: buttonWidth,
+          );
+        },
+      ),
+    );
+  }
+}
+
+class _FestivalDuration extends StatefulWidget {
+  final void Function({
+    required DateTime date,
+    required bool isStart,
+  })? callBackData;
+
+  const _FestivalDuration({
+    Key? key,
+    required this.callBackData,
+  }) : super(key: key);
+
+  @override
+  State<_FestivalDuration> createState() => _FestivalDurationState();
+}
+
+class _FestivalDurationState extends State<_FestivalDuration> {
+  // 행사 기간
+  DateTime? startAt;
+  DateTime? endAt;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        const Text(
+          '행사 기간',
+          style: bodyTitleBoldTextStyle,
         ),
-        CustomContainerButton(
-          title: '2km',
-          isSelected: selectedItemIndex == 1,
-          onTap: () {
-            selectedItemIndex = 1;
-            widget.onTapRadius(radius: 2);
-            setState(() {});
-          },
-          textPadding: 8.0,
-          borderColor: DARK_GREY_COLOR,
-          disableBackgroundColor: WHITE_TEXT_COLOR,
-          disableForegroundColor: DARK_GREY_COLOR,
-          width: buttonWidth,
-        ),
-        CustomContainerButton(
-          title: '1km',
-          isSelected: selectedItemIndex == 2,
-          onTap: () {
-            selectedItemIndex = 2;
-            widget.onTapRadius(radius: 1);
-            setState(() {});
-          },
-          textPadding: 8.0,
-          borderColor: DARK_GREY_COLOR,
-          disableBackgroundColor: WHITE_TEXT_COLOR,
-          disableForegroundColor: DARK_GREY_COLOR,
-          width: buttonWidth,
-        ),
-        CustomContainerButton(
-          title: '500m',
-          isSelected: selectedItemIndex == 3,
-          onTap: () {
-            selectedItemIndex = 3;
-            widget.onTapRadius(radius: 0.5);
-            setState(() {});
-          },
-          textPadding: 8.0,
-          borderColor: DARK_GREY_COLOR,
-          disableBackgroundColor: WHITE_TEXT_COLOR,
-          disableForegroundColor: DARK_GREY_COLOR,
-          width: buttonWidth,
+        const SizedBox(height: 8.0),
+        Row(
+          children: [
+            Expanded(
+              child: GestureDetector(
+                onTap: () {
+                  onDatePressed(
+                    isStart: true,
+                  );
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      width: 1.0,
+                      color: DARK_GREY_COLOR,
+                    ),
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 12.0,
+                      horizontal: 12.0,
+                    ),
+                    child: startAt == null
+                        ? const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                '행사 시작 시간',
+                                style: descriptionGreyTextStyle,
+                              ),
+                              SizedBox(width: 4.0),
+                              Icon(
+                                Icons.expand_more_rounded,
+                                color: DARK_GREY_COLOR,
+                              ),
+                            ],
+                          )
+                        : Text(
+                            convertDateTimeToMinute(datetime: startAt!),
+                            textAlign: TextAlign.center,
+                          ),
+                  ),
+                ),
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text('~'),
+            ),
+            Expanded(
+              child: GestureDetector(
+                onTap: () {
+                  onDatePressed(
+                    isStart: false,
+                  );
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      width: 1.0,
+                      color: DARK_GREY_COLOR,
+                    ),
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 12.0,
+                      horizontal: 12.0,
+                    ),
+                    child: endAt == null
+                        ? const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                '행사 끝 시간',
+                                style: descriptionGreyTextStyle,
+                              ),
+                              SizedBox(width: 4.0),
+                              Icon(
+                                Icons.expand_more_rounded,
+                                color: DARK_GREY_COLOR,
+                              ),
+                            ],
+                          )
+                        : Text(
+                            convertDateTimeToMinute(datetime: endAt!),
+                            textAlign: TextAlign.center,
+                          ),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ],
+    );
+  }
+
+  void onDatePressed({
+    required bool isStart,
+  }) {
+    showCupertinoDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return Align(
+          alignment: Alignment.bottomCenter,
+          child: Container(
+            height: 240.0,
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.vertical(
+                top: Radius.circular(16.0),
+              ),
+              color: BACKGROUND_COLOR,
+            ),
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+              child: Expanded(
+                child: CupertinoDatePicker(
+                  dateOrder: DatePickerDateOrder.ymd,
+                  mode: CupertinoDatePickerMode.dateAndTime,
+                  onDateTimeChanged: (DateTime value) {
+                    if (isStart) {
+                      startAt = value;
+                    } else {
+                      endAt = value;
+                    }
+                    if (widget.callBackData != null) {
+                      widget.callBackData!(
+                        date: value,
+                        isStart: isStart,
+                      );
+                    }
+                    setState(() {});
+                  },
+                ),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

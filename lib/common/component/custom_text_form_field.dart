@@ -18,12 +18,14 @@ class CustomTextFormField extends StatelessWidget {
   final String? hintText;
   final Widget? suffixIcon;
   final int? maxLength;
+  final int? maxLines;
   final bool realOnly;
   final bool enabled;
   final FormFieldSetter<String>? onSaved;
   final FormFieldValidator<String>? validator;
   final VoidCallback? onEditingComplete;
   final FocusNode? focusNode;
+  final double contentPaddingVertival;
 
   const CustomTextFormField({
     Key? key,
@@ -36,12 +38,14 @@ class CustomTextFormField extends StatelessWidget {
     this.hintText,
     this.suffixIcon,
     this.maxLength,
+    this.maxLines,
     this.realOnly = false,
     this.enabled = true,
     required this.onSaved,
     required this.validator,
     this.onEditingComplete,
     this.focusNode,
+    this.contentPaddingVertival = 8.0,
   }) : super(key: key);
 
   @override
@@ -68,8 +72,8 @@ class CustomTextFormField extends StatelessWidget {
                   obscureText: obscureText,
                   onChanged: onChanged,
                   decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.symmetric(
-                      vertical: 8.0,
+                    contentPadding: EdgeInsets.symmetric(
+                      vertical: contentPaddingVertival,
                       horizontal: 12.0,
                     ),
                     border: OutlineInputBorder(
@@ -79,6 +83,7 @@ class CustomTextFormField extends StatelessWidget {
                     suffixIcon: suffixIcon,
                   ),
                   maxLength: maxLength,
+                  maxLines: maxLines,
                   textInputAction: TextInputAction.done,
                   keyboardType: textInputType,
                   // keyboardType: keyboardType == KeyboardType.number
@@ -108,8 +113,8 @@ class CustomTextFormField extends StatelessWidget {
             obscureText: obscureText,
             onChanged: onChanged,
             decoration: InputDecoration(
-              contentPadding: const EdgeInsets.symmetric(
-                vertical: 8.0,
+              contentPadding: EdgeInsets.symmetric(
+                vertical: contentPaddingVertival,
                 horizontal: 12.0,
               ),
               border: OutlineInputBorder(
@@ -120,6 +125,7 @@ class CustomTextFormField extends StatelessWidget {
             ),
             style: descriptionTextStyle,
             maxLength: maxLength,
+            maxLines: maxLines,
             textInputAction: TextInputAction.done,
             keyboardType: textInputType,
             inputFormatters: textInputType == TextInputType.number

@@ -7,6 +7,7 @@ import 'package:true_counter/common/const/colors.dart';
 import 'package:true_counter/common/const/text_style.dart';
 import 'package:true_counter/common/layout/default_appbar.dart';
 import 'package:true_counter/common/layout/default_layout.dart';
+import 'package:true_counter/common/util/custom_toast.dart';
 import 'package:true_counter/common/util/datetime.dart';
 import 'package:true_counter/festival_list/component/custom_container_button.dart';
 
@@ -18,20 +19,35 @@ class FestivalRegisterScreen extends StatefulWidget {
 }
 
 class _FestivalRegisterScreenState extends State<FestivalRegisterScreen> {
+  String? festivalTitle; // 행사명
+  String? applicant; // 주최자 이름 혹은 단체
+  String? applicantPhone; // 주최자 전화번호
+
+  double radius = 0; // 참여 가능한 반경
+  DateTime? startAt; // 행사 시작 시간
+  DateTime? endAt; // 행사 끝 시간
+  String? message;
+
   // 행사장 위치
-  String? zonecode;
+  TextEditingController? addressController;
+  String? postCode;
   String? address;
-  String? addressType;
-  String? userSelectedType;
   String? roadAddress;
   String? jibunAddress;
 
-  // 참여 가능한 반경
-  double radius = 0;
+  @override
+  void initState() {
+    super.initState();
 
-  // 행사 기간
-  DateTime? startAt;
-  DateTime? endAt;
+    addressController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    addressController?.dispose();
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +66,9 @@ class _FestivalRegisterScreenState extends State<FestivalRegisterScreen> {
               const SizedBox(height: 32.0),
               CustomTextFormField(
                 title: '행사명',
+                onChanged: (String? value) {
+                  festivalTitle = value;
+                },
                 onSaved: (String? value) {},
                 validator: (String? value) {
                   return null;
@@ -59,6 +78,9 @@ class _FestivalRegisterScreenState extends State<FestivalRegisterScreen> {
               const SizedBox(height: 24.0),
               CustomTextFormField(
                 title: '주최자/단체 이름',
+                onChanged: (String? value) {
+                  applicant = value;
+                },
                 onSaved: (String? value) {},
                 validator: (String? value) {
                   return null;
@@ -68,11 +90,15 @@ class _FestivalRegisterScreenState extends State<FestivalRegisterScreen> {
               const SizedBox(height: 24.0),
               CustomTextFormField(
                 title: '주최자/단체 연락처',
+                onChanged: (String? value) {
+                  applicantPhone = value;
+                },
                 onSaved: (String? value) {},
                 validator: (String? value) {
                   return null;
                 },
                 hintText: '- 없이 입력',
+                textInputType: TextInputType.phone,
               ),
               const SizedBox(height: 24.0),
               const Text(
@@ -80,34 +106,16 @@ class _FestivalRegisterScreenState extends State<FestivalRegisterScreen> {
                 style: bodyTitleBoldTextStyle,
               ),
               const SizedBox(height: 8.0),
-              (zonecode != null ||
-                      address != null ||
-                      addressType != null ||
-                      userSelectedType != null ||
-                      roadAddress != null ||
-                      jibunAddress != null)
-                  ? Container(
-                      color: Colors.red,
-                      child: Column(
-                        children: [
-                          Text(zonecode!),
-                          Text(address!),
-                          Text(addressType!),
-                          Text(userSelectedType!),
-                          Text(roadAddress!),
-                          Text(jibunAddress!),
-                        ],
-                      ),
-                    )
-                  : CustomContainerButton(
-                      title: '주소 선택',
-                      isSelected: true,
-                      onTap: onTapKakaoAddress,
-                      borderColor: DARK_GREY_COLOR,
-                      disableBackgroundColor: WHITE_TEXT_COLOR,
-                      disableForegroundColor: DARK_GREY_COLOR,
-                      textPadding: 12.0,
-                    ),
+              CustomTextFormField(
+                controller: addressController,
+                buttonText: '주소검색',
+                onPressedButton: onTapKakaoAddress,
+                enabled: false,
+                onSaved: (String? value) {},
+                validator: (String? value) {
+                  return null;
+                },
+              ),
               const SizedBox(height: 24.0),
               const Text(
                 '참여 가능한 반경',
@@ -134,19 +142,42 @@ class _FestivalRegisterScreenState extends State<FestivalRegisterScreen> {
               SizedBox(
                 child: CustomTextFormField(
                   title: '문의/전달사항(선택사항)',
+                  onChanged: (String? value) {
+                    message = value;
+                  },
                   onSaved: (String? value) {},
                   validator: (String? value) {
                     return null;
                   },
-                  contentPaddingVertival: 12.0,
+                  contentPaddingVertical: 12.0,
                   maxLines: 10,
                 ),
               ),
               const SizedBox(height: 32.0),
               ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
+                onPressed: festivalTitle == null ||
+                        applicant == null ||
+                        applicantPhone == null ||
+                        address == null ||
+                        startAt == null ||
+                        endAt == null ||
+                        festivalTitle!.isEmpty ||
+                        applicant!.isEmpty ||
+                        applicantPhone!.isEmpty ||
+                        address!.isEmpty
+                    ? null
+                    : () {
+                        if (endAt!.difference(startAt!).isNegative) {
+                          showCustomToast(
+                            context,
+                            msg: '행사 기간을\n올바르게 수정해주세요.',
+                          );
+                          return;
+                        }
+
+                        // TODO: 등록 신청 요청
+                        Navigator.of(context).pop();
+                      },
                 style: defaultButtonStyle,
                 child: const Text('등록 신청하기'),
               ),
@@ -196,17 +227,15 @@ class _FestivalRegisterScreenState extends State<FestivalRegisterScreen> {
       context,
       MaterialPageRoute(
         builder: (_) => KpostalView(
-          appBar: DefaultAppBar(title: '주소 검색'),
+          appBar: const DefaultAppBar(title: '주소 검색'),
         ),
       ),
     );
-    //   zonecode = model.zonecode;
-    //   address = model.address;
-    //   addressType = model.addressType;
-    //   userSelectedType = model.userSelectedType;
-    //   roadAddress = model.roadAddress;
-    //   jibunAddress = model.jibunAddress;
-    print(result.address);
+    postCode = result.postCode;
+    address = result.address;
+    roadAddress = result.roadAddress;
+    jibunAddress = result.jibunAddress;
+    addressController?.text = "[$postCode] $address";
 
     setState(() {});
   }
@@ -349,6 +378,7 @@ class _FestivalDurationState extends State<_FestivalDuration> {
                           )
                         : Text(
                             convertDateTimeToMinute(datetime: startAt!),
+                            style: descriptionTextStyle,
                             textAlign: TextAlign.center,
                           ),
                   ),
@@ -356,7 +386,7 @@ class _FestivalDurationState extends State<_FestivalDuration> {
               ),
             ),
             const Padding(
-              padding: EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(4.0),
               child: Text('~'),
             ),
             Expanded(
@@ -396,6 +426,7 @@ class _FestivalDurationState extends State<_FestivalDuration> {
                           )
                         : Text(
                             convertDateTimeToMinute(datetime: endAt!),
+                            style: descriptionTextStyle,
                             textAlign: TextAlign.center,
                           ),
                   ),

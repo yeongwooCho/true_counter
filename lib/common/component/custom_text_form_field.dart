@@ -9,6 +9,7 @@ import 'package:true_counter/common/const/text_style.dart';
 // }
 
 class CustomTextFormField extends StatelessWidget {
+  final TextEditingController? controller;
   final String? title;
   final String? buttonText;
   final GestureTapCallback? onPressedButton;
@@ -25,10 +26,11 @@ class CustomTextFormField extends StatelessWidget {
   final FormFieldValidator<String>? validator;
   final VoidCallback? onEditingComplete;
   final FocusNode? focusNode;
-  final double contentPaddingVertival;
+  final double contentPaddingVertical;
 
   const CustomTextFormField({
     Key? key,
+    this.controller,
     this.title,
     this.buttonText,
     this.onPressedButton,
@@ -45,7 +47,7 @@ class CustomTextFormField extends StatelessWidget {
     required this.validator,
     this.onEditingComplete,
     this.focusNode,
-    this.contentPaddingVertival = 8.0,
+    this.contentPaddingVertical = 8.0,
   }) : super(key: key);
 
   @override
@@ -65,6 +67,7 @@ class CustomTextFormField extends StatelessWidget {
             children: [
               Expanded(
                 child: TextFormField(
+                  controller: controller,
                   onSaved: onSaved,
                   validator: validator,
                   onEditingComplete: onEditingComplete,
@@ -73,7 +76,7 @@ class CustomTextFormField extends StatelessWidget {
                   onChanged: onChanged,
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.symmetric(
-                      vertical: contentPaddingVertival,
+                      vertical: contentPaddingVertical,
                       horizontal: 12.0,
                     ),
                     border: OutlineInputBorder(
@@ -106,6 +109,7 @@ class CustomTextFormField extends StatelessWidget {
           ),
         if (buttonText == null)
           TextFormField(
+            controller: controller,
             onSaved: onSaved,
             validator: validator,
             onEditingComplete: onEditingComplete,
@@ -114,7 +118,7 @@ class CustomTextFormField extends StatelessWidget {
             onChanged: onChanged,
             decoration: InputDecoration(
               contentPadding: EdgeInsets.symmetric(
-                vertical: contentPaddingVertival,
+                vertical: contentPaddingVertical,
                 horizontal: 12.0,
               ),
               border: OutlineInputBorder(

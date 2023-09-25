@@ -4,6 +4,7 @@ import 'package:true_counter/common/const/colors.dart';
 import 'package:true_counter/common/const/text_style.dart';
 import 'package:true_counter/common/layout/default_appbar.dart';
 import 'package:true_counter/common/layout/default_layout.dart';
+import 'package:true_counter/common/util/show_cupertino_alert.dart';
 import 'package:true_counter/common/variable/routes.dart';
 
 class WithdrawScreen extends StatefulWidget {
@@ -91,9 +92,22 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
                       // TODO: (로그아웃) UserModel current = null, LocalStorage.clearAll()
                       // TODO: (회원탈퇴 요청) API Request
                       // TODO: 첫 화면으로 이동
-                      Navigator.of(context).pushNamedAndRemoveUntil(
-                        RouteNames.onBoarding,
-                        (route) => false,
+                      showAlert(
+                        context: context,
+                        titleWidget: const Text('회원 탈퇴 하시겠습니까?'),
+                        contentWidget: const Text('회원님의 개인 정보는 모두 삭제됩니다.'),
+                        completeText: '확인',
+                        completeFunction: () {
+                          // TODO: 로그아웃 로직
+                          Navigator.of(context).pushNamedAndRemoveUntil(
+                            RouteNames.onBoarding,
+                            (route) => false,
+                          );
+                        },
+                        cancelText: '취소',
+                        cancelFunction: () {
+                          Navigator.pop(context);
+                        },
                       );
                     }
                   : null,

@@ -85,11 +85,4 @@ class UserModel {
       key: LocalStorageKey.accessToken,
     );
   }
-
-  Future<void> autoLogin() async {
-    await LocalStorage.setAccessToken(
-      key: LocalStorageKey.accessToken,
-      value: token,
-    );
-  }
 }

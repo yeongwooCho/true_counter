@@ -13,7 +13,11 @@ class Url {
   // user
   static String accounts = '$baseUrl/accounts/v1';
   static String register = '$baseUrl/accounts/v1/sign_up';
-  static String login = '$baseUrl/accounts/v1/sign_in';
+
+  static String emailLogin = '$baseUrl/accounts/v1/sign_in';
+  static String kakaoLogin = '$baseUrl/accounts/v1/sign_in';
+  static String appleLogin = '$baseUrl/accounts/v1/sign_in';
+
   static String autoLogin = '$baseUrl/accounts/v1/sign_in/auto';
   static String logout = '$baseUrl/accounts/v1/sign_out';
   static String findEmail = '$baseUrl/accounts/v1/find_email';

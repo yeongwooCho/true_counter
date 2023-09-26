@@ -35,7 +35,7 @@ class CustomTextFormField extends StatelessWidget {
     this.hintText,
     this.suffixIcon,
     this.maxLength,
-    this.maxLines,
+    this.maxLines = 1,
     this.realOnly = false,
     this.enabled = true,
     required this.onSaved,

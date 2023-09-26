@@ -9,7 +9,7 @@ class LocalStorage {
   static const FlutterSecureStorage _instance = FlutterSecureStorage();
 
   // 읽기
-  static Future<String?> getAccessToken({
+  static Future<String?> getToken({
     required String key,
   }) async {
     return await _instance.read(key: key);
@@ -46,7 +46,7 @@ class LocalStorage {
 
   Future<bool> hasAuthenticated() async {
     String? accessToken =
-        await getAccessToken(key: LocalStorageKey.accessToken);
+        await getToken(key: LocalStorageKey.accessToken);
 
     return accessToken != null && accessToken.isNotEmpty;
   }

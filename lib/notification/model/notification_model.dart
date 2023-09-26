@@ -2,7 +2,7 @@ class NotificationModel {
   late String id;
   late String title;
   late String description;
-  late String createdAt;
+  late DateTime createdAt;
 
   // TODO: Dummy
   NotificationModel({

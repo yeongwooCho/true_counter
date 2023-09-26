@@ -4,7 +4,7 @@ import 'package:true_counter/notification/repository/notification_repository.dar
 
 class NotificationProvider extends ChangeNotifier {
   final NotificationRepository repository;
-  Map<String, List<NotificationModel>> cache = {};
+  Map<DateTime, List<NotificationModel>> cache = {};
 
   NotificationProvider({
     required this.repository,
@@ -15,7 +15,17 @@ class NotificationProvider extends ChangeNotifier {
   void getNotifications() async {
     final resp = await repository.getNotifications();
 
-    cache.update('', (value) => resp, ifAbsent: () => resp);
+    if (resp.isEmpty) {
+      return;
+    }
+    List<DateTime> dateTimes = resp.map((e) => e.createdAt).toList();
+    dateTimes.sort((prev, next) => next.compareTo(prev));
+    DateTime latestCreatedAt = dateTimes.first;
+
+    if (!cache.keys.contains(latestCreatedAt)) {
+      cache.clear();
+      cache.update(latestCreatedAt, (value) => resp, ifAbsent: () => resp);
+    }
 
     notifyListeners();
   }

@@ -154,6 +154,7 @@ class _FestivalRegisterScreenState extends State<FestivalRegisterScreen> {
                     return null;
                   },
                   textInputType: TextInputType.multiline,
+                  textInputAction: TextInputAction.newline,
                   contentPaddingVertical: 12.0,
                   maxLines: 10,
                   maxLength: 500,

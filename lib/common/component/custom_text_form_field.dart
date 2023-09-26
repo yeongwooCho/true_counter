@@ -9,6 +9,7 @@ class CustomTextFormField extends StatelessWidget {
   final String? buttonText;
   final GestureTapCallback? onPressedButton;
   final TextInputType textInputType;
+  final TextInputAction textInputAction;
   final ValueChanged<String>? onChanged;
   final bool obscureText;
   final String? hintText;
@@ -30,6 +31,7 @@ class CustomTextFormField extends StatelessWidget {
     this.buttonText,
     this.onPressedButton,
     this.textInputType = TextInputType.text,
+    this.textInputAction = TextInputAction.done,
     this.onChanged,
     this.obscureText = false,
     this.hintText,
@@ -82,7 +84,7 @@ class CustomTextFormField extends StatelessWidget {
                   ),
                   maxLength: maxLength,
                   maxLines: maxLines,
-                  textInputAction: TextInputAction.done,
+                  textInputAction: textInputAction,
                   keyboardType: textInputType,
                   inputFormatters: textInputType == TextInputType.number
                       ? [FilteringTextInputFormatter.digitsOnly]
@@ -122,7 +124,7 @@ class CustomTextFormField extends StatelessWidget {
             style: descriptionTextStyle,
             maxLength: maxLength,
             maxLines: maxLines,
-            textInputAction: TextInputAction.done,
+            textInputAction: textInputAction,
             keyboardType: textInputType,
             inputFormatters: textInputType == TextInputType.number
                 ? [FilteringTextInputFormatter.digitsOnly]

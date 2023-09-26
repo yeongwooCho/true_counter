@@ -3,8 +3,10 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:true_counter/common/model/api_response.dart';
+import 'package:true_counter/common/model/app_info.dart';
 import 'package:true_counter/common/repository/local_storage.dart';
 import 'package:true_counter/common/repository/urls.dart';
+import 'package:true_counter/user/model/enum/sign_up_type.dart';
 import 'package:true_counter/user/model/kakao_request_model.dart';
 import 'package:true_counter/user/model/token_model.dart';
 import 'package:true_counter/user/repository/user_repository_interface.dart';
@@ -15,49 +17,55 @@ class UserRepository extends UserRepositoryInterface {
   final KakaoAuth _kakaoAuth = KakaoAuth();
 
   @override
-  Future<bool> register({
+  Future<bool> signUp({
     required String email,
     required String password,
     required String phone,
-    required String certification,
+    required String birthday,
     required bool gender,
-    required DateTime birthday,
-    required String location,
+    required String region,
+    required SignUpType signUpType,
   }) async {
     try {
+      Codec<String, String> stringToBase64 = utf8.fuse(base64);
+      String encodingPassword = stringToBase64.encode(password);
+
       final resp = await _dio.post(
-        Url.register,
+        Url.signUp,
         data: {
           "email": email,
-          "password": password,
+          "password": encodingPassword,
           "phone": phone,
-          "certification": certification,
-          "gender": gender,
           "birthday": birthday,
-          "location": location,
+          "gender": gender,
+          "region": region,
+          "appVersion": AppInfo.currentVersion,
+          "signupType": signUpType.label,
         },
       );
+
       if (resp.statusCode == null ||
           resp.statusCode! < 200 ||
           resp.statusCode! > 400) {
         return false;
       }
 
-      ApiResponse<TokenModel> tokenModel = ApiResponse<TokenModel>.fromJson(
-        json: resp.data,
-      );
+      ApiResponse<Map<String, dynamic>> responseData =
+          ApiResponse<Map<String, dynamic>>.fromJson(json: resp.data);
 
-      if (tokenModel.data == null) {
+      if (responseData.data == null) {
         return false;
       }
 
+      TokenModel tokenModel = TokenModel.fromJson(json: responseData.data!);
+      await LocalStorage.clearAll();
       await LocalStorage.setAccessToken(
         key: LocalStorageKey.accessToken,
-        value: resp.data['refreshToken'],
+        value: tokenModel.accessToken,
       );
       await LocalStorage.setAccessToken(
         key: LocalStorageKey.refreshToken,
-        value: resp.data['accessToken'],
+        value: tokenModel.refreshToken,
       );
 
       return true;
@@ -68,73 +76,46 @@ class UserRepository extends UserRepositoryInterface {
   }
 
   @override
-  Future<bool> emailLogin({
+  Future<bool> signIn({
     required String email,
     required String password,
+    required bool isAutoSignIn,
   }) async {
-    String rawString = '$email:$password';
-
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
-
-    String token = stringToBase64.encode(rawString);
+    String encodingPassword = stringToBase64.encode(password);
 
     try {
       final resp = await _dio.post(
-        Url.emailLogin,
-        options: Options(
-          headers: {
-            'authorization': 'Basic $token',
-          },
-        ),
+        Url.signIn,
+        data: {
+          "email": email,
+          "password": encodingPassword,
+          "autoSignIn": isAutoSignIn,
+        },
       );
+
       if (resp.statusCode == null ||
           resp.statusCode! < 200 ||
           resp.statusCode! > 400) {
         return false;
       }
 
-      ApiResponse<TokenModel> tokenModel = ApiResponse<TokenModel>.fromJson(
-        json: resp.data,
-      );
+      ApiResponse<Map<String, dynamic>> responseData =
+          ApiResponse<Map<String, dynamic>>.fromJson(json: resp.data);
 
-      if (tokenModel.data == null) {
+      if (responseData.data == null) {
         return false;
       }
-
+      TokenModel tokenModel = TokenModel.fromJson(json: responseData.data!);
+      await LocalStorage.clearAll();
       await LocalStorage.setAccessToken(
         key: LocalStorageKey.accessToken,
-        value: resp.data['refreshToken'],
+        value: tokenModel.accessToken,
       );
       await LocalStorage.setAccessToken(
         key: LocalStorageKey.refreshToken,
-        value: resp.data['accessToken'],
+        value: tokenModel.refreshToken,
       );
-
-      return true;
-    } catch (e) {
-      debugPrint('UserRepository Error: ${e.toString()}');
-      return false;
-    }
-  }
-
-  @override
-  Future<bool> autoLogin() async {
-    try {
-      final accessToken =
-          LocalStorage.getToken(key: LocalStorageKey.accessToken);
-      final resp = await _dio.post(
-        Url.autoLogin,
-        options: Options(
-          headers: {
-            'authorization': 'Bearer $accessToken',
-          },
-        ),
-      );
-      if (resp.statusCode == null ||
-          resp.statusCode! < 200 ||
-          resp.statusCode! > 400) {
-        return false;
-      }
 
       return true;
     } catch (e) {
@@ -147,22 +128,60 @@ class UserRepository extends UserRepositoryInterface {
   Future<bool> tokenReissue() async {
     try {
       final accessToken =
-          LocalStorage.getToken(key: LocalStorageKey.accessToken);
+          await LocalStorage.getToken(key: LocalStorageKey.accessToken);
       final refreshToken =
-          LocalStorage.getToken(key: LocalStorageKey.refreshToken);
+          await LocalStorage.getToken(key: LocalStorageKey.refreshToken);
 
       final resp = await _dio.post(
-        Url.autoLogin,
-        options: Options(
-          headers: {
-            'authorization': 'Bearer $accessToken',
-          },
-        ),
+        Url.reissue,
         data: {
           'accessToken': accessToken,
           'refreshToken': refreshToken,
         },
       );
+
+      if (resp.statusCode == null ||
+          resp.statusCode! < 200 ||
+          resp.statusCode! > 400) {
+        return false;
+      }
+
+      ApiResponse<Map<String, dynamic>> responseData =
+          ApiResponse<Map<String, dynamic>>.fromJson(json: resp.data);
+
+      if (responseData.data == null) {
+        return false;
+      }
+      TokenModel tokenModel = TokenModel.fromJson(json: responseData.data!);
+      await LocalStorage.clearAll();
+      await LocalStorage.setAccessToken(
+        key: LocalStorageKey.accessToken,
+        value: tokenModel.accessToken,
+      );
+      await LocalStorage.setAccessToken(
+        key: LocalStorageKey.refreshToken,
+        value: tokenModel.refreshToken,
+      );
+
+      return true;
+    } catch (e) {
+      debugPrint('UserRepository Error: ${e.toString()}');
+      return false;
+    }
+  }
+
+  @override
+  Future<bool> tokenSignIn() async {
+    try {
+      final accessToken =
+          await LocalStorage.getToken(key: LocalStorageKey.accessToken);
+      final resp = await _dio.post(
+        Url.tokenSignIn,
+        data: {
+          "accessToken": accessToken,
+        },
+      );
+
       if (resp.statusCode == null ||
           resp.statusCode! < 200 ||
           resp.statusCode! > 400) {

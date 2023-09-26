@@ -7,6 +7,7 @@ import 'package:true_counter/common/const/button_style.dart';
 import 'package:true_counter/common/const/colors.dart';
 import 'package:true_counter/common/const/data.dart';
 import 'package:true_counter/common/const/text_style.dart';
+import 'package:true_counter/common/data/enum/location_label.dart';
 import 'package:true_counter/common/layout/default_appbar.dart';
 import 'package:true_counter/common/layout/default_layout.dart';
 import 'package:true_counter/common/variable/routes.dart';

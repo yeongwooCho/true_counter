@@ -16,4 +16,13 @@ class TokenModel {
 
     return tokenModel;
   }
+
+  @override
+  String toString() {
+    return 'TokenModel ('
+        'grantType: $grantType, '
+        'accessToken: $accessToken, '
+        'refreshToken: $refreshToken, '
+        ')';
+  }
 }

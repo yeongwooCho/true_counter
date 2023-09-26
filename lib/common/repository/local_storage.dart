@@ -27,7 +27,7 @@ class LocalStorage {
         accessibility: KeychainAccessibility.passcode,
       ),
       aOptions: const AndroidOptions(
-        encryptedSharedPreferences: true,
+        // encryptedSharedPreferences: true,
       ),
     );
   }

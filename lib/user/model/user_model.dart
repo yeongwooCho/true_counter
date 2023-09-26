@@ -1,4 +1,5 @@
 import 'package:true_counter/common/repository/local_storage.dart';
+import 'package:true_counter/user/model/enum/sign_up_type.dart';
 
 class UserModel {
   late String id;
@@ -8,7 +9,7 @@ class UserModel {
   late String gender;
   late String birth;
   late String region;
-  late String loginType;
+  late SignUpType signUpType;
   late String token;
   bool isDummy = false;
 
@@ -38,7 +39,7 @@ class UserModel {
     user.gender = json['gender'] ?? '';
     user.birth = json['date'] ?? '';
     user.region = json['region'] ?? '';
-    user.loginType = json['loginType'] ?? '';
+    user.signUpType = json['signUpType'] ?? '';
     user.token = json['token'] ?? '';
     user.isDummy = isDummy;
 
@@ -58,7 +59,7 @@ class UserModel {
       'gender': gender,
       'birth': birth,
       'region': region,
-      'loginType': loginType,
+      'signUpType': signUpType,
       'token': token,
     };
   }
@@ -73,7 +74,7 @@ class UserModel {
         'gender: $gender'
         'birth: $birth'
         'region: $region'
-        'loginType: $loginType'
+        'signUpType: $signUpType'
         'token: $token'
         'isDummy: $isDummy'
         ')';

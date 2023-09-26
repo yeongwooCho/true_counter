@@ -1,20 +1,19 @@
 class ApiResponse<T> {
-  late int code;
   String? message;
   T? data;
-  Map<String, T>? dataDict;
 
-  ApiResponse();
+  ApiResponse({
+    required this.message,
+    required this.data,
+  });
 
   ApiResponse.fromJson({
     required Map<String, dynamic> json,
-  })  : code = json['code'],
-        message = json['message'],
-        data = json['data'],
-        dataDict = json['dataDict'];
+  })  : message = json['message'],
+        data = json['data'];
 
   @override
   String toString() {
-    return 'ApiResponse<$T> = { code: $code, message: $message, data: $data, dataDict: $dataDict }';
+    return 'ApiResponse<$T> = {message: $message, data: $data}';
   }
 }

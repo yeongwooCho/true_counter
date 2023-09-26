@@ -20,5 +20,3 @@ const List<String> locationData = [
   "경상남도",
   "제주특별자치도",
 ];
-
-List<NotificationModel> notifications = [];

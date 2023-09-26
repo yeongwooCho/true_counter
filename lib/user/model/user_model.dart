@@ -1,4 +1,4 @@
-import 'package:true_counter/common/variable/local_storage.dart';
+import 'package:true_counter/common/repository/local_storage.dart';
 
 class UserModel {
   late String id;
@@ -82,13 +82,13 @@ class UserModel {
   Future<void> logout() async {
     UserModel.current = null;
     await LocalStorage.clear(
-      key: LocalStorageKey.token,
+      key: LocalStorageKey.accessToken,
     );
   }
 
   Future<void> autoLogin() async {
-    await LocalStorage.write(
-      key: LocalStorageKey.token,
+    await LocalStorage.setAccessToken(
+      key: LocalStorageKey.accessToken,
       value: token,
     );
   }

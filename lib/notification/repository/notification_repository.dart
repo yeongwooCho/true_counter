@@ -1,14 +1,36 @@
 import 'package:dio/dio.dart';
-import 'package:true_counter/common/variable/data.dart';
+import 'package:flutter/material.dart';
+import 'package:true_counter/common/model/api_response.dart';
+import 'package:true_counter/common/repository/urls.dart';
 import 'package:true_counter/notification/model/notification_model.dart';
 
 class NotificationRepository {
   final _dio = Dio();
 
-  Future<void> getNotification() async {
-    // final resp = _dio.get('path');
+  Future<List<NotificationModel>> getNotifications() async {
+    // final resp = await _dio.get(Url.notification);
+    //
+    // if (resp.statusCode == null ||
+    //     resp.statusCode! < 200 ||
+    //     resp.statusCode! > 400) {
+    //   return [];
+    // }
 
-    notifications = [
+    try {
+      // ApiResponse<List<NotificationModel>> notifications =
+      //     ApiResponse<List<NotificationModel>>.fromJson(json: resp.data);
+
+      // return notifications.data!;
+      return await testGetNotifications();
+    } catch (e) {
+      debugPrint('NotificationRepository Error: ${e.toString()}');
+      return [];
+    }
+  }
+
+  // TODO: 이거 지워야 함
+  Future<List<NotificationModel>> testGetNotifications() async {
+    return [
       NotificationModel(
         id: '1',
         title: '[공지] 2023년 5월 집회 / 행사 일정 안내',

@@ -60,13 +60,18 @@ class FestivalModel {
     festival.longitude = json['longitude'] ?? '';
     festival.radius = json['radius'] ?? '';
     festival.address = json['address'] ?? '';
-    festival.startAt = json['startAt'] ?? '';
-    festival.endAt = json['endAt'] ?? '';
+
+    festival.startAt = DateTime.parse(json['startAt']);
+    festival.endAt = DateTime.parse(json['endAt']);
+    festival.userParticipationAt = DateTime.parse(json['userParticipationAt']);
+
     festival.cumulativeParticipantCount =
         json['cumulativeParticipantCount'] ?? '';
-    festival.userParticipationAt = json['userParticipationAt'] ?? '';
     festival.participants = json['participants'];
-    festival.chats = json['chats'];
+
+    festival.chats = json['chats'].map<ChatModel>((element) {
+      return ChatModel.fromJson(json: element);
+    }).toList();
 
     return festival;
   }

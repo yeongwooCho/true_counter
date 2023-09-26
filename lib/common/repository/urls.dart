@@ -24,5 +24,5 @@ class Url {
   static String notification = '$baseUrl/notification/';
 
   // festival
-
+  static String festival = '$baseUrl/festival/';
 }

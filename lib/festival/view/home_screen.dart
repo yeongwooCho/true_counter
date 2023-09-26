@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:true_counter/common/component/custom_drop_down_button.dart';
 import 'package:true_counter/common/const/colors.dart';
 import 'package:true_counter/common/const/data.dart';
 import 'package:true_counter/common/const/text_style.dart';
 import 'package:true_counter/common/layout/default_appbar.dart';
 import 'package:true_counter/common/layout/default_layout.dart';
-import 'package:true_counter/common/variable/data.dart';
-import 'package:true_counter/common/variable/data_dummy.dart';
 import 'package:true_counter/common/variable/routes.dart';
 import 'package:true_counter/festival/component/custom_festival_card.dart';
 import 'package:true_counter/festival/model/festival_model.dart';
+import 'package:true_counter/festival/provider/festival_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -19,10 +19,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  String location = locations.first;
+  String location = LocationLabel.getLabels().first;
 
   @override
   Widget build(BuildContext context) {
+    final provider = context.watch<FestivalProvider>();
+    final festivals = provider.cache[''] ?? [];
+
     return DefaultLayout(
       appbar: DefaultAppBar(
         title: '트루카운터',
@@ -68,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   SizedBox(
                     width: 180.0,
                     child: CustomDropDownButton(
-                      dropdownList: locationData,
+                      dropdownList: LocationLabel.getLabels(),
                       defaultValue: location,
                       onChanged: (String? value) {
                         if (value != null) {
@@ -83,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               const SizedBox(height: 16.0),
               CustomListView(
-                festivals: festivalListData,
+                festivals: festivals,
                 emptyMessage: '오늘의 행사는\n존재하지 않습니다',
               ),
               const Divider(
@@ -99,7 +102,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               const SizedBox(height: 24.0),
               CustomListView(
-                festivals: festivalListData,
+                festivals: festivals,
                 emptyMessage: '최근 종료된 행사가\n존재하지 않습니다',
               ),
             ],

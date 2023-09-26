@@ -1,6 +1,8 @@
 # My Settings
 *.env
 lib/my_settings.dart
+asset/json/
+
 
 
 # Miscellaneous

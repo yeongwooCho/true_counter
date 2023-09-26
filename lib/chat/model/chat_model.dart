@@ -26,12 +26,12 @@ class ChatModel {
     ChatModel chatModel = ChatModel._internal();
 
     chatModel.id = json['id'] ?? '';
-    chatModel.parentChatId = json['parentChatId'] ?? '';
+    chatModel.parentChatId = json['parentChatId'];
     chatModel.username = json['username'] ?? '';
     chatModel.content = json['content'] ?? '';
     chatModel.like = json['like'] ?? '';
     chatModel.declaration = json['declaration'] ?? '';
-    chatModel.createdAt = json['createdAt'] ?? '';
+    chatModel.createdAt = DateTime.parse(json['createdAt']);
 
     return chatModel;
   }

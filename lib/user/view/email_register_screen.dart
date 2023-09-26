@@ -349,7 +349,7 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                         const SizedBox(width: 16.0),
                         Expanded(
                           child: CustomDropDownButton(
-                            dropdownList: locations,
+                            dropdownList: LocationLabel.getLabels(),
                             defaultValue: location == null ? '선택' : location!,
                             onChanged: (String? value) {
                               location = value;

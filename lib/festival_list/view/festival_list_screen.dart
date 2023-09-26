@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:true_counter/common/component/custom_list_card.dart';
 import 'package:true_counter/common/layout/default_appbar.dart';
 import 'package:true_counter/common/layout/default_layout.dart';
@@ -8,6 +9,7 @@ import 'package:true_counter/common/variable/data_dummy.dart';
 import 'package:true_counter/common/variable/routes.dart';
 import 'package:true_counter/common/view/custom_list_screen.dart';
 import 'package:true_counter/festival/model/festival_model.dart';
+import 'package:true_counter/festival/provider/festival_provider.dart';
 import 'package:true_counter/festival_list/component/custom_container_button.dart';
 
 class FestivalListScreen extends StatefulWidget {
@@ -32,17 +34,27 @@ class _FestivalListScreenState extends State<FestivalListScreen> {
   void initState() {
     super.initState();
 
-    // TODO: 이후 서버에서 가져온 값으로 로딩하도록 구현해야함.
-    if (beingFestivals.isEmpty) {
-      beingFestivals = festivalListData.where((festivalModel) {
-        return festivalModel.startAt.isBefore(now) &&
-            festivalModel.endAt.isAfter(now);
-      }).toList();
-    }
+    // // TODO: 이후 서버에서 가져온 값으로 로딩하도록 구현해야함.
+    // if (beingFestivals.isEmpty) {
+    //   beingFestivals = festivalListData.where((festivalModel) {
+    //     return festivalModel.startAt.isBefore(now) &&
+    //         festivalModel.endAt.isAfter(now);
+    //   }).toList();
+    // }
   }
 
   @override
   Widget build(BuildContext context) {
+    final provider = context.watch<FestivalProvider>();
+    final festivals = provider.cache[''] ?? [];
+    // TODO: 이후 서버에서 가져온 값으로 로딩하도록 구현해야함.
+    if (beingFestivals.isEmpty) {
+      beingFestivals = festivals.where((festivalModel) {
+        return festivalModel.startAt.isBefore(now) &&
+            festivalModel.endAt.isAfter(now);
+      }).toList();
+    }
+
     return DefaultLayout(
       appbar: DefaultAppBar(
         title: '행사 리스트',
@@ -72,7 +84,7 @@ class _FestivalListScreenState extends State<FestivalListScreen> {
                     title: '진행중',
                     isSelected: selectedItemIndex == 0,
                     onTap: () {
-                      beingFestivals = festivalListData.where((festivalModel) {
+                      beingFestivals = festivals.where((festivalModel) {
                         return (now.isAfter(festivalModel.startAt) ||
                                 now.isAtSameMomentAs(festivalModel.startAt)) &&
                             (now.isBefore(festivalModel.endAt) ||
@@ -90,7 +102,7 @@ class _FestivalListScreenState extends State<FestivalListScreen> {
                     title: '예정',
                     isSelected: selectedItemIndex == 1,
                     onTap: () {
-                      toBeFestivals = festivalListData.where((festivalModel) {
+                      toBeFestivals = festivals.where((festivalModel) {
                         return festivalModel.startAt.isAfter(now) &&
                             festivalModel.endAt.isAfter(now);
                       }).toList();
@@ -106,7 +118,7 @@ class _FestivalListScreenState extends State<FestivalListScreen> {
                     title: '종료',
                     isSelected: selectedItemIndex == 2,
                     onTap: () {
-                      beenFestivals = festivalListData.where((festivalModel) {
+                      beenFestivals = festivals.where((festivalModel) {
                         return festivalModel.startAt.isBefore(now) &&
                             festivalModel.endAt.isBefore(now);
                       }).toList();

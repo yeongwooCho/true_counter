@@ -89,6 +89,7 @@ flutter:
     - asset/config/.development.env
     - asset/config/.production.env
     - asset/img/sns/
+    - asset/json/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

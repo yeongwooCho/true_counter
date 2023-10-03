@@ -136,10 +136,17 @@ class UserRepository extends UserRepositoryInterface {
   @override
   Future<bool> tokenReissue() async {
     try {
-      final accessToken =
+      final String? accessToken =
           await LocalStorage.getToken(key: LocalStorageKey.accessToken);
-      final refreshToken =
+      final String? refreshToken =
           await LocalStorage.getToken(key: LocalStorageKey.refreshToken);
+
+      if (accessToken == null ||
+          refreshToken == null ||
+          accessToken.isEmpty ||
+          refreshToken.isEmpty) {
+        return false;
+      }
 
       final resp = await _dio.post(
         Url.reissue,
@@ -183,8 +190,13 @@ class UserRepository extends UserRepositoryInterface {
   @override
   Future<bool> tokenSignIn() async {
     try {
-      final accessToken =
+      final String? accessToken =
           await LocalStorage.getToken(key: LocalStorageKey.accessToken);
+
+      if (accessToken == null || accessToken.isEmpty) {
+        return false;
+      }
+
       final resp = await _dio.post(
         Url.tokenSignIn,
         data: {

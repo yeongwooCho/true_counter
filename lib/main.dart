@@ -10,7 +10,7 @@ import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 import 'package:provider/provider.dart';
 import 'package:true_counter/common/variable/routes.dart';
-import 'package:true_counter/common/view/splash_screen.dart';
+import 'package:true_counter/user/view/splash_screen.dart';
 import 'package:true_counter/festival/provider/festival_provider.dart';
 import 'package:true_counter/festival/repository/festival_repository.dart';
 import 'package:true_counter/firebase_options.dart';

@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:true_counter/common/const/colors.dart';
 import 'package:true_counter/common/const/text_style.dart';
 import 'package:true_counter/common/layout/default_layout.dart';
+import 'package:true_counter/common/repository/local_storage.dart';
 import 'package:true_counter/common/variable/routes.dart';
+import 'package:true_counter/user/repository/user_repository.dart';
+import 'package:true_counter/user/repository/user_repository_interface.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -12,11 +15,13 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  final UserRepositoryInterface _userRepository = UserRepository();
+
   @override
   void initState() {
     super.initState();
 
-    delay();
+    initSplash();
   }
 
   @override
@@ -63,12 +68,54 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
-  Future<void> delay() async {
-    Future.delayed(const Duration(seconds: 2), () {
-      Navigator.of(context).popAndPushNamed(
-        RouteNames.onBoarding,
-      );
-    });
+  void initSplash() async {
+    bool isGetSplashData = await getSplashData();
+
+    if (!isGetSplashData) return;
+
+    bool isAutoLogin = await autoLogin();
+
+    String nextRoute = RouteNames.onBoarding;
+    if (isAutoLogin) {
+      nextRoute = RouteNames.root;
+    }
+
+    Navigator.of(context).popAndPushNamed(nextRoute);
+  }
+
+  Future<bool> getSplashData() async {
+    // TODO: Splash 화면에서 기본 데이터 가져오기
+    return true;
+  }
+
+  Future<bool> autoLogin() async {
+    String? accessToken =
+        await LocalStorage.getToken(key: LocalStorageKey.accessToken);
+    String? refreshToken =
+        await LocalStorage.getToken(key: LocalStorageKey.refreshToken);
+
+    if (accessToken == null ||
+        accessToken.isEmpty ||
+        refreshToken == null ||
+        refreshToken.isEmpty) {
+      return false;
+    }
+
+    // 토큰 로그인 시도
+    final bool isTokenSignIn = await _userRepository.tokenSignIn();
+
+    // 토큰 로그인 실패
+    if(!isTokenSignIn) {
+      // refresh token 재발급
+      final bool isTokenReissue = await _userRepository.tokenReissue();
+
+      // refresh token 재발급 성공
+      if(isTokenReissue) {
+        return await _userRepository.tokenSignIn();
+      } 
+    }
+
+    return isTokenSignIn;
   }
 }
 

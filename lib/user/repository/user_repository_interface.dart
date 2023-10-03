@@ -15,7 +15,6 @@ abstract class UserRepositoryInterface {
   Future<bool> signIn({
     required String email,
     required String password,
-    required bool isAutoSignIn,
   });
 
   Future<bool> tokenSignIn();

@@ -13,6 +13,9 @@ import 'package:true_counter/common/variable/routes.dart';
 import 'package:true_counter/common/util/custom_toast.dart';
 import 'package:true_counter/common/util/datetime.dart';
 import 'package:true_counter/common/util/regular_expression_pattern.dart';
+import 'package:true_counter/user/model/enum/sign_up_type.dart';
+import 'package:true_counter/user/repository/user_repository.dart';
+import 'package:true_counter/user/repository/user_repository_interface.dart';
 import 'package:true_counter/user/util/firebase_phone_auth.dart';
 
 class EmailRegisterScreen extends StatefulWidget {
@@ -23,6 +26,8 @@ class EmailRegisterScreen extends StatefulWidget {
 }
 
 class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
+  final UserRepositoryInterface _userRepository = UserRepository();
+
   // form focus
   final GlobalKey<FormState> formKey = GlobalKey();
   final GlobalKey<FormState> emailFormKey = GlobalKey();
@@ -377,8 +382,30 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                               location != '선택' &&
                               formKey.currentState != null &&
                               formKey.currentState!.validate()
-                          ? () {
-                              Navigator.of(context).pushNamed(RouteNames.terms);
+                          ? () async {
+                              final isSuccessSignIn =
+                                  await _userRepository.signUp(
+                                email: emailText!,
+                                password: passwordText!,
+                                phone: phoneText!,
+                                birthday: convertDateTimeToOnlyDateString(
+                                  datetime: birthday!,
+                                ),
+                                gender: gender!,
+                                region: location!,
+                                signUpType: SignUpType.email,
+                              );
+
+                              if (isSuccessSignIn) {
+                                Navigator.of(context).pushNamed(
+                                  RouteNames.terms,
+                                );
+                              } else {
+                                showCustomToast(
+                                  context,
+                                  msg: '오류 메세지 입니다.',
+                                );
+                              }
                             }
                           : null,
                       style: defaultButtonStyle,

@@ -9,6 +9,7 @@ import 'package:true_counter/common/variable/data_dummy.dart';
 import 'package:true_counter/common/variable/routes.dart';
 import 'package:true_counter/user/model/user_model.dart';
 import 'package:true_counter/user/repository/user_repository.dart';
+import 'package:true_counter/user/repository/user_repository_interface.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({Key? key}) : super(key: key);
@@ -18,7 +19,7 @@ class OnBoardingScreen extends StatefulWidget {
 }
 
 class _OnBoardingScreenState extends State<OnBoardingScreen> {
-  final UserRepository _userRepository = UserRepository();
+  final UserRepositoryInterface _userRepository = UserRepository();
 
   @override
   Widget build(BuildContext context) {

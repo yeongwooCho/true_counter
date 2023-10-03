@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:true_counter/common/const/data.dart';
 import 'package:true_counter/common/model/api_response.dart';
 import 'package:true_counter/common/model/app_info.dart';
 import 'package:true_counter/common/repository/local_storage.dart';
@@ -71,6 +72,7 @@ class UserRepository extends UserRepositoryInterface {
       return true;
     } catch (e) {
       debugPrint('UserRepository Error: ${e.toString()}');
+      // TODO: 무슨 오류인지 제어해야함, 휴대폰번호가 있는지 등등
       return false;
     }
   }
@@ -79,7 +81,7 @@ class UserRepository extends UserRepositoryInterface {
   Future<bool> signIn({
     required String email,
     required String password,
-    required bool isAutoSignIn,
+    bool isAutoSignIn = true,
   }) async {
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
     String encodingPassword = stringToBase64.encode(password);
@@ -102,21 +104,28 @@ class UserRepository extends UserRepositoryInterface {
 
       ApiResponse<Map<String, dynamic>> responseData =
           ApiResponse<Map<String, dynamic>>.fromJson(json: resp.data);
+      print("signIn responseData: $responseData");
 
       if (responseData.data == null) {
         return false;
       }
-      TokenModel tokenModel = TokenModel.fromJson(json: responseData.data!);
-      await LocalStorage.clearAll();
-      await LocalStorage.setAccessToken(
-        key: LocalStorageKey.accessToken,
-        value: tokenModel.accessToken,
-      );
-      await LocalStorage.setAccessToken(
-        key: LocalStorageKey.refreshToken,
-        value: tokenModel.refreshToken,
-      );
 
+      TokenModel tokenModel = TokenModel.fromJson(json: responseData.data!);
+
+      if (isAutoSignIn) {
+        await LocalStorage.clearAll();
+        await LocalStorage.setAccessToken(
+          key: LocalStorageKey.accessToken,
+          value: tokenModel.accessToken,
+        );
+        await LocalStorage.setAccessToken(
+          key: LocalStorageKey.refreshToken,
+          value: tokenModel.refreshToken,
+        );
+      } else {
+        tempAccessToken = tokenModel.accessToken;
+        tempRefreshToken = tokenModel.refreshToken;
+      }
       return true;
     } catch (e) {
       debugPrint('UserRepository Error: ${e.toString()}');
@@ -148,6 +157,7 @@ class UserRepository extends UserRepositoryInterface {
 
       ApiResponse<Map<String, dynamic>> responseData =
           ApiResponse<Map<String, dynamic>>.fromJson(json: resp.data);
+      print("tokenReissue responseData: $responseData");
 
       if (responseData.data == null) {
         return false;
@@ -181,6 +191,7 @@ class UserRepository extends UserRepositoryInterface {
           "accessToken": accessToken,
         },
       );
+      print("tokenSignIn responseData: ${resp.data}");
 
       if (resp.statusCode == null ||
           resp.statusCode! < 200 ||

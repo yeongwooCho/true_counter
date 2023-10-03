@@ -4,6 +4,7 @@ import 'package:true_counter/common/const/colors.dart';
 import 'package:true_counter/common/const/text_style.dart';
 import 'package:true_counter/common/layout/default_appbar.dart';
 import 'package:true_counter/common/layout/default_layout.dart';
+import 'package:true_counter/common/repository/local_storage.dart';
 import 'package:true_counter/common/util/show_cupertino_alert.dart';
 import 'package:true_counter/common/variable/routes.dart';
 import 'package:true_counter/user/model/user_model.dart';
@@ -83,8 +84,8 @@ class SettingsScreen extends StatelessWidget {
                         context: context,
                         titleWidget: const Text('로그아웃 하시겠습니까?'),
                         completeText: '확인',
-                        completeFunction: () {
-                          // TODO: 로그아웃 로직
+                        completeFunction: () async {
+                          await LocalStorage.clearAll();
 
                           Navigator.of(context).pushNamed(
                             RouteNames.onBoarding,

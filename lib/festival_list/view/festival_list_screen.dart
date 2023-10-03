@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:true_counter/common/component/custom_list_card.dart';
+import 'package:true_counter/common/const/colors.dart';
+import 'package:true_counter/common/const/text_style.dart';
 import 'package:true_counter/common/layout/default_appbar.dart';
 import 'package:true_counter/common/layout/default_layout.dart';
 import 'package:true_counter/common/model/screen_arguments.dart';
@@ -31,22 +33,10 @@ class _FestivalListScreenState extends State<FestivalListScreen> {
   List<FestivalModel> beenFestivals = [];
 
   @override
-  void initState() {
-    super.initState();
-
-    // // TODO: 이후 서버에서 가져온 값으로 로딩하도록 구현해야함.
-    // if (beingFestivals.isEmpty) {
-    //   beingFestivals = festivalListData.where((festivalModel) {
-    //     return festivalModel.startAt.isBefore(now) &&
-    //         festivalModel.endAt.isAfter(now);
-    //   }).toList();
-    // }
-  }
-
-  @override
   Widget build(BuildContext context) {
     final provider = context.watch<FestivalProvider>();
     final festivals = provider.cache[''] ?? [];
+
     // TODO: 이후 서버에서 가져온 값으로 로딩하도록 구현해야함.
     if (beingFestivals.isEmpty) {
       beingFestivals = festivals.where((festivalModel) {
@@ -131,29 +121,40 @@ class _FestivalListScreenState extends State<FestivalListScreen> {
               ],
             ),
             Expanded(
-              child: CustomListScreen(
-                itemCount:
-                    selectedFestivals(selectedItemIndex: selectedItemIndex)
-                        .length,
-                itemBuilder: (BuildContext context, int index) {
-                  return CustomListCard(
-                    title: selectedFestivals(
-                            selectedItemIndex: selectedItemIndex)[index]
-                        .title,
-                    description:
-                        "행사 기간: ${convertDateTimeToDateString(datetime: selectedFestivals(selectedItemIndex: selectedItemIndex)[index].startAt)} ~ ${convertDateTimeToDateString(datetime: selectedFestivals(selectedItemIndex: selectedItemIndex)[index].endAt)}",
-                    onTap: () {
-                      Navigator.of(context).pushNamed(
-                        RouteNames.festivalDetail,
-                        arguments: ScreenArguments<FestivalModel>(
-                          data: selectedFestivals(
-                              selectedItemIndex: selectedItemIndex)[index],
-                        ),
-                      );
-                    },
-                  );
-                },
-              ),
+              child: (selectedFestivals(selectedItemIndex: selectedItemIndex)
+                      .isEmpty)
+                  ? Center(
+                      child: Text(
+                        '현재 ${getListState(selectedItemIndex: selectedItemIndex)} 행사가\n존재하지 않습니다.',
+                        style: bodyMediumTextStyle.copyWith(
+                            color: DARK_GREY_COLOR),
+                        textAlign: TextAlign.center,
+                      ),
+                    )
+                  : CustomListScreen(
+                      itemCount: selectedFestivals(
+                              selectedItemIndex: selectedItemIndex)
+                          .length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return CustomListCard(
+                          title: selectedFestivals(
+                                  selectedItemIndex: selectedItemIndex)[index]
+                              .title,
+                          description:
+                              "행사 기간: ${convertDateTimeToDateString(datetime: selectedFestivals(selectedItemIndex: selectedItemIndex)[index].startAt)} ~ ${convertDateTimeToDateString(datetime: selectedFestivals(selectedItemIndex: selectedItemIndex)[index].endAt)}",
+                          onTap: () {
+                            Navigator.of(context).pushNamed(
+                              RouteNames.festivalDetail,
+                              arguments: ScreenArguments<FestivalModel>(
+                                data: selectedFestivals(
+                                    selectedItemIndex:
+                                        selectedItemIndex)[index],
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
             ),
           ],
         ),
@@ -173,6 +174,21 @@ class _FestivalListScreenState extends State<FestivalListScreen> {
         return beenFestivals;
       default:
         return [];
+    }
+  }
+
+  String getListState({
+    required int selectedItemIndex,
+  }) {
+    switch (selectedItemIndex) {
+      case 0:
+        return "진행중";
+      case 1:
+        return "예정";
+      case 2:
+        return "종료";
+      default:
+        return "";
     }
   }
 }

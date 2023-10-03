@@ -10,7 +10,8 @@ class UserModel {
   late String birth;
   late String region;
   late SignUpType signUpType;
-  late String token;
+
+  // late String token;
   bool isDummy = false;
 
   static UserModel? current; // 현재 유저가 있는지 여부
@@ -39,13 +40,10 @@ class UserModel {
     user.gender = json['gender'] ?? '';
     user.birth = json['date'] ?? '';
     user.region = json['region'] ?? '';
-    user.signUpType = json['signUpType'] ?? '';
-    user.token = json['token'] ?? '';
+    user.signUpType = SignUpType.getType(type: json['signUpType'] ?? SignUpType.none.label);
     user.isDummy = isDummy;
 
-    if (user.token.isNotEmpty) {
-      current = user;
-    }
+    current = user;
 
     return user;
   }
@@ -60,7 +58,6 @@ class UserModel {
       'birth': birth,
       'region': region,
       'signUpType': signUpType,
-      'token': token,
     };
   }
 
@@ -75,15 +72,12 @@ class UserModel {
         'birth: $birth'
         'region: $region'
         'signUpType: $signUpType'
-        'token: $token'
         'isDummy: $isDummy'
         ')';
   }
 
   Future<void> logout() async {
     UserModel.current = null;
-    await LocalStorage.clear(
-      key: LocalStorageKey.accessToken,
-    );
+    await LocalStorage.clearAll();
   }
 }

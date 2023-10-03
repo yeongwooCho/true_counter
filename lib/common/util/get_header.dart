@@ -20,8 +20,9 @@ Map<String, String> getHeaders({
   //   headers['X-User-Email'] = UserModel.current!.email;
   //   headers['X-User-Token'] = UserModel.current!.token;
   // }
+
   if (UserModel.current != null) {
-    headers['Authorization'] = 'Bearer ${UserModel.current!.token}';
+    // headers['Authorization'] = 'Bearer ${UserModel.current!.token}';
   }
 
   return headers;

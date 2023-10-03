@@ -4,6 +4,7 @@ import 'package:true_counter/common/const/text_style.dart';
 import 'package:true_counter/common/layout/default_layout.dart';
 import 'package:true_counter/common/repository/local_storage.dart';
 import 'package:true_counter/common/variable/routes.dart';
+import 'package:true_counter/user/model/user_model.dart';
 import 'package:true_counter/user/repository/user_repository.dart';
 import 'package:true_counter/user/repository/user_repository_interface.dart';
 
@@ -78,7 +79,11 @@ class _SplashScreenState extends State<SplashScreen> {
     String nextRoute = RouteNames.onBoarding;
     if (isAutoLogin) {
       nextRoute = RouteNames.root;
+
+      // TODO: 로그인 한 유저 current 에 집어넣기
+      UserModel.dummyLogin();
     }
+    await Future.delayed(const Duration(seconds: 1));
 
     Navigator.of(context).popAndPushNamed(nextRoute);
   }
@@ -112,7 +117,7 @@ class _SplashScreenState extends State<SplashScreen> {
       // refresh token 재발급 성공
       if(isTokenReissue) {
         return await _userRepository.tokenSignIn();
-      } 
+      }
     }
 
     return isTokenSignIn;

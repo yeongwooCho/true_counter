@@ -7,7 +7,6 @@ import 'package:true_counter/common/const/button_style.dart';
 import 'package:true_counter/common/const/colors.dart';
 import 'package:true_counter/common/const/data.dart';
 import 'package:true_counter/common/const/text_style.dart';
-import 'package:true_counter/common/data/enum/location_label.dart';
 import 'package:true_counter/common/layout/default_appbar.dart';
 import 'package:true_counter/common/layout/default_layout.dart';
 import 'package:true_counter/common/variable/routes.dart';
@@ -350,7 +349,7 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                         const SizedBox(width: 16.0),
                         Expanded(
                           child: CustomDropDownButton(
-                            dropdownList: LocationLabel.getLabels(),
+                            dropdownList: registerLocation,
                             defaultValue: location == null ? '선택' : location!,
                             onChanged: (String? value) {
                               location = value;
@@ -579,16 +578,17 @@ class _BirthYearState extends State<_BirthYear> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    const SizedBox(width: 1.0),
                     Text(
                       widget.birthday == null
                           ? '선택'
                           : convertDateTimeToDateString(
-                              datetime: widget.birthday!),
+                              datetime: widget.birthday!,
+                            ),
                       style: descriptionTextStyle,
                     ),
-                    const SizedBox(width: 8.0),
                     const Icon(Icons.keyboard_arrow_down_rounded)
                   ],
                 ),

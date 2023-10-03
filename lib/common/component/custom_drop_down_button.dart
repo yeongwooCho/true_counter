@@ -32,6 +32,7 @@ class _CustomDropDownButtonState extends State<CustomDropDownButton> {
         borderRadius: BorderRadius.circular(8.0),
       ),
       child: DropdownButton(
+        icon: const Icon(Icons.keyboard_arrow_down_rounded),
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         menuMaxHeight: widget.menuMaxHeight,
         isExpanded: true,

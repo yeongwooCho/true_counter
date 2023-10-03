@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:true_counter/common/component/custom_drop_down_button.dart';
 import 'package:true_counter/common/const/colors.dart';
+import 'package:true_counter/common/const/data.dart';
 import 'package:true_counter/common/const/text_style.dart';
-import 'package:true_counter/common/data/enum/location_label.dart';
 import 'package:true_counter/common/layout/default_appbar.dart';
 import 'package:true_counter/common/layout/default_layout.dart';
 import 'package:true_counter/common/variable/routes.dart';
@@ -19,7 +19,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  String location = LocationLabel.getLabels().first;
+  String location = homeLocation.first;
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   SizedBox(
                     width: 180.0,
                     child: CustomDropDownButton(
-                      dropdownList: LocationLabel.getLabels(),
+                      dropdownList: homeLocation,
                       defaultValue: location,
                       onChanged: (String? value) {
                         if (value != null) {

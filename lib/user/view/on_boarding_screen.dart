@@ -32,9 +32,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
             onPressed: () {
               UserModel.dummyLogin();
 
-              Navigator.of(context).pushNamedAndRemoveUntil(
+              Navigator.of(context).pushNamed(
                 RouteNames.root,
-                (route) => false,
               );
             },
             child: Row(
@@ -108,8 +107,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 ElevatedButton(
                   onPressed: () async {
                     // TODO: 카카오 로그인 구현
-                    // _userRepository.kakaoLogin();
-                    // UserModel.fromJson(json: dummyUserModel);
+                    _userRepository.kakaoLogin();
+                    UserModel.fromJson(json: dummyUserModel);
                     
                     Navigator.of(context).pushNamedAndRemoveUntil(
                       RouteNames.root,

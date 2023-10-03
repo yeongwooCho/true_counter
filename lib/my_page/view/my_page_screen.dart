@@ -39,15 +39,16 @@ class _MyPageScreenState extends State<MyPageScreen> {
                   style: headTitleTextStyle,
                 ),
                 IconButton(
-                  onPressed: UserModel.current != null
-                      ? () {
+                  onPressed: UserModel.current == null ||
+                          UserModel.current?.isDummy == true
+                      ? null
+                      : () {
                           Navigator.of(context).pushNamed(
                             RouteNames.settings,
                             arguments:
                                 ScreenArguments(data: UserModel.current!),
                           );
-                        }
-                      : null,
+                        },
                   icon: const Icon(
                     Icons.settings_outlined,
                     size: 32.0,

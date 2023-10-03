@@ -10,12 +10,19 @@ import 'package:true_counter/common/repository/urls.dart';
 import 'package:true_counter/user/model/enum/sign_up_type.dart';
 import 'package:true_counter/user/model/kakao_request_model.dart';
 import 'package:true_counter/user/model/token_model.dart';
+import 'package:true_counter/user/model/user_model.dart';
 import 'package:true_counter/user/repository/user_repository_interface.dart';
 import 'package:true_counter/user/util/kakao_auth.dart';
 
 class UserRepository extends UserRepositoryInterface {
   final _dio = Dio();
   final KakaoAuth _kakaoAuth = KakaoAuth();
+
+  @override
+  Future<UserModel> userInfo() {
+    // TODO: implement userInfo
+    throw UnimplementedError();
+  }
 
   @override
   Future<bool> signUp({

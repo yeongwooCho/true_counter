@@ -9,49 +9,46 @@ import 'package:true_counter/common/const/data.dart';
 import 'package:true_counter/common/const/text_style.dart';
 import 'package:true_counter/common/layout/default_appbar.dart';
 import 'package:true_counter/common/layout/default_layout.dart';
-import 'package:true_counter/common/variable/routes.dart';
 import 'package:true_counter/common/util/custom_toast.dart';
 import 'package:true_counter/common/util/datetime.dart';
 import 'package:true_counter/common/util/regular_expression_pattern.dart';
+import 'package:true_counter/common/variable/routes.dart';
 import 'package:true_counter/user/model/enum/sign_up_type.dart';
 import 'package:true_counter/user/repository/user_repository.dart';
 import 'package:true_counter/user/repository/user_repository_interface.dart';
 import 'package:true_counter/user/util/firebase_phone_auth.dart';
 
-class EmailRegisterScreen extends StatefulWidget {
-  const EmailRegisterScreen({Key? key}) : super(key: key);
+class KakaoRegisterScreen extends StatefulWidget {
+  final BuildContext beforeContext;
+
+  const KakaoRegisterScreen({
+    Key? key,
+    required this.beforeContext,
+  }) : super(key: key);
 
   @override
-  State<EmailRegisterScreen> createState() => _EmailRegisterScreenState();
+  State<KakaoRegisterScreen> createState() => _KakaoRegisterScreenState();
 }
 
-class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
+class _KakaoRegisterScreenState extends State<KakaoRegisterScreen> {
   final UserRepositoryInterface _userRepository = UserRepository();
 
   // form focus
   final GlobalKey<FormState> formKey = GlobalKey();
-  final GlobalKey<FormState> emailFormKey = GlobalKey();
   final GlobalKey<FormState> phoneFormKey = GlobalKey();
   final FirebasePhoneAuthUtil _firebasePhoneAuthUtil = FirebasePhoneAuthUtil();
 
   bool isLoading = false;
 
-  FocusNode? emailFocus;
-  FocusNode? passwordFocus;
-  FocusNode? passwordCheckFocus;
   FocusNode? phoneFocus;
   FocusNode? certificationFocus;
 
-  bool isValidEmail = false; // 중복확인
   bool isVisiblePassword = false; // 패스워드 보이게
   bool isVisiblePasswordCheck = false; // 패스워드 보이게
   bool isRequestCertification = false; // 인증번호 받기
   bool isValidCertification = false; // 인증 번호 확인
 
   // user info
-  String? emailText;
-  String? passwordText;
-  String? passwordCheckText;
   String? phoneText;
   String? certificationText;
 
@@ -64,18 +61,12 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
   void initState() {
     super.initState();
 
-    emailFocus = FocusNode();
-    passwordFocus = FocusNode();
-    passwordCheckFocus = FocusNode();
     phoneFocus = FocusNode();
     certificationFocus = FocusNode();
   }
 
   @override
   void dispose() {
-    emailFocus?.dispose();
-    passwordFocus?.dispose();
-    passwordCheckFocus?.dispose();
     phoneFocus?.dispose();
     certificationFocus?.dispose();
 
@@ -86,7 +77,7 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
   Widget build(BuildContext context) {
     return DefaultLayout(
       appbar: const DefaultAppBar(
-        title: '회원가입',
+        title: '카카오로 회원가입',
       ),
       child: Stack(
         children: [
@@ -102,136 +93,10 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                   children: [
                     const SizedBox(height: 24.0),
                     const Text(
-                      '트루카운터에서 사용할\n계정 정보를 입력해주세요.',
+                      '트루카운터에서 사용할 추가\n계정 정보를 입력해 주세요.',
                       style: headTitleTextStyle,
                     ),
                     const SizedBox(height: 32.0),
-                    Form(
-                      key: emailFormKey,
-                      autovalidateMode: AutovalidateMode.always,
-                      child: CustomTextFormField(
-                        onChanged: (String? value) {
-                          emailText = value;
-                          setState(() {});
-                        },
-                        onSaved: (String? value) {
-                          emailText = value;
-                        },
-                        validator: TextValidator.emailValidator,
-                        focusNode: emailFocus,
-                        onEditingComplete: () {
-                          if (formKey.currentState!.validate()) {
-                            passwordFocus?.requestFocus();
-                          } else {
-                            emailFocus?.requestFocus();
-                          }
-                        },
-                        title: '이메일',
-                        hintText: '예) abc@true.com',
-                        buttonText: '중복확인',
-                        textInputType: TextInputType.emailAddress,
-                        onPressedButton: !isValidEmail &&
-                                emailText != null &&
-                                emailText!.isNotEmpty &&
-                                (emailFormKey.currentState != null &&
-                                    emailFormKey.currentState!.validate())
-                            ? () {
-                                // TODO: 이메일 중복 확인 완료
-                                if (true) {
-                                  // 사용 가능한 이메일일 경우
-                                  setState(() {
-                                    isValidEmail = true;
-                                    passwordFocus?.requestFocus();
-                                  });
-                                } else {
-                                  showCustomToast(
-                                    context,
-                                    msg: '사용할 수 없는 이메일입니다.',
-                                  );
-                                }
-                              }
-                            : null,
-                        enabled: isValidEmail ? false : true,
-                      ),
-                    ),
-                    const SizedBox(height: 16.0),
-                    CustomTextFormField(
-                      obscureText: !isVisiblePassword,
-                      suffixIcon: IconButton(
-                        onPressed: () {
-                          isVisiblePassword = !isVisiblePassword;
-                          setState(() {});
-                        },
-                        icon: Icon(
-                          isVisiblePassword
-                              ? Icons.visibility_rounded
-                              : Icons.visibility_off_rounded,
-                          color: DEFAULT_TEXT_COLOR,
-                        ),
-                      ),
-                      onChanged: (String? value) {
-                        passwordText = value;
-                      },
-                      onSaved: (String? value) {
-                        passwordText = value;
-                      },
-                      validator: TextValidator.passwordValidator,
-                      focusNode: passwordFocus,
-                      onEditingComplete: () {
-                        if (formKey.currentState != null &&
-                            formKey.currentState!.validate()) {
-                          passwordCheckFocus?.requestFocus();
-                        } else {
-                          passwordFocus?.requestFocus();
-                        }
-                      },
-                      title: '비밀번호',
-                      hintText: '영문, 숫자, 특수문자 포함 8~15자',
-                      textInputType: TextInputType.visiblePassword,
-                    ),
-                    const SizedBox(height: 16.0),
-                    CustomTextFormField(
-                      obscureText: !isVisiblePasswordCheck,
-                      suffixIcon: IconButton(
-                        onPressed: () {
-                          isVisiblePasswordCheck = !isVisiblePasswordCheck;
-                          setState(() {});
-                        },
-                        icon: Icon(
-                          isVisiblePasswordCheck
-                              ? Icons.visibility_rounded
-                              : Icons.visibility_off_rounded,
-                          color: DEFAULT_TEXT_COLOR,
-                        ),
-                      ),
-                      onChanged: (String? value) {
-                        passwordCheckText = value;
-                      },
-                      onSaved: (String? value) {
-                        passwordCheckText = value;
-                      },
-                      validator: (String? value) {
-                        return TextValidator.passwordCheckValidator(
-                            passwordText, value);
-                      },
-                      focusNode: passwordCheckFocus,
-                      onEditingComplete: () {
-                        if (isValidCertification) {
-                          passwordCheckFocus?.unfocus();
-                          return;
-                        }
-                        if (formKey.currentState != null &&
-                            formKey.currentState!.validate()) {
-                          phoneFocus?.requestFocus();
-                        } else {
-                          passwordCheckFocus?.requestFocus();
-                        }
-                      },
-                      title: '비밀번호 확인',
-                      hintText: '영문, 숫자, 특수문자 포함 8~15자',
-                      textInputType: TextInputType.visiblePassword,
-                    ),
-                    const SizedBox(height: 16.0),
                     Form(
                       key: phoneFormKey,
                       autovalidateMode: AutovalidateMode.always,
@@ -366,14 +231,7 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                     ),
                     const SizedBox(height: 32.0),
                     ElevatedButton(
-                      onPressed: emailText != null &&
-                              emailText!.isNotEmpty &&
-                              isValidEmail == true &&
-                              passwordText != null &&
-                              passwordText!.isNotEmpty &&
-                              passwordCheckText != null &&
-                              passwordCheckText!.isNotEmpty &&
-                              isRequestCertification &&
+                      onPressed: isRequestCertification &&
                               isValidCertification &&
                               gender != null &&
                               birthday != null &&
@@ -383,29 +241,51 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                               formKey.currentState != null &&
                               formKey.currentState!.validate()
                           ? () async {
-                              final isSuccessSignIn =
-                                  await _userRepository.signUp(
-                                email: emailText!,
-                                password: passwordText!,
+                              bool isSuccessKakaoSignUp =
+                                  await _userRepository.kakaoSignUp(
                                 phone: phoneText!,
-                                birthday: convertDateTimeToDateString(
-                                  datetime: birthday!,
-                                ),
                                 gender: gender!,
+                                birthday: convertDateTimeToDateString(
+                                    datetime: birthday!),
                                 region: location!,
-                                signUpType: SignUpType.email,
                               );
 
-                              if (isSuccessSignIn) {
-                                Navigator.of(context).pushNamed(
-                                  RouteNames.terms,
+                              if (isSuccessKakaoSignUp) {
+                                Navigator.of(context).pushNamedAndRemoveUntil(
+                                  RouteNames.root,
+                                  (route) => false,
                                 );
                               } else {
+                                Navigator.of(context).pop();
                                 showCustomToast(
-                                  context,
-                                  msg: '오류 메세지 입니다.',
+                                  widget.beforeContext,
+                                  msg: "계정 문제로 인해 \n카카오로 시작할 수 없습니다.",
                                 );
                               }
+
+                              // final isSuccessSignIn =
+                              // await _userRepository.signUp(
+                              //   email: emailText!,
+                              //   password: passwordText!,
+                              //   phone: phoneText!,
+                              //   birthday: convertDateTimeToOnlyDateString(
+                              //     datetime: birthday!,
+                              //   ),
+                              //   gender: gender!,
+                              //   region: location!,
+                              //   signUpType: SignUpType.email,
+                              // );
+                              //
+                              // if (isSuccessSignIn) {
+                              //   Navigator.of(context).pushNamed(
+                              //     RouteNames.terms,
+                              //   );
+                              // } else {
+                              //   showCustomToast(
+                              //     context,
+                              //     msg: '오류 메세지 입니다.',
+                              //   );
+                              // }
                             }
                           : null,
                       style: defaultButtonStyle,

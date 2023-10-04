@@ -29,11 +29,16 @@ abstract class UserRepositoryInterface {
 
   Future<bool> verifyUser();
 
-  Future<bool> kakaoLogin();
+  Future<bool> kakaoSignUp({
+    required String phone,
+    required bool gender,
+    required String birthday,
+    required String region,
+  });
 
-  Future<bool> kakaoRegister();
+  Future<bool> kakaoSignIn();
 
-  Future<bool> appleLogin();
+  Future<bool> appleSignUp();
 
-  Future<bool> appleRegister();
+  Future<bool> appleSignIn();
 }

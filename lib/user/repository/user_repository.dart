@@ -7,16 +7,17 @@ import 'package:true_counter/common/model/api_response.dart';
 import 'package:true_counter/common/model/app_info.dart';
 import 'package:true_counter/common/repository/local_storage.dart';
 import 'package:true_counter/common/repository/urls.dart';
+import 'package:true_counter/my_settings.dart';
 import 'package:true_counter/user/model/enum/sign_up_type.dart';
 import 'package:true_counter/user/model/kakao_request_model.dart';
 import 'package:true_counter/user/model/token_model.dart';
 import 'package:true_counter/user/model/user_model.dart';
 import 'package:true_counter/user/repository/user_repository_interface.dart';
-import 'package:true_counter/user/util/kakao_auth.dart';
+import 'package:true_counter/user/repository/kakao_auth_repository.dart';
 
 class UserRepository extends UserRepositoryInterface {
   final _dio = Dio();
-  final KakaoAuth _kakaoAuth = KakaoAuth();
+  final KakaoAuthRepository _kakaoAuthRepository = KakaoAuthRepository();
 
   @override
   Future<UserModel> userInfo() {
@@ -226,32 +227,8 @@ class UserRepository extends UserRepositoryInterface {
   }
 
   @override
-  Future<bool> appleLogin() {
-    // TODO: implement appleLogin
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<bool> appleRegister() {
-    // TODO: implement appleRegister
-    throw UnimplementedError();
-  }
-
-  @override
   Future<bool> findEmail() {
     // TODO: implement findEmail
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<bool> getAccount() {
-    // TODO: implement getAccount
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<bool> kakaoRegister() {
-    // TODO: implement kakaoRegister
     throw UnimplementedError();
   }
 
@@ -268,58 +245,82 @@ class UserRepository extends UserRepositoryInterface {
   }
 
   @override
-  Future<bool> kakaoLogin() async {
-    bool isNewUser = false;
+  Future<bool> appleSignIn() {
+    // TODO: implement appleSignIn
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<bool> appleSignUp() {
+    // TODO: implement appleSignUp
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<bool> kakaoSignIn() async {
+    print('\n카카오 로그인 시작');
     // 카카오 로그인 - 유저 정보를 가져와서 로그인 / 회원가입에 따른 유저 처리를 한다.
 
     // 카카오 로그인 되어 있으면 카카오톡이 실행되지 않고 유저 정보를 KakaoRequestModel을 생성
-    KakaoRequestModel? kakaoRequestModel = await _kakaoAuth.kakaoLogin();
+    KakaoRequestModel kakaoRequestModel =
+        await _kakaoAuthRepository.kakaoLogin();
 
-    // 카카오 유저 정보를 불러오지 못하면 새로운 유저 이므로 카카오톡을 실행해 회원가입을 진행한다.
-    if (kakaoRequestModel == null) {
-      kakaoRequestModel = await _kakaoAuth.kakaoLogin(isNewUser: true);
-      isNewUser = true;
+    print("카카오 모델1: $kakaoRequestModel");
+
+    if (kakaoRequestModel.error == null) {
+      // 유저정보를 정상적으로 가져왔습니다.
+      String email = kakaoRequestModel.email!;
+      String password = getKakaoPassword(userInfo: email);
+
+      final bool isSuccessSignIn = await signIn(
+        email: email,
+        password: password,
+      );
+      return isSuccessSignIn;
+    } else {
+      // 유저정보를 가져오지 못했습니다. 카톡을 갔다와서라도 가져와라.
+      kakaoRequestModel =
+          await _kakaoAuthRepository.kakaoLogin(isNewUser: true);
+      print("카카오 모델2: $kakaoRequestModel");
+
+      if (kakaoRequestModel.error == null) {
+        // 유저정보를 정상적으로 가져왔다 => 로그인을 진행해라.
+        String email = kakaoRequestModel.email!;
+        String password = getKakaoPassword(userInfo: email);
+
+        final bool isSuccessSignIn = await signIn(
+          email: email,
+          password: password,
+        );
+        return isSuccessSignIn;
+      }
     }
+    return false;
+  }
 
-    // try {
-    //   // String url = URL_SNS_LOGIN;
-    //   // if (isNewUser == true) {
-    //   //   url = URL_SMS_SIGN_UP;
-    //   // }
+  @override
+  Future<bool> kakaoSignUp({
+    required String phone,
+    required bool gender,
+    required String birthday,
+    required String region,
+  }) async {
+    // print('\n카카오 회원가입 시작');
+    // KakaoRequestModel kakaoRequestModel =
+    //     await _kakaoAuthRepository.kakaoLogin(isNewUser: true);
     //
-    //   var resp = await _dio.get(
-    //     TEST_USER,
-    //     // data: {
-    //     //   // 'email': kakaoRequestModel.email,
-    //     //   // 'login_type': kakaoRequestModel.loginType,
-    //     //   // 'kakao_uid': kakaoRequestModel.uid,
-    //     //   // 'kakao_token': kakaoRequestModel.token,
-    //     //   // 'app_version': AppInfo.currentVersion,
-    //     //   // 'device': Platform.isIOS ? 'ios' : 'android',
-    //     // },
+    // if (kakaoRequestModel.error == null) {
+    //   // 유저정보를 정상적으로 가져왔다 => 로그인을 진행해라.
+    //   String email = kakaoRequestModel.email!;
+    //   String password = getKakaoPassword(userInfo: email);
+    //
+    //   final bool isSuccessSignIn = await signIn(
+    //     email: email,
+    //     password: password,
     //   );
-    //   print('여기여기2');
-    //   print(resp);
-    //   // ApiResponse<UserModel> resp = await _dio.post(
-    //   //   url,
-    //   //   data: {
-    //   //     'email': kakaoRequestModel.email,
-    //   //     'login_type': kakaoRequestModel.loginType,
-    //   //     'kakao_uid': kakaoRequestModel.uid,
-    //   //     'kakao_token': kakaoRequestModel.token,
-    //   //     'app_version': AppInfo.currentVersion,
-    //   //     'device': Platform.isIOS ? 'ios' : 'android',
-    //   //   },
-    //   // ) as ApiResponse<UserModel>;
-    //   // print('여기여기2');
-    //   // print(kakaoRequestModel);
-    //
-    //   // return resp;
-    //   return null;
-    // } catch (e) {
-    //   print('error 발생 ${e.toString()}');
+    //   return isSuccessSignIn;
     // }
 
-    return true;
+    return false;
   }
 }

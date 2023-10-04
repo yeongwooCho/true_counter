@@ -5,6 +5,7 @@ import 'package:true_counter/common/const/colors.dart';
 import 'package:true_counter/common/const/text_style.dart';
 import 'package:true_counter/common/layout/default_appbar.dart';
 import 'package:true_counter/common/layout/default_layout.dart';
+import 'package:true_counter/common/util/custom_toast.dart';
 import 'package:true_counter/common/variable/data_dummy.dart';
 import 'package:true_counter/common/variable/routes.dart';
 import 'package:true_counter/user/model/user_model.dart';
@@ -107,15 +108,19 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 ElevatedButton(
                   onPressed: () async {
                     // TODO: 카카오 로그인 구현
-                    _userRepository.kakaoLogin();
-                    UserModel.fromJson(json: dummyUserModel);
-                    
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                      RouteNames.root,
-                      (route) => false,
-                    );
+                    print('카카오 로그인 버튼 누름');
 
-                    print('카카오 로그인');
+                    final bool isSuccessKakaoSignIn =
+                        await _userRepository.kakaoSignIn();
+
+                    if (isSuccessKakaoSignIn) {
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                        RouteNames.root,
+                        (route) => false,
+                      );
+                    } else {
+                      Navigator.of(context).pushNamed(RouteNames.kakaoRegister);
+                    }
                   },
                   style: kakaoLoginButtonStyle,
                   child: Row(

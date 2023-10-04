@@ -19,6 +19,7 @@ import 'package:true_counter/user/view/email_login_screen.dart';
 import 'package:true_counter/user/view/email_password_reset_screen.dart';
 import 'package:true_counter/user/view/email_register_completion_screen.dart';
 import 'package:true_counter/user/view/email_register_screen.dart';
+import 'package:true_counter/user/view/kakao_register_screen.dart';
 import 'package:true_counter/user/view/on_boarding_screen.dart';
 import 'package:true_counter/user/view/terms_providing_info_screen.dart';
 import 'package:true_counter/user/view/terms_screen.dart';
@@ -36,6 +37,9 @@ class RouteNames {
   static const String terms = '/terms';
   static const String termsProviding = '/terms/providing';
   static const String emailRegisterCompletion = '/email/register/completion';
+
+  // kakao sign up
+  static const String kakaoRegister = '/kakao/register';
 
   // root tab
   static const String root = '/root';
@@ -91,6 +95,10 @@ Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
   RouteNames.termsProviding: (_) => TermsProvidingInfoScreen(),
   RouteNames.emailPasswordReset: (_) => EmailPasswordResetScreen(),
   RouteNames.emailRegisterCompletion: (_) => EmailRegisterCompletionScreen(),
+
+  // kakao
+  RouteNames.kakaoRegister: (context) =>
+      KakaoRegisterScreen(beforeContext: context),
 
   // root tab
   RouteNames.root: (_) => RootTab(),

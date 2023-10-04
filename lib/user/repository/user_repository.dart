@@ -305,21 +305,26 @@ class UserRepository extends UserRepositoryInterface {
     required String birthday,
     required String region,
   }) async {
-    // print('\n카카오 회원가입 시작');
-    // KakaoRequestModel kakaoRequestModel =
-    //     await _kakaoAuthRepository.kakaoLogin(isNewUser: true);
-    //
-    // if (kakaoRequestModel.error == null) {
-    //   // 유저정보를 정상적으로 가져왔다 => 로그인을 진행해라.
-    //   String email = kakaoRequestModel.email!;
-    //   String password = getKakaoPassword(userInfo: email);
-    //
-    //   final bool isSuccessSignIn = await signIn(
-    //     email: email,
-    //     password: password,
-    //   );
-    //   return isSuccessSignIn;
-    // }
+    print('\n카카오 회원가입 시작');
+    KakaoRequestModel kakaoRequestModel =
+        await _kakaoAuthRepository.kakaoLogin(isNewUser: true);
+
+    if (kakaoRequestModel.error == null) {
+      // 유저정보를 정상적으로 가져왔다 => 로그인을 진행해라.
+      String email = kakaoRequestModel.email!;
+      String password = getKakaoPassword(userInfo: email);
+
+      final bool isSuccessSignIn = await signUp(
+        email: email,
+        password: password,
+        phone: phone,
+        birthday: birthday,
+        gender: gender,
+        region: region,
+        signUpType: SignUpType.kakao,
+      );
+      return isSuccessSignIn;
+    }
 
     return false;
   }

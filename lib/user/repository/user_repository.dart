@@ -39,6 +39,16 @@ class UserRepository extends UserRepositoryInterface {
       Codec<String, String> stringToBase64 = utf8.fuse(base64);
       String encodingPassword = stringToBase64.encode(password);
 
+      print("회원가입 하기");
+      print(email);
+      print(password);
+      print(phone);
+      print(birthday);
+      print(gender);
+      print(region);
+      print(signUpType);
+      print("회원가입 하기2");
+
       final resp = await _dio.post(
         Url.signUp,
         data: {
@@ -52,6 +62,7 @@ class UserRepository extends UserRepositoryInterface {
           "signupType": signUpType.label,
         },
       );
+      print("여기여기: ${resp.data}");
 
       if (resp.statusCode == null ||
           resp.statusCode! < 200 ||

@@ -16,7 +16,8 @@ import 'package:true_counter/notification/view/notification_detail_screen.dart';
 import 'package:true_counter/notification/view/notification_screen.dart';
 import 'package:true_counter/user/model/user_model.dart';
 import 'package:true_counter/user/view/email_login_screen.dart';
-import 'package:true_counter/user/view/email_password_reset_screen.dart';
+import 'package:true_counter/user/view/find_email_screen.dart';
+import 'package:true_counter/user/view/find_password_screen.dart';
 import 'package:true_counter/user/view/email_register_completion_screen.dart';
 import 'package:true_counter/user/view/email_register_screen.dart';
 import 'package:true_counter/user/view/kakao_register_screen.dart';
@@ -32,10 +33,11 @@ class RouteNames {
   static const String onBoarding = '/onBoarding';
 
   static const String emailLogin = '/email/login';
-  static const String emailRegister = '/email/register';
-  static const String emailPasswordReset = 'email/password/reset';
   static const String terms = '/terms';
   static const String termsProviding = '/terms/providing';
+  static const String emailRegister = '/email/register';
+  static const String findEmail = '/find/email';
+  static const String findPassword = '/find/password';
   static const String emailRegisterCompletion = '/email/register/completion';
 
   // kakao sign up
@@ -90,10 +92,11 @@ Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
   // onBoarding, login, register, findID, passwordReset
   RouteNames.onBoarding: (_) => OnBoardingScreen(),
   RouteNames.emailLogin: (_) => EmailLoginScreen(),
-  RouteNames.emailRegister: (_) => EmailRegisterScreen(),
   RouteNames.terms: (_) => TermsScreen(),
   RouteNames.termsProviding: (_) => TermsProvidingInfoScreen(),
-  RouteNames.emailPasswordReset: (_) => EmailPasswordResetScreen(),
+  RouteNames.emailRegister: (_) => EmailRegisterScreen(),
+  RouteNames.findEmail: (_) => FindEmailScreen(),
+  RouteNames.findPassword: (_) => FindPasswordScreen(),
   RouteNames.emailRegisterCompletion: (_) => EmailRegisterCompletionScreen(),
 
   // kakao

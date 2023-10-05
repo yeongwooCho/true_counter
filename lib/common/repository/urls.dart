@@ -9,27 +9,29 @@ class Url {
   static String signIn = "$baseUrl/auth/sign-in";
   static String tokenSignIn = "$baseUrl/auth/test";
   static String reissue = "$baseUrl/auth/reissue";
+  static String findEmail = "$baseUrl/auth/findEmail";
+  static String findPassword = "$baseUrl/auth/findPassword";
 
   // notification
+  // Create, Read
   static String noticeBoard = "$baseUrl/notice-board";
 
-// // user
-// static String accounts = '$baseUrl/accounts/v1';
-// static String register = '$baseUrl/accounts/v1/sign_up';
-//
-// static String emailLogin = '$baseUrl/accounts/v1/sign_in';
-// static String kakaoLogin = '$baseUrl/accounts/v1/sign_in';
-// static String appleLogin = '$baseUrl/accounts/v1/sign_in';
-//
-// static String autoLogin = '$baseUrl/accounts/v1/sign_in/auto';
-// static String logout = '$baseUrl/accounts/v1/sign_out';
-// static String findEmail = '$baseUrl/accounts/v1/find_email';
-// static String resetPassword = '$baseUrl/accounts/v1/reset_password';
-// static String verifyUser = '$baseUrl/accounts/v1/verify';
-//
-// // notification
-// static String notification = '$baseUrl/notification/';
-//
-// // festival
-// static String festival = '$baseUrl/festival/';
+  // Update, Delete
+  // static String noticeBoard = "$baseUrl/notice-board/1";
+
+  // festival
+  // Create, Retrieve list
+  static String festivals = "$baseUrl/festivals";
+
+  // Retrieve once
+  static String festival = "$baseUrl/festivals/2";
+
+  // festival status
+  static String festivalStatus = "$baseUrl/festivals?status=PAST";
+
+  // festival participate
+  static String festivalParticipate = "$baseUrl/festivals/12/participate";
+
+  // festival chat create
+  static String festivalChats = "$baseUrl/chats";
 }

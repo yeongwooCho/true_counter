@@ -1,5 +1,8 @@
-import 'package:true_counter/common/repository/local_storage.dart';
+import 'dart:io';
+
+import 'package:true_counter/common/model/app_info.dart';
 import 'package:true_counter/user/model/enum/sign_up_type.dart';
+import 'package:true_counter/user/model/token_model.dart';
 
 class UserModel {
   late String id;
@@ -11,7 +14,6 @@ class UserModel {
   late String region;
   late SignUpType signUpType;
 
-  // late String token;
   bool isDummy = false;
 
   static UserModel? current; // 현재 유저가 있는지 여부
@@ -40,12 +42,32 @@ class UserModel {
     user.gender = json['gender'] ?? '';
     user.birth = json['date'] ?? '';
     user.region = json['region'] ?? '';
-    user.signUpType = SignUpType.getType(type: json['signUpType'] ?? SignUpType.none.label);
+    user.signUpType =
+        SignUpType.getType(type: json['signUpType'] ?? SignUpType.none.label);
     user.isDummy = isDummy;
 
-    current = user;
+    if (TokenModel.instance != null) current = user;
 
     return user;
+  }
+
+  static Map<String, String> getHeaders({
+    bool isJson = true,
+  }) {
+    Map<String, String> headers = {
+      'App-Version': '${AppInfo.currentVersion}',
+      'device': Platform.isIOS ? 'ios' : 'android',
+    };
+
+    if (isJson) {
+      headers['Content-Type'] = 'application/json';
+    }
+
+    if (TokenModel.instance != null) {
+      headers['Authorization'] = 'Bearer ${TokenModel.instance?.accessToken}';
+    }
+
+    return headers;
   }
 
   Map<String, dynamic> toJson() {
@@ -76,8 +98,8 @@ class UserModel {
         ')';
   }
 
-  Future<void> logout() async {
-    UserModel.current = null;
-    await LocalStorage.clearAll();
-  }
+// Future<void> logout() async {
+//   UserModel.current = null;
+//   await LocalStorage.clearAll();
+// }
 }

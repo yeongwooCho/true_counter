@@ -20,9 +20,41 @@ class UserRepository extends UserRepositoryInterface {
   final KakaoAuthRepository _kakaoAuthRepository = KakaoAuthRepository();
 
   @override
-  Future<UserModel> userInfo() {
-    // TODO: implement userInfo
-    throw UnimplementedError();
+  Future<bool> userInfo() async {
+    try {
+      print(1);
+      print(UserModel.getHeaders());
+
+      final resp = await _dio.get(
+        Url.userInfo,
+        options: Options(
+          headers: UserModel.getHeaders(),
+        ),
+      );
+      print(1);
+      print("여기여기: ${resp.data}");
+
+      if (resp.statusCode == null ||
+          resp.statusCode! < 200 ||
+          resp.statusCode! > 400) {
+        return false;
+      }
+    } catch (e) {
+      debugPrint('UserRepository Error: ${e.toString()}');
+      // TODO: 무슨 오류인지 제어해야함, 휴대폰번호가 있는지 등등
+      return false;
+    }
+
+    // ApiResponse<Map<String, dynamic>> responseData =
+    //     ApiResponse<Map<String, dynamic>>.fromJson(json: resp.data);
+    //
+    // if (responseData.data == null) {
+    //   return false;
+    // }
+
+    // print("유저 데이터 responseData: $responseData");
+
+    return true;
   }
 
   @override
@@ -130,6 +162,7 @@ class UserRepository extends UserRepositoryInterface {
       }
 
       TokenModel tokenModel = TokenModel.fromJson(json: responseData.data!);
+      print('tokenModel: $tokenModel');
 
       if (isAutoSignIn) {
         await LocalStorage.clearAll();
@@ -189,6 +222,8 @@ class UserRepository extends UserRepositoryInterface {
         return false;
       }
       TokenModel tokenModel = TokenModel.fromJson(json: responseData.data!);
+      print('tokenModel: $tokenModel');
+
       await LocalStorage.clearAll();
       await LocalStorage.setAccessToken(
         key: LocalStorageKey.accessToken,
@@ -211,8 +246,13 @@ class UserRepository extends UserRepositoryInterface {
     try {
       final String? accessToken =
           await LocalStorage.getToken(key: LocalStorageKey.accessToken);
+      final String? refreshToken =
+          await LocalStorage.getToken(key: LocalStorageKey.refreshToken);
 
-      if (accessToken == null || accessToken.isEmpty) {
+      if (accessToken == null ||
+          accessToken.isEmpty ||
+          refreshToken == null ||
+          refreshToken.isEmpty) {
         return false;
       }
 
@@ -223,12 +263,18 @@ class UserRepository extends UserRepositoryInterface {
         },
       );
       print("tokenSignIn responseData: ${resp.data}");
+      print("accessToken: $accessToken");
 
       if (resp.statusCode == null ||
           resp.statusCode! < 200 ||
           resp.statusCode! > 400) {
         return false;
       }
+      TokenModel.fromJson(json: {
+        'grantType': 'Bearer',
+        'accessToken': accessToken,
+        'refreshToken': refreshToken,
+      });
 
       return true;
     } catch (e) {

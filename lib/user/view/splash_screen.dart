@@ -7,7 +7,6 @@ import 'package:true_counter/common/repository/local_storage.dart';
 import 'package:true_counter/common/variable/routes.dart';
 import 'package:true_counter/festival/provider/festival_provider.dart';
 import 'package:true_counter/notification/provider/notification_provider.dart';
-import 'package:true_counter/user/model/user_model.dart';
 import 'package:true_counter/user/repository/user_repository.dart';
 import 'package:true_counter/user/repository/user_repository_interface.dart';
 

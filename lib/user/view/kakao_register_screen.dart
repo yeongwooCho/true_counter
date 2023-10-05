@@ -13,7 +13,6 @@ import 'package:true_counter/common/util/custom_toast.dart';
 import 'package:true_counter/common/util/datetime.dart';
 import 'package:true_counter/common/util/regular_expression_pattern.dart';
 import 'package:true_counter/common/variable/routes.dart';
-import 'package:true_counter/user/model/enum/sign_up_type.dart';
 import 'package:true_counter/user/repository/user_repository.dart';
 import 'package:true_counter/user/repository/user_repository_interface.dart';
 import 'package:true_counter/user/util/firebase_phone_auth.dart';

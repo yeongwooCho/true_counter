@@ -150,7 +150,7 @@ class _PhoneAuthTestState extends State<PhoneAuthTest> {
       setState(() {
         showLoading = false;
       });
-      if (authCredential?.user != null) {
+      if (authCredential.user != null) {
         setState(() {
           print("인증완료 및 로그인성공");
           authOk = true;

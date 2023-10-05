@@ -5,7 +5,6 @@ import 'package:true_counter/common/const/colors.dart';
 import 'package:true_counter/common/const/text_style.dart';
 import 'package:true_counter/common/layout/default_appbar.dart';
 import 'package:true_counter/common/layout/default_layout.dart';
-import 'package:true_counter/common/util/custom_toast.dart';
 import 'package:true_counter/my_settings.dart';
 
 class IntroduceScreen extends StatelessWidget {

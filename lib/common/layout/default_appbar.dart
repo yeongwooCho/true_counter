@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:true_counter/common/const/colors.dart';
-import 'package:true_counter/common/const/text_style.dart';
 
 class DefaultAppBar extends StatefulWidget implements PreferredSizeWidget {
   static const defaultAppBarHeight = 60.0;

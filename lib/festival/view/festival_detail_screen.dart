@@ -52,7 +52,8 @@ class _FestivalDetailScreenState extends State<FestivalDetailScreen> {
   Widget build(BuildContext context) {
     final bottomInset = MediaQuery.of(context).viewInsets.bottom;
     final provider = context.watch<FestivalProvider>();
-    final festival = provider.cache[widget.festivalModel.id] ?? widget.festivalModel;
+    final festival =
+        provider.cache[widget.festivalModel.id] ?? widget.festivalModel;
 
     return DefaultLayout(
       isLoading: provider.cache[widget.festivalModel.id] == null,
@@ -97,10 +98,10 @@ class _FestivalDetailScreenState extends State<FestivalDetailScreen> {
                 children: [
                   _renderFestivalDescription(
                     context: context,
-                    festivalModel: festival!,
+                    festivalModel: festival,
                   ),
                   const SizedBox(height: 48.0),
-                  CustomFestivalCard(festivalModel: festival!),
+                  CustomFestivalCard(festivalModel: festival),
                 ],
               ),
             ),
@@ -124,7 +125,9 @@ class _FestivalDetailScreenState extends State<FestivalDetailScreen> {
                   _renderDescriptionContainer(),
                   const SizedBox(height: 32.0),
                   ChatScreen(
-                    chats: festival.chats,
+                    chats: festival.chats
+                        .where((element) => element.parentChatId != 0)
+                        .toList(),
                   ),
                 ],
               ),

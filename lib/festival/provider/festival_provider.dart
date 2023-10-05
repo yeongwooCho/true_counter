@@ -4,18 +4,31 @@ import 'package:true_counter/festival/repository/festival_repository.dart';
 
 class FestivalProvider extends ChangeNotifier {
   final FestivalRepository repository;
-  Map<String, List<FestivalModel>> cache = {};
+  Map<String, List<FestivalModel>> cacheList = {};
+  Map<int, FestivalModel> cache = {};
 
   FestivalProvider({
     required this.repository,
   }) : super() {
-    getFestivals();
+    // getFestivals();
   }
 
   void getFestivals() async {
     final resp = await repository.getFestivals();
 
-    cache.update('', (value) => resp, ifAbsent: () => resp);
+    cacheList.update('total', (value) => resp, ifAbsent: () => resp);
+
+    notifyListeners();
+  }
+
+  void getFestival({
+    required int id,
+  }) async {
+    final resp = await repository.getFestival(id: id);
+
+    if (resp != null) {
+      cache.update(id, (value) => resp, ifAbsent: () => resp);
+    }
 
     notifyListeners();
   }

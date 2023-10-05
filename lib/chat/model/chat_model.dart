@@ -1,9 +1,9 @@
 class ChatModel {
   late int id;
   late int? parentChatId;
-  late String username;
+  late String nickName;
   late String content;
-  late int like;
+  late int chatLike;
   late int declaration;
   late DateTime createdAt;
 
@@ -11,9 +11,9 @@ class ChatModel {
   ChatModel({
     required this.id,
     required this.parentChatId,
-    required this.username,
+    required this.nickName,
     required this.content,
-    required this.like,
+    required this.chatLike,
     required this.declaration,
     required this.createdAt,
   });
@@ -25,14 +25,27 @@ class ChatModel {
   }) {
     ChatModel chatModel = ChatModel._internal();
 
-    chatModel.id = json['id'] ?? '';
+    chatModel.id = json['id'];
     chatModel.parentChatId = json['parentChatId'];
-    chatModel.username = json['username'] ?? '';
+    chatModel.nickName = json['nickName'] ?? '';
     chatModel.content = json['content'] ?? '';
-    chatModel.like = json['like'] ?? '';
-    chatModel.declaration = json['declaration'] ?? '';
+    chatModel.chatLike = json['chatLike'] ?? 0;
+    chatModel.declaration = json['declaration'] ?? 0;
     chatModel.createdAt = DateTime.parse(json['createdAt']);
 
     return chatModel;
+  }
+
+  @override
+  String toString() {
+    return 'ChatModel ('
+        'id: $id, '
+        'parentChatId: $parentChatId, '
+        'nickName: $nickName, '
+        'content: $content, '
+        'chatLike: $chatLike, '
+        'declaration: $declaration, '
+        'createdAt: $createdAt, '
+        ')';
   }
 }

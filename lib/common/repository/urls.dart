@@ -24,7 +24,7 @@ class Url {
   static String festivals = "$baseUrl/festivals";
 
   // Retrieve once
-  static String festival = "$baseUrl/festivals/2";
+  // static String festival = "$baseUrl/festivals/4";
 
   // festival status
   static String festivalStatus = "$baseUrl/festivals?status=PAST";

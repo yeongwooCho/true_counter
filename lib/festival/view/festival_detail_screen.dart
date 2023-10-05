@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kakao_map_plugin/kakao_map_plugin.dart';
+import 'package:provider/provider.dart';
 import 'package:true_counter/chat/view/chat_screen.dart';
 import 'package:true_counter/common/component/custom_text_form_field.dart';
 import 'package:true_counter/common/const/button_style.dart';
@@ -12,6 +13,7 @@ import 'package:true_counter/common/util/datetime.dart';
 import 'package:true_counter/common/variable/routes.dart';
 import 'package:true_counter/festival/component/custom_festival_card.dart';
 import 'package:true_counter/festival/model/festival_model.dart';
+import 'package:true_counter/festival/provider/festival_provider.dart';
 
 class FestivalDetailScreen extends StatefulWidget {
   final FestivalModel festivalModel;
@@ -49,6 +51,8 @@ class _FestivalDetailScreenState extends State<FestivalDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final bottomInset = MediaQuery.of(context).viewInsets.bottom;
+    final provider = context.watch<FestivalProvider>();
+    final festival = provider.cache[widget.festivalModel.id] ?? widget.festivalModel;
 
     return DefaultLayout(
       appbar: const DefaultAppBar(title: '행사 상세정보'),
@@ -90,9 +94,12 @@ class _FestivalDetailScreenState extends State<FestivalDetailScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  _renderFestivalDescription(context: context),
+                  _renderFestivalDescription(
+                    context: context,
+                    festivalModel: festival!,
+                  ),
                   const SizedBox(height: 48.0),
-                  CustomFestivalCard(festivalModel: widget.festivalModel),
+                  CustomFestivalCard(festivalModel: festival!),
                 ],
               ),
             ),
@@ -116,7 +123,7 @@ class _FestivalDetailScreenState extends State<FestivalDetailScreen> {
                   _renderDescriptionContainer(),
                   const SizedBox(height: 32.0),
                   ChatScreen(
-                    chats: widget.festivalModel.chats,
+                    chats: festival.chats,
                   ),
                 ],
               ),
@@ -129,29 +136,27 @@ class _FestivalDetailScreenState extends State<FestivalDetailScreen> {
 
   Widget _renderFestivalDescription({
     required BuildContext context,
+    required FestivalModel festivalModel,
   }) {
-    String start =
-        convertDateTimeToDateString(datetime: widget.festivalModel.startAt);
-    String end =
-        convertDateTimeToDateString(datetime: widget.festivalModel.endAt);
+    String start = convertDateTimeToDateString(datetime: festivalModel.startAt);
+    String end = convertDateTimeToDateString(datetime: festivalModel.endAt);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         _renderDescriptionRow(
           title: '행사명',
-          description:
-              "[${widget.festivalModel.region}] ${widget.festivalModel.title}",
+          description: "[${festivalModel.region}] ${festivalModel.title}",
         ),
         const SizedBox(height: 24.0),
         _renderDescriptionRow(
           title: '주최자/단체',
-          description: widget.festivalModel.applicant,
+          description: festivalModel.applicant,
         ),
         const SizedBox(height: 24.0),
         _renderDescriptionRow(
           title: '행사 장소',
-          description: widget.festivalModel.address,
+          description: festivalModel.address,
         ),
         const SizedBox(height: 8.0),
         ElevatedButton(
@@ -160,8 +165,8 @@ class _FestivalDetailScreenState extends State<FestivalDetailScreen> {
               RouteNames.kakaoMap,
               arguments: ScreenArguments<LatLng>(
                 data: LatLng(
-                  widget.festivalModel.latitude,
-                  widget.festivalModel.longitude,
+                  festivalModel.latitude,
+                  festivalModel.longitude,
                 ),
               ),
             );
@@ -174,12 +179,11 @@ class _FestivalDetailScreenState extends State<FestivalDetailScreen> {
           title: '행사 기간',
           description: "$start ~ $end",
         ),
-        if (widget.festivalModel.message.isNotEmpty)
-          const SizedBox(height: 24.0),
-        if (widget.festivalModel.message.isNotEmpty)
+        if (festivalModel.message.isNotEmpty) const SizedBox(height: 24.0),
+        if (festivalModel.message.isNotEmpty)
           _renderDescriptionRow(
             title: '문의/전달사항',
-            description: widget.festivalModel.message,
+            description: festivalModel.message,
           ),
       ],
     );

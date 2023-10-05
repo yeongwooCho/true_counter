@@ -35,7 +35,7 @@ class _FestivalListScreenState extends State<FestivalListScreen> {
   @override
   Widget build(BuildContext context) {
     final provider = context.watch<FestivalProvider>();
-    final festivals = provider.cache[''] ?? [];
+    final festivals = provider.cacheList['total'] ?? [];
 
     // TODO: 이후 서버에서 가져온 값으로 로딩하도록 구현해야함.
     if (beingFestivals.isEmpty) {

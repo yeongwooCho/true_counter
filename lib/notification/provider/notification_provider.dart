@@ -9,7 +9,7 @@ class NotificationProvider extends ChangeNotifier {
   NotificationProvider({
     required this.repository,
   }) : super() {
-    getNotifications();
+    // getNotifications();
   }
 
   void getNotifications() async {

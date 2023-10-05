@@ -24,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final provider = context.watch<FestivalProvider>();
-    final festivals = provider.cache[''] ?? [];
+    final festivals = provider.cacheList['total'] ?? [];
 
     return DefaultLayout(
       appbar: DefaultAppBar(

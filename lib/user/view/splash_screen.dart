@@ -5,6 +5,7 @@ import 'package:true_counter/common/const/text_style.dart';
 import 'package:true_counter/common/layout/default_layout.dart';
 import 'package:true_counter/common/repository/local_storage.dart';
 import 'package:true_counter/common/variable/routes.dart';
+import 'package:true_counter/festival/provider/festival_provider.dart';
 import 'package:true_counter/notification/provider/notification_provider.dart';
 import 'package:true_counter/user/model/user_model.dart';
 import 'package:true_counter/user/repository/user_repository.dart';
@@ -90,8 +91,11 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<bool> getSplashData() async {
     try {
-      final provider = context.read<NotificationProvider>();
-      provider.getNotifications();
+      final notificationProvider = context.read<NotificationProvider>();
+      notificationProvider.getNotifications();
+
+      final festivalProvider = context.read<FestivalProvider>();
+      festivalProvider.getFestivals();
     } catch (error) {
       debugPrint('Splash getSplashData Error: ${error.toString()}');
       return false;

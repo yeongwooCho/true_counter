@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kakao_map_plugin/kakao_map_plugin.dart';
+import 'package:provider/provider.dart';
 import 'package:true_counter/common/model/screen_arguments.dart';
 import 'package:true_counter/common/view/root_tab.dart';
 import 'package:true_counter/festival/model/festival_model.dart';
+import 'package:true_counter/festival/provider/festival_provider.dart';
 import 'package:true_counter/festival/view/festival_detail_screen.dart';
 import 'package:true_counter/festival/view/kakao_map_screen.dart';
 import 'package:true_counter/festival_list/view/festival_register_screen.dart';
@@ -134,6 +136,8 @@ Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
   RouteNames.festivalDetail: (context) {
     final args = ModalRoute.of(context)?.settings.arguments
         as ScreenArguments<FestivalModel>;
+    final festivalProvider = context.read<FestivalProvider>();
+    festivalProvider.getFestival(id: args.data.id);
 
     return FestivalDetailScreen(
       festivalModel: args.data,

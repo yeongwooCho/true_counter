@@ -38,7 +38,7 @@ class _CustomChartState extends State<CustomChart> {
         height: 200.0,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 16.0),
-          child: widget.festivalModel.participants.isNotEmpty
+          child: widget.festivalModel.participantsByTimezone.isNotEmpty
               ? LineChart(
                   getLineChardData(),
                   duration: const Duration(seconds: 2), // Optional
@@ -79,7 +79,7 @@ class _CustomChartState extends State<CustomChart> {
     return SideTitles(
       showTitles: true,
       reservedSize: (valueLength * valueWidth) + (dotLength * dotWidth),
-      interval: widget.festivalModel.cumulativeParticipantCount / 3,
+      interval: 1.0, // widget.festivalModel.cumulativeParticipantCount / 3,
       getTitlesWidget: (double value, TitleMeta meta) {
         late String title;
         switch (value.toInt()) {
@@ -103,7 +103,7 @@ class _CustomChartState extends State<CustomChart> {
     return SideTitles(
       showTitles: true,
       reservedSize: 16, // text height
-      interval: duration.inHours / 4,
+      interval: 1.0, // duration.inHours / 4,
       getTitlesWidget: (double value, TitleMeta meta) {
         late String title;
         switch (value.toInt()) {
@@ -167,7 +167,7 @@ class _CustomChartState extends State<CustomChart> {
   List<LineChartBarData> getLineBarsData() {
     int startHour = widget.festivalModel.startAt.hour;
 
-    List<String> participants = widget.festivalModel.participants.split('/');
+    List<String> participants = widget.festivalModel.participantsByTimezone.split('/');
 
     List<int> refineParticipants = participants.map<int>((String element) {
       int temp = 0;

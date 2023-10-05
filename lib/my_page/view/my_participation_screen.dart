@@ -19,7 +19,7 @@ class MyParticipationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = context.watch<FestivalProvider>();
-    final festivals = provider.cache[''] ?? [];
+    final festivals = provider.cacheList['total'] ?? [];
 
     return DefaultLayout(
       appbar: const DefaultAppBar(title: '나의 참여정보'),
@@ -40,10 +40,11 @@ class MyParticipationScreen extends StatelessWidget {
                     title: festivals[index].title,
 
                     // TODO: 참여일자로 데이터 넣어야 함
-                    description:
-                        "참여 일자: ${festivals[index].userParticipationAt == null ? 'null' : convertDateTimeToDateString(
-                            datetime: festivals[index].userParticipationAt!,
-                          )}",
+                    // description:
+                    //     "참여 일자: ${festivals[index].userParticipationAt == null ? 'null' : convertDateTimeToDateString(
+                    //         datetime: festivals[index].userParticipationAt!,
+                    //       )}",
+                    description: "참여일자: ㅁㄴㅇㄹ",
                     onTap: () {
                       Navigator.of(context).pushNamed(
                         RouteNames.festivalDetail,

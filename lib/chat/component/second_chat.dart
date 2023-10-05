@@ -38,7 +38,7 @@ class SecondChat extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        chat.username,
+                        chat.nickName,
                         style: bodyTitleBoldTextStyle,
                       ),
                       Container(
@@ -98,7 +98,7 @@ class SecondChat extends StatelessWidget {
                       ),
                       const SizedBox(width: 4.0),
                       Text(
-                        chat.like.toString(),
+                        chat.chatLike.toString(),
                         style: descriptionTextStyle.copyWith(
                           color: ERROR_COLOR,
                           fontWeight: FontWeight.bold,

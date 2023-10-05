@@ -7,6 +7,7 @@ import 'package:true_counter/common/layout/default_layout.dart';
 import 'package:true_counter/common/repository/local_storage.dart';
 import 'package:true_counter/common/util/show_cupertino_alert.dart';
 import 'package:true_counter/common/variable/routes.dart';
+import 'package:true_counter/user/model/token_model.dart';
 import 'package:true_counter/user/model/user_model.dart';
 
 class WithdrawScreen extends StatefulWidget {
@@ -99,6 +100,7 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
                           // TODO: 회원탈퇴 요청 후
                           await LocalStorage.clearAll();
                           UserModel.current = null;
+                          TokenModel.instance = null;
 
                           Navigator.of(context).pushNamedAndRemoveUntil(
                             RouteNames.onBoarding,

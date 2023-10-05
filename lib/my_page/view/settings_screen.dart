@@ -8,6 +8,7 @@ import 'package:true_counter/common/repository/local_storage.dart';
 import 'package:true_counter/common/util/datetime.dart';
 import 'package:true_counter/common/util/show_cupertino_alert.dart';
 import 'package:true_counter/common/variable/routes.dart';
+import 'package:true_counter/user/model/token_model.dart';
 import 'package:true_counter/user/model/user_model.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -87,10 +88,13 @@ class SettingsScreen extends StatelessWidget {
                         titleWidget: const Text('로그아웃 하시겠습니까?'),
                         completeText: '확인',
                         completeFunction: () async {
+                          UserModel.current = null;
+                          TokenModel.instance = null;
                           await LocalStorage.clearAll();
 
-                          Navigator.of(context).pushNamed(
+                          Navigator.of(context).pushNamedAndRemoveUntil(
                             RouteNames.onBoarding,
+                            (route) => false,
                           );
                         },
                         cancelText: '취소',

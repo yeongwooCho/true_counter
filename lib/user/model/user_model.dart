@@ -5,14 +5,13 @@ import 'package:true_counter/user/model/enum/sign_up_type.dart';
 import 'package:true_counter/user/model/token_model.dart';
 
 class UserModel {
-  late String id;
   late String email;
-  late String username;
+  late String nickname;
+  late DateTime birthday;
   late String phone;
-  late String gender;
-  late String birth;
+  late bool gender;
   late String region;
-  late SignUpType signUpType;
+  late SignUpType signupType;
 
   bool isDummy = false;
 
@@ -35,15 +34,13 @@ class UserModel {
   }) {
     UserModel user = UserModel._internal();
 
-    user.id = json['id'] ?? '';
     user.email = json['email'] ?? '';
-    user.username = json['username'] ?? '';
+    user.nickname = json['nickname'] ?? '';
+    user.birthday = DateTime.parse(json['birthday']);
     user.phone = json['phone'] ?? '';
-    user.gender = json['gender'] ?? '';
-    user.birth = json['date'] ?? '';
+    user.gender = json['gender'] ?? true;
     user.region = json['region'] ?? '';
-    user.signUpType =
-        SignUpType.getType(type: json['signUpType'] ?? SignUpType.none.label);
+    user.signupType = SignUpType.getType(type: json['signupType']);
     user.isDummy = isDummy;
 
     if (TokenModel.instance != null) current = user;
@@ -72,34 +69,27 @@ class UserModel {
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
       'email': email,
-      'username': username,
+      'nickname': nickname,
       'phone': phone,
       'gender': gender,
-      'birth': birth,
+      'birthday': birthday,
       'region': region,
-      'signUpType': signUpType,
+      'signupType': signupType,
     };
   }
 
   @override
   String toString() {
     return 'UserModel ('
-        'model = id: $id, '
         'email: $email, '
-        'username: $username, '
+        'nickname: $nickname, '
         'phone: $phone, '
         'gender: $gender'
-        'birth: $birth'
+        'birthday: $birthday'
         'region: $region'
-        'signUpType: $signUpType'
+        'signupType: $signupType'
         'isDummy: $isDummy'
         ')';
   }
-
-// Future<void> logout() async {
-//   UserModel.current = null;
-//   await LocalStorage.clearAll();
-// }
 }

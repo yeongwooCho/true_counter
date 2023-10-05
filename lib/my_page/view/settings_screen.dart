@@ -5,6 +5,7 @@ import 'package:true_counter/common/const/text_style.dart';
 import 'package:true_counter/common/layout/default_appbar.dart';
 import 'package:true_counter/common/layout/default_layout.dart';
 import 'package:true_counter/common/repository/local_storage.dart';
+import 'package:true_counter/common/util/datetime.dart';
 import 'package:true_counter/common/util/show_cupertino_alert.dart';
 import 'package:true_counter/common/variable/routes.dart';
 import 'package:true_counter/user/model/user_model.dart';
@@ -42,7 +43,7 @@ class SettingsScreen extends StatelessWidget {
                   ),
                   renderDescriptionRow(
                     title: '닉네임',
-                    description: userModel.username,
+                    description: userModel.nickname,
                   ),
                   renderDescriptionRow(
                     title: '연락처',
@@ -50,11 +51,12 @@ class SettingsScreen extends StatelessWidget {
                   ),
                   renderDescriptionRow(
                     title: '성별',
-                    description: userModel.gender,
+                    description: userModel.gender ? '남자' : '여자',
                   ),
                   renderDescriptionRow(
                     title: '생년월일',
-                    description: userModel.birth,
+                    description: convertDateTimeToDateString(
+                        datetime: userModel.birthday),
                   ),
                   renderDescriptionRow(
                     title: '지역',

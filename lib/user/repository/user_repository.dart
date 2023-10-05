@@ -22,39 +22,32 @@ class UserRepository extends UserRepositoryInterface {
   @override
   Future<bool> userInfo() async {
     try {
-      print(1);
-      print(UserModel.getHeaders());
-
       final resp = await _dio.get(
         Url.userInfo,
         options: Options(
           headers: UserModel.getHeaders(),
         ),
       );
-      print(1);
-      print("여기여기: ${resp.data}");
 
       if (resp.statusCode == null ||
           resp.statusCode! < 200 ||
           resp.statusCode! > 400) {
         return false;
       }
+      ApiResponse<Map<String, dynamic>> responseData =
+          ApiResponse<Map<String, dynamic>>.fromJson(json: resp.data);
+
+      if (responseData.data == null) {
+        return false;
+      }
+
+      UserModel.fromJson(json: responseData.data!);
+      return true;
     } catch (e) {
-      debugPrint('UserRepository Error: ${e.toString()}');
+      debugPrint('UserRepository userInfo Error: ${e.toString()}');
       // TODO: 무슨 오류인지 제어해야함, 휴대폰번호가 있는지 등등
       return false;
     }
-
-    // ApiResponse<Map<String, dynamic>> responseData =
-    //     ApiResponse<Map<String, dynamic>>.fromJson(json: resp.data);
-    //
-    // if (responseData.data == null) {
-    //   return false;
-    // }
-
-    // print("유저 데이터 responseData: $responseData");
-
-    return true;
   }
 
   @override
@@ -71,16 +64,6 @@ class UserRepository extends UserRepositoryInterface {
       Codec<String, String> stringToBase64 = utf8.fuse(base64);
       String encodingPassword = stringToBase64.encode(password);
 
-      print("회원가입 하기");
-      print(email);
-      print(password);
-      print(phone);
-      print(birthday);
-      print(gender);
-      print(region);
-      print(signUpType);
-      print("회원가입 하기2");
-
       final resp = await _dio.post(
         Url.signUp,
         data: {
@@ -94,7 +77,6 @@ class UserRepository extends UserRepositoryInterface {
           "signupType": signUpType.label,
         },
       );
-      print("여기여기: ${resp.data}");
 
       if (resp.statusCode == null ||
           resp.statusCode! < 200 ||
@@ -122,7 +104,7 @@ class UserRepository extends UserRepositoryInterface {
 
       return true;
     } catch (e) {
-      debugPrint('UserRepository Error: ${e.toString()}');
+      debugPrint('UserRepository signUp Error: ${e.toString()}');
       // TODO: 무슨 오류인지 제어해야함, 휴대폰번호가 있는지 등등
       return false;
     }
@@ -180,7 +162,7 @@ class UserRepository extends UserRepositoryInterface {
       }
       return true;
     } catch (e) {
-      debugPrint('UserRepository Error: ${e.toString()}');
+      debugPrint('UserRepository signIn Error: ${e.toString()}');
       return false;
     }
   }
@@ -236,7 +218,7 @@ class UserRepository extends UserRepositoryInterface {
 
       return true;
     } catch (e) {
-      debugPrint('UserRepository Error: ${e.toString()}');
+      debugPrint('UserRepository tokenReissue Error: ${e.toString()}');
       return false;
     }
   }
@@ -278,7 +260,7 @@ class UserRepository extends UserRepositoryInterface {
 
       return true;
     } catch (e) {
-      debugPrint('UserRepository Error: ${e.toString()}');
+      debugPrint('UserRepository tokenSignIn Error: ${e.toString()}');
       return false;
     }
   }
@@ -315,33 +297,18 @@ class UserRepository extends UserRepositoryInterface {
 
   @override
   Future<bool> kakaoSignIn() async {
-    print('\n카카오 로그인 시작');
-    // 카카오 로그인 - 유저 정보를 가져와서 로그인 / 회원가입에 따른 유저 처리를 한다.
+    try {
+      print('\n카카오 로그인 시작');
+      // 카카오 로그인 - 유저 정보를 가져와서 로그인 / 회원가입에 따른 유저 처리를 한다.
 
-    // 카카오 로그인 되어 있으면 카카오톡이 실행되지 않고 유저 정보를 KakaoRequestModel을 생성
-    KakaoRequestModel kakaoRequestModel =
-        await _kakaoAuthRepository.kakaoLogin();
+      // 카카오 로그인 되어 있으면 카카오톡이 실행되지 않고 유저 정보를 KakaoRequestModel을 생성
+      KakaoRequestModel kakaoRequestModel =
+          await _kakaoAuthRepository.kakaoLogin();
 
-    print("카카오 모델1: $kakaoRequestModel");
-
-    if (kakaoRequestModel.error == null) {
-      // 유저정보를 정상적으로 가져왔습니다.
-      String email = kakaoRequestModel.email!;
-      String password = getKakaoPassword(userInfo: email);
-
-      final bool isSuccessSignIn = await signIn(
-        email: email,
-        password: password,
-      );
-      return isSuccessSignIn;
-    } else {
-      // 유저정보를 가져오지 못했습니다. 카톡을 갔다와서라도 가져와라.
-      kakaoRequestModel =
-          await _kakaoAuthRepository.kakaoLogin(isNewUser: true);
-      print("카카오 모델2: $kakaoRequestModel");
+      print("카카오 모델1: $kakaoRequestModel");
 
       if (kakaoRequestModel.error == null) {
-        // 유저정보를 정상적으로 가져왔다 => 로그인을 진행해라.
+        // 유저정보를 정상적으로 가져왔습니다.
         String email = kakaoRequestModel.email!;
         String password = getKakaoPassword(userInfo: email);
 
@@ -350,9 +317,29 @@ class UserRepository extends UserRepositoryInterface {
           password: password,
         );
         return isSuccessSignIn;
+      } else {
+        // 유저정보를 가져오지 못했습니다. 카톡을 갔다와서라도 가져와라.
+        kakaoRequestModel =
+            await _kakaoAuthRepository.kakaoLogin(isNewUser: true);
+        print("카카오 모델2: $kakaoRequestModel");
+
+        if (kakaoRequestModel.error == null) {
+          // 유저정보를 정상적으로 가져왔다 => 로그인을 진행해라.
+          String email = kakaoRequestModel.email!;
+          String password = getKakaoPassword(userInfo: email);
+
+          final bool isSuccessSignIn = await signIn(
+            email: email,
+            password: password,
+          );
+          return isSuccessSignIn;
+        }
       }
+      return false;
+    } catch (error) {
+      debugPrint('UserRepository kakaoSignIn Error: ${error.toString()}');
+      return false;
     }
-    return false;
   }
 
   @override
@@ -362,27 +349,32 @@ class UserRepository extends UserRepositoryInterface {
     required String birthday,
     required String region,
   }) async {
-    print('\n카카오 회원가입 시작');
-    KakaoRequestModel kakaoRequestModel =
-        await _kakaoAuthRepository.kakaoLogin(isNewUser: true);
+    try {
+      print('\n카카오 회원가입 시작');
+      KakaoRequestModel kakaoRequestModel =
+          await _kakaoAuthRepository.kakaoLogin(isNewUser: true);
 
-    if (kakaoRequestModel.error == null) {
-      // 유저정보를 정상적으로 가져왔다 => 로그인을 진행해라.
-      String email = kakaoRequestModel.email!;
-      String password = getKakaoPassword(userInfo: email);
+      if (kakaoRequestModel.error == null) {
+        // 유저정보를 정상적으로 가져왔다 => 로그인을 진행해라.
+        String email = kakaoRequestModel.email!;
+        String password = getKakaoPassword(userInfo: email);
 
-      final bool isSuccessSignIn = await signUp(
-        email: email,
-        password: password,
-        phone: phone,
-        birthday: birthday,
-        gender: gender,
-        region: region,
-        signUpType: SignUpType.kakao,
-      );
-      return isSuccessSignIn;
+        final bool isSuccessSignIn = await signUp(
+          email: email,
+          password: password,
+          phone: phone,
+          birthday: birthday,
+          gender: gender,
+          region: region,
+          signUpType: SignUpType.kakao,
+        );
+        return isSuccessSignIn;
+      }
+
+      return false;
+    } catch (error) {
+      debugPrint('UserRepository kakaoSignUp Error: ${error.toString()}');
+      return false;
     }
-
-    return false;
   }
 }

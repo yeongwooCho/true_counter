@@ -8,7 +8,7 @@ enum SignUpType {
 
   final String label;
 
-  static getType({required String type}) {
+  static SignUpType getType({required String type}) {
     switch (type) {
       case 'EMAIL':
         return SignUpType.email;

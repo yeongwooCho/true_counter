@@ -73,14 +73,15 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void initSplash() async {
     bool isAutoLogin = await autoLogin();
-    await getSplashData(); // 공지, 페스티벌 데이터
+    if (isAutoLogin) {
+      await getUserInfo();
+    }
+
+    await getSplashData(); // 공지, 페스티벌 데이터 등 공개된 데이터
 
     String nextRoute = RouteNames.onBoarding;
     if (isAutoLogin) {
       nextRoute = RouteNames.root;
-
-      // TODO: 로그인 한 유저 current 에 집어넣기
-      UserModel.dummyLogin();
     }
     await Future.delayed(const Duration(seconds: 1));
 
@@ -98,11 +99,18 @@ class _SplashScreenState extends State<SplashScreen> {
     return true;
   }
 
+  Future<bool> getUserInfo() async {
+    final isSuccessGetUserInfo = await _userRepository.userInfo();
+    debugPrint("스플레시 로그인 성공?: $isSuccessGetUserInfo");
+    return isSuccessGetUserInfo;
+  }
+
   Future<bool> autoLogin() async {
     String? accessToken =
         await LocalStorage.getToken(key: LocalStorageKey.accessToken);
     String? refreshToken =
         await LocalStorage.getToken(key: LocalStorageKey.refreshToken);
+    print('autoLogin token: $accessToken $refreshToken');
 
     if (accessToken == null ||
         accessToken.isEmpty ||

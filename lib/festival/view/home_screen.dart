@@ -27,6 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final festivals = provider.cacheList['total'] ?? [];
 
     return DefaultLayout(
+      isLoading: festivals.isEmpty,
       appbar: DefaultAppBar(
         title: '트루카운터',
         action: [

@@ -55,6 +55,7 @@ class _FestivalDetailScreenState extends State<FestivalDetailScreen> {
     final festival = provider.cache[widget.festivalModel.id] ?? widget.festivalModel;
 
     return DefaultLayout(
+      isLoading: provider.cache[widget.festivalModel.id] == null,
       appbar: const DefaultAppBar(title: '행사 상세정보'),
       bottomNavigationBar: SizedBox(
         height: 64.0 + bottomInset,

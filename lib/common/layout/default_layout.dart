@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:true_counter/common/component/custom_loading.dart';
 import 'package:true_counter/common/const/colors.dart';
 
 class DefaultLayout extends StatelessWidget {
@@ -7,6 +8,7 @@ class DefaultLayout extends StatelessWidget {
   final Widget? bottomNavigationBar;
   final FloatingActionButton? floatingActionButton;
   final Widget child;
+  final bool isLoading;
 
   const DefaultLayout({
     this.backgroundColor,
@@ -14,6 +16,7 @@ class DefaultLayout extends StatelessWidget {
     this.bottomNavigationBar,
     this.floatingActionButton,
     required this.child,
+    this.isLoading = false,
     Key? key,
   }) : super(key: key);
 
@@ -24,11 +27,21 @@ class DefaultLayout extends StatelessWidget {
       backgroundColor: backgroundColor ?? BACKGROUND_COLOR,
       // 기본배경이 완전 흰색은 아니다.
       body: SafeArea(
-        child: GestureDetector(
-          onTap: () {
-            FocusScope.of(context).unfocus();
-          },
-          child: child,
+        child: Stack(
+          children: [
+            GestureDetector(
+              onTap: () {
+                FocusScope.of(context).unfocus();
+              },
+              child: child,
+            ),
+            Positioned.fill(
+              child: Visibility(
+                visible: isLoading,
+                child: const CustomLoadingScreen(),
+              ),
+            )
+          ],
         ),
       ),
       bottomNavigationBar: bottomNavigationBar,

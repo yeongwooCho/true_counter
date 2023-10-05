@@ -6,6 +6,7 @@ import 'package:true_counter/common/const/text_style.dart';
 import 'package:true_counter/common/layout/default_appbar.dart';
 import 'package:true_counter/common/layout/default_layout.dart';
 import 'package:true_counter/common/model/screen_arguments.dart';
+import 'package:true_counter/common/util/datetime.dart';
 import 'package:true_counter/common/variable/routes.dart';
 import 'package:true_counter/common/view/custom_list_screen.dart';
 import 'package:true_counter/festival/model/festival_model.dart';
@@ -17,7 +18,10 @@ class MyParticipationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = context.watch<FestivalProvider>();
-    final festivals = provider.cacheList['total'] ?? [];
+    final festivals = provider.cacheList['total']
+            ?.where((element) => element.isParticipated)
+            .toList() ??
+        [];
 
     return DefaultLayout(
       appbar: const DefaultAppBar(title: '나의 참여정보'),
@@ -36,13 +40,8 @@ class MyParticipationScreen extends StatelessWidget {
                 itemBuilder: (BuildContext context, int index) {
                   return CustomListCard(
                     title: festivals[index].title,
-
-                    // TODO: 참여일자로 데이터 넣어야 함
-                    // description:
-                    //     "참여 일자: ${festivals[index].userParticipationAt == null ? 'null' : convertDateTimeToDateString(
-                    //         datetime: festivals[index].userParticipationAt!,
-                    //       )}",
-                    description: "참여일자: ㅁㄴㅇㄹ",
+                    description:
+                        "참여 일자: ${festivals[index].participateDate == null ? 'null' : convertDateTimeToMinute(datetime: festivals[index].participateDate!)}",
                     onTap: () {
                       Navigator.of(context).pushNamed(
                         RouteNames.festivalDetail,

@@ -142,8 +142,8 @@ class _FestivalDetailScreenState extends State<FestivalDetailScreen> {
     required BuildContext context,
     required FestivalModel festivalModel,
   }) {
-    String start = convertDateTimeToDateString(datetime: festivalModel.startAt);
-    String end = convertDateTimeToDateString(datetime: festivalModel.endAt);
+    String start = convertDateTimeToMinute(datetime: festivalModel.startAt);
+    String end = convertDateTimeToMinute(datetime: festivalModel.endAt);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,

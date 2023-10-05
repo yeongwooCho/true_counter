@@ -21,9 +21,8 @@ class FestivalModel {
   late String participantsByTimezone;
   late bool isValid; // 관리자 승인 여부 - true
   late bool isParticipated; // 해당 유저의 참여여부
+  late DateTime? participateDate;
   late List<ChatModel> chats;
-
-  // DateTime? userParticipationAt;
 
   FestivalModel._internal();
 
@@ -47,13 +46,16 @@ class FestivalModel {
     festival.address = json['address'] ?? '';
     festival.startAt = DateTime.parse(json['startAt']);
     festival.endAt = DateTime.parse(json['endAt']);
-    // festival.userParticipationAt = DateTime.parse(json['userParticipationAt']);
 
     festival.cumulativeParticipantCount =
         json['cumulativeParticipantCount'] ?? 0;
     festival.participantsByTimezone = json['participantsByTimezone'] ?? '';
     festival.isValid = json['isValid'] ?? true;
     festival.isParticipated = json['isParticipated'] ?? false;
+
+    if (json['participateDate'] != null) {
+      festival.participateDate = DateTime.parse(json['participateDate']);
+    }
 
     if (json['chats'] != null) {
       festival.chats = json['chats'].map<ChatModel>((element) {

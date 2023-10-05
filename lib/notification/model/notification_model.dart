@@ -1,14 +1,14 @@
 class NotificationModel {
-  late String id;
+  late int id;
   late String title;
-  late String description;
+  late String content;
   late DateTime createdAt;
 
   // TODO: Dummy
   NotificationModel({
     required this.id,
     required this.title,
-    required this.description,
+    required this.content,
     required this.createdAt,
   });
 
@@ -19,11 +19,16 @@ class NotificationModel {
   }) {
     NotificationModel notification = NotificationModel._internal();
 
-    notification.id = json['id'] ?? '';
+    notification.id = json['id'];
     notification.title = json['title'] ?? '';
-    notification.description = json['description'] ?? '';
-    notification.createdAt = json['createdAt'] ?? '';
+    notification.content = json['content'] ?? '';
+    notification.createdAt = DateTime.parse(json['createdAt']);
 
     return notification;
+  }
+
+  @override
+  String toString() {
+    return 'NotificationModel = {id: $id, title: $title, content: $content, createdAt: $createdAt}';
   }
 }

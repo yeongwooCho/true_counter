@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:true_counter/common/const/colors.dart';
 import 'package:true_counter/common/const/text_style.dart';
 import 'package:true_counter/common/layout/default_layout.dart';
 import 'package:true_counter/common/repository/local_storage.dart';
 import 'package:true_counter/common/variable/routes.dart';
+import 'package:true_counter/notification/provider/notification_provider.dart';
 import 'package:true_counter/user/model/user_model.dart';
 import 'package:true_counter/user/repository/user_repository.dart';
 import 'package:true_counter/user/repository/user_repository_interface.dart';
@@ -70,11 +72,8 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void initSplash() async {
-    bool isGetSplashData = await getSplashData();
-
-    if (!isGetSplashData) return;
-
     bool isAutoLogin = await autoLogin();
+    await getSplashData(); // 공지, 페스티벌 데이터
 
     String nextRoute = RouteNames.onBoarding;
     if (isAutoLogin) {
@@ -89,7 +88,13 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<bool> getSplashData() async {
-    // TODO: Splash 화면에서 기본 데이터 가져오기
+    try {
+      final provider = context.read<NotificationProvider>();
+      provider.getNotifications();
+    } catch (error) {
+      debugPrint('Splash getSplashData Error: ${error.toString()}');
+      return false;
+    }
     return true;
   }
 
@@ -110,12 +115,12 @@ class _SplashScreenState extends State<SplashScreen> {
     final bool isTokenSignIn = await _userRepository.tokenSignIn();
 
     // 토큰 로그인 실패
-    if(!isTokenSignIn) {
+    if (!isTokenSignIn) {
       // refresh token 재발급
       final bool isTokenReissue = await _userRepository.tokenReissue();
 
       // refresh token 재발급 성공
-      if(isTokenReissue) {
+      if (isTokenReissue) {
         return await _userRepository.tokenSignIn();
       }
     }

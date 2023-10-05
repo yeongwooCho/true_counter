@@ -3,62 +3,75 @@ import 'package:flutter/material.dart';
 import 'package:true_counter/common/model/api_response.dart';
 import 'package:true_counter/common/repository/urls.dart';
 import 'package:true_counter/notification/model/notification_model.dart';
+import 'package:true_counter/user/model/user_model.dart';
 
 class NotificationRepository {
   final _dio = Dio();
 
   Future<List<NotificationModel>> getNotifications() async {
-    // final resp = await _dio.get(Url.notification);
-    //
-    // if (resp.statusCode == null ||
-    //     resp.statusCode! < 200 ||
-    //     resp.statusCode! > 400) {
-    //   return [];
-    // }
-
     try {
-      // ApiResponse<List<NotificationModel>> notifications =
-      //     ApiResponse<List<NotificationModel>>.fromJson(json: resp.data);
+      final resp = await _dio.get(
+        Url.noticeBoard,
+        options: Options(
+          headers: UserModel.getHeaders(),
+        ),
+      );
 
-      // return notifications.data!;
-      return await testGetNotifications();
+      if (resp.statusCode == null ||
+          resp.statusCode! < 200 ||
+          resp.statusCode! > 400) {
+        return [];
+      }
+
+      ApiResponse<List<dynamic>> responseData =
+          ApiResponse<List<dynamic>>.fromJson(json: resp.data);
+
+      if (responseData.data == null) {
+        return [];
+      }
+
+      final notifications = responseData.data!
+          .map<NotificationModel>((e) => NotificationModel.fromJson(json: e))
+          .toList();
+
+      return notifications;
     } catch (e) {
       debugPrint('NotificationRepository Error: ${e.toString()}');
       return [];
     }
   }
 
-  // TODO: 이거 지워야 함
-  Future<List<NotificationModel>> testGetNotifications() async {
-    return [
-      NotificationModel(
-        id: '1',
-        title: '[공지] 2023년 5월 집회 / 행사 일정 안내',
-        description:
-            '동해물과 백두산이 마르고 닳도록 하느님이 보우하사 우리나라 만세.무궁화 삼천리 화려강산 대한사람 대한으로 길이 보전하세.',
-        createdAt: DateTime(2023, 8, 19), //'2023-08-19',
-      ),
-      NotificationModel(
-        id: '2',
-        title: '2023년 8월 30일 09시 ~ 14시 현재 행사 성격별 차이 조사를 위한 점검',
-        description:
-            '동해물과 백두산이 마르고 닳도록 하느님이 보우하사 우리나라 만세.무궁화 삼천리 화려강산 대한사람 대한으로 길이 보전하세.',
-        createdAt: DateTime(2023, 8, 17), //'2023-08-17',
-      ),
-      NotificationModel(
-        id: '3',
-        title: '2023년 7월 21일 광복절 행사 세부 안내',
-        description:
-            '동해물과 백두산이 마르고 닳도록 하느님이 보우하사 우리나라 만세.무궁화 삼천리 화려강산 대한사람 대한으로 길이 보전하세.',
-        createdAt: DateTime(2023, 8, 13), //'2023-08-13',
-      ),
-      NotificationModel(
-        id: '4',
-        title: '[공지] 2023년 4월 집회 / 행사 일정 안내',
-        description:
-            '동해물과 백두산이 마르고 닳도록 하느님이 보우하사 우리나라 만세.무궁화 삼천리 화려강산 대한사람 대한으로 길이 보전하세.',
-        createdAt: DateTime(2023, 7, 19), // '2023-07-19',
-      ),
-    ];
-  }
+// // TODO: 이거 지워야 함
+// Future<List<NotificationModel>> testGetNotifications() async {
+//   return [
+//     NotificationModel(
+//       id: '1',
+//       title: '[공지] 2023년 5월 집회 / 행사 일정 안내',
+//       description:
+//           '동해물과 백두산이 마르고 닳도록 하느님이 보우하사 우리나라 만세.무궁화 삼천리 화려강산 대한사람 대한으로 길이 보전하세.',
+//       createdAt: DateTime(2023, 8, 19), //'2023-08-19',
+//     ),
+//     NotificationModel(
+//       id: '2',
+//       title: '2023년 8월 30일 09시 ~ 14시 현재 행사 성격별 차이 조사를 위한 점검',
+//       description:
+//           '동해물과 백두산이 마르고 닳도록 하느님이 보우하사 우리나라 만세.무궁화 삼천리 화려강산 대한사람 대한으로 길이 보전하세.',
+//       createdAt: DateTime(2023, 8, 17), //'2023-08-17',
+//     ),
+//     NotificationModel(
+//       id: '3',
+//       title: '2023년 7월 21일 광복절 행사 세부 안내',
+//       description:
+//           '동해물과 백두산이 마르고 닳도록 하느님이 보우하사 우리나라 만세.무궁화 삼천리 화려강산 대한사람 대한으로 길이 보전하세.',
+//       createdAt: DateTime(2023, 8, 13), //'2023-08-13',
+//     ),
+//     NotificationModel(
+//       id: '4',
+//       title: '[공지] 2023년 4월 집회 / 행사 일정 안내',
+//       description:
+//           '동해물과 백두산이 마르고 닳도록 하느님이 보우하사 우리나라 만세.무궁화 삼천리 화려강산 대한사람 대한으로 길이 보전하세.',
+//       createdAt: DateTime(2023, 7, 19), // '2023-07-19',
+//     ),
+//   ];
+// }
 }

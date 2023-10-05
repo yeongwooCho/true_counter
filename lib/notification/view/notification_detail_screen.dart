@@ -3,6 +3,7 @@ import 'package:true_counter/common/const/colors.dart';
 import 'package:true_counter/common/const/text_style.dart';
 import 'package:true_counter/common/layout/default_appbar.dart';
 import 'package:true_counter/common/layout/default_layout.dart';
+import 'package:true_counter/common/util/datetime.dart';
 import 'package:true_counter/notification/model/notification_model.dart';
 
 class NotificationDetailScreen extends StatelessWidget {
@@ -30,7 +31,7 @@ class NotificationDetailScreen extends StatelessWidget {
             ),
             const SizedBox(height: 16.0),
             Text(
-              "등록 일자: ${notificationModel.createdAt}",
+              "등록 일자: ${convertDateTimeToMinute(datetime: notificationModel.createdAt)}",
               style: bodyBoldTextStyle.copyWith(
                 color: DARK_GREY_COLOR,
               ),
@@ -39,7 +40,7 @@ class NotificationDetailScreen extends StatelessWidget {
             const Divider(),
             const SizedBox(height: 16.0),
             Text(
-              notificationModel.description,
+              notificationModel.content,
               style: bodyMediumTextStyle,
             ),
           ],

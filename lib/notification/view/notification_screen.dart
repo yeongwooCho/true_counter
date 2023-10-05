@@ -16,7 +16,8 @@ class NotificationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = context.watch<NotificationProvider>();
-    final notifications = provider.cache.values.first;
+    final notifications =
+        provider.cache.isNotEmpty ? provider.cache.values.first : [];
 
     return DefaultLayout(
       appbar: const DefaultAppBar(title: '공지사항 / 알림'),

@@ -67,4 +67,13 @@ class FestivalModel {
 
     return festival;
   }
+
+  FestivalModel copyWith({
+    required FestivalModel oldFestivalModel,
+    required ChatModel newChatModel,
+  }) {
+    FestivalModel newFestivalModel = oldFestivalModel;
+    newFestivalModel.chats = [...oldFestivalModel.chats, newChatModel];
+    return newFestivalModel;
+  }
 }

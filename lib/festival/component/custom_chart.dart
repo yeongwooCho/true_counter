@@ -79,7 +79,9 @@ class _CustomChartState extends State<CustomChart> {
     return SideTitles(
       showTitles: true,
       reservedSize: (valueLength * valueWidth) + (dotLength * dotWidth),
-      interval: 1.0, // widget.festivalModel.cumulativeParticipantCount / 3,
+      interval: widget.festivalModel.cumulativeParticipantCount != 0
+          ? widget.festivalModel.cumulativeParticipantCount / 3
+          : 1.0,
       getTitlesWidget: (double value, TitleMeta meta) {
         late String title;
         switch (value.toInt()) {
@@ -167,7 +169,8 @@ class _CustomChartState extends State<CustomChart> {
   List<LineChartBarData> getLineBarsData() {
     int startHour = widget.festivalModel.startAt.hour;
 
-    List<String> participants = widget.festivalModel.participantsByTimezone.split('/');
+    List<String> participants =
+        widget.festivalModel.participantsByTimezone.split('/');
 
     List<int> refineParticipants = participants.map<int>((String element) {
       int temp = 0;

@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:true_counter/chat/model/chat_model.dart';
 import 'package:true_counter/common/model/api_response.dart';
 import 'package:true_counter/common/repository/urls.dart';
 import 'package:true_counter/festival/model/festival_model.dart';
@@ -72,6 +73,45 @@ class FestivalRepository {
           FestivalModel.fromJson(json: responseData.data!);
 
       return festivalModel;
+    } catch (e) {
+      debugPrint('FestivalRepository getFestival Error: ${e.toString()}');
+      return null;
+    }
+  }
+
+  Future<ChatModel?> createChat({
+    required int festivalId,
+    required int? parentChatId,
+    required String content,
+  }) async {
+    try {
+      final resp = await _dio.post(
+        Url.festivalChats,
+        options: Options(
+          headers: UserModel.getHeaders(),
+        ),
+        data: {
+          "festivalId": festivalId,
+          "parentChatId": parentChatId,
+          "content": content,
+        },
+      );
+
+      if (resp.statusCode == null ||
+          resp.statusCode! < 200 ||
+          resp.statusCode! > 400) {
+        return null;
+      }
+
+      ApiResponse<Map<String, dynamic>> responseData =
+          ApiResponse<Map<String, dynamic>>.fromJson(json: resp.data);
+
+      if (responseData.data == null) {
+        return null;
+      }
+
+      final ChatModel chatModel = ChatModel.fromJson(json: responseData.data!);
+      return chatModel;
     } catch (e) {
       debugPrint('FestivalRepository getFestival Error: ${e.toString()}');
       return null;

@@ -1,3 +1,5 @@
+import 'package:true_counter/user/model/user_model.dart';
+
 class ChatModel {
   late int id;
   late int? parentChatId;
@@ -13,9 +15,9 @@ class ChatModel {
     required this.parentChatId,
     required this.nickName,
     required this.content,
-    required this.chatLike,
-    required this.declaration,
     required this.createdAt,
+    this.chatLike = 0,
+    this.declaration = 0,
   });
 
   ChatModel._internal();
@@ -47,5 +49,25 @@ class ChatModel {
         'declaration: $declaration, '
         'createdAt: $createdAt, '
         ')';
+  }
+
+  ChatModel copyWith({
+    int? id,
+    int? parentChatId,
+    String? nickName,
+    String? content,
+    int? chatLike,
+    int? declaration,
+    DateTime? createdAt,
+  }) {
+    return ChatModel(
+      id: id ?? this.id,
+      parentChatId: parentChatId ?? this.parentChatId,
+      nickName: nickName ?? this.nickName,
+      content: content ?? this.content,
+      chatLike: chatLike ?? this.chatLike,
+      declaration: declaration ?? this.declaration,
+      createdAt: createdAt ?? this.createdAt,
+    );
   }
 }

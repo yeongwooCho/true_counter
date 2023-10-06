@@ -14,6 +14,8 @@ import 'package:true_counter/common/variable/routes.dart';
 import 'package:true_counter/festival/component/custom_festival_card.dart';
 import 'package:true_counter/festival/model/festival_model.dart';
 import 'package:true_counter/festival/provider/festival_provider.dart';
+import 'package:true_counter/festival/repository/festival_repository.dart';
+import 'package:true_counter/user/model/user_model.dart';
 
 class FestivalDetailScreen extends StatefulWidget {
   final FestivalModel festivalModel;
@@ -31,6 +33,8 @@ class _FestivalDetailScreenState extends State<FestivalDetailScreen> {
   String? chatText;
   TextEditingController? chatController;
   FocusNode? chatFocus;
+  int? parentChatId;
+  FestivalRepository festivalRepository = FestivalRepository();
 
   @override
   void initState() {
@@ -72,8 +76,12 @@ class _FestivalDetailScreenState extends State<FestivalDetailScreen> {
                 chatFocus!.unfocus();
 
                 // TODO: request 댓글작성
-
-                setState(() {});
+                provider.createChat(
+                  festivalId: festival.id,
+                  parentChatId: parentChatId,
+                  nickname: UserModel.current!.nickname,
+                  content: chatText!,
+                );
               }
             },
             onSaved: (String? value) {},

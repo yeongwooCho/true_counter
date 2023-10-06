@@ -9,6 +9,7 @@ import 'package:true_counter/common/layout/default_appbar.dart';
 import 'package:true_counter/common/layout/default_layout.dart';
 import 'package:true_counter/common/util/custom_toast.dart';
 import 'package:true_counter/common/util/datetime.dart';
+import 'package:true_counter/festival/repository/festival_repository.dart';
 import 'package:true_counter/festival_list/component/custom_container_button.dart';
 
 class FestivalRegisterScreen extends StatefulWidget {
@@ -19,6 +20,8 @@ class FestivalRegisterScreen extends StatefulWidget {
 }
 
 class _FestivalRegisterScreenState extends State<FestivalRegisterScreen> {
+  final FestivalRepository _festivalRepository = FestivalRepository();
+
   String? festivalTitle; // 행사명
   String? applicant; // 주최자 이름 혹은 단체
   String? applicantPhone; // 주최자 전화번호
@@ -34,6 +37,9 @@ class _FestivalRegisterScreenState extends State<FestivalRegisterScreen> {
   String? address;
   String? roadAddress;
   String? jibunAddress;
+  String? region;
+  double latitude = 0.0;
+  double longitude = 0.0;
 
   @override
   void initState() {
@@ -99,7 +105,7 @@ class _FestivalRegisterScreenState extends State<FestivalRegisterScreen> {
                 validator: (String? value) {
                   return null;
                 },
-                maxLength: 13,
+                maxLength: 11,
                 hintText: ' - 없이 입력',
                 textInputType: TextInputType.number,
               ),
@@ -114,6 +120,7 @@ class _FestivalRegisterScreenState extends State<FestivalRegisterScreen> {
                 buttonText: '주소검색',
                 onPressedButton: onTapKakaoAddress,
                 enabled: false,
+                maxLines: 2,
                 onSaved: (String? value) {},
                 validator: (String? value) {
                   return null;
@@ -130,6 +137,7 @@ class _FestivalRegisterScreenState extends State<FestivalRegisterScreen> {
               ),
               const SizedBox(height: 24.0),
               _FestivalDuration(
+                parentContext: context,
                 callBackData: ({
                   required DateTime date,
                   required bool isStart,
@@ -166,14 +174,16 @@ class _FestivalRegisterScreenState extends State<FestivalRegisterScreen> {
                         applicant == null ||
                         applicantPhone == null ||
                         address == null ||
+                        region == null ||
                         startAt == null ||
                         endAt == null ||
                         festivalTitle!.isEmpty ||
                         applicant!.isEmpty ||
                         applicantPhone!.isEmpty ||
-                        address!.isEmpty
+                        address!.isEmpty ||
+                        region!.isEmpty
                     ? null
-                    : () {
+                    : () async {
                         if (endAt!.difference(startAt!).isNegative) {
                           showCustomToast(
                             context,
@@ -182,7 +192,26 @@ class _FestivalRegisterScreenState extends State<FestivalRegisterScreen> {
                           return;
                         }
 
-                        // TODO: 등록 신청 요청
+                        await _festivalRepository.createFestival(
+                          title: festivalTitle!,
+                          applicant: applicant!,
+                          applicantPhone: applicantPhone!,
+                          message: message!,
+                          latitude: latitude,
+                          longitude: longitude,
+                          radius: radius,
+                          address: address!,
+                          region: region!,
+                          startAt: startAt!,
+                          endAt: endAt!,
+                          isValid: true,
+                        );
+
+                        showCustomToast(
+                          context,
+                          msg: "행사 등록 신청이\n완료되었습니다.",
+                        );
+                        Future.delayed(const Duration(seconds: 2));
                         Navigator.of(context).pop();
                       },
                 style: defaultButtonStyle,
@@ -242,7 +271,21 @@ class _FestivalRegisterScreenState extends State<FestivalRegisterScreen> {
     address = result.address;
     roadAddress = result.roadAddress;
     jibunAddress = result.jibunAddress;
-    addressController?.text = "[$postCode] $address";
+    addressController?.text = "$address";
+
+    region = result.sido;
+    latitude = result.latitude ?? 0.0;
+    longitude = result.longitude ?? 0.0;
+
+    print('주소받기 완료');
+
+    print(postCode);
+    print(address);
+    print(roadAddress);
+    print(jibunAddress);
+    print(region);
+    print(latitude);
+    print(longitude);
 
     setState(() {});
   }
@@ -281,7 +324,7 @@ class _RadiusScopeState extends State<_RadiusScope> {
           switch (index) {
             case 0:
               title = '무제한';
-              radius = 0.0;
+              radius = 3.0;
             case 1:
               title = '500m';
               radius = 0.5;
@@ -317,6 +360,7 @@ class _RadiusScopeState extends State<_RadiusScope> {
 }
 
 class _FestivalDuration extends StatefulWidget {
+  final BuildContext parentContext;
   final void Function({
     required DateTime date,
     required bool isStart,
@@ -324,6 +368,7 @@ class _FestivalDuration extends StatefulWidget {
 
   const _FestivalDuration({
     Key? key,
+    required this.parentContext,
     required this.callBackData,
   }) : super(key: key);
 
@@ -466,25 +511,23 @@ class _FestivalDurationState extends State<_FestivalDuration> {
             child: Padding(
               padding:
                   const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-              child: Expanded(
-                child: CupertinoDatePicker(
-                  dateOrder: DatePickerDateOrder.ymd,
-                  mode: CupertinoDatePickerMode.dateAndTime,
-                  onDateTimeChanged: (DateTime value) {
-                    if (isStart) {
-                      startAt = value;
-                    } else {
-                      endAt = value;
-                    }
-                    if (widget.callBackData != null) {
-                      widget.callBackData!(
-                        date: value,
-                        isStart: isStart,
-                      );
-                    }
-                    setState(() {});
-                  },
-                ),
+              child: CupertinoDatePicker(
+                dateOrder: DatePickerDateOrder.ymd,
+                mode: CupertinoDatePickerMode.dateAndTime,
+                onDateTimeChanged: (DateTime value) {
+                  if (isStart) {
+                    startAt = value;
+                  } else {
+                    endAt = value;
+                  }
+                  if (widget.callBackData != null) {
+                    widget.callBackData!(
+                      date: value,
+                      isStart: isStart,
+                    );
+                  }
+                  setState(() {});
+                },
               ),
             ),
           ),

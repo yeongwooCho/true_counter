@@ -79,6 +79,62 @@ class FestivalRepository {
     }
   }
 
+  Future<bool> createFestival({
+    required String title, //: "응우&기중 시가파티 참석자 모집",
+    required String applicant, //: "응우컴퍼니",
+    required String applicantPhone, //: "01022223333",
+    required String message, //: "응우와 시가파티",
+    required double latitude, //: 12312.3213,
+    required double longitude, //: 134432.234,
+    required double radius, //: 0.5,
+    required String address, //: "응우 해피 하우스",
+    required String region, //: "부산 금정구",
+    required DateTime startAt, //: "2023-10-03T22:39:00",
+    required DateTime endAt, //: "2023-10-03T22:39:00",
+    required bool isValid, //: true
+  }) async {
+    try {
+      final resp = await _dio.post(
+        Url.festivals,
+        options: Options(
+          headers: UserModel.getHeaders(),
+        ),
+        data: {
+          "title": title,
+          "applicant": applicant,
+          "applicantPhone": applicantPhone,
+          "message": message,
+          "latitude": latitude,
+          "longitude": longitude,
+          "radius": radius,
+          "address": address,
+          "region": region,
+          "startAt": startAt.toIso8601String().split('.').first,
+          "endAt": endAt.toIso8601String().split('.').first,
+          "isValid": isValid,
+        },
+      );
+
+      if (resp.statusCode == null ||
+          resp.statusCode! < 200 ||
+          resp.statusCode! > 400) {
+        return false;
+      }
+
+      ApiResponse<String> responseData =
+          ApiResponse<String>.fromJson(json: resp.data);
+
+      if (responseData.data == null) {
+        return false;
+      }
+
+      return true;
+    } catch (e) {
+      debugPrint('FestivalRepository createFestival Error: ${e.toString()}');
+      return false;
+    }
+  }
+
   Future<ChatModel?> createChat({
     required int festivalId,
     int? parentChatId,

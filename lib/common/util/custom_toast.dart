@@ -6,6 +6,7 @@ import 'package:true_counter/common/const/text_style.dart';
 void showCustomToast(
   context, {
   required String msg,
+  Duration? toastDuration,
   Color backgroundColor = DEFAULT_TEXT_COLOR,
   Color foregroundColor = WHITE_TEXT_COLOR,
 }) {
@@ -28,7 +29,7 @@ void showCustomToast(
 
   fToast.showToast(
       child: toast,
-      toastDuration: const Duration(seconds: 2),
+      toastDuration: toastDuration ?? const Duration(seconds: 2),
       positionedToastBuilder: (context, child) {
         return Stack(
           alignment: Alignment.topCenter,

@@ -6,10 +6,14 @@ import 'package:true_counter/common/util/datetime.dart';
 
 class SecondChat extends StatelessWidget {
   final ChatModel chat;
+  final void Function()? onTapLike;
+  final void Function()? onTapDeclaration;
 
   const SecondChat({
     Key? key,
     required this.chat,
+    required this.onTapLike,
+    required this.onTapDeclaration,
   }) : super(key: key);
 
   @override
@@ -50,7 +54,7 @@ class SecondChat extends StatelessWidget {
                         child: Row(
                           children: [
                             IconButton(
-                              onPressed: () {},
+                              onPressed: onTapLike,
                               icon: const Icon(
                                 Icons.thumb_up_outlined,
                                 color: WHITE_TEXT_COLOR,
@@ -63,7 +67,7 @@ class SecondChat extends StatelessWidget {
                               height: 16.0,
                             ),
                             IconButton(
-                              onPressed: () {},
+                              onPressed: onTapDeclaration,
                               icon: const Icon(
                                 Icons.notification_important_outlined,
                                 color: WHITE_TEXT_COLOR,

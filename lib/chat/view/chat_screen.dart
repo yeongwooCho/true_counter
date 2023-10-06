@@ -7,10 +7,12 @@ import 'package:true_counter/common/const/text_style.dart';
 
 class ChatScreen extends StatelessWidget {
   final List<ChatModel> chats;
+  final void Function({required int parentChatId}) changeParentId;
 
   const ChatScreen({
     Key? key,
     required this.chats,
+    required this.changeParentId,
   }) : super(key: key);
 
   @override
@@ -39,10 +41,15 @@ class ChatScreen extends StatelessWidget {
               if (chats[index].parentChatId == null) {
                 return FirstChat(
                   chat: chats[index],
+                  changeParentId: changeParentId,
+                  onTapLike: () {},
+                  onTapDeclaration: () {},
                 );
               } else {
                 return SecondChat(
                   chat: chats[index],
+                  onTapLike: () {},
+                  onTapDeclaration: () {},
                 );
               }
             },

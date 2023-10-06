@@ -81,7 +81,7 @@ class FestivalRepository {
 
   Future<ChatModel?> createChat({
     required int festivalId,
-    required int? parentChatId,
+    int? parentChatId,
     required String content,
   }) async {
     try {

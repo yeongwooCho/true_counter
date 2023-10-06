@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 import 'package:provider/provider.dart';
+import 'package:true_counter/chat/model/chat_model.dart';
 import 'package:true_counter/chat/view/chat_screen.dart';
 import 'package:true_counter/common/component/custom_text_form_field.dart';
 import 'package:true_counter/common/const/button_style.dart';
@@ -33,8 +34,8 @@ class _FestivalDetailScreenState extends State<FestivalDetailScreen> {
   String? chatText;
   TextEditingController? chatController;
   FocusNode? chatFocus;
-  int? parentChatId;
   FestivalRepository festivalRepository = FestivalRepository();
+  int? parentChatId;
 
   @override
   void initState() {
@@ -72,8 +73,9 @@ class _FestivalDetailScreenState extends State<FestivalDetailScreen> {
             onEditingComplete: () {
               if (chatController != null && chatFocus != null) {
                 chatText = chatController!.text;
-                chatController!.clear();
                 chatFocus!.unfocus();
+                chatController!.clear();
+                print("패런트 $parentChatId");
 
                 // TODO: request 댓글작성
                 provider.createChat(
@@ -133,9 +135,12 @@ class _FestivalDetailScreenState extends State<FestivalDetailScreen> {
                   _renderDescriptionContainer(),
                   const SizedBox(height: 32.0),
                   ChatScreen(
-                    chats: festival.chats
-                        .where((element) => element.parentChatId != 0)
-                        .toList(),
+                    chats: sortChat(
+                      chats: festival.chats
+                          .where((element) => element.parentChatId != 0)
+                          .toList(),
+                    ),
+                    changeParentId: changeParentId,
                   ),
                 ],
               ),
@@ -144,6 +149,41 @@ class _FestivalDetailScreenState extends State<FestivalDetailScreen> {
         ),
       ),
     );
+  }
+
+  List<ChatModel> sortChat({required List<ChatModel> chats}) {
+    List<ChatModel> returnList = [];
+
+    Map<int, List<ChatModel>> tempDict = {};
+
+    final mainChats =
+        chats.where((element) => element.parentChatId == null).toList();
+
+    for (ChatModel mainChat in mainChats) {
+      final secondChats = chats
+          .where((element) => element.parentChatId == mainChat.id)
+          .toList();
+      secondChats.sort((ChatModel prev, ChatModel next) {
+        return prev.createdAt.compareTo(next.createdAt);
+      });
+      tempDict[mainChat.id] = secondChats;
+    }
+
+    for (ChatModel mainChat in mainChats) {
+      returnList.add(mainChat);
+      List<ChatModel>? secondChats = tempDict[mainChat.id];
+      if (secondChats != null) {
+        returnList.addAll(secondChats);
+      }
+    }
+
+    return returnList;
+  }
+
+  void changeParentId({required int parentChatId}) {
+    this.parentChatId = parentChatId;
+    chatFocus!.requestFocus();
+    print('메인화면에서는 id 값이 바꼄? ${this.parentChatId}');
   }
 
   Widget _renderFestivalDescription({

@@ -5,7 +5,6 @@ import 'package:true_counter/chat/model/chat_model.dart';
 import 'package:true_counter/festival/model/festival_model.dart';
 import 'package:true_counter/festival/repository/festival_repository.dart';
 import 'package:true_counter/user/model/user_model.dart';
-import 'package:uuid/uuid.dart';
 
 class FestivalProvider extends ChangeNotifier {
   final FestivalRepository repository;
@@ -40,7 +39,7 @@ class FestivalProvider extends ChangeNotifier {
 
   void createChat({
     required int festivalId,
-    required int? parentChatId,
+    int? parentChatId,
     required String nickname,
     required String content,
   }) async {
@@ -98,44 +97,4 @@ class FestivalProvider extends ChangeNotifier {
     }
     notifyListeners();
   }
-
-// void createSchedule({
-//   required ScheduleModel schedule,
-// }) async {
-//   final targetDate = schedule.date;
-//
-//   // 해당 uuid는 클라이언트에서 임시로 사용하는 uuid 이다.
-//   final uuid = Uuid();
-//   final targetId = uuid.v4();
-//   final newSchedule = schedule.copyWith(id: targetId);
-//
-//   cache.update(
-//     targetDate,
-//     (value) => [...value, newSchedule]
-//       ..sort((a, b) => a.startTime.compareTo(b.startTime)),
-//     ifAbsent: () => [newSchedule],
-//   );
-//   notifyListeners();
-//
-//   try {
-//     final savedSchedule = await repository.createSchedule(schedule: schedule);
-//
-//     cache.update(
-//       targetDate,
-//       (value) => value
-//           .map((element) => element.id == targetId
-//               ? element.copyWith(id: savedSchedule)
-//               : element)
-//           .toList(),
-//     );
-//   } catch (error) {
-//     debugPrint(error.toString());
-//
-//     cache.update(
-//       targetDate,
-//       (value) => value.where((element) => element.id != targetId).toList(),
-//     );
-//   }
-//   notifyListeners();
-// }
 }

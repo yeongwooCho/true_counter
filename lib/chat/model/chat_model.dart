@@ -1,5 +1,3 @@
-import 'package:true_counter/user/model/user_model.dart';
-
 class ChatModel {
   late int id;
   late int? parentChatId;
@@ -9,7 +7,6 @@ class ChatModel {
   late int declaration;
   late DateTime createdAt;
 
-  // TODO: Dummy
   ChatModel({
     required this.id,
     required this.parentChatId,

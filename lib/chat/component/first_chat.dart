@@ -7,9 +7,16 @@ import 'package:true_counter/common/util/datetime.dart';
 class FirstChat extends StatelessWidget {
   final ChatModel chat;
 
+  final void Function({required int parentChatId}) changeParentId;
+  final void Function()? onTapLike;
+  final void Function()? onTapDeclaration;
+
   const FirstChat({
     Key? key,
     required this.chat,
+    required this.changeParentId,
+    required this.onTapLike,
+    required this.onTapDeclaration,
   }) : super(key: key);
 
   @override
@@ -35,7 +42,9 @@ class FirstChat extends StatelessWidget {
                 child: Row(
                   children: [
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        changeParentId(parentChatId: chat.id);
+                      },
                       child: Text(
                         '댓글',
                         style: descriptionTextStyle.copyWith(
@@ -49,7 +58,7 @@ class FirstChat extends StatelessWidget {
                       height: 16.0,
                     ),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: onTapLike,
                       icon: const Icon(
                         Icons.thumb_up_outlined,
                         color: WHITE_TEXT_COLOR,
@@ -62,7 +71,7 @@ class FirstChat extends StatelessWidget {
                       height: 16.0,
                     ),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: onTapDeclaration,
                       icon: const Icon(
                         Icons.notification_important_outlined,
                         color: WHITE_TEXT_COLOR,

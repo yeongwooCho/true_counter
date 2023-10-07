@@ -93,9 +93,16 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               const SizedBox(height: 16.0),
               CustomListView(
-                festivals: festivals,
+                festivals: festivals.where((element) {
+                  if (location == '전체') {
+                    return true;
+                  } else {
+                    return element.region == location;
+                  }
+                }).toList(),
                 emptyMessage: '오늘의 행사는\n존재하지 않습니다',
-                setLoading: setLoading, parentContext: context,
+                setLoading: setLoading,
+                parentContext: context,
               ),
               const Divider(
                 height: 120.0,
@@ -112,7 +119,8 @@ class _HomeScreenState extends State<HomeScreen> {
               CustomListView(
                 festivals: festivals,
                 emptyMessage: '최근 종료된 행사가\n존재하지 않습니다',
-                setLoading: setLoading, parentContext: context,
+                setLoading: setLoading,
+                parentContext: context,
               ),
             ],
           ),

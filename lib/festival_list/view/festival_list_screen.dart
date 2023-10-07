@@ -136,9 +136,8 @@ class _FestivalListScreenState extends State<FestivalListScreen> {
                           .length,
                       itemBuilder: (BuildContext context, int index) {
                         return CustomListCard(
-                          title: selectedFestivals(
-                                  selectedItemIndex: selectedItemIndex)[index]
-                              .title,
+                          title:
+                              "[${selectedFestivals(selectedItemIndex: selectedItemIndex)[index].region}] ${selectedFestivals(selectedItemIndex: selectedItemIndex)[index].title}",
                           description:
                               "행사 기간: ${convertDateTimeToDateString(datetime: selectedFestivals(selectedItemIndex: selectedItemIndex)[index].startAt)} ~ ${convertDateTimeToDateString(datetime: selectedFestivals(selectedItemIndex: selectedItemIndex)[index].endAt)}",
                           onTap: () {

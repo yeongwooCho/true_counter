@@ -111,7 +111,11 @@ class _FestivalDetailScreenState extends State<FestivalDetailScreen> {
                     festivalModel: festival,
                   ),
                   const SizedBox(height: 48.0),
-                  CustomFestivalCard(festivalModel: festival),
+                  CustomFestivalCard(
+                    festivalModel: festival,
+                    setLoading: ({required bool isLoading}) {},
+                    pressable: false,
+                  ),
                 ],
               ),
             ),

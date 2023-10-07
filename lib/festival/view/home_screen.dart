@@ -20,6 +20,12 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String location = homeLocation.first;
+  bool isLoading = false;
+
+  void setLoading({required bool isLoading}) {
+    this.isLoading = isLoading;
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final festivals = provider.cacheList['total'] ?? [];
 
     return DefaultLayout(
-      isLoading: provider.cacheList['total'] == null,
+      isLoading: provider.cacheList['total'] == null || isLoading,
       appbar: DefaultAppBar(
         title: '트루카운터',
         action: [
@@ -89,6 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
               CustomListView(
                 festivals: festivals,
                 emptyMessage: '오늘의 행사는\n존재하지 않습니다',
+                setLoading: setLoading,
               ),
               const Divider(
                 height: 120.0,
@@ -105,6 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
               CustomListView(
                 festivals: festivals,
                 emptyMessage: '최근 종료된 행사가\n존재하지 않습니다',
+                setLoading: setLoading,
               ),
             ],
           ),
@@ -117,11 +125,13 @@ class _HomeScreenState extends State<HomeScreen> {
 class CustomListView extends StatelessWidget {
   final List<FestivalModel> festivals;
   final String emptyMessage;
+  final void Function({required bool isLoading}) setLoading;
 
   const CustomListView({
     Key? key,
     required this.festivals,
     required this.emptyMessage,
+    required this.setLoading,
   }) : super(key: key);
 
   @override
@@ -149,6 +159,7 @@ class CustomListView extends StatelessWidget {
             itemBuilder: (BuildContext context, int index) {
               return CustomFestivalCard(
                 festivalModel: festivals[index],
+                setLoading: setLoading,
               );
             },
           );

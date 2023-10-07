@@ -30,7 +30,7 @@ class Url {
   static String festivalStatus = "$baseUrl/festivals?status=PAST";
 
   // festival participate
-  static String festivalParticipate = "$baseUrl/festivals/12/participate";
+  // static String festivalParticipate = "$baseUrl/festivals/12/participate";
 
   // festival chat create
   static String festivalChats = "$baseUrl/chats";

@@ -1,33 +1,44 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:provider/provider.dart';
 import 'package:true_counter/common/const/button_style.dart';
 import 'package:true_counter/common/const/colors.dart';
 import 'package:true_counter/common/const/text_style.dart';
 import 'package:true_counter/common/model/screen_arguments.dart';
+import 'package:true_counter/common/util/custom_toast.dart';
 import 'package:true_counter/common/util/money_format.dart';
 import 'package:true_counter/common/variable/routes.dart';
 import 'package:true_counter/festival/component/custom_chart.dart';
 import 'package:true_counter/festival/model/festival_model.dart';
+import 'package:true_counter/festival/provider/festival_provider.dart';
 
 class CustomFestivalCard extends StatelessWidget {
   // Widget
   // width: 343, height: 362
   final FestivalModel festivalModel;
+  final void Function({required bool isLoading}) setLoading;
+  final bool pressable;
 
   const CustomFestivalCard({
     Key? key,
     required this.festivalModel,
+    required this.setLoading,
+    this.pressable = true,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).pushNamed(
-          RouteNames.festivalDetail,
-          arguments: ScreenArguments<FestivalModel>(
-            data: festivalModel,
-          ),
-        );
+        if (pressable) {
+          Navigator.of(context).pushNamed(
+            RouteNames.festivalDetail,
+            arguments: ScreenArguments<FestivalModel>(
+              data: festivalModel,
+            ),
+          );
+        }
       },
       child: Container(
         decoration: BoxDecoration(
@@ -54,16 +65,98 @@ class CustomFestivalCard extends StatelessWidget {
                   ),
                   const SizedBox(width: 16.0),
                   ElevatedButton(
-                    onPressed: () {
-                      print('참여체크 버튼 클릭');
-                    },
+                    onPressed: isActiveButton(festival: festivalModel)
+                        ? () async {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  icon: const Text(
+                                    '행사 참여하기',
+                                    style: bodyTitleBoldTextStyle,
+                                  ),
+                                  title: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.stretch,
+                                    children: [
+                                      const Text(
+                                        '행사명',
+                                        textAlign: TextAlign.start,
+                                        style: bodyBoldTextStyle,
+                                      ),
+                                      const SizedBox(height: 4.0),
+                                      Text(
+                                        '[${festivalModel.region}] ${festivalModel.title}',
+                                        textAlign: TextAlign.start,
+                                        style: descriptionTextStyle,
+                                      ),
+                                    ],
+                                  ),
+                                  content: Text(
+                                    '행사 참여자로 카운팅 되기 위해서는 회원님이 행사장 반경 ${convertRadiusToString(radius: festivalModel.radius)} 안에 있어야 합니다.',
+                                    style: descriptionTextStyle,
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () async {
+                                        setLoading(isLoading: true);
+                                        await _determinePermission();
+
+                                        Position position =
+                                            await Geolocator.getCurrentPosition(
+                                          desiredAccuracy:
+                                              LocationAccuracy.high,
+                                        );
+                                        setLoading(isLoading: false);
+
+                                        final double distance =
+                                            Geolocator.distanceBetween(
+                                          festivalModel.latitude,
+                                          festivalModel.longitude,
+                                          position.latitude,
+                                          position.longitude,
+                                        );
+
+                                        if (distance <
+                                            (festivalModel.radius * 1000)) {
+                                          final provider =
+                                              context.read<FestivalProvider>();
+                                          provider.participateFestival(
+                                              festivalId: festivalModel.id);
+                                          showCustomToast(
+                                            context,
+                                            msg: "행사 참여가 완료 되었습니다.",
+                                          );
+                                          Navigator.of(context).pop();
+                                        } else {
+                                          showCustomToast(
+                                            context,
+                                            msg: "참여 가능 반경 안에서 참여해 주세요.",
+                                          );
+                                          Navigator.of(context).pop();
+                                        }
+                                      },
+                                      child: const Text('참여하기'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text('취소'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          }
+                        : null,
                     style: festivalParticipateButtonStyle,
-                    child: const Padding(
-                      padding: EdgeInsets.symmetric(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
                         vertical: 12.0,
                         horizontal: 4.0,
                       ),
-                      child: Text('참여\n체크'),
+                      child: getParticipateStatus(festival: festivalModel),
                     ),
                   ),
                 ],
@@ -90,12 +183,57 @@ class CustomFestivalCard extends StatelessWidget {
     );
   }
 
+  Widget getParticipateStatus({required FestivalModel festival}) {
+    DateTime now = DateTime.now();
+
+    if (festival.endAt.isBefore(now)) {
+      return const Text('행사\n종료');
+    } else if (festival.startAt.isAfter(now)) {
+      return const Text('행사\n예정');
+    } else if (festival.isParticipated) {
+      return const Text('참여\n완료');
+    } else {
+      return const Text('참여\n체크');
+    }
+  }
+
+  bool isActiveButton({required FestivalModel festival}) {
+    DateTime now = DateTime.now();
+
+    if (festival.endAt.isBefore(now)) {
+      return false;
+    } else if (festival.startAt.isAfter(now)) {
+      return false;
+    } else if (festival.isParticipated) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  Future<bool> _determinePermission() async {
+    bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.value(false);
+    }
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+
+      if (permission == LocationPermission.denied) {
+        return Future.value(false);
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      return Future.value(false);
+    }
+    return Future.value(true);
+  }
+
   String convertRadiusToString({
     required double radius,
   }) {
     switch (radius) {
-      case 0:
-        return '무제한';
       case 0.5:
         return '500m';
       case 1:
@@ -103,7 +241,7 @@ class CustomFestivalCard extends StatelessWidget {
       case 2:
         return '2km';
       default:
-        return '';
+        return '무제한';
     }
   }
 }

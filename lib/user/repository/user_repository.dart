@@ -225,6 +225,10 @@ class UserRepository extends UserRepositoryInterface {
 
   @override
   Future<bool> tokenSignIn() async {
+    // Codec<String, String> stringToBase64 = utf8.fuse(base64);
+    // String text = "jos10022@hanmail.netfAKFe03kfafjd3Fj39aFajdnv03idDFE39fjd";
+    // String asdf = stringToBase64.encode(text);
+    // print("여기여기 $asdf");
     try {
       final String? accessToken =
           await LocalStorage.getToken(key: LocalStorageKey.accessToken);

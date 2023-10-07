@@ -173,4 +173,42 @@ class FestivalRepository {
       return null;
     }
   }
+
+  Future<bool> participateFestival({
+    required int festivalId,
+  }) async {
+    try {
+      final resp = await _dio.post(
+        "${Url.festivals}/$festivalId/participate",
+        options: Options(
+          headers: UserModel.getHeaders(),
+        ),
+      );
+
+      if (resp.statusCode == null ||
+          resp.statusCode! < 200 ||
+          resp.statusCode! > 400) {
+        return false;
+      }
+
+      print('페스티벌 참여');
+      print(resp.data);
+      return true;
+
+
+      // ApiResponse<Map<String, dynamic>> responseData =
+      //     ApiResponse<Map<String, dynamic>>.fromJson(json: resp.data);
+      //
+      // if (responseData.data == null) {
+      //   return false;
+      // }
+
+
+      // final ChatModel chatModel = ChatModel.fromJson(json: responseData.data!);
+      // return chatModel;
+    } catch (e) {
+      debugPrint('FestivalRepository getFestival Error: ${e.toString()}');
+      return false;
+    }
+  }
 }

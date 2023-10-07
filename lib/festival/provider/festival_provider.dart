@@ -97,4 +97,16 @@ class FestivalProvider extends ChangeNotifier {
     }
     notifyListeners();
   }
+
+  void participateFestival({
+    required int festivalId,
+  }) async {
+    final resp = await repository.participateFestival(festivalId: festivalId);
+
+    if (resp) {
+      // cache.update(id, (value) => resp, ifAbsent: () => resp);
+    }
+
+    notifyListeners();
+  }
 }

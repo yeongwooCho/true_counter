@@ -4,6 +4,8 @@ import 'package:true_counter/chat/component/second_chat.dart';
 import 'package:true_counter/chat/model/chat_model.dart';
 import 'package:true_counter/common/const/colors.dart';
 import 'package:true_counter/common/const/text_style.dart';
+import 'package:true_counter/common/util/custom_toast.dart';
+import 'package:true_counter/common/util/show_cupertino_alert.dart';
 
 class ChatScreen extends StatelessWidget {
   final List<ChatModel> chats;
@@ -43,16 +45,40 @@ class ChatScreen extends StatelessWidget {
                   chat: chats[index],
                   changeParentId: changeParentId,
                   onTapLike: () {},
-                  onTapDeclaration: () {},
+                  onTapDeclaration: () {
+                    declaration(context: context);
+                  },
                 );
               } else {
                 return SecondChat(
                   chat: chats[index],
                   onTapLike: () {},
-                  onTapDeclaration: () {},
+                  onTapDeclaration: () {
+                    declaration(context: context);
+                  },
                 );
               }
             },
           );
+  }
+
+  void declaration({required BuildContext context}) {
+    showAlert(
+      context: context,
+
+      titleWidget: const Text('신고를 원하시면\n확인을 눌러주세요.'),
+      completeText: "신고하기",
+      completeFunction: () {
+        showCustomToast(
+          context,
+          msg: "신고가 완료 되었습니다.",
+        );
+        Navigator.of(context).pop();
+      },
+      cancelText: "취소",
+      cancelFunction: () {
+        Navigator.of(context).pop();
+      },
+    );
   }
 }

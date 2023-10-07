@@ -17,12 +17,12 @@ void showAlert({
           content: contentWidget,
           actions: [
             CupertinoDialogAction(
-              isDefaultAction: true,
+              isDestructiveAction: true,
               onPressed: completeFunction,
               child: Text(completeText),
             ),
             CupertinoDialogAction(
-              isDestructiveAction: true,
+              isDefaultAction: true,
               onPressed: cancelFunction,
               child: Text(cancelText),
             )

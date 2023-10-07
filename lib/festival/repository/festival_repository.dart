@@ -204,4 +204,36 @@ class FestivalRepository {
       return false;
     }
   }
+
+  Future<bool> getFestivalStatus() async {
+    try {
+      final resp = await _dio.get(
+        Url.festivalStatus,
+        options: Options(
+          headers: UserModel.getHeaders(),
+        ),
+      );
+
+      if (resp.statusCode == null ||
+          resp.statusCode! < 200 ||
+          resp.statusCode! > 400) {
+        return false;
+      }
+
+      print('행사 상태정보');
+      print(resp.data);
+
+      // ApiResponse<int> responseData =
+      // ApiResponse<int>.fromJson(json: resp.data);
+      //
+      // if (responseData.data == null || responseData.data != festivalId) {
+      //   return false;
+      // }
+
+      return true;
+    } catch (e) {
+      debugPrint('FestivalRepository participateFestival Error: ${e.toString()}');
+      return false;
+    }
+  }
 }

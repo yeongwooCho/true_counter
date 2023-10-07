@@ -58,6 +58,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   changeParentId: widget.changeParentId,
                   onTapLike: () async {
                     festivalProvider.pushLike(
+                      context: context,
                       chatId: widget.chats[index].id,
                       festivalId: widget.festivalId,
                     );
@@ -69,6 +70,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   },
                   onTapDeclaration: () async {
                     festivalProvider.pushDeclaration(
+                      context: context,
                       chatId: widget.chats[index].id,
                       festivalId: widget.festivalId,
                     );
@@ -84,6 +86,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   chat: widget.chats[index],
                   onTapLike: () {
                     festivalProvider.pushLike(
+                      context: context,
                       chatId: widget.chats[index].id,
                       festivalId: widget.festivalId,
                     );
@@ -95,6 +98,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   },
                   onTapDeclaration: () {
                     festivalProvider.pushDeclaration(
+                      context: context,
                       chatId: widget.chats[index].id,
                       festivalId: widget.festivalId,
                     );

@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:true_counter/chat/model/chat_model.dart';
+import 'package:true_counter/common/util/custom_toast.dart';
 import 'package:true_counter/festival/model/festival_model.dart';
 import 'package:true_counter/festival/repository/festival_repository.dart';
 import 'package:true_counter/user/model/user_model.dart';
@@ -148,6 +149,7 @@ class FestivalProvider extends ChangeNotifier {
   }
 
   void pushLike({
+    required BuildContext context,
     required int festivalId,
     required int chatId,
   }) async {
@@ -167,28 +169,34 @@ class FestivalProvider extends ChangeNotifier {
       final ChatModel tempChat = tempFestivalModel.chats.where((element) => element.id == chatId).first;
       tempChat.chatLike = resp;
 
-      cache.update(
-        festivalId,
-            (value) => value.copyWith(
-          oldFestivalModel: tempFestivalModel,
-          newChatModel: tempChat,
-        ),
-      );
+      // cache.update(
+      //   festivalId,
+      //       (value) => value.copyWith(
+      //     oldFestivalModel: tempFestivalModel,
+      //     newChatModel: tempChat,
+      //   ),
+      // );
       // cache.update(festivalId, (value) {
       //   value.chats.map((e) => null)
       //   return ;
       // });
+    } else {
+      showCustomToast(context, msg: "이미 좋아요를 누른 댓글입니다.");
     }
     notifyListeners();
   }
 
   void pushDeclaration({
+    required BuildContext context,
     required festivalId,
     required int chatId,
   }) async {
     final resp = await repository.pushDeclaration(chatId: chatId);
 
-    if (resp) {}
+    if (!resp) {
+      showCustomToast(context, msg: "이미 신고한 댓글입니다.");
+    }
+
     notifyListeners();
   }
 }

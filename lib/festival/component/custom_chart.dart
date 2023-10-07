@@ -72,16 +72,16 @@ class _CustomChartState extends State<CustomChart> {
   SideTitles getLeftSideTitles() {
     int valueLength =
         widget.festivalModel.cumulativeParticipantCount.toString().length;
-    int dotLength = valueLength > 3 ? (valueLength > 6 ? 2 : 1) : 0;
+    double dotLength = valueLength > 3 ? (valueLength > 6 ? 2 : 1) : 2;
     double valueWidth = 9.0; // 숫자 width
     double dotWidth = 6.0; // , 문자 width
 
     return SideTitles(
       showTitles: true,
       reservedSize: (valueLength * valueWidth) + (dotLength * dotWidth),
-      interval: widget.festivalModel.cumulativeParticipantCount != 0
-          ? widget.festivalModel.cumulativeParticipantCount / 3
-          : 1.0,
+      interval: widget.festivalModel.cumulativeParticipantCount == 0
+          ? 1.0
+          : widget.festivalModel.cumulativeParticipantCount / 3,
       getTitlesWidget: (double value, TitleMeta meta) {
         late String title;
         switch (value.toInt()) {
@@ -98,14 +98,13 @@ class _CustomChartState extends State<CustomChart> {
   }
 
   SideTitles getBottomSideTitles() {
-    Duration duration = widget.festivalModel.endAt.difference(
-      widget.festivalModel.startAt,
-    );
+    List<String> participants =
+        widget.festivalModel.participantsByTimezone.split('/');
 
     return SideTitles(
       showTitles: true,
-      reservedSize: 16, // text height
-      interval: 1.0, // duration.inHours / 4,
+      reservedSize: 20, // text height
+      interval: participants.length / 8,
       getTitlesWidget: (double value, TitleMeta meta) {
         late String title;
         switch (value.toInt()) {
@@ -135,7 +134,7 @@ class _CustomChartState extends State<CustomChart> {
           sideTitles: getBottomSideTitles(),
           // drawBelowEverything: true,
           axisNameWidget: Text(
-            '시간',
+            '행사 지속 시간',
             style: smallGreyTextStyle.copyWith(
               color: WHITE_TEXT_COLOR,
             ),
@@ -167,8 +166,6 @@ class _CustomChartState extends State<CustomChart> {
   }
 
   List<LineChartBarData> getLineBarsData() {
-    int startHour = widget.festivalModel.startAt.hour;
-
     List<String> participants =
         widget.festivalModel.participantsByTimezone.split('/');
 
@@ -182,14 +179,13 @@ class _CustomChartState extends State<CustomChart> {
       return temp;
     }).toList();
 
-    List<FlSpot> flSpotList = refineParticipants
-        .mapWithIndex<FlSpot>(
-          (element, index) => FlSpot(
-            (startHour + 1 + index).toDouble(),
-            element.toDouble(),
-          ),
-        )
-        .toList();
+    List<FlSpot> flSpotList =
+        refineParticipants.mapWithIndex<FlSpot>((element, index) {
+      return FlSpot(
+        (1 + index).toDouble(),
+        element.toDouble(),
+      );
+    }).toList();
 
     return [
       LineChartBarData(

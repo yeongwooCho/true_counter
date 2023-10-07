@@ -164,6 +164,8 @@ class UserRepository extends UserRepositoryInterface {
           "autoSignIn": isAutoSignIn,
         },
       );
+      // print('하이하이');
+      // print(resp.data);
 
       if (resp.statusCode == null ||
           resp.statusCode! < 200 ||
@@ -408,6 +410,40 @@ class UserRepository extends UserRepositoryInterface {
       return false;
     } catch (error) {
       debugPrint('UserRepository kakaoSignUp Error: ${error.toString()}');
+      return false;
+    }
+  }
+
+  @override
+  Future<bool> withdraw() async {
+    try {
+      final resp = await _dio.post(
+        Url.verifyUser,
+        options: Options(
+          headers: UserModel.getHeaders(),
+        ),
+      );
+
+      // print('이메일 중복확인');
+      // print(resp.data);
+      // // {message: 이메일 중복 여부 조회 성공, data: false}
+
+      if (resp.statusCode == null ||
+          resp.statusCode! < 200 ||
+          resp.statusCode! > 400) {
+        return false;
+      }
+      ApiResponse<bool> responseData =
+          ApiResponse<bool>.fromJson(json: resp.data);
+
+      if (responseData.data == null) {
+        return false;
+      }
+
+      return responseData.data!;
+    } catch (e) {
+      debugPrint('UserRepository verifyUser Error: ${e.toString()}');
+      // TODO: 무슨 오류인지 제어해야함, 휴대폰번호가 있는지 등등
       return false;
     }
   }

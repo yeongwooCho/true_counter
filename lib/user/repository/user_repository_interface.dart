@@ -42,4 +42,6 @@ abstract class UserRepositoryInterface {
   Future<bool> appleSignUp();
 
   Future<bool> appleSignIn();
+
+  Future<bool> withdraw();
 }

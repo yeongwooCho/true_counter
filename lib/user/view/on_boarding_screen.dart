@@ -27,30 +27,30 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         title: '',
         elevation: 0.0,
         action: [
-          TextButton(
-            onPressed: () {
-              UserModel.dummyLogin();
-
-              Navigator.of(context).pushNamed(
-                RouteNames.root,
-              );
-            },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  '둘러보기',
-                  style: bodyBoldTextStyle.copyWith(
-                    color: DARK_GREY_COLOR,
-                  ),
-                ),
-                const Icon(
-                  Icons.chevron_right,
-                  color: DARK_GREY_COLOR,
-                ),
-              ],
-            ),
-          ),
+          // TextButton(
+          //   onPressed: () {
+          //     UserModel.dummyLogin();
+          //
+          //     Navigator.of(context).pushNamed(
+          //       RouteNames.root,
+          //     );
+          //   },
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.center,
+          //     children: [
+          //       Text(
+          //         '둘러보기',
+          //         style: bodyBoldTextStyle.copyWith(
+          //           color: DARK_GREY_COLOR,
+          //         ),
+          //       ),
+          //       const Icon(
+          //         Icons.chevron_right,
+          //         color: DARK_GREY_COLOR,
+          //       ),
+          //     ],
+          //   ),
+          // ),
         ],
       ),
       child: Padding(

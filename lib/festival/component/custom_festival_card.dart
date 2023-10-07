@@ -53,13 +53,13 @@ class CustomFestivalCard extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           child: festivalModel.startAt.isAfter(DateTime.now())
               ? const Padding(
-                padding: EdgeInsets.symmetric(vertical: 8.0),
-                child: Text(
-                  '예정된 행사 입니다.',
-                  style: bodyTitleBoldTextStyle,
-                  textAlign: TextAlign.center,
-                ),
-              )
+                  padding: EdgeInsets.symmetric(vertical: 8.0),
+                  child: Text(
+                    '예정된 행사 입니다.',
+                    style: bodyTitleBoldTextStyle,
+                    textAlign: TextAlign.center,
+                  ),
+                )
               : Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -109,7 +109,21 @@ class CustomFestivalCard extends StatelessWidget {
                                         actions: [
                                           TextButton(
                                             onPressed: () async {
-                                              showDialog(
+                                              double tempRadius =
+                                                  festivalModel.radius;
+                                              print(tempRadius);
+
+                                              if (tempRadius != 0.5 &&
+                                                  tempRadius != 1.0 &&
+                                                  tempRadius != 2.0) {
+                                                festivalProvider.participateFestival(
+                                                    festivalId:
+                                                        festivalModel.id);
+                                                showCustomToast(context,
+                                                    msg: "행사 참여가 완료 되었습니다.");
+                                              } else {
+                                                showDialog(
+                                                  barrierDismissible: false,
                                                   context: context,
                                                   builder:
                                                       (BuildContext context) {
@@ -117,42 +131,43 @@ class CustomFestivalCard extends StatelessWidget {
                                                       title:
                                                           "위치 정보를 받아오고 있습니다.",
                                                     );
-                                                  });
-                                              await _determinePermission();
-
-                                              Position position =
-                                                  await Geolocator
-                                                      .getCurrentPosition(
-                                                desiredAccuracy:
-                                                    LocationAccuracy.high,
-                                              );
-                                              Navigator.of(context).pop();
-
-                                              final double distance =
-                                                  Geolocator.distanceBetween(
-                                                festivalModel.latitude,
-                                                festivalModel.longitude,
-                                                position.latitude,
-                                                position.longitude,
-                                              );
-
-                                              if (distance <
-                                                  (festivalModel.radius *
-                                                      1000)) {
-                                                final provider = context
-                                                    .read<FestivalProvider>();
-                                                provider.participateFestival(
-                                                    festivalId:
-                                                        festivalModel.id);
-                                                showCustomToast(
-                                                  context,
-                                                  msg: "행사 참여가 완료 되었습니다.",
+                                                  },
                                                 );
-                                              } else {
-                                                showCustomToast(
-                                                  context,
-                                                  msg: "참여 가능 반경 안에서 참여해 주세요.",
+                                                await _determinePermission();
+
+                                                Position position =
+                                                    await Geolocator
+                                                        .getCurrentPosition(
+                                                  desiredAccuracy:
+                                                      LocationAccuracy.high,
                                                 );
+                                                Navigator.of(context).pop();
+
+                                                final double distance =
+                                                    Geolocator.distanceBetween(
+                                                  festivalModel.latitude,
+                                                  festivalModel.longitude,
+                                                  position.latitude,
+                                                  position.longitude,
+                                                );
+
+                                                if (distance <
+                                                    (festivalModel.radius *
+                                                        1000)) {
+                                                  festivalProvider.participateFestival(
+                                                      festivalId:
+                                                          festivalModel.id);
+                                                  showCustomToast(
+                                                    context,
+                                                    msg: "행사 참여가 완료 되었습니다.",
+                                                  );
+                                                } else {
+                                                  showCustomToast(
+                                                    context,
+                                                    msg:
+                                                        "참여 가능 반경 안에서 참여해 주세요.",
+                                                  );
+                                                }
                                               }
                                               Navigator.of(context).pop();
                                             },

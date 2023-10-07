@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:true_counter/common/const/colors.dart';
 import 'package:true_counter/common/layout/default_layout.dart';
+import 'package:true_counter/festival/provider/festival_provider.dart';
 import 'package:true_counter/festival_list/view/festival_list_screen.dart';
 import 'package:true_counter/festival/view/home_screen.dart';
 import 'package:true_counter/my_page/view/my_page_screen.dart';
@@ -17,6 +19,7 @@ class RootTab extends StatefulWidget {
 class _RootTabState extends State<RootTab> with TickerProviderStateMixin {
   TabController? controller;
   UserRepositoryInterface _userRepository = UserRepository();
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -40,7 +43,17 @@ class _RootTabState extends State<RootTab> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    setState(() {
+      isLoading = true;
+    });
+    final festivalProvider = context.read<FestivalProvider>();
+    festivalProvider.getFestivals();
+    setState(() {
+      isLoading = false;
+    });
+
     return DefaultLayout(
+      isLoading: isLoading,
       bottomNavigationBar: SizedBox(
         child: renderBottomNavigationBar(),
       ),

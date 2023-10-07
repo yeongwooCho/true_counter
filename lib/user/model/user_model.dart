@@ -22,7 +22,9 @@ class UserModel {
   // 둘러 보기 용 dummy 유저 생성
   static void dummyLogin() {
     UserModel.current = UserModel.fromJson(
-      json: {},
+      json: {
+        "birthday": "2023-09-28",
+      },
       isDummy: true,
     );
   }
@@ -33,14 +35,13 @@ class UserModel {
     bool isDummy = false,
   }) {
     UserModel user = UserModel._internal();
-
     user.email = json['email'] ?? '';
     user.nickname = json['nickname'] ?? '';
     user.birthday = DateTime.parse(json['birthday']);
     user.phone = json['phone'] ?? '';
     user.gender = json['gender'] ?? true;
     user.region = json['region'] ?? '';
-    user.signupType = SignUpType.getType(type: json['signupType']);
+    user.signupType = SignUpType.getType(type: json['signupType'] ?? '');
     user.isDummy = isDummy;
 
     if (TokenModel.instance != null) current = user;

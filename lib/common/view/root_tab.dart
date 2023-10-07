@@ -4,6 +4,8 @@ import 'package:true_counter/common/layout/default_layout.dart';
 import 'package:true_counter/festival_list/view/festival_list_screen.dart';
 import 'package:true_counter/festival/view/home_screen.dart';
 import 'package:true_counter/my_page/view/my_page_screen.dart';
+import 'package:true_counter/user/repository/user_repository.dart';
+import 'package:true_counter/user/repository/user_repository_interface.dart';
 
 class RootTab extends StatefulWidget {
   const RootTab({Key? key}) : super(key: key);
@@ -14,6 +16,7 @@ class RootTab extends StatefulWidget {
 
 class _RootTabState extends State<RootTab> with TickerProviderStateMixin {
   TabController? controller;
+  UserRepositoryInterface _userRepository = UserRepository();
 
   @override
   void initState() {
@@ -25,6 +28,7 @@ class _RootTabState extends State<RootTab> with TickerProviderStateMixin {
       initialIndex: 1,
     );
     controller?.addListener(tabListener);
+    _userRepository.userInfo();
   }
 
   @override
@@ -93,6 +97,12 @@ class _RootTabState extends State<RootTab> with TickerProviderStateMixin {
         label: '마이페이지',
       ),
     ];
+  }
+
+  Future<bool> getUserInfo() async {
+    final isSuccessGetUserInfo = await _userRepository.userInfo();
+    debugPrint("스플레시 로그인 성공?: $isSuccessGetUserInfo");
+    return isSuccessGetUserInfo;
   }
 
   void tabListener() {

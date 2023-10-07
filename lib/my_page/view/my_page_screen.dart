@@ -70,11 +70,11 @@ class _MyPageScreenState extends State<MyPageScreen> {
             renderCustomButton(
               title: '나의 참여정보',
               iconName: Icons.description_outlined,
-              onTap: () {
+              onTap: (UserModel.current != null && !(UserModel.current!.isDummy))? () {
                 Navigator.of(context).pushNamed(
                   RouteNames.myParticipation,
                 );
-              },
+              } : null,
             ),
           ],
         ),

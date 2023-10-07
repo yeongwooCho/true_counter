@@ -138,6 +138,7 @@ class _FestivalDetailScreenState extends State<FestivalDetailScreen> {
                   _renderDescriptionContainer(),
                   const SizedBox(height: 32.0),
                   ChatScreen(
+                    festivalId: festival.id,
                     chats: sortChat(
                       chats: festival.chats
                           .where((element) => element.parentChatId != 0)

@@ -146,4 +146,49 @@ class FestivalProvider extends ChangeNotifier {
     }
     notifyListeners();
   }
+
+  void pushLike({
+    required int festivalId,
+    required int chatId,
+  }) async {
+    final resp = await repository.pushLike(chatId: chatId);
+
+    // FestivalModel? tempFestival;
+    // cache.update(festivalId, (value) {
+    //   tempFestival = value;
+    //   return value.copyWith(
+    //     oldFestivalModel: value,
+    //     newChatModel: newChat,
+    //   );
+    // });
+
+    if (resp != null) {
+      final FestivalModel tempFestivalModel = cache[festivalId]!;
+      final ChatModel tempChat = tempFestivalModel.chats.where((element) => element.id == chatId).first;
+      tempChat.chatLike = resp;
+
+      cache.update(
+        festivalId,
+            (value) => value.copyWith(
+          oldFestivalModel: tempFestivalModel,
+          newChatModel: tempChat,
+        ),
+      );
+      // cache.update(festivalId, (value) {
+      //   value.chats.map((e) => null)
+      //   return ;
+      // });
+    }
+    notifyListeners();
+  }
+
+  void pushDeclaration({
+    required festivalId,
+    required int chatId,
+  }) async {
+    final resp = await repository.pushDeclaration(chatId: chatId);
+
+    if (resp) {}
+    notifyListeners();
+  }
 }

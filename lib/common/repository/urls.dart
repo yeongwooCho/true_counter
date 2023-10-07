@@ -34,6 +34,18 @@ class Url {
 
   // festival chat create
   static String festivalChats = "$baseUrl/chats";
-  // static String chatLike = "$baseUrl/chats";
-  // static String chatDeclaration = "$baseUrl/chats";
+
+  // static String chatLike = "$baseUrl/chats/${chatId}/like";
+  // static String chatDeclaration = "$baseUrl/chats/${chatId}/declare";
+  static String getUrlChatLike({
+    required int chatId,
+  }) {
+    return "$baseUrl/chats/$chatId/like";
+  }
+
+  static String getUrlChatDeclare({
+    required int chatId,
+  }) {
+    return "$baseUrl/chats/$chatId/declare";
+  }
 }

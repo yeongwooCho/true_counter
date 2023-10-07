@@ -238,8 +238,78 @@ class FestivalRepository {
 
       return true;
     } catch (e) {
-      debugPrint(
-          'FestivalRepository getFestivalStatus Error: ${e.toString()}');
+      debugPrint('FestivalRepository getFestivalStatus Error: ${e.toString()}');
+      return false;
+    }
+  }
+
+  Future<int?> pushLike({
+    required int chatId,
+  }) async {
+    try {
+      final resp = await _dio.post(
+        Url.getUrlChatLike(chatId: chatId),
+        options: Options(
+          headers: UserModel.getHeaders(),
+        ),
+      );
+
+      if (resp.statusCode == null ||
+          resp.statusCode! < 200 ||
+          resp.statusCode! > 400) {
+        return null;
+      }
+
+      print('댓글 좋아요');
+      print('댓글 아이디: $chatId');
+      print(resp.data);
+      // {message: 댓글 좋아요 성공, data: 7} // 좋아요 횟수
+
+      ApiResponse<int> responseData =
+          ApiResponse<int>.fromJson(json: resp.data);
+
+      if (responseData.data == null) {
+        return null;
+      }
+
+      return responseData.data;
+    } catch (e) {
+      debugPrint('FestivalRepository pushLike Error: ${e.toString()}');
+      return null;
+    }
+  }
+
+  Future<bool> pushDeclaration({
+    required int chatId,
+  }) async {
+    try {
+      final resp = await _dio.post(
+        Url.getUrlChatDeclare(chatId: chatId),
+        options: Options(
+          headers: UserModel.getHeaders(),
+        ),
+      );
+
+      if (resp.statusCode == null ||
+          resp.statusCode! < 200 ||
+          resp.statusCode! > 400) {
+        return false;
+      }
+
+      print('댓글 신고하기');
+      print(resp.data);
+      // {message: 댓글 신고 성공, data: 3} // 신고 횟수
+
+      ApiResponse<int> responseData =
+          ApiResponse<int>.fromJson(json: resp.data);
+
+      if (responseData.data == null) {
+        return false;
+      }
+
+      return true;
+    } catch (e) {
+      debugPrint('FestivalRepository pushDeclaration Error: ${e.toString()}');
       return false;
     }
   }

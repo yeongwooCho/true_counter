@@ -20,6 +20,42 @@ class UserRepository extends UserRepositoryInterface {
   final KakaoAuthRepository _kakaoAuthRepository = KakaoAuthRepository();
 
   @override
+  Future<bool> verifyUser({
+    required String email,
+  }) async {
+    try {
+      final resp = await _dio.post(
+        Url.verifyUser,
+        data: {
+          "email": email,
+        },
+      );
+
+      print('이메일 중복확인');
+      print(resp.data);
+      // // {message: 이메일 중복 여부 조회 성공, data: false}
+
+      if (resp.statusCode == null ||
+          resp.statusCode! < 200 ||
+          resp.statusCode! > 400) {
+        return false;
+      }
+      ApiResponse<bool> responseData =
+          ApiResponse<bool>.fromJson(json: resp.data);
+
+      if (responseData.data == null) {
+        return false;
+      }
+
+      return responseData.data!;
+    } catch (e) {
+      debugPrint('UserRepository verifyUser Error: ${e.toString()}');
+      // TODO: 무슨 오류인지 제어해야함, 휴대폰번호가 있는지 등등
+      return false;
+    }
+  }
+
+  @override
   Future<bool> userInfo() async {
     try {
       final resp = await _dio.get(
@@ -278,12 +314,6 @@ class UserRepository extends UserRepositoryInterface {
   @override
   Future<bool> resetPassword() {
     // TODO: implement resetPassword
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<bool> verifyUser() {
-    // TODO: implement verifyUser
     throw UnimplementedError();
   }
 

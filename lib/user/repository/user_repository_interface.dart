@@ -1,6 +1,10 @@
 import 'package:true_counter/user/model/enum/sign_up_type.dart';
 
 abstract class UserRepositoryInterface {
+  Future<bool> verifyUser({
+    required String email,
+  });
+
   Future<bool> userInfo();
 
   Future<bool> signUp({
@@ -25,8 +29,6 @@ abstract class UserRepositoryInterface {
   Future<bool> findEmail();
 
   Future<bool> resetPassword();
-
-  Future<bool> verifyUser();
 
   Future<bool> kakaoSignUp({
     required String phone,

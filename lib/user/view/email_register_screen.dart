@@ -85,6 +85,7 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(
+      isLoading: isLoading,
       appbar: const DefaultAppBar(
         title: '회원가입',
       ),
@@ -135,9 +136,16 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                                 emailText!.isNotEmpty &&
                                 (emailFormKey.currentState != null &&
                                     emailFormKey.currentState!.validate())
-                            ? () {
-                                // TODO: 이메일 중복 확인 완료
-                                if (true) {
+                            ? () async {
+                                setState(() {
+                                  isLoading = true;
+                                });
+                                final bool isSuccess = await _userRepository
+                                    .verifyUser(email: emailText!);
+                                setState(() {
+                                  isLoading = false;
+                                });
+                                if (isSuccess) {
                                   // 사용 가능한 이메일일 경우
                                   setState(() {
                                     isValidEmail = true;
@@ -146,7 +154,7 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                                 } else {
                                   showCustomToast(
                                     context,
-                                    msg: '사용할 수 없는 이메일입니다.',
+                                    msg: '중복된 이메일이 존재합니다.',
                                   );
                                 }
                               }

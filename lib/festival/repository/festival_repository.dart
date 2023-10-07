@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:true_counter/chat/model/chat_model.dart';
 import 'package:true_counter/common/model/api_response.dart';
 import 'package:true_counter/common/repository/urls.dart';
+import 'package:true_counter/festival/model/enum/status_model.dart';
 import 'package:true_counter/festival/model/festival_model.dart';
 import 'package:true_counter/user/model/user_model.dart';
 
@@ -200,19 +201,23 @@ class FestivalRepository {
 
       return true;
     } catch (e) {
-      debugPrint('FestivalRepository participateFestival Error: ${e.toString()}');
+      debugPrint(
+          'FestivalRepository participateFestival Error: ${e.toString()}');
       return false;
     }
   }
 
-  Future<bool> getFestivalStatus() async {
+  Future<bool> getFestivalStatus({
+    required StatusModel statusModel,
+  }) async {
     try {
-      final resp = await _dio.get(
-        Url.festivalStatus,
-        options: Options(
-          headers: UserModel.getHeaders(),
-        ),
-      );
+      final resp = await _dio.get(Url.festivals,
+          options: Options(
+            headers: UserModel.getHeaders(),
+          ),
+          queryParameters: {
+            "status": statusModel.label,
+          });
 
       if (resp.statusCode == null ||
           resp.statusCode! < 200 ||
@@ -222,6 +227,7 @@ class FestivalRepository {
 
       print('행사 상태정보');
       print(resp.data);
+      // {message: 페스티벌 상태별 전체조회, data: [{id: 12, title: 응우&기중 시가파티 참석자 모집, region: 부산 금정구, startAt: 2023-10-04T07:39:00, endAt: 2023-10-04T07:39:00}]}
 
       // ApiResponse<int> responseData =
       // ApiResponse<int>.fromJson(json: resp.data);
@@ -232,7 +238,8 @@ class FestivalRepository {
 
       return true;
     } catch (e) {
-      debugPrint('FestivalRepository participateFestival Error: ${e.toString()}');
+      debugPrint(
+          'FestivalRepository getFestivalStatus Error: ${e.toString()}');
       return false;
     }
   }

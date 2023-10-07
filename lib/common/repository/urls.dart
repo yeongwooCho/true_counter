@@ -27,11 +27,13 @@ class Url {
   // static String festival = "$baseUrl/festivals/4";
 
   // festival status
-  static String festivalStatus = "$baseUrl/festivals?status=PAST";
+  // static String festivalStatus = "$baseUrl/festivals?status=PAST";
 
   // festival participate
   // static String festivalParticipate = "$baseUrl/festivals/12/participate";
 
   // festival chat create
   static String festivalChats = "$baseUrl/chats";
+  // static String chatLike = "$baseUrl/chats";
+  // static String chatDeclaration = "$baseUrl/chats";
 }

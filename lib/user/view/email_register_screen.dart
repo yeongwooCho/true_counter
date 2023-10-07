@@ -140,12 +140,12 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                                 setState(() {
                                   isLoading = true;
                                 });
-                                final bool isSuccess = await _userRepository
+                                final bool isFail = await _userRepository
                                     .verifyUser(email: emailText!);
                                 setState(() {
                                   isLoading = false;
                                 });
-                                if (isSuccess) {
+                                if (!isFail) {
                                   // 사용 가능한 이메일일 경우
                                   setState(() {
                                     isValidEmail = true;

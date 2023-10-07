@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
+import 'package:true_counter/common/component/custom_loading.dart';
 import 'package:true_counter/common/const/button_style.dart';
 import 'package:true_counter/common/const/colors.dart';
 import 'package:true_counter/common/const/text_style.dart';
@@ -17,18 +18,18 @@ class CustomFestivalCard extends StatelessWidget {
   // Widget
   // width: 343, height: 362
   final FestivalModel festivalModel;
-  final void Function({required bool isLoading}) setLoading;
   final bool pressable;
 
   const CustomFestivalCard({
     Key? key,
     required this.festivalModel,
-    required this.setLoading,
     this.pressable = true,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final FestivalProvider festivalProvider = context.read<FestivalProvider>();
+
     return GestureDetector(
       onTap: () {
         if (pressable) {
@@ -99,7 +100,13 @@ class CustomFestivalCard extends StatelessWidget {
                                   actions: [
                                     TextButton(
                                       onPressed: () async {
-                                        setLoading(isLoading: true);
+                                        showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return const CustomLoadingScreen(
+                                                title: "위치 정보를 받아오고 있습니다.",
+                                              );
+                                            });
                                         await _determinePermission();
 
                                         Position position =
@@ -107,7 +114,7 @@ class CustomFestivalCard extends StatelessWidget {
                                           desiredAccuracy:
                                               LocationAccuracy.high,
                                         );
-                                        setLoading(isLoading: false);
+                                        Navigator.of(context).pop();
 
                                         final double distance =
                                             Geolocator.distanceBetween(
@@ -127,14 +134,13 @@ class CustomFestivalCard extends StatelessWidget {
                                             context,
                                             msg: "행사 참여가 완료 되었습니다.",
                                           );
-                                          Navigator.of(context).pop();
                                         } else {
                                           showCustomToast(
                                             context,
                                             msg: "참여 가능 반경 안에서 참여해 주세요.",
                                           );
-                                          Navigator.of(context).pop();
                                         }
+                                        Navigator.of(context).pop();
                                       },
                                       child: const Text('참여하기'),
                                     ),

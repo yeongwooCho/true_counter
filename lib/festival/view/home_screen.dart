@@ -95,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
               CustomListView(
                 festivals: festivals,
                 emptyMessage: '오늘의 행사는\n존재하지 않습니다',
-                setLoading: setLoading,
+                setLoading: setLoading, parentContext: context,
               ),
               const Divider(
                 height: 120.0,
@@ -112,7 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
               CustomListView(
                 festivals: festivals,
                 emptyMessage: '최근 종료된 행사가\n존재하지 않습니다',
-                setLoading: setLoading,
+                setLoading: setLoading, parentContext: context,
               ),
             ],
           ),
@@ -127,11 +127,14 @@ class CustomListView extends StatelessWidget {
   final String emptyMessage;
   final void Function({required bool isLoading}) setLoading;
 
+  final BuildContext parentContext;
+
   const CustomListView({
     Key? key,
     required this.festivals,
     required this.emptyMessage,
     required this.setLoading,
+    required this.parentContext,
   }) : super(key: key);
 
   @override
@@ -159,7 +162,6 @@ class CustomListView extends StatelessWidget {
             itemBuilder: (BuildContext context, int index) {
               return CustomFestivalCard(
                 festivalModel: festivals[index],
-                setLoading: setLoading,
               );
             },
           );

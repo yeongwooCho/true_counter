@@ -101,12 +101,49 @@ class FestivalProvider extends ChangeNotifier {
   void participateFestival({
     required int festivalId,
   }) async {
-    final resp = await repository.participateFestival(festivalId: festivalId);
+    cacheList.update(
+        'total',
+        (value) => value.map((element) {
+              if (element.id == festivalId) {
+                element.isParticipated = true;
+                return element;
+              } else {
+                return element;
+              }
+            }).toList());
 
-    if (resp) {
-      // cache.update(id, (value) => resp, ifAbsent: () => resp);
+    if (cache.containsKey(festivalId)) {
+      cache.update(festivalId, (value) {
+        value.isParticipated = true;
+        return value;
+      });
     }
+    notifyListeners();
 
+    try {
+      final resp = await repository.participateFestival(festivalId: festivalId);
+
+      if (!resp) {
+        cacheList.update(
+            'total',
+            (value) => value.map((element) {
+                  if (element.id == festivalId) {
+                    element.isParticipated = false;
+                    return element;
+                  } else {
+                    return element;
+                  }
+                }).toList());
+        if (cache.containsKey(festivalId)) {
+          cache.update(festivalId, (value) {
+            value.isParticipated = false;
+            return value;
+          });
+        }
+      }
+    } catch (e) {
+      debugPrint('FestivalProvider participateFestival Error: ${e.toString()}');
+    }
     notifyListeners();
   }
 }

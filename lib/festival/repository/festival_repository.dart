@@ -191,23 +191,16 @@ class FestivalRepository {
         return false;
       }
 
-      print('페스티벌 참여');
-      print(resp.data);
+      ApiResponse<int> responseData =
+          ApiResponse<int>.fromJson(json: resp.data);
+
+      if (responseData.data == null || responseData.data != festivalId) {
+        return false;
+      }
+
       return true;
-
-
-      // ApiResponse<Map<String, dynamic>> responseData =
-      //     ApiResponse<Map<String, dynamic>>.fromJson(json: resp.data);
-      //
-      // if (responseData.data == null) {
-      //   return false;
-      // }
-
-
-      // final ChatModel chatModel = ChatModel.fromJson(json: responseData.data!);
-      // return chatModel;
     } catch (e) {
-      debugPrint('FestivalRepository getFestival Error: ${e.toString()}');
+      debugPrint('FestivalRepository participateFestival Error: ${e.toString()}');
       return false;
     }
   }

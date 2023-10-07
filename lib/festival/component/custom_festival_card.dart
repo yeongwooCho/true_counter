@@ -51,139 +51,154 @@ class CustomFestivalCard extends StatelessWidget {
         ),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      "[${festivalModel.region}] ${festivalModel.title}",
-                      style: bodyTitleBoldTextStyle,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  const SizedBox(width: 16.0),
-                  ElevatedButton(
-                    onPressed: isActiveButton(festival: festivalModel)
-                        ? () async {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  icon: const Text(
-                                    '행사 참여하기',
-                                    style: bodyTitleBoldTextStyle,
-                                  ),
-                                  title: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.stretch,
-                                    children: [
-                                      const Text(
-                                        '행사명',
-                                        textAlign: TextAlign.start,
-                                        style: bodyBoldTextStyle,
-                                      ),
-                                      const SizedBox(height: 4.0),
-                                      Text(
-                                        '[${festivalModel.region}] ${festivalModel.title}',
-                                        textAlign: TextAlign.start,
-                                        style: descriptionTextStyle,
-                                      ),
-                                    ],
-                                  ),
-                                  content: Text(
-                                    '행사 참여자로 카운팅 되기 위해서는 회원님이 행사장 반경 ${convertRadiusToString(radius: festivalModel.radius)} 안에 있어야 합니다.',
-                                    style: descriptionTextStyle,
-                                  ),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () async {
-                                        showDialog(
-                                            context: context,
-                                            builder: (BuildContext context) {
-                                              return const CustomLoadingScreen(
-                                                title: "위치 정보를 받아오고 있습니다.",
+          child: festivalModel.startAt.isAfter(DateTime.now())
+              ? const Padding(
+                padding: EdgeInsets.symmetric(vertical: 8.0),
+                child: Text(
+                  '예정된 행사 입니다.',
+                  style: bodyTitleBoldTextStyle,
+                  textAlign: TextAlign.center,
+                ),
+              )
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            "[${festivalModel.region}] ${festivalModel.title}",
+                            style: bodyTitleBoldTextStyle,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        const SizedBox(width: 16.0),
+                        ElevatedButton(
+                          onPressed: isActiveButton(festival: festivalModel)
+                              ? () async {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        icon: const Text(
+                                          '행사 참여하기',
+                                          style: bodyTitleBoldTextStyle,
+                                        ),
+                                        title: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.stretch,
+                                          children: [
+                                            const Text(
+                                              '행사명',
+                                              textAlign: TextAlign.start,
+                                              style: bodyBoldTextStyle,
+                                            ),
+                                            const SizedBox(height: 4.0),
+                                            Text(
+                                              '[${festivalModel.region}] ${festivalModel.title}',
+                                              textAlign: TextAlign.start,
+                                              style: descriptionTextStyle,
+                                            ),
+                                          ],
+                                        ),
+                                        content: Text(
+                                          '행사 참여자로 카운팅 되기 위해서는 회원님이 행사장 반경 ${convertRadiusToString(radius: festivalModel.radius)} 안에 있어야 합니다.',
+                                          style: descriptionTextStyle,
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () async {
+                                              showDialog(
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return const CustomLoadingScreen(
+                                                      title:
+                                                          "위치 정보를 받아오고 있습니다.",
+                                                    );
+                                                  });
+                                              await _determinePermission();
+
+                                              Position position =
+                                                  await Geolocator
+                                                      .getCurrentPosition(
+                                                desiredAccuracy:
+                                                    LocationAccuracy.high,
                                               );
-                                            });
-                                        await _determinePermission();
+                                              Navigator.of(context).pop();
 
-                                        Position position =
-                                            await Geolocator.getCurrentPosition(
-                                          desiredAccuracy:
-                                              LocationAccuracy.high,
-                                        );
-                                        Navigator.of(context).pop();
+                                              final double distance =
+                                                  Geolocator.distanceBetween(
+                                                festivalModel.latitude,
+                                                festivalModel.longitude,
+                                                position.latitude,
+                                                position.longitude,
+                                              );
 
-                                        final double distance =
-                                            Geolocator.distanceBetween(
-                                          festivalModel.latitude,
-                                          festivalModel.longitude,
-                                          position.latitude,
-                                          position.longitude,
-                                        );
-
-                                        if (distance <
-                                            (festivalModel.radius * 1000)) {
-                                          final provider =
-                                              context.read<FestivalProvider>();
-                                          provider.participateFestival(
-                                              festivalId: festivalModel.id);
-                                          showCustomToast(
-                                            context,
-                                            msg: "행사 참여가 완료 되었습니다.",
-                                          );
-                                        } else {
-                                          showCustomToast(
-                                            context,
-                                            msg: "참여 가능 반경 안에서 참여해 주세요.",
-                                          );
-                                        }
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: const Text('참여하기'),
-                                    ),
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: const Text('취소'),
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
-                          }
-                        : null,
-                    style: festivalParticipateButtonStyle,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 12.0,
-                        horizontal: 4.0,
-                      ),
-                      child: getParticipateStatus(festival: festivalModel),
+                                              if (distance <
+                                                  (festivalModel.radius *
+                                                      1000)) {
+                                                final provider = context
+                                                    .read<FestivalProvider>();
+                                                provider.participateFestival(
+                                                    festivalId:
+                                                        festivalModel.id);
+                                                showCustomToast(
+                                                  context,
+                                                  msg: "행사 참여가 완료 되었습니다.",
+                                                );
+                                              } else {
+                                                showCustomToast(
+                                                  context,
+                                                  msg: "참여 가능 반경 안에서 참여해 주세요.",
+                                                );
+                                              }
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: const Text('참여하기'),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: const Text('취소'),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                }
+                              : null,
+                          style: festivalParticipateButtonStyle,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 12.0,
+                              horizontal: 4.0,
+                            ),
+                            child:
+                                getParticipateStatus(festival: festivalModel),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 4.0),
-              Text(
-                '누적 참여자 수: ${convertIntToMoneyString(number: festivalModel.cumulativeParticipantCount)} 명',
-                style: descriptionGreyTextStyle,
-              ),
-              Text(
-                '참여 가능 반경: ${convertRadiusToString(
-                  radius: festivalModel.radius,
-                )}',
-                style: descriptionGreyTextStyle,
-              ),
-              const SizedBox(height: 16.0),
-              CustomChart(
-                festivalModel: festivalModel,
-              ),
-            ],
-          ),
+                    const SizedBox(height: 4.0),
+                    Text(
+                      '누적 참여자 수: ${convertIntToMoneyString(number: festivalModel.cumulativeParticipantCount)} 명',
+                      style: descriptionGreyTextStyle,
+                    ),
+                    Text(
+                      '참여 가능 반경: ${convertRadiusToString(
+                        radius: festivalModel.radius,
+                      )}',
+                      style: descriptionGreyTextStyle,
+                    ),
+                    const SizedBox(height: 16.0),
+                    CustomChart(
+                      festivalModel: festivalModel,
+                    ),
+                  ],
+                ),
         ),
       ),
     );

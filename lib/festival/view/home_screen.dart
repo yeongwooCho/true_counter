@@ -31,6 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final provider = context.watch<FestivalProvider>();
     final festivals = provider.cacheList['total'] ?? [];
+    final DateTime now = DateTime.now();
 
     return DefaultLayout(
       isLoading: provider.cacheList['total'] == null || isLoading,
@@ -95,9 +96,12 @@ class _HomeScreenState extends State<HomeScreen> {
               CustomListView(
                 festivals: festivals.where((element) {
                   if (location == '전체') {
-                    return true;
+                    return element.startAt.isBefore(now) &&
+                        element.endAt.isAfter(now);
                   } else {
-                    return element.region == location;
+                    return element.region == location &&
+                        element.startAt.isBefore(now) &&
+                        element.endAt.isAfter(now);
                   }
                 }).toList(),
                 emptyMessage: '오늘의 행사는\n존재하지 않습니다',
@@ -117,7 +121,10 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               const SizedBox(height: 24.0),
               CustomListView(
-                festivals: festivals,
+                festivals: festivals.where((element) {
+                  return element.startAt.isBefore(now) &&
+                      element.endAt.isBefore(now);
+                }).toList(),
                 emptyMessage: '최근 종료된 행사가\n존재하지 않습니다',
                 setLoading: setLoading,
                 parentContext: context,

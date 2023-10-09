@@ -168,12 +168,12 @@ class _FestivalDetailScreenState extends State<FestivalDetailScreen> {
           .where((element) => element.parentChatId == mainChat.id)
           .toList();
       secondChats.sort((ChatModel prev, ChatModel next) {
-        return prev.createdAt.compareTo(next.createdAt);
+        return next.createdAt.compareTo(prev.createdAt);
       });
       tempDict[mainChat.id] = secondChats;
     }
 
-    for (ChatModel mainChat in mainChats) {
+    for (ChatModel mainChat in mainChats.reversed) {
       returnList.add(mainChat);
       List<ChatModel>? secondChats = tempDict[mainChat.id];
       if (secondChats != null) {

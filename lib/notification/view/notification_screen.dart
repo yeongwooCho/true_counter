@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:true_counter/common/component/custom_list_card.dart';
+import 'package:true_counter/common/const/colors.dart';
 import 'package:true_counter/common/layout/default_appbar.dart';
 import 'package:true_counter/common/layout/default_layout.dart';
 import 'package:true_counter/common/model/screen_arguments.dart';
 import 'package:true_counter/common/util/datetime.dart';
 import 'package:true_counter/common/variable/routes.dart';
 import 'package:true_counter/common/view/custom_list_screen.dart';
+import 'package:true_counter/my_settings.dart';
 import 'package:true_counter/notification/model/notification_model.dart';
 import 'package:true_counter/notification/provider/notification_provider.dart';
+import 'package:true_counter/user/model/user_model.dart';
 
 class NotificationScreen extends StatelessWidget {
   const NotificationScreen({Key? key}) : super(key: key);
@@ -20,7 +23,24 @@ class NotificationScreen extends StatelessWidget {
         provider.cache.isNotEmpty ? provider.cache.values.first : [];
 
     return DefaultLayout(
-      appbar: const DefaultAppBar(title: '공지사항 / 알림'),
+      appbar: DefaultAppBar(
+        title: '공지사항 / 알림',
+        action: UserModel.current != null &&
+                adminEmails.contains(UserModel.current!.email)
+            ? [
+                IconButton(
+                  onPressed: () {
+                    Navigator.of(context)
+                        .pushNamed(RouteNames.notificationEdit);
+                  },
+                  icon: const Icon(
+                    Icons.edit,
+                    color: DARK_GREY_COLOR,
+                  ),
+                )
+              ]
+            : null,
+      ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: CustomListScreen(
@@ -28,7 +48,8 @@ class NotificationScreen extends StatelessWidget {
           itemBuilder: (BuildContext context, int index) {
             return CustomListCard(
               title: notifications[index].title,
-              description: "등록일자: ${convertDateTimeToMinute(datetime:  notifications[index].createdAt)}",
+              description:
+                  "등록일자: ${convertDateTimeToMinute(datetime: notifications[index].createdAt)}",
               onTap: () {
                 Navigator.of(context).pushNamed(
                   RouteNames.notificationDetail,

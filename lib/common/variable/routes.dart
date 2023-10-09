@@ -14,6 +14,7 @@ import 'package:true_counter/my_page/view/my_participation_screen.dart';
 import 'package:true_counter/my_page/view/settings_screen.dart';
 import 'package:true_counter/my_page/view/withdraw_screen.dart';
 import 'package:true_counter/notification/model/notification_model.dart';
+import 'package:true_counter/notification/view/admin_notification_edit_screen.dart';
 import 'package:true_counter/notification/view/notification_detail_screen.dart';
 import 'package:true_counter/notification/view/notification_screen.dart';
 import 'package:true_counter/user/model/user_model.dart';
@@ -57,6 +58,7 @@ class RouteNames {
   // notification
   static const String notification = '/notification';
   static const String notificationDetail = '/notification/detail';
+  static const String notificationEdit = '/notification/edit';
 
   // mypage
   static const String mypage = '/mypage';
@@ -129,6 +131,7 @@ Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
       notificationModel: args.data,
     );
   },
+  RouteNames.notificationEdit: (_) => AdminNotificationEditScreen(),
 
   // mypage
   RouteNames.settings: (context) {

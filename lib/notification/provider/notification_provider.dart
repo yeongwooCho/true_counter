@@ -18,6 +18,7 @@ class NotificationProvider extends ChangeNotifier {
     if (resp.isEmpty) {
       return;
     }
+
     List<DateTime> dateTimes = resp.map((e) => e.createdAt).toList();
     dateTimes.sort((prev, next) => next.compareTo(prev));
     DateTime latestCreatedAt = dateTimes.first;
@@ -28,5 +29,18 @@ class NotificationProvider extends ChangeNotifier {
     }
 
     notifyListeners();
+  }
+
+  void createNotification({
+    required String title,
+    required String content,
+  }) async {
+    final resp = await repository.createNotification(
+      title: title,
+      content: content,
+    );
+    if (resp != null) {
+      getNotifications();
+    }
   }
 }

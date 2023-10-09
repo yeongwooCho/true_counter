@@ -13,6 +13,7 @@ class Url {
   static String findEmail = "$baseUrl/auth/find-email";
   static String findPassword = "$baseUrl/auth/find-password";
   static String changePassword = "$baseUrl/members/password";
+  static String withdraw = "$baseUrl/members/withdraw";
 
   // notification
   // Create, Read

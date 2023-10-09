@@ -406,15 +406,15 @@ class UserRepository extends UserRepositoryInterface {
   Future<bool> withdraw() async {
     try {
       final resp = await _dio.post(
-        Url.verifyUser,
+        Url.withdraw,
         options: Options(
           headers: UserModel.getHeaders(),
         ),
       );
 
-      // print('이메일 중복확인');
-      // print(resp.data);
-      // // {message: 이메일 중복 여부 조회 성공, data: false}
+      print('회원탈퇴');
+      print(resp.data);
+      // {message: 유저 탈퇴 성공, data: true}
 
       if (resp.statusCode == null ||
           resp.statusCode! < 200 ||
@@ -423,6 +423,7 @@ class UserRepository extends UserRepositoryInterface {
       }
       ApiResponse<bool> responseData =
           ApiResponse<bool>.fromJson(json: resp.data);
+      print(responseData.data);
 
       if (responseData.data == null) {
         return false;

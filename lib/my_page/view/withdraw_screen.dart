@@ -24,10 +24,12 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
   UserRepositoryInterface _userRepository = UserRepository();
 
   bool isSelected = false;
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(
+      isLoading: isLoading,
       appbar: const DefaultAppBar(
         title: '회원탈퇴',
       ),
@@ -102,15 +104,23 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
                         contentWidget: const Text('회원님의 개인 정보는 모두 삭제됩니다.'),
                         completeText: '확인',
                         completeFunction: () async {
-                          final bool isSuccess = await _userRepository.withdraw();
-                          if(isSuccess) {
+                          setState(() {
+                            isLoading = true;
+                          });
+                          final bool isSuccess =
+                              await _userRepository.withdraw();
+                          setState(() {
+                            isLoading = false;
+                          });
+
+                          if (isSuccess) {
                             await LocalStorage.clearAll();
                             UserModel.current = null;
                             TokenModel.instance = null;
 
                             Navigator.of(context).pushNamedAndRemoveUntil(
                               RouteNames.onBoarding,
-                                  (route) => false,
+                              (route) => false,
                             );
                           } else {
                             showCustomToast(context, msg: "현재 탈퇴할 수 없는 회원입니다.");

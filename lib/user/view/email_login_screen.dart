@@ -124,7 +124,7 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                       child: TextButton(
                         onPressed: () {
                           Navigator.of(context).pushNamed(
-                            RouteNames.emailRegister,
+                            RouteNames.terms,
                           );
                         },
                         child: const Text(

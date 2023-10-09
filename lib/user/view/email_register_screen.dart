@@ -433,8 +433,9 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                               );
 
                               if (isSuccessSignIn) {
-                                Navigator.of(context).pushNamed(
-                                  RouteNames.terms,
+                                Navigator.of(context).pushNamedAndRemoveUntil(
+                                  RouteNames.emailRegisterCompletion,
+                                  (route) => false,
                                 );
                               } else {
                                 showCustomToast(
@@ -445,7 +446,7 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                             }
                           : null,
                       style: defaultButtonStyle,
-                      child: const Text('다음'),
+                      child: const Text('회원가입 완료'),
                     )
                   ],
                 ),

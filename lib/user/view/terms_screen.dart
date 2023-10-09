@@ -118,12 +118,11 @@ class _TermsScreenState extends State<TermsScreen> {
             ElevatedButton(
               onPressed: (isCheckPersonalInfo)
                   ? () {
-                      Navigator.of(context).pushNamedAndRemoveUntil(
-                          RouteNames.emailRegisterCompletion, (route) => false);
+                      Navigator.of(context).pushNamed(RouteNames.emailRegister);
                     }
                   : null,
               style: defaultButtonStyle,
-              child: const Text('회원가입 완료'),
+              child: const Text('다음'),
             ),
           ],
         ),

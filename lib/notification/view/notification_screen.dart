@@ -50,7 +50,7 @@ class NotificationScreen extends StatelessWidget {
             ? Center(
                 child: Text(
                   '현재 등록된 공지가\n존재하지 않습니다.',
-                  style: bodyMediumTextStyle.copyWith(color: DARK_GREY_COLOR),
+                  style: bodyTitleBoldTextStyle.copyWith(color: DARK_GREY_COLOR),
                   textAlign: TextAlign.center,
                 ),
               )

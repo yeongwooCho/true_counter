@@ -125,7 +125,7 @@ class _FestivalListScreenState extends State<FestivalListScreen> {
                   ? Center(
                       child: Text(
                         '현재 ${getListState(selectedItemIndex: selectedItemIndex)} 행사가\n존재하지 않습니다.',
-                        style: bodyMediumTextStyle.copyWith(
+                        style: bodyTitleBoldTextStyle.copyWith(
                             color: DARK_GREY_COLOR),
                         textAlign: TextAlign.center,
                       ),

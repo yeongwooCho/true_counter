@@ -76,4 +76,9 @@ class FestivalModel {
     newFestivalModel.chats = [...oldFestivalModel.chats, newChatModel];
     return newFestivalModel;
   }
+
+  @override
+  String toString() {
+    return 'FestivalModel (' 'id: $id, title: $title, )';
+  }
 }

@@ -191,11 +191,18 @@ class FestivalRepository {
           resp.statusCode! > 400) {
         return false;
       }
+      print('행사 참여하기');
+      print(resp.data);
+      // {message: 페스티벌 참여, data: 17}
 
       ApiResponse<int> responseData =
           ApiResponse<int>.fromJson(json: resp.data);
 
-      if (responseData.data == null || responseData.data != festivalId) {
+      print("페스티벌 아이디 데이터");
+      print(festivalId); // 25
+      print(responseData.data); // 17
+
+      if (responseData.data == null) {
         return false;
       }
 

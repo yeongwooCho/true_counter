@@ -120,9 +120,13 @@ class FestivalProvider extends ChangeNotifier {
       });
     }
     notifyListeners();
+    print('캐시확인1');
+    print(cacheList);
+    print(cache);
 
     try {
       final resp = await repository.participateFestival(festivalId: festivalId);
+      print('resp: $resp');
 
       if (!resp) {
         cacheList.update(
@@ -145,6 +149,9 @@ class FestivalProvider extends ChangeNotifier {
     } catch (e) {
       debugPrint('FestivalProvider participateFestival Error: ${e.toString()}');
     }
+    print('캐시확인2');
+    print(cacheList);
+    print(cache);
     notifyListeners();
   }
 

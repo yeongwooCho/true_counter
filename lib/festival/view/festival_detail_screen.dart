@@ -238,7 +238,7 @@ class _FestivalDetailScreenState extends State<FestivalDetailScreen> {
         if (festivalModel.message.isNotEmpty) const SizedBox(height: 24.0),
         if (festivalModel.message.isNotEmpty)
           _renderDescriptionRow(
-            title: '문의/전달사항',
+            title: '행사정보/전달사항',
             description: festivalModel.message,
           ),
       ],

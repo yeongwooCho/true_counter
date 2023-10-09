@@ -152,7 +152,7 @@ class _FestivalRegisterScreenState extends State<FestivalRegisterScreen> {
               const SizedBox(height: 24.0),
               SizedBox(
                 child: CustomTextFormField(
-                  title: '문의/전달사항(선택사항)',
+                  title: '행사정보/전달사항',
                   hintText: '500자 이내',
                   onChanged: (String? value) {
                     message = value;

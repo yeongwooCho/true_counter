@@ -8,6 +8,7 @@ import 'package:true_counter/common/repository/local_storage.dart';
 import 'package:true_counter/common/util/datetime.dart';
 import 'package:true_counter/common/util/show_cupertino_alert.dart';
 import 'package:true_counter/common/variable/routes.dart';
+import 'package:true_counter/user/model/enum/sign_up_type.dart';
 import 'package:true_counter/user/model/token_model.dart';
 import 'package:true_counter/user/model/user_model.dart';
 
@@ -46,10 +47,11 @@ class SettingsScreen extends StatelessWidget {
                     title: '닉네임',
                     description: userModel.nickname,
                   ),
-                  renderDescriptionRow(
-                    title: '연락처',
-                    description: userModel.phone,
-                  ),
+                  if (userModel.signupType == SignUpType.email)
+                    renderDescriptionRow(
+                      title: '연락처',
+                      description: userModel.phone,
+                    ),
                   renderDescriptionRow(
                     title: '성별',
                     description: userModel.gender ? '남자' : '여자',

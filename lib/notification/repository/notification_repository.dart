@@ -80,4 +80,44 @@ class NotificationRepository {
       return null;
     }
   }
+
+  Future<bool> deleteNotification({
+    required int id,
+    required String title,
+    required String content,
+  }) async {
+    try {
+      final resp = await _dio.delete(
+        "${Url.noticeBoard}/$id",
+        options: Options(
+          headers: UserModel.getHeaders(),
+        ),
+        data: {
+          "title": title,
+          "content": content,
+        },
+      );
+
+      if (resp.statusCode == null ||
+          resp.statusCode! < 200 ||
+          resp.statusCode! > 400) {
+        return false;
+      }
+
+      print('공지사항 등록');
+      print(resp.data);
+      // {message: 공지사항 삭제, data: } : String
+
+      ApiResponse<String> responseData =
+          ApiResponse<String>.fromJson(json: resp.data);
+
+      if (responseData.data == null) {
+        return false;
+      }
+      return true;
+    } catch (e) {
+      debugPrint('NotificationRepository Error: ${e.toString()}');
+      return false;
+    }
+  }
 }

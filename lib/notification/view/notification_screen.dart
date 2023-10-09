@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:true_counter/common/component/custom_list_card.dart';
@@ -6,6 +7,7 @@ import 'package:true_counter/common/layout/default_appbar.dart';
 import 'package:true_counter/common/layout/default_layout.dart';
 import 'package:true_counter/common/model/screen_arguments.dart';
 import 'package:true_counter/common/util/datetime.dart';
+import 'package:true_counter/common/util/show_cupertino_alert.dart';
 import 'package:true_counter/common/variable/routes.dart';
 import 'package:true_counter/common/view/custom_list_screen.dart';
 import 'package:true_counter/my_settings.dart';
@@ -46,18 +48,42 @@ class NotificationScreen extends StatelessWidget {
         child: CustomListScreen(
           itemCount: notifications.length,
           itemBuilder: (BuildContext context, int index) {
-            return CustomListCard(
-              title: notifications[index].title,
-              description:
-                  "등록일자: ${convertDateTimeToMinute(datetime: notifications[index].createdAt)}",
-              onTap: () {
-                Navigator.of(context).pushNamed(
-                  RouteNames.notificationDetail,
-                  arguments: ScreenArguments<NotificationModel>(
-                    data: notifications[index],
-                  ),
-                );
+            return GestureDetector(
+              onLongPress: () {
+                if (UserModel.current != null &&
+                    adminEmails.contains(UserModel.current!.email)) {
+                  showAlert(
+                    context: context,
+                    titleWidget: const Text('해당 공지를 삭제하시겠습니까?'),
+                    completeText: '확인',
+                    completeFunction: () {
+                      provider.deleteNotification(
+                        id: notifications[index].id,
+                        title: notifications[index].title,
+                        content: notifications[index].content,
+                      );
+                      Navigator.pop(context);
+                    },
+                    cancelText: "취소",
+                    cancelFunction: () {
+                      Navigator.of(context).pop();
+                    },
+                  );
+                }
               },
+              child: CustomListCard(
+                title: notifications[index].title,
+                description:
+                    "등록일자: ${convertDateTimeToMinute(datetime: notifications[index].createdAt)}",
+                onTap: () {
+                  Navigator.of(context).pushNamed(
+                    RouteNames.notificationDetail,
+                    arguments: ScreenArguments<NotificationModel>(
+                      data: notifications[index],
+                    ),
+                  );
+                },
+              ),
             );
           },
         ),

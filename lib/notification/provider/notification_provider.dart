@@ -43,4 +43,19 @@ class NotificationProvider extends ChangeNotifier {
       getNotifications();
     }
   }
+
+  Future<void> deleteNotification({
+    required int id,
+    required String title,
+    required String content,
+  }) async {
+    final resp = await repository.deleteNotification(
+      id: id,
+      title: title,
+      content: content,
+    );
+    if (resp) {
+      getNotifications();
+    }
+  }
 }

@@ -102,8 +102,7 @@ Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
   RouteNames.emailRegisterCompletion: (_) => EmailRegisterCompletionScreen(),
 
   // kakao
-  RouteNames.kakaoRegister: (context) =>
-      KakaoRegisterScreen(beforeContext: context),
+  RouteNames.kakaoRegister: (_) => KakaoRegisterScreen(),
 
   // root tab
   RouteNames.root: (_) => RootTab(),

@@ -18,12 +18,7 @@ import 'package:true_counter/user/repository/user_repository_interface.dart';
 import 'package:true_counter/user/util/firebase_phone_auth.dart';
 
 class KakaoRegisterScreen extends StatefulWidget {
-  final BuildContext beforeContext;
-
-  const KakaoRegisterScreen({
-    Key? key,
-    required this.beforeContext,
-  }) : super(key: key);
+  const KakaoRegisterScreen({Key? key}) : super(key: key);
 
   @override
   State<KakaoRegisterScreen> createState() => _KakaoRegisterScreenState();
@@ -32,45 +27,14 @@ class KakaoRegisterScreen extends StatefulWidget {
 class _KakaoRegisterScreenState extends State<KakaoRegisterScreen> {
   final UserRepositoryInterface _userRepository = UserRepository();
 
-  // form focus
-  final GlobalKey<FormState> formKey = GlobalKey();
-  final GlobalKey<FormState> phoneFormKey = GlobalKey();
-  final FirebasePhoneAuthUtil _firebasePhoneAuthUtil = FirebasePhoneAuthUtil();
-
   bool isLoading = false;
-
-  FocusNode? phoneFocus;
-  FocusNode? certificationFocus;
-
-  bool isVisiblePassword = false; // 패스워드 보이게
-  bool isVisiblePasswordCheck = false; // 패스워드 보이게
-  bool isRequestCertification = false; // 인증번호 받기
-  bool isValidCertification = false; // 인증 번호 확인
-
-  // user info
-  String? phoneText;
-  String? certificationText;
 
   // no text form field
   bool? gender;
   DateTime? birthday;
   String? location;
 
-  @override
-  void initState() {
-    super.initState();
-
-    phoneFocus = FocusNode();
-    certificationFocus = FocusNode();
-  }
-
-  @override
-  void dispose() {
-    phoneFocus?.dispose();
-    certificationFocus?.dispose();
-
-    super.dispose();
-  }
+  final DateTime now = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -81,217 +45,115 @@ class _KakaoRegisterScreenState extends State<KakaoRegisterScreen> {
       child: Stack(
         children: [
           SingleChildScrollView(
-            child: Form(
-              key: formKey,
-              autovalidateMode: AutovalidateMode.always,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 16.0, vertical: 24.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    const SizedBox(height: 24.0),
-                    const Text(
-                      '트루카운터에서 사용할 추가\n계정 정보를 입력해 주세요.',
-                      style: headTitleTextStyle,
-                    ),
-                    const SizedBox(height: 32.0),
-                    Form(
-                      key: phoneFormKey,
-                      autovalidateMode: AutovalidateMode.always,
-                      child: CustomTextFormField(
-                        onChanged: (String? value) {
-                          phoneText = value;
-                          setState(() {});
-                        },
-                        onSaved: (String? value) {
-                          phoneText = value;
-                        },
-                        validator: TextValidator.phoneValidator,
-                        focusNode: phoneFocus,
-                        onEditingComplete: () {
-                          if (phoneFormKey.currentState != null &&
-                              phoneFormKey.currentState!.validate()) {
-                            phoneFocus?.unfocus();
-                          }
-                        },
-                        title: '휴대폰 번호',
-                        hintText: '예) 01012341234',
-                        buttonText: isValidCertification ? '인증 완료' : '인증번호 받기',
-                        onPressedButton: isValidCertification ||
-                                phoneText == null ||
-                                phoneText!.isEmpty
-                            ? null
-                            : () async {
-                                isLoading = true;
-                                isRequestCertification = true;
-                                setState(() {});
-
-                                if (isRequestCertification) {
-                                  certificationFocus?.requestFocus();
-                                } else {
-                                  phoneFocus?.requestFocus();
-                                }
-
-                                // TODO: 휴대폰 번호에 인증코드 전송번호 전달
-                                await _firebasePhoneAuthUtil.requestSmsCode(
-                                  context: context,
-                                  phone: phoneText!,
-                                );
-
-                                isLoading = false;
-                                setState(() {});
-                              },
-                        textInputType: TextInputType.number,
-                        enabled: isValidCertification ? false : true,
-                      ),
-                    ),
-                    const SizedBox(height: 4.0),
-                    if (isRequestCertification && !isValidCertification)
-                      CustomTextFormField(
-                        onChanged: (String? value) {
-                          certificationText = value;
-                          setState(() {});
-                        },
-                        onSaved: (String? value) {
-                          certificationText = value;
-                        },
-                        validator: (String? value) {
-                          return null;
-                        },
-                        focusNode: certificationFocus,
-                        hintText: '인증번호 입력',
-                        buttonText: '인증번호 확인',
-                        onPressedButton:
-                            isValidCertification || certificationText == null
-                                ? null
-                                : () async {
-                                    isLoading = true;
-                                    setState(() {});
-
-                                    bool isVerified =
-                                        await _firebasePhoneAuthUtil.verifyUser(
-                                      smsCode: certificationText!,
-                                    );
-
-                                    isLoading = false;
-                                    setState(() {});
-
-                                    // TODO: 인증번호가 일치하는지 확인
-                                    if (isVerified) {
-                                      isValidCertification = true;
-                                      certificationFocus?.unfocus();
-                                      showCustomToast(
-                                        context,
-                                        msg: '인증번호가 정상적으로 확인되었습니다.',
-                                      );
-                                      setState(() {});
-                                    } else {
-                                      showCustomToast(
-                                        context,
-                                        msg: '인증번호가 일치하지 않습니다.',
-                                      );
-                                    }
-                                  },
-                        enabled: isValidCertification ? false : true,
-                      ),
-                    const SizedBox(height: 16.0),
-                    _SelectedGender(
-                      gender: gender,
-                      onTap: onGenderSelected,
-                    ),
-                    const SizedBox(height: 16.0),
-                    _BirthYear(
-                      birthday: birthday,
-                      onDaySelected: onDaySelected,
-                    ),
-                    const SizedBox(height: 16.0),
-                    Row(
-                      children: [
-                        const SizedBox(
-                          width: 120.0,
-                          child: Text(
-                            '거주지역',
-                            style: bodyMediumTextStyle,
-                          ),
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const SizedBox(height: 24.0),
+                  const Text(
+                    '트루카운터에서 사용할 추가\n계정 정보를 입력해 주세요.',
+                    style: headTitleTextStyle,
+                  ),
+                  const SizedBox(height: 32.0),
+                  _SelectedGender(
+                    gender: gender,
+                    onTap: onGenderSelected,
+                  ),
+                  const SizedBox(height: 16.0),
+                  // _BirthYear(
+                  //   birthday: birthday,
+                  //   onDaySelected: onDaySelected,
+                  // ),
+                  Row(
+                    children: [
+                      const SizedBox(
+                        width: 120.0,
+                        child: Text(
+                          '출생년도',
+                          style: bodyMediumTextStyle,
                         ),
-                        const SizedBox(width: 16.0),
-                        Expanded(
-                          child: CustomDropDownButton(
-                            dropdownList: registerLocation,
-                            defaultValue: location == null ? '선택' : location!,
-                            onChanged: (String? value) {
-                              location = value;
-                              setState(() {});
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 32.0),
-                    ElevatedButton(
-                      onPressed: isRequestCertification &&
-                              isValidCertification &&
-                              gender != null &&
-                              birthday != null &&
-                              location != null &&
-                              location!.isNotEmpty &&
-                              location != '선택' &&
-                              formKey.currentState != null &&
-                              formKey.currentState!.validate()
-                          ? () async {
-                              bool isSuccessKakaoSignUp =
-                                  await _userRepository.kakaoSignUp(
-                                phone: phoneText!,
-                                gender: gender!,
-                                birthday: convertDateTimeToDateString(
-                                    datetime: birthday!),
-                                region: location!,
-                              );
-
-                              if (isSuccessKakaoSignUp) {
-                                Navigator.of(context).pushNamedAndRemoveUntil(
-                                  RouteNames.root,
-                                  (route) => false,
-                                );
-                              } else {
-                                Navigator.of(context).pop();
-                                showCustomToast(
-                                  widget.beforeContext,
-                                  msg: "계정 문제로 인해 \n카카오로 시작할 수 없습니다.",
-                                );
-                              }
-
-                              // final isSuccessSignIn =
-                              // await _userRepository.signUp(
-                              //   email: emailText!,
-                              //   password: passwordText!,
-                              //   phone: phoneText!,
-                              //   birthday: convertDateTimeToOnlyDateString(
-                              //     datetime: birthday!,
-                              //   ),
-                              //   gender: gender!,
-                              //   region: location!,
-                              //   signUpType: SignUpType.email,
-                              // );
-                              //
-                              // if (isSuccessSignIn) {
-                              //   Navigator.of(context).pushNamed(
-                              //     RouteNames.terms,
-                              //   );
-                              // } else {
-                              //   showCustomToast(
-                              //     context,
-                              //     msg: '오류 메세지 입니다.',
-                              //   );
-                              // }
+                      ),
+                      const SizedBox(width: 16.0),
+                      Expanded(
+                        child: CustomDropDownButton(
+                          dropdownList: List<String>.generate(100, (index) {
+                            return "${now.year - index} 년";
+                          }),
+                          defaultValue: birthday == null
+                              ? "${now.year} 년"
+                              : "${birthday!.year} 년",
+                          onChanged: (String? value) {
+                            if (value == null) {
+                              return;
                             }
-                          : null,
-                      style: defaultButtonStyle,
-                      child: const Text('다음'),
-                    )
-                  ],
-                ),
+                            int selectedYear =
+                                int.parse(value.split(' ').first);
+                            birthday = DateTime(selectedYear);
+                            setState(() {});
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16.0),
+                  Row(
+                    children: [
+                      const SizedBox(
+                        width: 120.0,
+                        child: Text(
+                          '거주지역',
+                          style: bodyMediumTextStyle,
+                        ),
+                      ),
+                      const SizedBox(width: 16.0),
+                      Expanded(
+                        child: CustomDropDownButton(
+                          dropdownList: registerLocation,
+                          defaultValue: location == null ? '선택' : location!,
+                          onChanged: (String? value) {
+                            location = value;
+                            setState(() {});
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 32.0),
+                  ElevatedButton(
+                    onPressed: gender != null &&
+                            birthday != null &&
+                            location != null &&
+                            location!.isNotEmpty &&
+                            location != '선택'
+                        ? () async {
+                            bool isSuccessKakaoSignUp =
+                                await _userRepository.kakaoSignUp(
+                              gender: gender!,
+                              birthday: convertDateTimeToDateString(
+                                  datetime: birthday!),
+                              region: location!,
+                            );
+
+                            if (isSuccessKakaoSignUp) {
+                              Navigator.of(context).pushNamedAndRemoveUntil(
+                                RouteNames.root,
+                                (route) => false,
+                              );
+                            } else {
+                              Navigator.of(context).pop();
+                              showCustomToast(
+                                context,
+                                msg: "계정 문제로 인해 \n카카오로 시작할 수 없습니다.",
+                              );
+                            }
+                          }
+                        : null,
+                    style: defaultButtonStyle,
+                    child: const Text('다음'),
+                  )
+                ],
               ),
             ),
           ),

@@ -31,7 +31,6 @@ abstract class UserRepositoryInterface {
   Future<bool> resetPassword();
 
   Future<bool> kakaoSignUp({
-    required String phone,
     required bool gender,
     required String birthday,
     required String region,

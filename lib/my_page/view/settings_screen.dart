@@ -55,9 +55,9 @@ class SettingsScreen extends StatelessWidget {
                     description: userModel.gender ? '남자' : '여자',
                   ),
                   renderDescriptionRow(
-                    title: '생년월일',
-                    description: convertDateTimeToDateString(
-                        datetime: userModel.birthday),
+                    title: '출생년도',
+                    description:
+                        "${convertDateTimeToDateString(datetime: userModel.birthday).split('-').first} 년",
                   ),
                   renderDescriptionRow(
                     title: '지역',

@@ -430,7 +430,7 @@ class UserRepository extends UserRepositoryInterface {
 
       return responseData.data!;
     } catch (e) {
-      debugPrint('UserRepository verifyUser Error: ${e.toString()}');
+      debugPrint('UserRepository withdraw Error: ${e.toString()}');
       // TODO: 무슨 오류인지 제어해야함, 휴대폰번호가 있는지 등등
       return false;
     }
@@ -468,7 +468,7 @@ class UserRepository extends UserRepositoryInterface {
 
       return responseData.data!['maskEmail'] as String;
     } catch (e) {
-      debugPrint('UserRepository verifyUser Error: ${e.toString()}');
+      debugPrint('UserRepository findEmail Error: ${e.toString()}');
       // TODO: 무슨 오류인지 제어해야함, 휴대폰번호가 있는지 등등
       return null;
     }
@@ -479,16 +479,89 @@ class UserRepository extends UserRepositoryInterface {
     required String email,
     required DateTime birthday,
     required String phone,
-  }) {
-    // TODO: implement findPassword
-    throw UnimplementedError();
+  }) async {
+    try {
+      final resp = await _dio.post(
+        Url.findPassword,
+        data: {
+          "email": email,
+          "phone": phone,
+          "birthday": convertDateTimeToDateString(datetime: birthday),
+        },
+      );
+
+      print('이메일 찾기');
+      print(resp.data);
+      // {message: 이메일 찾기 성공, data: {maskEmail: j***0022@hanmail.net}}
+
+      if (resp.statusCode == null ||
+          resp.statusCode! < 200 ||
+          resp.statusCode! > 400) {
+        return false;
+      }
+
+      ApiResponse<Map<String, dynamic>> responseData =
+          ApiResponse<Map<String, dynamic>>.fromJson(json: resp.data);
+      print("findPassword responseData: $responseData");
+
+      if (responseData.data == null) {
+        return false;
+      }
+      TokenModel tokenModel = TokenModel.fromJson(json: responseData.data!);
+      print('tokenModel: $tokenModel');
+
+      return true;
+    } catch (e) {
+      debugPrint('UserRepository findPassword Error: ${e.toString()}');
+      return false;
+    }
   }
 
   @override
   Future<bool> changePassword({
     required String newPassword,
-  }) {
-    // TODO: implement changePassword
-    throw UnimplementedError();
+  }) async {
+    try {
+      Codec<String, String> stringToBase64 = utf8.fuse(base64);
+      String encodingPassword = stringToBase64.encode(newPassword);
+
+      print(TokenModel.instance?.accessToken);
+
+      final resp = await _dio.put(
+        Url.changePassword,
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json',
+            "Authorization": "Bearer ${TokenModel.instance?.accessToken}",
+          },
+        ),
+        data: {
+          "newPassword": encodingPassword,
+        },
+      );
+
+      print('비밀번호 변경 찾기');
+      print(resp.data);
+
+      if (resp.statusCode == null ||
+          resp.statusCode! < 200 ||
+          resp.statusCode! > 400) {
+        return false;
+      }
+      // {message: 비밀번호 변경 성공, data: 2023-10-07T10:27:34.45788}
+
+      ApiResponse<DateTime> responseData =
+          ApiResponse<DateTime>.fromJson(json: resp.data);
+      print("findPassword responseData: $responseData");
+
+      if (responseData.data == null) {
+        return false;
+      }
+
+      return true;
+    } catch (e) {
+      debugPrint('UserRepository findPassword Error: ${e.toString()}');
+      return false;
+    }
   }
 }

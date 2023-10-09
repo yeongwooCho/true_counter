@@ -20,6 +20,8 @@ import 'package:true_counter/user/model/user_model.dart';
 import 'package:true_counter/user/view/email_login_screen.dart';
 import 'package:true_counter/user/view/find_email_completion_screen.dart';
 import 'package:true_counter/user/view/find_email_screen.dart';
+import 'package:true_counter/user/view/find_password_change_screen.dart';
+import 'package:true_counter/user/view/find_password_completion_screen.dart';
 import 'package:true_counter/user/view/find_password_screen.dart';
 import 'package:true_counter/user/view/email_register_completion_screen.dart';
 import 'package:true_counter/user/view/email_register_screen.dart';
@@ -42,6 +44,8 @@ class RouteNames {
   static const String findEmail = '/find/email';
   static const String findEmailCompletion = '/find/email/completion';
   static const String findPassword = '/find/password';
+  static const String findPasswordChange = '/find/password/change';
+  static const String findPasswordCompletion = '/find/password/completion';
   static const String emailRegisterCompletion = '/email/register/completion';
 
   // kakao sign up
@@ -106,7 +110,8 @@ Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
     return FindEmailCompletionScreen(email: args.data);
   },
   RouteNames.findPassword: (_) => FindPasswordScreen(),
-  RouteNames.emailRegisterCompletion: (_) => EmailRegisterCompletionScreen(),
+  RouteNames.findPasswordChange: (_) => FindPasswordChangeScreen(),
+  RouteNames.findPasswordCompletion: (_) => FindPasswordCompletionScreen(),
 
   // kakao
   RouteNames.kakaoRegister: (_) => KakaoRegisterScreen(),

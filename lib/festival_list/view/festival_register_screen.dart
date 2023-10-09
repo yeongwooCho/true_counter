@@ -217,7 +217,7 @@ class _FestivalRegisterScreenState extends State<FestivalRegisterScreen> {
                           title: festivalTitle!,
                           applicant: applicant!,
                           applicantPhone: applicantPhone!,
-                          message: message!,
+                          message: message ?? "",
                           latitude: latitude,
                           longitude: longitude,
                           radius: radius,

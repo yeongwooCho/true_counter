@@ -57,6 +57,22 @@ class _FestivalRegisterScreenState extends State<FestivalRegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(festivalTitle);
+    print(festivalTitle.runtimeType);
+    print(applicant);
+    print(applicant.runtimeType);
+    print(applicantPhone);
+    print(applicantPhone.runtimeType);
+
+    print(startAt);
+    print(startAt.runtimeType);
+    print(endAt);
+    print(endAt.runtimeType);
+    print(message);
+    print(message.runtimeType);
+    print(address);
+    print(address.runtimeType);
+
     return DefaultLayout(
       appbar: const DefaultAppBar(
         title: '행사 등록 신청',
@@ -74,6 +90,7 @@ class _FestivalRegisterScreenState extends State<FestivalRegisterScreen> {
                 title: '행사명',
                 onChanged: (String? value) {
                   festivalTitle = value;
+                  setState(() {});
                 },
                 onSaved: (String? value) {},
                 validator: (String? value) {
@@ -87,6 +104,7 @@ class _FestivalRegisterScreenState extends State<FestivalRegisterScreen> {
                 title: '주최자/단체 이름',
                 onChanged: (String? value) {
                   applicant = value;
+                  setState(() {});
                 },
                 onSaved: (String? value) {},
                 validator: (String? value) {
@@ -100,6 +118,7 @@ class _FestivalRegisterScreenState extends State<FestivalRegisterScreen> {
                 title: '주최자/단체 연락처',
                 onChanged: (String? value) {
                   applicantPhone = value;
+                  setState(() {});
                 },
                 onSaved: (String? value) {},
                 validator: (String? value) {
@@ -147,6 +166,7 @@ class _FestivalRegisterScreenState extends State<FestivalRegisterScreen> {
                   } else {
                     endAt = date;
                   }
+                  setState(() {});
                 },
               ),
               const SizedBox(height: 24.0),
@@ -156,6 +176,7 @@ class _FestivalRegisterScreenState extends State<FestivalRegisterScreen> {
                   hintText: '500자 이내',
                   onChanged: (String? value) {
                     message = value;
+                    setState(() {});
                   },
                   onSaved: (String? value) {},
                   validator: (String? value) {
@@ -253,7 +274,9 @@ class _FestivalRegisterScreenState extends State<FestivalRegisterScreen> {
   void onTapRadius({
     required double radius,
   }) {
-    this.radius = radius;
+    setState(() {
+      this.radius = radius;
+    });
   }
 
   Future<void> onTapKakaoAddress() async {

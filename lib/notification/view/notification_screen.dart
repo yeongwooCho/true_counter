@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:true_counter/common/component/custom_list_card.dart';
 import 'package:true_counter/common/const/colors.dart';
+import 'package:true_counter/common/const/text_style.dart';
 import 'package:true_counter/common/layout/default_appbar.dart';
 import 'package:true_counter/common/layout/default_layout.dart';
 import 'package:true_counter/common/model/screen_arguments.dart';
@@ -45,48 +46,56 @@ class NotificationScreen extends StatelessWidget {
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: CustomListScreen(
-          itemCount: notifications.length,
-          itemBuilder: (BuildContext context, int index) {
-            return GestureDetector(
-              onLongPress: () {
-                if (UserModel.current != null &&
-                    adminEmails.contains(UserModel.current!.email)) {
-                  showAlert(
-                    context: context,
-                    titleWidget: const Text('해당 공지를 삭제하시겠습니까?'),
-                    completeText: '확인',
-                    completeFunction: () {
-                      provider.deleteNotification(
-                        id: notifications[index].id,
-                        title: notifications[index].title,
-                        content: notifications[index].content,
-                      );
-                      Navigator.pop(context);
+        child: notifications.isEmpty
+            ? Center(
+                child: Text(
+                  '현재 등록된 공지가\n존재하지 않습니다.',
+                  style: bodyMediumTextStyle.copyWith(color: DARK_GREY_COLOR),
+                  textAlign: TextAlign.center,
+                ),
+              )
+            : CustomListScreen(
+                itemCount: notifications.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return GestureDetector(
+                    onLongPress: () {
+                      if (UserModel.current != null &&
+                          adminEmails.contains(UserModel.current!.email)) {
+                        showAlert(
+                          context: context,
+                          titleWidget: const Text('해당 공지를 삭제하시겠습니까?'),
+                          completeText: '확인',
+                          completeFunction: () {
+                            provider.deleteNotification(
+                              id: notifications[index].id,
+                              title: notifications[index].title,
+                              content: notifications[index].content,
+                            );
+                            Navigator.pop(context);
+                          },
+                          cancelText: "취소",
+                          cancelFunction: () {
+                            Navigator.of(context).pop();
+                          },
+                        );
+                      }
                     },
-                    cancelText: "취소",
-                    cancelFunction: () {
-                      Navigator.of(context).pop();
-                    },
-                  );
-                }
-              },
-              child: CustomListCard(
-                title: notifications[index].title,
-                description:
-                    "등록일자: ${convertDateTimeToMinute(datetime: notifications[index].createdAt)}",
-                onTap: () {
-                  Navigator.of(context).pushNamed(
-                    RouteNames.notificationDetail,
-                    arguments: ScreenArguments<NotificationModel>(
-                      data: notifications[index],
+                    child: CustomListCard(
+                      title: notifications[index].title,
+                      description:
+                          "등록일자: ${convertDateTimeToMinute(datetime: notifications[index].createdAt)}",
+                      onTap: () {
+                        Navigator.of(context).pushNamed(
+                          RouteNames.notificationDetail,
+                          arguments: ScreenArguments<NotificationModel>(
+                            data: notifications[index],
+                          ),
+                        );
+                      },
                     ),
                   );
                 },
               ),
-            );
-          },
-        ),
       ),
     );
   }

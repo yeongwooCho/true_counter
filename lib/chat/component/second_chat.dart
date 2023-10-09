@@ -6,8 +6,8 @@ import 'package:true_counter/common/util/datetime.dart';
 
 class SecondChat extends StatelessWidget {
   final ChatModel chat;
-  final void Function()? onTapLike;
-  final void Function()? onTapDeclaration;
+  final void Function() onTapLike;
+  final void Function() onTapDeclaration;
 
   const SecondChat({
     Key? key,
@@ -66,14 +66,50 @@ class SecondChat extends StatelessWidget {
                               width: 1.0,
                               height: 16.0,
                             ),
-                            IconButton(
-                              onPressed: onTapDeclaration,
-                              icon: const Icon(
-                                Icons.notification_important_outlined,
-                                color: WHITE_TEXT_COLOR,
-                              ),
-                              iconSize: 16.0,
-                            )
+                            // IconButton(
+                            //   onPressed: onTapDeclaration,
+                            //   icon: const Icon(
+                            //     Icons.notification_important_outlined,
+                            //     color: WHITE_TEXT_COLOR,
+                            //   ),
+                            //   iconSize: 16.0,
+                            // )
+                            DropdownButton(
+                              padding: const EdgeInsets.only(left: 12.0, right: 8.0),
+                              icon: null,
+                              iconSize: 0.0,
+                              menuMaxHeight: 200.0,
+                              isExpanded: false,
+                              underline: const SizedBox(height: 1.0),
+                              style: descriptionTextStyle,
+                              value: "",
+                              items: ["", '삭제', '신고'].map((String item) {
+                                if (item == "") {
+                                  return DropdownMenuItem<String>(
+                                    enabled: false,
+                                    alignment: Alignment.center,
+                                    value: item,
+                                    child: const Icon(
+                                      Icons.keyboard_arrow_down_rounded,
+                                      color: LIGHT_GREY_COLOR,
+                                    ),
+                                  );
+                                }
+                                return DropdownMenuItem<String>(
+                                  alignment: Alignment.center,
+                                  value: item,
+                                  child: Text(item),
+                                );
+                              }).toList(),
+                              onChanged: (String? value) {
+                                if (value == "신고") {
+                                  onTapDeclaration();
+                                } else if (value == "삭제") {
+                                  // TODO: 댓글 삭제하기
+                                  print(value);
+                                }
+                              },
+                            ),
                           ],
                         ),
                       )

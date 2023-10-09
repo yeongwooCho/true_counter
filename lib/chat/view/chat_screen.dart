@@ -62,11 +62,6 @@ class _ChatScreenState extends State<ChatScreen> {
                       chatId: widget.chats[index].id,
                       festivalId: widget.festivalId,
                     );
-
-                    // await like(
-                    //   context: context,
-                    //   chatId: widget.chats[index].id,
-                    // );
                   },
                   onTapDeclaration: () async {
                     festivalProvider.pushDeclaration(
@@ -74,11 +69,6 @@ class _ChatScreenState extends State<ChatScreen> {
                       chatId: widget.chats[index].id,
                       festivalId: widget.festivalId,
                     );
-
-                    // await declaration(
-                    //   context: context,
-                    //   chatId: widget.chats[index].id,
-                    // );
                   },
                 );
               } else {
@@ -90,11 +80,6 @@ class _ChatScreenState extends State<ChatScreen> {
                       chatId: widget.chats[index].id,
                       festivalId: widget.festivalId,
                     );
-
-                    // await like(
-                    //   context: context,
-                    //   chatId: widget.chats[index].id,
-                    // );
                   },
                   onTapDeclaration: () {
                     festivalProvider.pushDeclaration(
@@ -102,67 +87,10 @@ class _ChatScreenState extends State<ChatScreen> {
                       chatId: widget.chats[index].id,
                       festivalId: widget.festivalId,
                     );
-
-                    // await declaration(
-                    //   context: context,
-                    //   chatId: widget.chats[index].id,
-                    // );
                   },
                 );
               }
             },
           );
   }
-
-// Future<void> like({
-//   required BuildContext context,
-//   required int chatId,
-// }) async {
-//   final bool isSuccess = await festivalRepository.pushLike(chatId: chatId);
-//
-//   if (isSuccess) {
-//     showCustomToast(
-//       context,
-//       msg: "좋아요를 표시합니다.",
-//     );
-//   } else {
-//     showCustomToast(
-//       context,
-//       msg: "정상적이지 못한 요청입니다.",
-//     );
-//   }
-// }
-//
-// Future<void> declaration({
-//   required BuildContext context,
-//   required int chatId,
-// }) async {
-//   showAlert(
-//     context: context,
-//     titleWidget: const Text('신고를 원하시면\n확인을 눌러주세요.'),
-//     completeText: "신고하기",
-//     completeFunction: () async {
-//       final bool isSuccess =
-//           await festivalRepository.pushDeclaration(chatId: chatId);
-//
-//       if (isSuccess) {
-//         showCustomToast(
-//           context,
-//           msg: "신고가 완료 되었습니다.",
-//         );
-//       } else {
-//         showCustomToast(
-//           context,
-//           msg: "정상적이지 못한 요청입니다.",
-//         );
-//       }
-//
-//       Navigator.of(context).pop();
-//     },
-//     cancelText: "취소",
-//     cancelFunction: () {
-//       Navigator.of(context).pop();
-//     },
-//   );
-// }
 }

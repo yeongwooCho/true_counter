@@ -175,6 +175,7 @@ class FestivalProvider extends ChangeNotifier {
       final FestivalModel tempFestivalModel = cache[festivalId]!;
       final ChatModel tempChat = tempFestivalModel.chats.where((element) => element.id == chatId).first;
       tempChat.chatLike = resp;
+      showCustomToast(context, msg: "좋아요를 눌렀습니다.");
 
       // cache.update(
       //   festivalId,
@@ -202,6 +203,8 @@ class FestivalProvider extends ChangeNotifier {
 
     if (!resp) {
       showCustomToast(context, msg: "이미 신고한 댓글입니다.");
+    } else {
+      showCustomToast(context, msg: "신고가 완료 되었습니다.");
     }
 
     notifyListeners();

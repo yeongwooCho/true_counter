@@ -25,7 +25,11 @@ class NotificationProvider extends ChangeNotifier {
 
     if (!cache.keys.contains(latestCreatedAt)) {
       cache.clear();
-      cache.update(latestCreatedAt, (value) => resp, ifAbsent: () => resp);
+      cache.update(
+        latestCreatedAt,
+        (value) => resp.reversed.toList(),
+        ifAbsent: () => resp.reversed.toList(),
+      );
     }
 
     notifyListeners();

@@ -39,32 +39,42 @@ class SettingsScreen extends StatelessWidget {
                     style: headTitleTextStyle,
                   ),
                   const SizedBox(height: 24.0),
-                  renderDescriptionRow(
-                    title: '이메일',
-                    description: userModel.email,
-                  ),
-                  renderDescriptionRow(
-                    title: '닉네임',
-                    description: userModel.nickname,
-                  ),
+                  if (userModel.email.isNotEmpty)
+                    renderDescriptionRow(
+                      title: '이메일',
+                      description: userModel.email,
+                    ),
+                  if (userModel.nickname.isNotEmpty)
+                    renderDescriptionRow(
+                      title: '닉네임',
+                      description: userModel.nickname,
+                    ),
                   if (userModel.signupType == SignUpType.email)
                     renderDescriptionRow(
                       title: '연락처',
                       description: userModel.phone,
                     ),
-                  renderDescriptionRow(
-                    title: '성별',
-                    description: userModel.gender ? '남자' : '여자',
-                  ),
-                  renderDescriptionRow(
-                    title: '출생년도',
-                    description:
-                        "${convertDateTimeToDateString(datetime: userModel.birthday).split('-').first} 년",
-                  ),
-                  renderDescriptionRow(
-                    title: '지역',
-                    description: userModel.region,
-                  ),
+                  if (userModel.phone.isNotEmpty)
+                    renderDescriptionRow(
+                      title: '연락처',
+                      description: userModel.phone,
+                    ),
+                  if (userModel.email.isNotEmpty)
+                    renderDescriptionRow(
+                      title: '성별',
+                      description: userModel.gender ? '남자' : '여자',
+                    ),
+                  if (userModel.email.isNotEmpty)
+                    renderDescriptionRow(
+                      title: '출생년도',
+                      description:
+                          "${convertDateTimeToDateString(datetime: userModel.birthday).split('-').first} 년",
+                    ),
+                  if (userModel.region.isNotEmpty)
+                    renderDescriptionRow(
+                      title: '지역',
+                      description: userModel.region,
+                    ),
                 ],
               ),
             ),

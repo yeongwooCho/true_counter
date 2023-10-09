@@ -104,7 +104,7 @@ class _CustomChartState extends State<CustomChart> {
     return SideTitles(
       showTitles: true,
       reservedSize: 20, // text height
-      interval: participants.length / 8,
+      interval: participants.length ~/ 8 != 0 ? participants.length / 8 : 1.0,
       getTitlesWidget: (double value, TitleMeta meta) {
         late String title;
         switch (value.toInt()) {

@@ -188,8 +188,6 @@ class _FindEmailScreenState extends State<FindEmailScreen> {
                                   isValidCertification = true;
                                   certificationFocus?.unfocus();
 
-                                  birthday = DateTime(2022, 10, 16);
-
                                   showCustomToast(
                                     context,
                                     msg: '정상적으로 확인되었습니다.',
@@ -216,7 +214,7 @@ class _FindEmailScreenState extends State<FindEmailScreen> {
                           isLoading = true;
                           setState(() {});
                           final userEmail = await userRepository.findEmail(
-                            birthday: DateTime(2025, 10, 6),
+                            birthday: birthday!,
                             phone: phoneText!,
                           );
                           isLoading = false;

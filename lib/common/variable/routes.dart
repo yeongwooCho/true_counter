@@ -18,6 +18,7 @@ import 'package:true_counter/notification/view/notification_detail_screen.dart';
 import 'package:true_counter/notification/view/notification_screen.dart';
 import 'package:true_counter/user/model/user_model.dart';
 import 'package:true_counter/user/view/email_login_screen.dart';
+import 'package:true_counter/user/view/find_email_completion_screen.dart';
 import 'package:true_counter/user/view/find_email_screen.dart';
 import 'package:true_counter/user/view/find_password_screen.dart';
 import 'package:true_counter/user/view/email_register_completion_screen.dart';
@@ -39,6 +40,7 @@ class RouteNames {
   static const String termsProviding = '/terms/providing';
   static const String emailRegister = '/email/register';
   static const String findEmail = '/find/email';
+  static const String findEmailCompletion = '/find/email/completion';
   static const String findPassword = '/find/password';
   static const String emailRegisterCompletion = '/email/register/completion';
 
@@ -98,6 +100,11 @@ Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
   RouteNames.termsProviding: (_) => TermsProvidingInfoScreen(),
   RouteNames.emailRegister: (_) => EmailRegisterScreen(),
   RouteNames.findEmail: (_) => FindEmailScreen(),
+  RouteNames.findEmailCompletion: (context) {
+    final args =
+        ModalRoute.of(context)?.settings.arguments as ScreenArguments<String>;
+    return FindEmailCompletionScreen(email: args.data);
+  },
   RouteNames.findPassword: (_) => FindPasswordScreen(),
   RouteNames.emailRegisterCompletion: (_) => EmailRegisterCompletionScreen(),
 

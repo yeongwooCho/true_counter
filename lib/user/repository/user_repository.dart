@@ -7,6 +7,7 @@ import 'package:true_counter/common/model/api_response.dart';
 import 'package:true_counter/common/model/app_info.dart';
 import 'package:true_counter/common/repository/local_storage.dart';
 import 'package:true_counter/common/repository/urls.dart';
+import 'package:true_counter/common/util/datetime.dart';
 import 'package:true_counter/my_settings.dart';
 import 'package:true_counter/user/model/enum/sign_up_type.dart';
 import 'package:true_counter/user/model/kakao_request_model.dart';
@@ -308,30 +309,6 @@ class UserRepository extends UserRepositoryInterface {
   }
 
   @override
-  Future<bool> findEmail() {
-    // TODO: implement findEmail
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<bool> resetPassword() {
-    // TODO: implement resetPassword
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<bool> appleSignIn() {
-    // TODO: implement appleSignIn
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<bool> appleSignUp() {
-    // TODO: implement appleSignUp
-    throw UnimplementedError();
-  }
-
-  @override
   Future<bool> kakaoSignIn() async {
     try {
       print('\n카카오 로그인 시작');
@@ -414,6 +391,18 @@ class UserRepository extends UserRepositoryInterface {
   }
 
   @override
+  Future<bool> appleSignIn() {
+    // TODO: implement appleSignIn
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<bool> appleSignUp() {
+    // TODO: implement appleSignUp
+    throw UnimplementedError();
+  }
+
+  @override
   Future<bool> withdraw() async {
     try {
       final resp = await _dio.post(
@@ -445,5 +434,61 @@ class UserRepository extends UserRepositoryInterface {
       // TODO: 무슨 오류인지 제어해야함, 휴대폰번호가 있는지 등등
       return false;
     }
+  }
+
+  @override
+  Future<String?> findEmail({
+    required String phone,
+    required DateTime birthday,
+  }) async {
+    try {
+      final resp = await _dio.post(
+        Url.findEmail,
+        data: {
+          "phone": phone,
+          "birthday": convertDateTimeToDateString(datetime: birthday),
+        },
+      );
+
+      print('이메일 찾기');
+      print(resp.data);
+      // {message: 이메일 찾기 성공, data: {maskEmail: j***0022@hanmail.net}}
+
+      if (resp.statusCode == null ||
+          resp.statusCode! < 200 ||
+          resp.statusCode! > 400) {
+        return null;
+      }
+      ApiResponse<Map<String, dynamic>> responseData =
+          ApiResponse<Map<String, dynamic>>.fromJson(json: resp.data);
+
+      if (responseData.data == null) {
+        return null;
+      }
+
+      return responseData.data!['maskEmail'] as String;
+    } catch (e) {
+      debugPrint('UserRepository verifyUser Error: ${e.toString()}');
+      // TODO: 무슨 오류인지 제어해야함, 휴대폰번호가 있는지 등등
+      return null;
+    }
+  }
+
+  @override
+  Future<bool> findPassword({
+    required String email,
+    required DateTime birthday,
+    required String phone,
+  }) {
+    // TODO: implement findPassword
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<bool> changePassword({
+    required String newPassword,
+  }) {
+    // TODO: implement changePassword
+    throw UnimplementedError();
   }
 }

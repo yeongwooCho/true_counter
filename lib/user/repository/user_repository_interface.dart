@@ -26,10 +26,6 @@ abstract class UserRepositoryInterface {
 
   Future<bool> tokenReissue();
 
-  Future<bool> findEmail();
-
-  Future<bool> resetPassword();
-
   Future<bool> kakaoSignUp({
     required bool gender,
     required String birthday,
@@ -41,6 +37,21 @@ abstract class UserRepositoryInterface {
   Future<bool> appleSignUp();
 
   Future<bool> appleSignIn();
+
+  Future<String?> findEmail({
+    required DateTime birthday,
+    required String phone,
+  });
+
+  Future<bool> findPassword({
+    required String email,
+    required DateTime birthday,
+    required String phone,
+  });
+
+  Future<bool> changePassword({
+    required String newPassword,
+  });
 
   Future<bool> withdraw();
 }

@@ -10,8 +10,9 @@ class Url {
   static String signIn = "$baseUrl/auth/sign-in";
   static String tokenSignIn = "$baseUrl/auth/test";
   static String reissue = "$baseUrl/auth/reissue";
-  static String findEmail = "$baseUrl/auth/findEmail";
-  static String findPassword = "$baseUrl/auth/findPassword";
+  static String findEmail = "$baseUrl/auth/find-email";
+  static String findPassword = "$baseUrl/auth/find-password";
+  static String changePassword = "$baseUrl/members/password";
 
   // notification
   // Create, Read

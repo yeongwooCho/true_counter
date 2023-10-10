@@ -17,7 +17,7 @@ class Url {
 
   // notification
   // Create, Read
-  static String noticeBoard = "$baseUrl/notice-board";
+  static String noticeBoard = "$baseUrl/notice-boards";
 
   // Update, Delete
   // static String noticeBoard = "$baseUrl/notice-board/1";

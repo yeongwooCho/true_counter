@@ -106,12 +106,23 @@ class FestivalProvider extends ChangeNotifier {
     final resp = await repository.deleteChat(chatId: chatId);
     if (resp) {
       cache.update(festivalId, (value) {
-        value.chats = value.chats
-            .where((element) =>
-                element.id == chatId &&
-                element.nickName == UserModel.current!.nickname)
-            .toList();
+        final tempChats = value.chats;
+        value.chats = tempChats.map((e) {
+          if (e.id == chatId) {
+            e.content = "댓글이 삭제 되었습니다.";
+            return e;
+          } else {
+            return e;
+          }
+        }).toList();
         return value;
+        // if(value.chats == chatId){
+        //   return value.c
+        // }
+        // ChatModel chat = value.chats.where((element) => element.id == chatId).first;
+        // chat.content = "댓글이 삭제 되었습니다.";
+        // value.chats = .add(chat);
+        // return value;
       });
     }
 

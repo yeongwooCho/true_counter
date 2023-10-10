@@ -67,7 +67,7 @@ class UserRepository extends UserRepositoryInterface {
       final resp = await _dio.get(
         Url.userInfo,
         options: Options(
-          // headers: UserModel.getHeaders(),
+          headers: UserModel.getHeaders(),
         ),
       );
 

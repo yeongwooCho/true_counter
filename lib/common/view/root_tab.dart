@@ -18,7 +18,7 @@ class RootTab extends StatefulWidget {
 
 class _RootTabState extends State<RootTab> with TickerProviderStateMixin {
   TabController? controller;
-  UserRepositoryInterface _userRepository = UserRepository();
+  final UserRepositoryInterface _userRepository = UserRepository();
   bool isLoading = false;
 
   @override
@@ -114,7 +114,7 @@ class _RootTabState extends State<RootTab> with TickerProviderStateMixin {
 
   Future<bool> getUserInfo() async {
     final isSuccessGetUserInfo = await _userRepository.userInfo();
-    debugPrint("스플레시 로그인 성공?: $isSuccessGetUserInfo");
+    debugPrint("유저정보 가져오기 성공?: $isSuccessGetUserInfo");
     return isSuccessGetUserInfo;
   }
 

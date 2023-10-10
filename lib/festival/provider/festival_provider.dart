@@ -99,6 +99,25 @@ class FestivalProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void deleteChat({
+    required int festivalId,
+    required int chatId,
+  }) async {
+    final resp = await repository.deleteChat(chatId: chatId);
+    if (resp) {
+      cache.update(festivalId, (value) {
+        value.chats = value.chats
+            .where((element) =>
+                element.id == chatId &&
+                element.nickName == UserModel.current!.nickname)
+            .toList();
+        return value;
+      });
+    }
+
+    notifyListeners();
+  }
+
   void participateFestival({
     required int festivalId,
   }) async {
@@ -173,7 +192,9 @@ class FestivalProvider extends ChangeNotifier {
 
     if (resp != null) {
       final FestivalModel tempFestivalModel = cache[festivalId]!;
-      final ChatModel tempChat = tempFestivalModel.chats.where((element) => element.id == chatId).first;
+      final ChatModel tempChat = tempFestivalModel.chats
+          .where((element) => element.id == chatId)
+          .first;
       tempChat.chatLike = resp;
       showCustomToast(context, msg: "좋아요를 눌렀습니다.");
 

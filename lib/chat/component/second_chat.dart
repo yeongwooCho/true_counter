@@ -8,12 +8,14 @@ class SecondChat extends StatelessWidget {
   final ChatModel chat;
   final void Function() onTapLike;
   final void Function() onTapDeclaration;
+  final void Function() onTapDelete;
 
   const SecondChat({
     Key? key,
     required this.chat,
     required this.onTapLike,
     required this.onTapDeclaration,
+    required this.onTapDelete,
   }) : super(key: key);
 
   @override
@@ -75,7 +77,8 @@ class SecondChat extends StatelessWidget {
                             //   iconSize: 16.0,
                             // )
                             DropdownButton(
-                              padding: const EdgeInsets.only(left: 12.0, right: 8.0),
+                              padding:
+                                  const EdgeInsets.only(left: 12.0, right: 8.0),
                               icon: null,
                               iconSize: 0.0,
                               menuMaxHeight: 200.0,
@@ -107,6 +110,7 @@ class SecondChat extends StatelessWidget {
                                 } else if (value == "삭제") {
                                   // TODO: 댓글 삭제하기
                                   print(value);
+                                  onTapDelete();
                                 }
                               },
                             ),

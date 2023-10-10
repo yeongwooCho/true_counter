@@ -70,6 +70,12 @@ class _ChatScreenState extends State<ChatScreen> {
                       festivalId: widget.festivalId,
                     );
                   },
+                  onTapDelete: () {
+                    festivalProvider.deleteChat(
+                      festivalId: widget.festivalId,
+                      chatId: widget.chats[index].id,
+                    );
+                  },
                 );
               } else {
                 return SecondChat(
@@ -86,6 +92,12 @@ class _ChatScreenState extends State<ChatScreen> {
                       context: context,
                       chatId: widget.chats[index].id,
                       festivalId: widget.festivalId,
+                    );
+                  },
+                  onTapDelete: () {
+                    festivalProvider.deleteChat(
+                      festivalId: widget.festivalId,
+                      chatId: widget.chats[index].id,
                     );
                   },
                 );

@@ -175,6 +175,42 @@ class FestivalRepository {
     }
   }
 
+  Future<bool> deleteChat({
+    required int chatId,
+  }) async {
+    try {
+      final resp = await _dio.delete(
+        "${Url.festivalChats}/$chatId",
+        options: Options(
+          headers: UserModel.getHeaders(),
+        ),
+      );
+
+      if (resp.statusCode == null ||
+          resp.statusCode! < 200 ||
+          resp.statusCode! > 400) {
+        return false;
+      }
+
+      print('댓글 삭제');
+      print(chatId); // 91
+      print(resp.data);
+      // I/flutter ( 9340): {message: 댓글 삭제 성공, data: 91}
+
+      ApiResponse<int> responseData =
+          ApiResponse<int>.fromJson(json: resp.data);
+
+      if (responseData.data == null || chatId != responseData.data) {
+        return false;
+      }
+
+      return true;
+    } catch (e) {
+      debugPrint('FestivalRepository getFestival Error: ${e.toString()}');
+      return false;
+    }
+  }
+
   Future<bool> participateFestival({
     required int festivalId,
   }) async {

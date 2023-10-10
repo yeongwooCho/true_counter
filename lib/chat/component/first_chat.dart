@@ -10,6 +10,7 @@ class FirstChat extends StatelessWidget {
   final void Function({required int parentChatId}) changeParentId;
   final void Function() onTapLike;
   final void Function() onTapDeclaration;
+  final void Function() onTapDelete;
 
   const FirstChat({
     Key? key,
@@ -17,6 +18,7 @@ class FirstChat extends StatelessWidget {
     required this.changeParentId,
     required this.onTapLike,
     required this.onTapDeclaration,
+    required this.onTapDelete,
   }) : super(key: key);
 
   @override
@@ -103,6 +105,7 @@ class FirstChat extends StatelessWidget {
                         } else if (value == "삭제") {
                           // TODO: 댓글 삭제하기
                           print(value);
+                          onTapDelete();
                         }
                       },
                     ),

@@ -35,16 +35,13 @@ class LoggingInterceptor extends Interceptor {
     ResponseInterceptorHandler handler,
   ) async {
     if (Constants.loggingInterceptorEnabled) {
-      print('123123');
-      print(response.requestOptions);
-      print("response.statusMessage: ${response.statusMessage}");
-      print("response.statusCode: ${response.statusCode}"); // 200
-      print(response.realUri.path);
-      print(response.redirects);
-      print(response.hashCode);
       log("---");
       log('--------------- Response (${_format(DateTime.now(), 'mm:ss.mmm')}) ---------------');
-      printWrapped('$response');
+      // printWrapped('$response');
+      log("request path: ${response.requestOptions.path}");
+      log("response status code: ${response.statusCode}");
+      log('response: $response');
+      log('response data: ${response.data}');
       log('---------------------------------------');
       log("---");
     }
@@ -59,26 +56,14 @@ class LoggingInterceptor extends Interceptor {
     if (Constants.loggingInterceptorEnabled) {
       log("---");
       log('--------------- Error (${_format(DateTime.now(), 'mm:ss.mmm')}) ---------------');
-      log('type${err.type}');
-      log('error${err.error}');
-      log('response${err.response}');
-      print(123123);
-      print(err.requestOptions.responseDecoder);
-
-      print("err.response?.extra: ${err.response?.extra}");
-      print("err.response?.data: ${err.response?.data}");
-
-      print("err.requestOptions.receiveDataWhenStatusError: ${err.requestOptions.receiveDataWhenStatusError}");
-      print("err.response?.statusCode: ${err.response?.statusCode}");
-      print("err.response?.statusMessage: ${err.response?.statusMessage}");
-      print(123123);
-      print(err.message);
-      print(err.error);
-      print(
-          "<-- ${err.message} ${(err.response?.requestOptions != null ? (err.response!.requestOptions.baseUrl + err.response!.requestOptions.path) : 'URL')}");
-      print("${err.response != null ? err.response?.data : 'Unknown Error'}");
-      print("<-- End error");
-      print(123123);
+      // log("<-- ${err.message} ${(err.response?.requestOptions != null ? (err.response!.requestOptions.baseUrl + err.response!.requestOptions.path) : 'URL')}");
+      log("<-- ${err.message} ${(err.response?.requestOptions != null ? ("path: ${err.response!.requestOptions.path}") : 'URL')}");
+      log('type: ${err.type}');
+      log('error: ${err.error}');
+      log('error response statusCode: ${err.response?.statusCode}');
+      log('error response: ${err.response}');
+      log('error response data: ${err.response != null ? err.response?.data : 'Unknown Error'}');
+      log("<-- End error");
       log('---------------------------------------');
       log("---");
     }

@@ -49,6 +49,7 @@ dependencies:
   kpostal:  # 카카오 우편 번호
   kakao_map_plugin: ^0.2.1  # 카카오 지도
   geolocator: ^10.1.0
+  flutter_inappwebview: ^5.8.0
 
 
   # Firebase Phone Auth

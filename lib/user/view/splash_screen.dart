@@ -103,9 +103,14 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<bool> getUserInfo() async {
-    final isSuccessGetUserInfo = await _userRepository.userInfo();
-    debugPrint("유저정보 가져오기 성공?: $isSuccessGetUserInfo");
-    return isSuccessGetUserInfo;
+    try {
+      final isSuccessGetUserInfo = await _userRepository.userInfo();
+      debugPrint("유저정보 가져오기 성공?: $isSuccessGetUserInfo");
+      return isSuccessGetUserInfo;
+    } catch (error) {
+      debugPrint('Splash getUserInfo Error: ${error.toString()}');
+      return false;
+    }
   }
 
   Future<bool> autoLogin() async {

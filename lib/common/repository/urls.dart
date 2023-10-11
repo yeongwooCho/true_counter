@@ -4,7 +4,8 @@ class Url {
   static String baseUrl = dotenv.env['BASE_URL']!;
 
   // user
-  static String verifyUser = "$baseUrl/auth/email-duplicate";
+  static String duplicateEmail = "$baseUrl/auth/email-duplicate";
+  static String duplicatePhone = "$baseUrl/auth/phone-duplicate";
   static String userInfo = "$baseUrl/members/my-info";
   static String signUp = "$baseUrl/auth/sign-up";
   static String signIn = "$baseUrl/auth/sign-in";

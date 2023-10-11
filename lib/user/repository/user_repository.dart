@@ -26,12 +26,12 @@ class UserRepository extends UserRepositoryInterface {
   }
 
   @override
-  Future<bool> verifyUser({
+  Future<bool> duplicateEmail({
     required String email,
   }) async {
     try {
       final resp = await _dio.post(
-        Url.verifyUser,
+        Url.duplicateEmail,
         data: {
           "email": email,
         },
@@ -56,6 +56,42 @@ class UserRepository extends UserRepositoryInterface {
       return responseData.data!;
     } catch (e) {
       debugPrint('UserRepository verifyUser Error: ${e.toString()}');
+      // TODO: 무슨 오류인지 제어해야함, 휴대폰번호가 있는지 등등
+      return false;
+    }
+  }
+
+  @override
+  Future<bool> duplicatePhone({
+    required String phone,
+  }) async {
+    try {
+      final resp = await _dio.post(
+        Url.duplicatePhone,
+        data: {
+          "phone": phone,
+        },
+      );
+
+      print('휴대폰 중복확인');
+      print(resp.data);
+      // // {message: 이메일 중복 여부 조회 성공, data: false}
+
+      if (resp.statusCode == null ||
+          resp.statusCode! < 200 ||
+          resp.statusCode! > 400) {
+        return false;
+      }
+      ApiResponse<bool> responseData =
+          ApiResponse<bool>.fromJson(json: resp.data);
+
+      if (responseData.data == null) {
+        return false;
+      }
+
+      return responseData.data!;
+    } catch (e) {
+      debugPrint('UserRepository verifyPhone Error: ${e.toString()}');
       // TODO: 무슨 오류인지 제어해야함, 휴대폰번호가 있는지 등등
       return false;
     }

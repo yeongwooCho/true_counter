@@ -142,7 +142,7 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                                   isLoading = true;
                                 });
                                 final bool isFail = await _userRepository
-                                    .verifyUser(email: emailText!);
+                                    .duplicateEmail(email: emailText!);
                                 setState(() {
                                   isLoading = false;
                                 });
@@ -265,10 +265,30 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                         buttonText: isValidCertification ? '인증 완료' : '인증번호 받기',
                         onPressedButton: isValidCertification ||
                                 phoneText == null ||
-                                phoneText!.isEmpty
+                                phoneText!.isEmpty ||
+                                !phoneFormKey.currentState!.validate()
                             ? null
                             : () async {
-                                isLoading = true;
+                                setState(() {
+                                  isLoading = true;
+                                });
+
+                                final isDuplicate =
+                                    await _userRepository.duplicatePhone(
+                                  phone: phoneText!,
+                                );
+                                if (isDuplicate) {
+                                  showCustomToast(
+                                    context,
+                                    msg: "중복된 번호를 가진\n계정이 존재합니다.",
+                                  );
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                  return;
+                                }
+
+                                // isLoading = true;
                                 isRequestCertification = true;
                                 setState(() {});
 

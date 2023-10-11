@@ -1,8 +1,12 @@
 import 'package:true_counter/user/model/enum/sign_up_type.dart';
 
 abstract class UserRepositoryInterface {
-  Future<bool> verifyUser({
+  Future<bool> duplicateEmail({
     required String email,
+  });
+
+  Future<bool> duplicatePhone({
+    required String phone,
   });
 
   Future<bool> userInfo();

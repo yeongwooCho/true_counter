@@ -1,12 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:true_counter/common/model/api_response.dart';
+import 'package:true_counter/common/repository/base_api.dart';
 import 'package:true_counter/common/repository/urls.dart';
 import 'package:true_counter/notification/model/notification_model.dart';
 import 'package:true_counter/user/model/user_model.dart';
 
 class NotificationRepository {
-  final _dio = Dio();
+  final _dio = BaseDio().buildDio();
 
   Future<List<NotificationModel>> getNotifications() async {
     try {

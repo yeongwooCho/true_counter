@@ -2,13 +2,14 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:true_counter/chat/model/chat_model.dart';
 import 'package:true_counter/common/model/api_response.dart';
+import 'package:true_counter/common/repository/base_api.dart';
 import 'package:true_counter/common/repository/urls.dart';
 import 'package:true_counter/festival/model/enum/status_model.dart';
 import 'package:true_counter/festival/model/festival_model.dart';
 import 'package:true_counter/user/model/user_model.dart';
 
 class FestivalRepository {
-  final _dio = Dio();
+  final _dio = BaseDio().buildDio();
 
   Future<List<FestivalModel>> getFestivals() async {
     print('페스티벌 데이터 받오옵니다.');

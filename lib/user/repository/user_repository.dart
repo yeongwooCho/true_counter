@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:true_counter/common/const/data.dart';
 import 'package:true_counter/common/model/api_response.dart';
 import 'package:true_counter/common/model/app_info.dart';
+import 'package:true_counter/common/repository/base_api.dart';
 import 'package:true_counter/common/repository/local_storage.dart';
 import 'package:true_counter/common/repository/logging_interceptor.dart';
 import 'package:true_counter/common/repository/urls.dart';
@@ -18,12 +19,8 @@ import 'package:true_counter/user/repository/user_repository_interface.dart';
 import 'package:true_counter/user/repository/kakao_auth_repository.dart';
 
 class UserRepository extends UserRepositoryInterface {
-  final _dio = Dio();
+  final _dio = BaseDio().buildDio();
   final KakaoAuthRepository _kakaoAuthRepository = KakaoAuthRepository();
-
-  UserRepository() {
-    _dio.interceptors.add(LoggingInterceptor());
-  }
 
   @override
   Future<bool> duplicateEmail({

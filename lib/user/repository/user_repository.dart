@@ -76,6 +76,7 @@ class UserRepository extends UserRepositoryInterface {
           resp.statusCode! > 400) {
         return false;
       }
+
       ApiResponse<Map<String, dynamic>> responseData =
           ApiResponse<Map<String, dynamic>>.fromJson(json: resp.data);
 

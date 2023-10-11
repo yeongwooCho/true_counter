@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:true_counter/common/model/app_info.dart';
+import 'package:true_counter/user/model/enum/role_type.dart';
 import 'package:true_counter/user/model/enum/sign_up_type.dart';
 import 'package:true_counter/user/model/token_model.dart';
 
@@ -12,6 +13,7 @@ class UserModel {
   late bool gender;
   late String region;
   late SignUpType signupType;
+  late RoleType roleType;
 
   bool isDummy = false;
 
@@ -42,6 +44,7 @@ class UserModel {
     user.gender = json['gender'] ?? true;
     user.region = json['region'] ?? '';
     user.signupType = SignUpType.getType(type: json['signupType'] ?? '');
+    user.roleType = RoleType.getType(type: json['role'] ?? '');
     user.isDummy = isDummy;
 
     if (TokenModel.instance != null) current = user;
@@ -77,6 +80,7 @@ class UserModel {
       'birthday': birthday,
       'region': region,
       'signupType': signupType,
+      'roleType': roleType,
     };
   }
 
@@ -90,6 +94,7 @@ class UserModel {
         'birthday: $birthday'
         'region: $region'
         'signupType: $signupType'
+        'roleType: $roleType'
         'isDummy: $isDummy'
         ')';
   }

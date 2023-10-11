@@ -14,6 +14,7 @@ import 'package:true_counter/common/view/custom_list_screen.dart';
 import 'package:true_counter/my_settings.dart';
 import 'package:true_counter/notification/model/notification_model.dart';
 import 'package:true_counter/notification/provider/notification_provider.dart';
+import 'package:true_counter/user/model/enum/role_type.dart';
 import 'package:true_counter/user/model/user_model.dart';
 
 class NotificationScreen extends StatelessWidget {
@@ -28,8 +29,8 @@ class NotificationScreen extends StatelessWidget {
     return DefaultLayout(
       appbar: DefaultAppBar(
         title: '공지사항 / 알림',
-        action: UserModel.current != null &&
-                adminEmails.contains(UserModel.current!.email)
+        action: (UserModel.current != null &&
+                UserModel.current!.roleType == RoleType.admin)
             ? [
                 IconButton(
                   onPressed: () {
@@ -50,7 +51,8 @@ class NotificationScreen extends StatelessWidget {
             ? Center(
                 child: Text(
                   '현재 등록된 공지가\n존재하지 않습니다.',
-                  style: bodyTitleBoldTextStyle.copyWith(color: DARK_GREY_COLOR),
+                  style:
+                      bodyTitleBoldTextStyle.copyWith(color: DARK_GREY_COLOR),
                   textAlign: TextAlign.center,
                 ),
               )
@@ -60,7 +62,7 @@ class NotificationScreen extends StatelessWidget {
                   return GestureDetector(
                     onLongPress: () {
                       if (UserModel.current != null &&
-                          adminEmails.contains(UserModel.current!.email)) {
+                          UserModel.current!.roleType == RoleType.admin) {
                         showAlert(
                           context: context,
                           titleWidget: const Text('해당 공지를 삭제하시겠습니까?'),

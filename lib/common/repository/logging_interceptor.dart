@@ -14,7 +14,8 @@ class LoggingInterceptor extends Interceptor {
       log("---");
       log(DateTime.now().toString());
       log('--------------- Request (${_format(DateTime.now(), 'mm:ss.mmm')}) ---------------');
-      log('${options.method} - ${options.baseUrl}${options.path}');
+      // log('${options.method} - ${options.baseUrl}${options.path}');
+      log('${options.method} - ${options.path}');
       log('Headers ${options.headers}');
       log('Content-Type: ${options.contentType}');
       if (options.data is FormData) {
@@ -57,9 +58,10 @@ class LoggingInterceptor extends Interceptor {
       log("---");
       log('--------------- Error (${_format(DateTime.now(), 'mm:ss.mmm')}) ---------------');
       // log("<-- ${err.message} ${(err.response?.requestOptions != null ? (err.response!.requestOptions.baseUrl + err.response!.requestOptions.path) : 'URL')}");
-      log("<-- ${err.message} ${(err.response?.requestOptions != null ? ("path: ${err.response!.requestOptions.path}") : 'URL')}");
+      log("<-- ${(err.response?.requestOptions != null ? ("path: ${err.response!.requestOptions.path}") : 'URL')}");
       log('type: ${err.type}');
       log('error: ${err.error}');
+      log("error message: ${err.message}}");
       log('error response statusCode: ${err.response?.statusCode}');
       log('error response: ${err.response}');
       log('error response data: ${err.response != null ? err.response?.data : 'Unknown Error'}');

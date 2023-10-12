@@ -63,38 +63,42 @@ class _FestivalDetailScreenState extends State<FestivalDetailScreen> {
     return DefaultLayout(
       isLoading: provider.cache[widget.festivalModel.id] == null,
       appbar: const DefaultAppBar(title: '행사 상세정보'),
-      bottomNavigationBar: SizedBox(
-        height: 64.0 + bottomInset,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-          child: CustomTextFormField(
-            controller: chatController,
-            focusNode: chatFocus,
-            onEditingComplete: () {
-              if (chatController != null && chatFocus != null) {
-                chatText = chatController!.text;
-                chatFocus!.unfocus();
-                chatController!.clear();
-                print("패런트 $parentChatId");
+      bottomNavigationBar: UserModel.current == null ||
+              UserModel.current!.isDummy
+          ? null
+          : SizedBox(
+              height: 64.0 + bottomInset,
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                child: CustomTextFormField(
+                  controller: chatController,
+                  focusNode: chatFocus,
+                  onEditingComplete: () {
+                    if (chatController != null && chatFocus != null) {
+                      chatText = chatController!.text;
+                      chatFocus!.unfocus();
+                      chatController!.clear();
+                      print("패런트 $parentChatId");
 
-                // TODO: request 댓글작성
-                provider.createChat(
-                  festivalId: festival.id,
-                  parentChatId: parentChatId,
-                  nickname: UserModel.current!.nickname,
-                  content: chatText!,
-                );
-              }
-            },
-            onSaved: (String? value) {},
-            validator: (String? value) {
-              return null;
-            },
-            hintText: '댓글을 입력해 주세요.',
-            suffixIcon: const Icon(Icons.edit),
-          ),
-        ),
-      ),
+                      // TODO: request 댓글작성
+                      provider.createChat(
+                        festivalId: festival.id,
+                        parentChatId: parentChatId,
+                        nickname: UserModel.current!.nickname,
+                        content: chatText!,
+                      );
+                    }
+                  },
+                  onSaved: (String? value) {},
+                  validator: (String? value) {
+                    return null;
+                  },
+                  hintText: '댓글을 입력해 주세요.',
+                  suffixIcon: const Icon(Icons.edit),
+                ),
+              ),
+            ),
       child: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(

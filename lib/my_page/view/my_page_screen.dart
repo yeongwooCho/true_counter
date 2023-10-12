@@ -4,6 +4,7 @@ import 'package:true_counter/common/const/text_style.dart';
 import 'package:true_counter/common/layout/default_appbar.dart';
 import 'package:true_counter/common/layout/default_layout.dart';
 import 'package:true_counter/common/model/screen_arguments.dart';
+import 'package:true_counter/common/util/custom_toast.dart';
 import 'package:true_counter/common/variable/routes.dart';
 import 'package:true_counter/user/model/user_model.dart';
 
@@ -70,11 +71,15 @@ class _MyPageScreenState extends State<MyPageScreen> {
             renderCustomButton(
               title: '나의 참여정보',
               iconName: Icons.description_outlined,
-              onTap: (UserModel.current != null && !(UserModel.current!.isDummy))? () {
-                Navigator.of(context).pushNamed(
-                  RouteNames.myParticipation,
-                );
-              } : null,
+              onTap: (UserModel.current == null || (UserModel.current!.isDummy))
+                  ? () {
+                      showCustomToast(context, msg: "로그인 후 이용 가능합니다.");
+                    }
+                  : () {
+                      Navigator.of(context).pushNamed(
+                        RouteNames.myParticipation,
+                      );
+                    },
             ),
           ],
         ),

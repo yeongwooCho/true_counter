@@ -14,6 +14,7 @@ import 'package:true_counter/common/variable/routes.dart';
 import 'package:true_counter/festival/component/custom_chart.dart';
 import 'package:true_counter/festival/model/festival_model.dart';
 import 'package:true_counter/festival/provider/festival_provider.dart';
+import 'package:true_counter/user/model/user_model.dart';
 
 class CustomFestivalCard extends StatelessWidget {
   // Widget
@@ -77,114 +78,126 @@ class CustomFestivalCard extends StatelessWidget {
                         const SizedBox(width: 16.0),
                         ElevatedButton(
                           onPressed: isActiveButton(festival: festivalModel)
-                              ? () async {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        icon: const Text(
-                                          '행사 참여하기',
-                                          style: bodyTitleBoldTextStyle,
-                                        ),
-                                        title: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.stretch,
-                                          children: [
-                                            const Text(
-                                              '행사명',
-                                              textAlign: TextAlign.start,
-                                              style: bodyBoldTextStyle,
+                              ? (UserModel.current == null ||
+                                      (UserModel.current!.isDummy))
+                                  ? () {
+                                      showCustomToast(context,
+                                          msg: "로그인 후 이용 가능합니다.");
+                                    }
+                                  : () async {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            icon: const Text(
+                                              '행사 참여하기',
+                                              style: bodyTitleBoldTextStyle,
                                             ),
-                                            const SizedBox(height: 4.0),
-                                            Text(
-                                              '[${festivalModel.region}] ${festivalModel.title}',
-                                              textAlign: TextAlign.start,
+                                            title: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.stretch,
+                                              children: [
+                                                const Text(
+                                                  '행사명',
+                                                  textAlign: TextAlign.start,
+                                                  style: bodyBoldTextStyle,
+                                                ),
+                                                const SizedBox(height: 4.0),
+                                                Text(
+                                                  '[${festivalModel.region}] ${festivalModel.title}',
+                                                  textAlign: TextAlign.start,
+                                                  style: descriptionTextStyle,
+                                                ),
+                                              ],
+                                            ),
+                                            content: Text(
+                                              '행사 참여자로 카운팅 되기 위해서는 회원님이 행사장 반경 ${convertRadiusToString(radius: festivalModel.radius)} 안에 있어야 합니다.',
                                               style: descriptionTextStyle,
                                             ),
-                                          ],
-                                        ),
-                                        content: Text(
-                                          '행사 참여자로 카운팅 되기 위해서는 회원님이 행사장 반경 ${convertRadiusToString(radius: festivalModel.radius)} 안에 있어야 합니다.',
-                                          style: descriptionTextStyle,
-                                        ),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () async {
-                                              double tempRadius =
-                                                  festivalModel.radius;
-                                              print(tempRadius);
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () async {
+                                                  double tempRadius =
+                                                      festivalModel.radius;
+                                                  print(tempRadius);
 
-                                              if (tempRadius != 0.5 &&
-                                                  tempRadius != 1.0 &&
-                                                  tempRadius != 2.0) {
-                                                festivalProvider.participateFestival(
-                                                    festivalId:
-                                                        festivalModel.id);
-                                                showCustomToast(context,
-                                                    msg: "행사 참여가 완료 되었습니다.");
-                                              } else {
-                                                showDialog(
-                                                  barrierDismissible: false,
-                                                  context: context,
-                                                  builder:
-                                                      (BuildContext context) {
-                                                    return const CustomLoadingScreen(
-                                                      title:
-                                                          "위치 정보를 받아오고 있습니다.",
+                                                  if (tempRadius != 0.5 &&
+                                                      tempRadius != 1.0 &&
+                                                      tempRadius != 2.0) {
+                                                    festivalProvider
+                                                        .participateFestival(
+                                                            festivalId:
+                                                                festivalModel
+                                                                    .id);
+                                                    showCustomToast(context,
+                                                        msg:
+                                                            "행사 참여가 완료 되었습니다.");
+                                                  } else {
+                                                    showDialog(
+                                                      barrierDismissible: false,
+                                                      context: context,
+                                                      builder: (BuildContext
+                                                          context) {
+                                                        return const CustomLoadingScreen(
+                                                          title:
+                                                              "위치 정보를 받아오고 있습니다.",
+                                                        );
+                                                      },
                                                     );
-                                                  },
-                                                );
-                                                await _determinePermission();
+                                                    await _determinePermission();
 
-                                                Position position =
-                                                    await Geolocator
-                                                        .getCurrentPosition(
-                                                  desiredAccuracy:
-                                                      LocationAccuracy.high,
-                                                );
-                                                Navigator.of(context).pop();
+                                                    Position position =
+                                                        await Geolocator
+                                                            .getCurrentPosition(
+                                                      desiredAccuracy:
+                                                          LocationAccuracy.high,
+                                                    );
+                                                    Navigator.of(context).pop();
 
-                                                final double distance =
-                                                    Geolocator.distanceBetween(
-                                                  festivalModel.latitude,
-                                                  festivalModel.longitude,
-                                                  position.latitude,
-                                                  position.longitude,
-                                                );
+                                                    final double distance =
+                                                        Geolocator
+                                                            .distanceBetween(
+                                                      festivalModel.latitude,
+                                                      festivalModel.longitude,
+                                                      position.latitude,
+                                                      position.longitude,
+                                                    );
 
-                                                if (distance <
-                                                    (festivalModel.radius *
-                                                        1000)) {
-                                                  festivalProvider.participateFestival(
-                                                      festivalId:
-                                                          festivalModel.id);
-                                                  showCustomToast(
-                                                    context,
-                                                    msg: "행사 참여가 완료 되었습니다.",
-                                                  );
-                                                } else {
-                                                  showCustomToast(
-                                                    context,
-                                                    msg:
-                                                        "참여 가능 반경 안에서 참여해 주세요.",
-                                                  );
-                                                }
-                                              }
-                                              Navigator.of(context).pop();
-                                            },
-                                            child: const Text('참여하기'),
-                                          ),
-                                          TextButton(
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                            child: const Text('취소'),
-                                          ),
-                                        ],
+                                                    if (distance <
+                                                        (festivalModel.radius *
+                                                            1000)) {
+                                                      festivalProvider
+                                                          .participateFestival(
+                                                              festivalId:
+                                                                  festivalModel
+                                                                      .id);
+                                                      showCustomToast(
+                                                        context,
+                                                        msg: "행사 참여가 완료 되었습니다.",
+                                                      );
+                                                    } else {
+                                                      showCustomToast(
+                                                        context,
+                                                        msg:
+                                                            "참여 가능 반경 안에서 참여해 주세요.",
+                                                      );
+                                                    }
+                                                  }
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: const Text('참여하기'),
+                                              ),
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: const Text('취소'),
+                                              ),
+                                            ],
+                                          );
+                                        },
                                       );
-                                    },
-                                  );
-                                }
+                                    }
                               : null,
                           style: festivalParticipateButtonStyle,
                           child: Padding(
@@ -221,7 +234,6 @@ class CustomFestivalCard extends StatelessWidget {
   }
 
   Widget getParticipateStatus({required FestivalModel festival}) {
-
     if (festival.endAt.isBefore(now)) {
       return const Text('행사\n종료');
     } else if (festival.startAt.isAfter(now)) {
@@ -234,7 +246,6 @@ class CustomFestivalCard extends StatelessWidget {
   }
 
   bool isActiveButton({required FestivalModel festival}) {
-
     if (festival.endAt.isBefore(now)) {
       return false;
     } else if (festival.startAt.isAfter(now)) {

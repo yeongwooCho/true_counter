@@ -2,12 +2,10 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:true_counter/common/const/data.dart';
 import 'package:true_counter/common/model/api_response.dart';
 import 'package:true_counter/common/model/app_info.dart';
 import 'package:true_counter/common/repository/base_api.dart';
 import 'package:true_counter/common/repository/local_storage.dart';
-import 'package:true_counter/common/repository/logging_interceptor.dart';
 import 'package:true_counter/common/repository/urls.dart';
 import 'package:true_counter/common/util/datetime.dart';
 import 'package:true_counter/my_settings.dart';
@@ -15,8 +13,8 @@ import 'package:true_counter/user/model/enum/sign_up_type.dart';
 import 'package:true_counter/user/model/kakao_request_model.dart';
 import 'package:true_counter/user/model/token_model.dart';
 import 'package:true_counter/user/model/user_model.dart';
-import 'package:true_counter/user/repository/user_repository_interface.dart';
 import 'package:true_counter/user/repository/kakao_auth_repository.dart';
+import 'package:true_counter/user/repository/user_repository_interface.dart';
 
 class UserRepository extends UserRepositoryInterface {
   final _dio = BaseDio().buildDio();

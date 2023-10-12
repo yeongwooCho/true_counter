@@ -1,5 +1,5 @@
-import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart' as kakao;
 import 'package:flutter/services.dart';
+import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart' as kakao;
 import 'package:true_counter/user/model/kakao_request_model.dart';
 
 class KakaoAuthRepository {

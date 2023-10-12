@@ -8,7 +8,6 @@ import 'package:true_counter/common/layout/default_appbar.dart';
 import 'package:true_counter/common/layout/default_layout.dart';
 import 'package:true_counter/common/variable/routes.dart';
 import 'package:true_counter/festival/component/custom_festival_card.dart';
-import 'package:true_counter/festival/model/enum/status_model.dart';
 import 'package:true_counter/festival/model/festival_model.dart';
 import 'package:true_counter/festival/provider/festival_provider.dart';
 import 'package:true_counter/festival/repository/festival_repository.dart';

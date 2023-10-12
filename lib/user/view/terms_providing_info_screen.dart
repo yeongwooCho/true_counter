@@ -46,9 +46,7 @@ class TermsProvidingInfoScreen extends StatelessWidget {
 ◦  회원님의 정보는 본인 동의없이 제 3자에게 제공되지 않습니다.
             ''',
               style: bodyMediumTextStyle.copyWith(
-                color: DARK_GREY_COLOR,
-                fontWeight: FontWeight.w300
-              ),
+                  color: DARK_GREY_COLOR, fontWeight: FontWeight.w300),
             ),
           ],
         ),

@@ -73,7 +73,7 @@ class _MyPageScreenState extends State<MyPageScreen> {
               iconName: Icons.description_outlined,
               onTap: (UserModel.current == null || (UserModel.current!.isDummy))
                   ? () {
-                      showCustomToast(context, msg: "로그인 후 이용 가능합니다.");
+                showCustomToast(context, msg: "로그인 후 이용 가능합니다.");
                     }
                   : () {
                       Navigator.of(context).pushNamed(

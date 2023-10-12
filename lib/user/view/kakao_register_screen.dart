@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:true_counter/common/component/custom_drop_down_button.dart';
 import 'package:true_counter/common/component/custom_loading.dart';
@@ -55,7 +54,6 @@ class _KakaoRegisterScreenState extends State<KakaoRegisterScreen> {
                     style: headTitleTextStyle,
                   ),
                   const SizedBox(height: 32.0),
-
                   Form(
                     key: phoneFormKey,
                     autovalidateMode: AutovalidateMode.always,

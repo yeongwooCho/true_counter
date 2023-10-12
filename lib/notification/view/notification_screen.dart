@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:true_counter/common/component/custom_list_card.dart';
@@ -11,7 +10,6 @@ import 'package:true_counter/common/util/datetime.dart';
 import 'package:true_counter/common/util/show_cupertino_alert.dart';
 import 'package:true_counter/common/variable/routes.dart';
 import 'package:true_counter/common/view/custom_list_screen.dart';
-import 'package:true_counter/my_settings.dart';
 import 'package:true_counter/notification/model/notification_model.dart';
 import 'package:true_counter/notification/provider/notification_provider.dart';
 import 'package:true_counter/user/model/enum/role_type.dart';

@@ -8,7 +8,6 @@ import 'package:true_counter/common/layout/default_layout.dart';
 import 'package:true_counter/common/util/custom_toast.dart';
 import 'package:true_counter/common/util/regular_expression_pattern.dart';
 import 'package:true_counter/common/variable/routes.dart';
-import 'package:true_counter/user/model/token_model.dart';
 import 'package:true_counter/user/repository/user_repository.dart';
 import 'package:true_counter/user/repository/user_repository_interface.dart';
 

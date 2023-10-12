@@ -38,7 +38,7 @@ class EmailRegisterCompletionScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).pushNamedAndRemoveUntil(
                   RouteNames.root,
-                      (route) => false,
+                  (route) => false,
                 );
               },
               style: defaultButtonStyle,

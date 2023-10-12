@@ -5,10 +5,7 @@ import 'package:true_counter/chat/component/second_chat.dart';
 import 'package:true_counter/chat/model/chat_model.dart';
 import 'package:true_counter/common/const/colors.dart';
 import 'package:true_counter/common/const/text_style.dart';
-import 'package:true_counter/common/util/custom_toast.dart';
-import 'package:true_counter/common/util/show_cupertino_alert.dart';
 import 'package:true_counter/festival/provider/festival_provider.dart';
-import 'package:true_counter/festival/repository/festival_repository.dart';
 
 class ChatScreen extends StatefulWidget {
   final int festivalId;

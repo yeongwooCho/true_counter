@@ -27,8 +27,8 @@ class LocalStorage {
         accessibility: KeychainAccessibility.passcode,
       ),
       aOptions: const AndroidOptions(
-        // encryptedSharedPreferences: true,
-      ),
+          // encryptedSharedPreferences: true,
+          ),
     );
   }
 
@@ -45,8 +45,9 @@ class LocalStorage {
   }
 
   Future<bool> hasAuthenticated() async {
-    String? accessToken =
-        await getToken(key: LocalStorageKey.accessToken);
+    String? accessToken = await getToken(
+      key: LocalStorageKey.accessToken,
+    );
 
     return accessToken != null && accessToken.isNotEmpty;
   }

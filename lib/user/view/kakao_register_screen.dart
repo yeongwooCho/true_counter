@@ -15,7 +15,6 @@ import 'package:true_counter/common/util/regular_expression_pattern.dart';
 import 'package:true_counter/common/variable/routes.dart';
 import 'package:true_counter/user/repository/user_repository.dart';
 import 'package:true_counter/user/repository/user_repository_interface.dart';
-import 'package:true_counter/user/util/firebase_phone_auth.dart';
 
 class KakaoRegisterScreen extends StatefulWidget {
   const KakaoRegisterScreen({Key? key}) : super(key: key);
@@ -26,12 +25,13 @@ class KakaoRegisterScreen extends StatefulWidget {
 
 class _KakaoRegisterScreenState extends State<KakaoRegisterScreen> {
   final UserRepositoryInterface _userRepository = UserRepository();
+  final GlobalKey<FormState> phoneFormKey = GlobalKey();
 
   bool isLoading = false;
 
-  // no text form field
+  String? phoneText;
   bool? gender;
-  DateTime? birthday;
+  DateTime birthday = now;
   String? location;
 
   @override
@@ -55,6 +55,26 @@ class _KakaoRegisterScreenState extends State<KakaoRegisterScreen> {
                     style: headTitleTextStyle,
                   ),
                   const SizedBox(height: 32.0),
+
+                  Form(
+                    key: phoneFormKey,
+                    autovalidateMode: AutovalidateMode.always,
+                    child: CustomTextFormField(
+                      onChanged: (String? value) {
+                        phoneText = value;
+                        setState(() {});
+                      },
+                      onSaved: (String? value) {
+                        phoneText = value;
+                      },
+                      validator: TextValidator.phoneValidator,
+                      // focusNode: phoneFocus,
+                      title: '휴대폰 번호',
+                      hintText: '예) 01012341234',
+                      textInputType: TextInputType.number,
+                    ),
+                  ),
+                  const SizedBox(height: 16.0),
                   _SelectedGender(
                     gender: gender,
                     onTap: onGenderSelected,
@@ -70,7 +90,7 @@ class _KakaoRegisterScreenState extends State<KakaoRegisterScreen> {
                         width: 120.0,
                         child: Text(
                           '출생년도',
-                          style: bodyMediumTextStyle,
+                          style: bodyTitleBoldTextStyle,
                         ),
                       ),
                       const SizedBox(width: 16.0),
@@ -79,9 +99,7 @@ class _KakaoRegisterScreenState extends State<KakaoRegisterScreen> {
                           dropdownList: List<String>.generate(100, (index) {
                             return "${now.year - index} 년";
                           }),
-                          defaultValue: birthday == null
-                              ? "${now.year} 년"
-                              : "${birthday!.year} 년",
+                          defaultValue: "${birthday.year} 년",
                           onChanged: (String? value) {
                             if (value == null) {
                               return;
@@ -102,7 +120,7 @@ class _KakaoRegisterScreenState extends State<KakaoRegisterScreen> {
                         width: 120.0,
                         child: Text(
                           '거주지역',
-                          style: bodyMediumTextStyle,
+                          style: bodyTitleBoldTextStyle,
                         ),
                       ),
                       const SizedBox(width: 16.0),
@@ -121,16 +139,20 @@ class _KakaoRegisterScreenState extends State<KakaoRegisterScreen> {
                   const SizedBox(height: 32.0),
                   ElevatedButton(
                     onPressed: gender != null &&
-                            birthday != null &&
                             location != null &&
                             location!.isNotEmpty &&
-                            location != '선택'
+                            location != '선택' &&
+                            phoneFormKey.currentState != null &&
+                            phoneFormKey.currentState!.validate() &&
+                            phoneText != null &&
+                            phoneText!.isNotEmpty
                         ? () async {
                             bool isSuccessKakaoSignUp =
                                 await _userRepository.kakaoSignUp(
+                              phone: phoneText!,
                               gender: gender!,
                               birthday: convertDateTimeToDateString(
-                                  datetime: birthday!),
+                                  datetime: birthday),
                               region: location!,
                             );
 
@@ -202,7 +224,7 @@ class _SelectedGenderState extends State<_SelectedGender> {
           width: 120.0,
           child: Text(
             '성별 선택',
-            style: bodyMediumTextStyle,
+            style: bodyTitleBoldTextStyle,
           ),
         ),
         const SizedBox(width: 16.0),

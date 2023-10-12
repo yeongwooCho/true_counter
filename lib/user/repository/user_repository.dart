@@ -400,6 +400,7 @@ class UserRepository extends UserRepositoryInterface {
 
   @override
   Future<bool> kakaoSignUp({
+    required String phone,
     required bool gender,
     required String birthday,
     required String region,
@@ -417,7 +418,7 @@ class UserRepository extends UserRepositoryInterface {
         final bool isSuccessSignIn = await signUp(
           email: email,
           password: password,
-          phone: "kakao$email",
+          phone: phone,
           birthday: birthday,
           gender: gender,
           region: region,

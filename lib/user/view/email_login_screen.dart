@@ -9,6 +9,7 @@ import 'package:true_counter/common/layout/default_layout.dart';
 import 'package:true_counter/common/variable/routes.dart';
 import 'package:true_counter/common/util/custom_toast.dart';
 import 'package:true_counter/common/util/regular_expression_pattern.dart';
+import 'package:true_counter/user/model/enum/sign_up_type.dart';
 import 'package:true_counter/user/repository/user_repository.dart';
 import 'package:true_counter/user/repository/user_repository_interface.dart';
 
@@ -193,6 +194,7 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
       final isSuccessSignIn = await _userRepository.signIn(
         email: emailText!,
         password: passwordText!,
+        signInType: SignUpType.email,
       );
       print(isSuccessSignIn);
 

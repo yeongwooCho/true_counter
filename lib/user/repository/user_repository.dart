@@ -190,6 +190,7 @@ class UserRepository extends UserRepositoryInterface {
   Future<bool> signIn({
     required String email,
     required String password,
+    required SignUpType signInType,
     bool isAutoSignIn = true,
   }) async {
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
@@ -202,6 +203,7 @@ class UserRepository extends UserRepositoryInterface {
           "email": email,
           "password": encodingPassword,
           "autoSignIn": isAutoSignIn,
+          "signInType": signInType.label,
         },
       );
       // print('하이하이');
@@ -367,6 +369,7 @@ class UserRepository extends UserRepositoryInterface {
         final bool isSuccessSignIn = await signIn(
           email: email,
           password: password,
+          signInType: SignUpType.kakao,
         );
         return isSuccessSignIn;
       } else {
@@ -383,6 +386,7 @@ class UserRepository extends UserRepositoryInterface {
           final bool isSuccessSignIn = await signIn(
             email: email,
             password: password,
+            signInType: SignUpType.kakao,
           );
           return isSuccessSignIn;
         }

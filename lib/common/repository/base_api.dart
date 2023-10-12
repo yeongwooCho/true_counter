@@ -19,7 +19,7 @@ class BaseDio {
               'App-Version': '${AppInfo.currentVersion}',
               'Device': Platform.isIOS ? 'ios' : 'android',
               'Content-Type': 'application/json',
-              'Accept': 'application/json',
+              // 'Accept': 'application/json', --> 이거 넣으면 안됨.
             },
           ),
         ) {

@@ -114,30 +114,21 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<bool> autoLogin() async {
-    String? accessToken =
-        await LocalStorage.getToken(key: LocalStorageKey.accessToken);
-    String? refreshToken =
-        await LocalStorage.getToken(key: LocalStorageKey.refreshToken);
-    print('autoLogin token: $accessToken $refreshToken');
-
-    if (accessToken == null ||
-        accessToken.isEmpty ||
-        refreshToken == null ||
-        refreshToken.isEmpty) {
-      return false;
-    }
-
     // 토큰 로그인 시도
     final bool isTokenSignIn = await _userRepository.tokenSignIn();
+    print('로그인 시도 : $isTokenSignIn');
 
     // 토큰 로그인 실패
     if (!isTokenSignIn) {
       // refresh token 재발급
       final bool isTokenReissue = await _userRepository.tokenReissue();
+      print('토큰 재발급하기 : $isTokenReissue');
 
       // refresh token 재발급 성공
       if (isTokenReissue) {
-        return await _userRepository.tokenSignIn();
+        bool isSuccess = await _userRepository.tokenSignIn();
+        print('토큰 재로그인 시도 : $isTokenSignIn');
+        return isSuccess;
       }
     }
 

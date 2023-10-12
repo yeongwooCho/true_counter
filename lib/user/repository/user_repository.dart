@@ -168,7 +168,6 @@ class UserRepository extends UserRepositoryInterface {
       }
 
       TokenModel tokenModel = TokenModel.fromJson(json: responseData.data!);
-      await LocalStorage.clearAll();
       await LocalStorage.setAccessToken(
         key: LocalStorageKey.accessToken,
         value: tokenModel.accessToken,
@@ -226,20 +225,14 @@ class UserRepository extends UserRepositoryInterface {
       TokenModel tokenModel = TokenModel.fromJson(json: responseData.data!);
       print('tokenModel: $tokenModel');
 
-      if (isAutoSignIn) {
-        await LocalStorage.clearAll();
-        await LocalStorage.setAccessToken(
-          key: LocalStorageKey.accessToken,
-          value: tokenModel.accessToken,
-        );
-        await LocalStorage.setAccessToken(
-          key: LocalStorageKey.refreshToken,
-          value: tokenModel.refreshToken,
-        );
-      } else {
-        tempAccessToken = tokenModel.accessToken;
-        tempRefreshToken = tokenModel.refreshToken;
-      }
+      await LocalStorage.setAccessToken(
+        key: LocalStorageKey.accessToken,
+        value: tokenModel.accessToken,
+      );
+      await LocalStorage.setAccessToken(
+        key: LocalStorageKey.refreshToken,
+        value: tokenModel.refreshToken,
+      );
       return true;
     } catch (e) {
       debugPrint('UserRepository signIn Error: ${e.toString()}');
@@ -286,7 +279,6 @@ class UserRepository extends UserRepositoryInterface {
       TokenModel tokenModel = TokenModel.fromJson(json: responseData.data!);
       print('tokenModel: $tokenModel');
 
-      await LocalStorage.clearAll();
       await LocalStorage.setAccessToken(
         key: LocalStorageKey.accessToken,
         value: tokenModel.accessToken,
@@ -305,28 +297,22 @@ class UserRepository extends UserRepositoryInterface {
 
   @override
   Future<bool> tokenSignIn() async {
-    // Codec<String, String> stringToBase64 = utf8.fuse(base64);
-    // String text = "jos10022@hanmail.netfAKFe03kfafjd3Fj39aFajdnv03idDFE39fjd";
-    // String asdf = stringToBase64.encode(text);
-    // print("여기여기 $asdf");
     try {
-      final String? accessToken =
-          await LocalStorage.getToken(key: LocalStorageKey.accessToken);
-      final String? refreshToken =
-          await LocalStorage.getToken(key: LocalStorageKey.refreshToken);
+      final String? accessToken = await LocalStorage.getToken(
+        key: LocalStorageKey.accessToken,
+      );
 
-      if (accessToken == null ||
-          accessToken.isEmpty ||
-          refreshToken == null ||
-          refreshToken.isEmpty) {
+      if (accessToken == null || accessToken.isEmpty) {
         return false;
       }
 
       final resp = await _dio.post(
         Url.tokenSignIn,
-        data: {
-          "accessToken": accessToken,
-        },
+        options: Options(
+          headers: {
+            "Authorization": "Bearer $accessToken",
+          },
+        ),
       );
       print("tokenSignIn responseData: ${resp.data}");
       print("accessToken: $accessToken");
@@ -339,7 +325,7 @@ class UserRepository extends UserRepositoryInterface {
       TokenModel.fromJson(json: {
         'grantType': 'Bearer',
         'accessToken': accessToken,
-        'refreshToken': refreshToken,
+        'refreshToken': 'asdf',
       });
 
       return true;

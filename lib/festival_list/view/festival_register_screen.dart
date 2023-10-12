@@ -441,7 +441,7 @@ class _FestivalDurationState extends State<_FestivalDuration> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                '행사 시작 시간',
+                                '행사 시작 일자',
                                 style: descriptionGreyTextStyle,
                               ),
                               SizedBox(width: 4.0),
@@ -489,7 +489,7 @@ class _FestivalDurationState extends State<_FestivalDuration> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                '행사 끝 시간',
+                                '행사 끝 일자',
                                 style: descriptionGreyTextStyle,
                               ),
                               SizedBox(width: 4.0),
@@ -536,12 +536,23 @@ class _FestivalDurationState extends State<_FestivalDuration> {
                   const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
               child: CupertinoDatePicker(
                 dateOrder: DatePickerDateOrder.ymd,
-                mode: CupertinoDatePickerMode.dateAndTime,
+                mode: CupertinoDatePickerMode.date,
                 onDateTimeChanged: (DateTime value) {
                   if (isStart) {
-                    startAt = value;
+                    startAt = DateTime(
+                      value.year,
+                      value.month,
+                      value.day,
+                    );
                   } else {
-                    endAt = value;
+                    endAt = DateTime(
+                      value.year,
+                      value.month,
+                      value.day,
+                      23,
+                      59,
+                      59,
+                    );
                   }
                   if (widget.callBackData != null) {
                     widget.callBackData!(

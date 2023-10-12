@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:true_counter/common/component/custom_loading.dart';
 import 'package:true_counter/common/const/button_style.dart';
 import 'package:true_counter/common/const/colors.dart';
+import 'package:true_counter/common/const/data.dart';
 import 'package:true_counter/common/const/text_style.dart';
 import 'package:true_counter/common/model/screen_arguments.dart';
 import 'package:true_counter/common/util/custom_toast.dart';
@@ -51,7 +52,7 @@ class CustomFestivalCard extends StatelessWidget {
         ),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: festivalModel.startAt.isAfter(DateTime.now())
+          child: festivalModel.startAt.isAfter(now)
               ? const Padding(
                   padding: EdgeInsets.symmetric(vertical: 8.0),
                   child: Text(
@@ -220,7 +221,6 @@ class CustomFestivalCard extends StatelessWidget {
   }
 
   Widget getParticipateStatus({required FestivalModel festival}) {
-    DateTime now = DateTime.now();
 
     if (festival.endAt.isBefore(now)) {
       return const Text('행사\n종료');
@@ -234,7 +234,6 @@ class CustomFestivalCard extends StatelessWidget {
   }
 
   bool isActiveButton({required FestivalModel festival}) {
-    DateTime now = DateTime.now();
 
     if (festival.endAt.isBefore(now)) {
       return false;

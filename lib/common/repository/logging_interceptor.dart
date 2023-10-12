@@ -12,7 +12,6 @@ class LoggingInterceptor extends Interceptor {
   ) async {
     if (Constants.loggingInterceptorEnabled) {
       log("---");
-      log(DateTime.now().toString());
       log('--------------- Request (${_format(DateTime.now(), 'mm:ss.mmm')}) ---------------');
       // log('${options.method} - ${options.baseUrl}${options.path}');
       log('${options.method} - ${options.path}');

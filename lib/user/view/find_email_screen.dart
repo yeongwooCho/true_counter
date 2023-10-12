@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:true_counter/common/component/custom_drop_down_button.dart';
 import 'package:true_counter/common/component/custom_text_form_field.dart';
 import 'package:true_counter/common/const/button_style.dart';
+import 'package:true_counter/common/const/data.dart';
 import 'package:true_counter/common/const/text_style.dart';
 import 'package:true_counter/common/layout/default_appbar.dart';
 import 'package:true_counter/common/layout/default_layout.dart';
@@ -36,7 +37,6 @@ class _FindEmailScreenState extends State<FindEmailScreen> {
   bool isValidCertification = false; // 인증 번호 확인
 
   bool isLoading = false;
-  final DateTime now = DateTime.now();
   DateTime? birthday;
 
   @override

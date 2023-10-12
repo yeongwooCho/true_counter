@@ -33,7 +33,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final provider = context.watch<FestivalProvider>();
     final festivals = provider.cacheList['total'] ?? [];
-    final DateTime now = DateTime.now();
 
     return DefaultLayout(
       isLoading: provider.cacheList['total'] == null || isLoading,

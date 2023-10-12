@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:true_counter/common/component/custom_list_card.dart';
 import 'package:true_counter/common/const/colors.dart';
+import 'package:true_counter/common/const/data.dart';
 import 'package:true_counter/common/const/text_style.dart';
 import 'package:true_counter/common/layout/default_appbar.dart';
 import 'package:true_counter/common/layout/default_layout.dart';
@@ -22,11 +23,6 @@ class FestivalListScreen extends StatefulWidget {
 
 class _FestivalListScreenState extends State<FestivalListScreen> {
   int selectedItemIndex = 0;
-  DateTime now = DateTime(
-    DateTime.now().year,
-    DateTime.now().month,
-    DateTime.now().day,
-  );
   List<FestivalModel> beingFestivals = [];
   List<FestivalModel> toBeFestivals = [];
   List<FestivalModel> beenFestivals = [];

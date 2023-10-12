@@ -34,8 +34,6 @@ class _KakaoRegisterScreenState extends State<KakaoRegisterScreen> {
   DateTime? birthday;
   String? location;
 
-  final DateTime now = DateTime.now();
-
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(

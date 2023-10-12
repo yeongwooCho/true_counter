@@ -59,8 +59,6 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
   DateTime? birthday;
   String? location;
 
-  final DateTime now = DateTime.now();
-
   @override
   void initState() {
     super.initState();

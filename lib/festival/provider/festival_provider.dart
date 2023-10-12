@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:true_counter/chat/model/chat_model.dart';
+import 'package:true_counter/common/const/data.dart';
 import 'package:true_counter/common/util/custom_toast.dart';
 import 'package:true_counter/festival/model/festival_model.dart';
 import 'package:true_counter/festival/repository/festival_repository.dart';
@@ -48,7 +49,6 @@ class FestivalProvider extends ChangeNotifier {
     // final uuid = Uuid();
     // final targetId = uuid.v4();
     int randomId = Random().nextInt(100) - 100; // 0 ~ 99 랜덤
-    DateTime now = DateTime.now();
 
     ChatModel newChat = ChatModel(
       id: randomId,

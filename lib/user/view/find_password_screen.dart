@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:true_counter/common/component/custom_drop_down_button.dart';
 import 'package:true_counter/common/component/custom_text_form_field.dart';
 import 'package:true_counter/common/const/button_style.dart';
+import 'package:true_counter/common/const/data.dart';
 import 'package:true_counter/common/const/text_style.dart';
 import 'package:true_counter/common/layout/default_appbar.dart';
 import 'package:true_counter/common/layout/default_layout.dart';
@@ -39,7 +40,6 @@ class _FindPasswordScreenState extends State<FindPasswordScreen> {
   bool isValidCertification = false;
 
   DateTime? birthday;
-  DateTime now = DateTime.now();
   bool isLoading = false;
 
   @override

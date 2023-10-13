@@ -9,7 +9,7 @@ class Url {
   static String userInfo = "$baseUrl/members/my-info";
   static String signUp = "$baseUrl/auth/sign-up";
   static String signIn = "$baseUrl/auth/sign-in";
-  static String tokenSignIn = "$baseUrl/auth/test";
+  static String tokenSignIn = "$baseUrl/auth/check";
   static String reissue = "$baseUrl/auth/reissue";
   static String findEmail = "$baseUrl/auth/find-email";
   static String findPassword = "$baseUrl/auth/find-password";

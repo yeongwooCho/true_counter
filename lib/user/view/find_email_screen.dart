@@ -101,7 +101,7 @@ class _FindEmailScreenState extends State<FindEmailScreen> {
                             return;
                           }
                           int selectedYear = int.parse(value.split(' ').first);
-                          birthday = DateTime(selectedYear);
+                          birthday = convertBirthdayDateTime(year: selectedYear);
                           setState(() {});
                         },
                       ),

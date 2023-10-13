@@ -1,5 +1,11 @@
 final now = DateTime.now();
 
+DateTime convertBirthdayDateTime({
+  required int year,
+}) {
+  return DateTime(year, 2);
+}
+
 const List<String> registerLocation = [
   '선택',
   '서울',

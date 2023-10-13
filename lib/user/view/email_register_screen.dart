@@ -388,7 +388,8 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                               }
                               int selectedYear =
                                   int.parse(value.split(' ').first);
-                              birthday = DateTime(selectedYear);
+                              birthday = convertBirthdayDateTime(year: selectedYear);
+
                               setState(() {});
                             },
                           ),

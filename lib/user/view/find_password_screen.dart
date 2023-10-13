@@ -210,7 +210,7 @@ class _FindPasswordScreenState extends State<FindPasswordScreen> {
                           return;
                         }
                         int selectedYear = int.parse(value.split(' ').first);
-                        birthday = DateTime(selectedYear);
+                        birthday = convertBirthdayDateTime(year: selectedYear);
                         setState(() {});
                       },
                     ),

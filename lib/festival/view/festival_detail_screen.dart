@@ -93,6 +93,7 @@ class _FestivalDetailScreenState extends State<FestivalDetailScreen> {
                             nickname: UserModel.current!.nickname,
                             content: chatText!,
                           );
+                          parentChatId = null;
                         }
                       },
                       onSaved: (String? value) {},
@@ -119,6 +120,7 @@ class _FestivalDetailScreenState extends State<FestivalDetailScreen> {
                               nickname: UserModel.current!.nickname,
                               content: chatText!,
                             );
+                            parentChatId = null;
                           }
                         },
                         icon: const Icon(Icons.edit),

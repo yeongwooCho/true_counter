@@ -10,7 +10,6 @@ import 'package:true_counter/common/variable/routes.dart';
 import 'package:true_counter/festival/component/custom_festival_card.dart';
 import 'package:true_counter/festival/model/festival_model.dart';
 import 'package:true_counter/festival/provider/festival_provider.dart';
-import 'package:true_counter/festival/repository/festival_repository.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -39,8 +38,8 @@ class _HomeScreenState extends State<HomeScreen> {
         title: '트루카운터',
         action: [
           IconButton(
-            onPressed: () async {
-              final repository = FestivalRepository();
+            onPressed: () {
+              // TODO: 스토어 공유 연결
             },
             icon: const Icon(
               Icons.share_outlined,

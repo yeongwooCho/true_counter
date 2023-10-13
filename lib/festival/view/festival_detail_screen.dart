@@ -10,6 +10,7 @@ import 'package:true_counter/common/const/text_style.dart';
 import 'package:true_counter/common/layout/default_appbar.dart';
 import 'package:true_counter/common/layout/default_layout.dart';
 import 'package:true_counter/common/model/screen_arguments.dart';
+import 'package:true_counter/common/util/custom_toast.dart';
 import 'package:true_counter/common/util/datetime.dart';
 import 'package:true_counter/common/variable/routes.dart';
 import 'package:true_counter/festival/component/custom_festival_card.dart';
@@ -63,42 +64,68 @@ class _FestivalDetailScreenState extends State<FestivalDetailScreen> {
     return DefaultLayout(
       isLoading: provider.cache[widget.festivalModel.id] == null,
       appbar: const DefaultAppBar(title: '행사 상세정보'),
-      bottomNavigationBar: UserModel.current == null ||
-              UserModel.current!.isDummy
-          ? null
-          : SizedBox(
-              height: 64.0 + bottomInset,
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                child: CustomTextFormField(
-                  controller: chatController,
-                  focusNode: chatFocus,
-                  onEditingComplete: () {
-                    if (chatController != null && chatFocus != null) {
-                      chatText = chatController!.text;
-                      chatFocus!.unfocus();
-                      chatController!.clear();
-                      print("패런트 $parentChatId");
+      bottomNavigationBar:
+          UserModel.current == null || UserModel.current!.isDummy
+              ? null
+              : SizedBox(
+                  height: 80.0 + bottomInset,
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        bottom: 24.0, top: 8.0, right: 16.0, left: 16.0),
+                    child: CustomTextFormField(
+                      controller: chatController,
+                      focusNode: chatFocus,
+                      onEditingComplete: () {
+                        if (chatController != null && chatFocus != null) {
+                          if (chatController!.text.isEmpty) {
+                            showCustomToast(context, msg: "댓글을 입력해 주세요");
+                            return;
+                          }
+                          chatText = chatController!.text;
+                          chatFocus!.unfocus();
+                          chatController!.clear();
+                          print("패런트 $parentChatId");
 
-                      // TODO: request 댓글작성
-                      provider.createChat(
-                        festivalId: festival.id,
-                        parentChatId: parentChatId,
-                        nickname: UserModel.current!.nickname,
-                        content: chatText!,
-                      );
-                    }
-                  },
-                  onSaved: (String? value) {},
-                  validator: (String? value) {
-                    return null;
-                  },
-                  hintText: '댓글을 입력해 주세요.',
-                  suffixIcon: const Icon(Icons.edit),
+                          // TODO: request 댓글작성
+                          provider.createChat(
+                            festivalId: festival.id,
+                            parentChatId: parentChatId,
+                            nickname: UserModel.current!.nickname,
+                            content: chatText!,
+                          );
+                        }
+                      },
+                      onSaved: (String? value) {},
+                      validator: (String? value) {
+                        return null;
+                      },
+                      hintText: '댓글을 입력해 주세요.',
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          if (chatController != null && chatFocus != null) {
+                            if (chatController!.text.isEmpty) {
+                              showCustomToast(context, msg: "댓글을 입력해 주세요");
+                              return;
+                            }
+                            chatText = chatController!.text;
+                            chatFocus!.unfocus();
+                            chatController!.clear();
+                            print("패런트 $parentChatId");
+
+                            // TODO: request 댓글작성
+                            provider.createChat(
+                              festivalId: festival.id,
+                              parentChatId: parentChatId,
+                              nickname: UserModel.current!.nickname,
+                              content: chatText!,
+                            );
+                          }
+                        },
+                        icon: const Icon(Icons.edit),
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            ),
       child: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(

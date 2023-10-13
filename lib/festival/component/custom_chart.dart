@@ -79,9 +79,12 @@ class _CustomChartState extends State<CustomChart> {
     return SideTitles(
       showTitles: true,
       reservedSize: (valueLength * valueWidth) + (dotLength * dotWidth),
-      interval: widget.festivalModel.cumulativeParticipantCount == 0
-          ? 1.0
-          : widget.festivalModel.cumulativeParticipantCount / 3,
+      // interval: widget.festivalModel.cumulativeParticipantCount == 0
+      //     ? 1.0
+      //     : widget.festivalModel.cumulativeParticipantCount / 3,
+      interval: widget.festivalModel.cumulativeParticipantCount ~/ 3 != 0
+          ? widget.festivalModel.cumulativeParticipantCount / 3
+          : 1.0,
       getTitlesWidget: (double value, TitleMeta meta) {
         late String title;
         switch (value.toInt()) {

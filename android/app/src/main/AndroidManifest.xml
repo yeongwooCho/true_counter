@@ -7,7 +7,7 @@
     <application
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon"
-        android:label="true_counter"
+        android:label="트루카운터"
         android:usesCleartextTraffic="true">
 
         <!-- 카카오 로그인 커스텀 URL 스킴 설정 -->

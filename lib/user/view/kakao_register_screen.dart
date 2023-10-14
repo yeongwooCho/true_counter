@@ -53,6 +53,19 @@ class _KakaoRegisterScreenState extends State<KakaoRegisterScreen> {
                     '트루카운터에서 사용할 추가\n계정 정보를 입력해 주세요.',
                     style: headTitleTextStyle,
                   ),
+                  const SizedBox(height: 24.0),
+
+                  const Text(
+                    '휴대폰번호와 출생연도는\n“본인인증” 및 “중복참여방지”에\n가장 중요한 기초데이터 입니다.',
+                    style: descriptionGreyTextStyle,
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 24.0),
+                  const Text(
+                    '휴대전화번호와 출생연도를\n정확히 입력해 주세요.',
+                    style: descriptionGreyTextStyle,
+                    textAlign: TextAlign.center,
+                  ),
                   const SizedBox(height: 32.0),
                   Form(
                     key: phoneFormKey,
@@ -100,7 +113,8 @@ class _KakaoRegisterScreenState extends State<KakaoRegisterScreen> {
                             }
                             int selectedYear =
                                 int.parse(value.split(' ').first);
-                            birthday = convertBirthdayDateTime(year: selectedYear);
+                            birthday =
+                                convertBirthdayDateTime(year: selectedYear);
                             setState(() {});
                           },
                         ),

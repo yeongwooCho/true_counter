@@ -211,15 +211,42 @@ class CustomFestivalCard extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 4.0),
-                    Text(
-                      '누적 참여자 수: ${convertIntToMoneyString(number: festivalModel.cumulativeParticipantCount)} 명',
-                      style: descriptionGreyTextStyle,
+                    Row(
+                      children: [
+                        Text(
+                          '누적인원: ',
+                          style: descriptionGreyTextStyle.copyWith(
+                              color: PRIMARY_COLOR
+                          ),
+                        ),
+                        Text(
+                          '${convertIntToMoneyString(number: festivalModel.cumulativeParticipantCount)} 명',
+                          style: descriptionGreyTextStyle.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: PRIMARY_COLOR
+                          ),
+                        ),
+                      ],
                     ),
-                    Text(
-                      '참여 가능 반경: ${convertRadiusToString(
-                        radius: festivalModel.radius,
-                      )}',
-                      style: descriptionGreyTextStyle,
+                    Row(
+                      children: [
+                        Text(
+                          '참여반경: ',
+                          style: descriptionGreyTextStyle.copyWith(
+                            color: PRIMARY_COLOR,
+                          ),
+
+                        ),
+                        Text(
+                          '${convertRadiusToString(
+                            radius: festivalModel.radius,
+                          )}',
+                          style: descriptionGreyTextStyle.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: PRIMARY_COLOR
+                          ),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 16.0),
                     CustomChart(

@@ -21,7 +21,7 @@ class WithdrawScreen extends StatefulWidget {
 }
 
 class _WithdrawScreenState extends State<WithdrawScreen> {
-  UserRepositoryInterface _userRepository = UserRepository();
+  final UserRepositoryInterface _userRepository = UserRepository();
 
   bool isSelected = false;
   bool isLoading = false;
@@ -51,7 +51,15 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 8.0),
                   child: Text(
-                    '◦ 탈퇴 시 회원님의 휴대전화 정보를 포함한 모든 개인 정보는 삭제됩니다.',
+                    '◦ 탈퇴 시 회원님의 휴대전화 정보를 포함한 모든 개인 정보는 7일 이후 삭제 됩니다.',
+                    style: descriptionGreyTextStyle,
+                  ),
+                ),
+                const SizedBox(height: 16.0),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Text(
+                    '◦ 중복 카운팅 방지를 위해 재 가입은 7일 이후 신규 가입이 가능 합니다.',
                     style: descriptionGreyTextStyle,
                   ),
                 ),
@@ -101,7 +109,7 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
                       showAlert(
                         context: context,
                         titleWidget: const Text('회원 탈퇴 하시겠습니까?'),
-                        contentWidget: const Text('회원님의 개인 정보는 모두 삭제됩니다.'),
+                        contentWidget: const Text('개인정보는 모두 삭제되며, 재가입은 7일 이후 가능합니다.'),
                         completeText: '확인',
                         completeFunction: () async {
                           setState(() {
@@ -123,7 +131,10 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
                               (route) => false,
                             );
                           } else {
-                            showCustomToast(context, msg: "현재 탈퇴할 수 없는 회원입니다.");
+                            showCustomToast(
+                              context,
+                              msg: "현재 탈퇴할 수 없는 회원입니다.",
+                            );
                           }
                         },
                         cancelText: '취소',

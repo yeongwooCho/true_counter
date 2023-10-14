@@ -29,7 +29,7 @@ void showCustomToast(
 
   fToast.showToast(
       child: toast,
-      toastDuration: toastDuration ?? const Duration(seconds: 2),
+      toastDuration: toastDuration ?? const Duration(seconds: 3),
       positionedToastBuilder: (context, child) {
         return Stack(
           alignment: Alignment.topCenter,

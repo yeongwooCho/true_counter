@@ -215,13 +215,13 @@ class CustomFestivalCard extends StatelessWidget {
                       children: [
                         Text(
                           '누적인원: ',
-                          style: descriptionGreyTextStyle.copyWith(
+                          style: bodyRegularTextStyle.copyWith(
                               color: PRIMARY_COLOR
                           ),
                         ),
                         Text(
                           '${convertIntToMoneyString(number: festivalModel.cumulativeParticipantCount)} 명',
-                          style: descriptionGreyTextStyle.copyWith(
+                          style: bodyBoldTextStyle.copyWith(
                               fontWeight: FontWeight.bold,
                               color: PRIMARY_COLOR
                           ),
@@ -232,17 +232,16 @@ class CustomFestivalCard extends StatelessWidget {
                       children: [
                         Text(
                           '참여반경: ',
-                          style: descriptionGreyTextStyle.copyWith(
+                          style: bodyRegularTextStyle.copyWith(
                             color: PRIMARY_COLOR,
                           ),
 
                         ),
                         Text(
-                          '${convertRadiusToString(
+                          convertRadiusToString(
                             radius: festivalModel.radius,
-                          )}',
-                          style: descriptionGreyTextStyle.copyWith(
-                            fontWeight: FontWeight.bold,
+                          ),
+                          style: bodyBoldTextStyle.copyWith(
                             color: PRIMARY_COLOR
                           ),
                         ),

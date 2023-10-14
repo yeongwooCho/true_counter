@@ -147,7 +147,7 @@ class _CustomChartState extends State<CustomChart> {
           sideTitles: getLeftSideTitles(),
           // drawBelowEverything: true,
           axisNameWidget: Text(
-            '누적 참여자 수',
+            '누적인원',
             style: smallGreyTextStyle.copyWith(
               color: WHITE_TEXT_COLOR,
             ),

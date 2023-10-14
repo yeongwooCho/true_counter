@@ -81,6 +81,15 @@ class MyApp extends StatelessWidget {
           settings: settings,
         );
       },
+      builder: (context, child) {
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(
+            textScaleFactor: 1.1,
+          ),
+          child: child!,
+          // child: child,
+        );
+      },
       home: SplashScreen(),
     );
   }

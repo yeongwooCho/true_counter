@@ -64,6 +64,13 @@ class _FestivalDetailScreenState extends State<FestivalDetailScreen> {
     return DefaultLayout(
       isLoading: provider.cache[widget.festivalModel.id] == null,
       appbar: const DefaultAppBar(title: '행사 상세정보'),
+      floatingActionButton: FloatingActionButton.small(
+        onPressed: () {
+          PrimaryScrollController.of(context).jumpTo(0);
+        },
+        backgroundColor: PRIMARY_COLOR,
+        child: const Icon(Icons.arrow_upward_rounded),
+      ),
       bottomNavigationBar:
           UserModel.current == null || UserModel.current!.isDummy
               ? null

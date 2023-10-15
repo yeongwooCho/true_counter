@@ -82,9 +82,15 @@ class MyApp extends StatelessWidget {
         );
       },
       builder: (context, child) {
+        double myTextScaleFacto = 1.1;
+
+        if (MediaQuery.of(context).textScaleFactor >= 1.3) {
+          myTextScaleFacto = 1.3;
+        }
+
         return MediaQuery(
           data: MediaQuery.of(context).copyWith(
-            textScaleFactor: 1.1,
+            textScaleFactor: myTextScaleFacto,
           ),
           child: child!,
           // child: child,

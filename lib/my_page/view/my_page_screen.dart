@@ -112,9 +112,15 @@ class _MyPageScreenState extends State<MyPageScreen> {
                 size: 32.0,
               ),
               const SizedBox(width: 16.0),
-              Text(
-                title,
-                style: bodyMediumTextStyle,
+              Expanded(
+                child: SizedBox(
+                  child: Text(
+                    title,
+                    style: bodyMediumTextStyle,
+                    maxLines: 2,
+
+                  ),
+                ),
               ),
             ],
           ),

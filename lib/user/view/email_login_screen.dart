@@ -247,13 +247,15 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
           ),
         ),
         const SizedBox(height: 24.0),
-        Text(
+        const Text(
           '트루카운터는 행사 취지에 공감하고',
           style: descriptionTextStyle,
+          textAlign: TextAlign.center,
         ),
-        Text(
-          '행사장 반경 안에 있는 누구나 참여 가능합니다.',
+        const Text(
+          '행사장 반경 안에 있는\n누구나 참여 가능합니다.',
           style: descriptionTextStyle,
+          textAlign: TextAlign.center,
         ),
       ],
     );

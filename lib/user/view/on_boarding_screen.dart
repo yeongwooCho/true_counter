@@ -133,6 +133,25 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   ),
                 ),
                 const SizedBox(height: 16.0),
+                ElevatedButton(
+                  onPressed: () {},
+                  style: appleLoginButtonStyle,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset(
+                        'asset/img/sns/apple.svg',
+                        colorFilter: const ColorFilter.mode(
+                          WHITE_TEXT_COLOR,
+                          BlendMode.srcIn,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      const Text('Apple로 시작하기'),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 16.0),
                 TextButton(
                   onPressed: () {
                     Navigator.of(context).pushNamed(

@@ -35,15 +35,22 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+
+
+
+  # basic
   intl: 0.18.1
   flutter_dotenv: ^5.1.0
+  flutter_secure_storage: ^8.0.0
+  dio: ^5.3.3
+  provider: ^6.0.5
+
+  # util
   fluttertoast: ^8.2.2
   flutter_svg: ^2.0.7
   flutter_localizations: # intl 0.18.0 을 의존하고 있음
     sdk: flutter
-
-  kakao_flutter_sdk_user: ^1.5.0 # 카카오 로그인
-  flutter_secure_storage: ^8.0.0
+  fl_chart: ^0.63.0
 
   # remedi_kopo: ^0.0.2  # 카카오 주소
   kpostal:  # 카카오 우편 번호
@@ -51,14 +58,14 @@ dependencies:
   geolocator: ^10.1.0
   flutter_inappwebview: ^5.8.0
 
-
   # Firebase Phone Auth
   firebase_auth: ^4.9.0
   firebase_core: ^2.15.1
+  sign_in_with_apple: ^5.0.0
+  kakao_flutter_sdk_user: ^1.5.0 # 카카오 로그인
 
-  fl_chart: ^0.63.0
-  dio: ^5.3.3
-  provider: ^6.0.5
+
+
 
 
 dev_dependencies:

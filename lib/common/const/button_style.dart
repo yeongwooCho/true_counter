@@ -47,10 +47,15 @@ ButtonStyle kakaoLoginButtonStyle = ElevatedButton.styleFrom(
   foregroundColor: KAKAO_TEXT_COLOR,
   backgroundColor: KAKAO_CONTAINER_COLOR,
   elevation: 0,
+  // default
+  // shape: RoundedRectangleBorder(
+  //   borderRadius: BorderRadius.circular(12.0),
+  // ),
+  // minimumSize: const Size(100, 60),
   shape: RoundedRectangleBorder(
-    borderRadius: BorderRadius.circular(12.0),
+    borderRadius: BorderRadius.circular(8.0),
   ),
-  minimumSize: const Size(100, 60),
+  minimumSize: const Size(100, 50),
   textStyle: bodyBoldWhiteTextStyle.copyWith(
     color: KAKAO_TEXT_COLOR,
   ),

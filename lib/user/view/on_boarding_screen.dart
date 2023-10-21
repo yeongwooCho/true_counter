@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:true_counter/common/const/button_style.dart';
 import 'package:true_counter/common/const/colors.dart';
 import 'package:true_counter/common/const/text_style.dart';
@@ -61,10 +64,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
           children: [
             Column(
               children: [
-                const SizedBox(
-                  width: double.infinity,
-                  height: 36.0,
-                ),
                 Text(
                   '당신의 참여가 역사가 됩니다.',
                   style: bodyTitleBoldTextStyle.copyWith(
@@ -111,12 +110,12 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     print('카카오 로그인 버튼 누름');
 
                     final bool isSuccessKakaoSignIn =
-                        await _userRepository.kakaoSignIn();
+                    await _userRepository.kakaoSignIn();
 
                     if (isSuccessKakaoSignIn) {
                       Navigator.of(context).pushNamedAndRemoveUntil(
                         RouteNames.root,
-                        (route) => false,
+                            (route) => false,
                       );
                     } else {
                       Navigator.of(context).pushNamed(RouteNames.kakaoRegister);
@@ -132,25 +131,26 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 16.0),
-                ElevatedButton(
-                  onPressed: () {},
-                  style: appleLoginButtonStyle,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SvgPicture.asset(
-                        'asset/img/sns/apple.svg',
-                        colorFilter: const ColorFilter.mode(
-                          WHITE_TEXT_COLOR,
-                          BlendMode.srcIn,
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      const Text('Apple로 시작하기'),
-                    ],
+                if (Platform.isIOS) const SizedBox(height: 16.0),
+                if (Platform.isIOS)
+                  SignInWithAppleButton(
+                    text: 'Apple로 시작하기',
+                    onPressed: () async {
+                      final credential =
+                          await SignInWithApple.getAppleIDCredential(
+                        scopes: [
+                          AppleIDAuthorizationScopes.email,
+                          AppleIDAuthorizationScopes.fullName,
+                        ],
+                      );
+                      print('여기 실행됨?');
+                      print(credential);
+                      print('여기 실행됨?');
+
+                      // Now send the credential (especially `credential.authorizationCode`) to your server to create a session
+                      // after they have been validated with Apple (see `Integration` section for more information on how to do this)
+                    },
                   ),
-                ),
                 const SizedBox(height: 16.0),
                 TextButton(
                   onPressed: () {

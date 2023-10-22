@@ -6,6 +6,7 @@ import 'package:true_counter/common/layout/default_layout.dart';
 import 'package:true_counter/common/variable/routes.dart';
 import 'package:true_counter/festival/provider/festival_provider.dart';
 import 'package:true_counter/notification/provider/notification_provider.dart';
+import 'package:true_counter/user/model/enum/sign_up_type.dart';
 import 'package:true_counter/user/repository/user_repository.dart';
 import 'package:true_counter/user/repository/user_repository_interface.dart';
 
@@ -71,6 +72,16 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void initSplash() async {
+    // _userRepository.signUp(
+    //   email: "asd123@naver.com",
+    //   password: "dud9480!",
+    //   phone: '01012341234',
+    //   birthday: '1966-01-02',
+    //   gender: true,
+    //   region: '대구',
+    //   signUpType: SignUpType.email,
+    // );
+
     bool isAutoLogin = await autoLogin();
     if (isAutoLogin) {
       await getUserInfo();

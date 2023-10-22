@@ -15,14 +15,21 @@ import 'package:true_counter/common/variable/routes.dart';
 import 'package:true_counter/user/repository/user_repository.dart';
 import 'package:true_counter/user/repository/user_repository_interface.dart';
 
-class KakaoRegisterScreen extends StatefulWidget {
-  const KakaoRegisterScreen({Key? key}) : super(key: key);
+class SnsRegisterScreen extends StatefulWidget {
+  final bool isKakao;
+  final String? appleEmail;
+
+  const SnsRegisterScreen({
+    Key? key,
+    required this.isKakao,
+    this.appleEmail,
+  }) : super(key: key);
 
   @override
-  State<KakaoRegisterScreen> createState() => _KakaoRegisterScreenState();
+  State<SnsRegisterScreen> createState() => _SnsRegisterScreenState();
 }
 
-class _KakaoRegisterScreenState extends State<KakaoRegisterScreen> {
+class _SnsRegisterScreenState extends State<SnsRegisterScreen> {
   final UserRepositoryInterface _userRepository = UserRepository();
   final GlobalKey<FormState> phoneFormKey = GlobalKey();
 
@@ -36,8 +43,8 @@ class _KakaoRegisterScreenState extends State<KakaoRegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(
-      appbar: const DefaultAppBar(
-        title: '카카오로 회원가입',
+      appbar: DefaultAppBar(
+        title: widget.isKakao ? "카카오로 회원가입" : "애플로 회원가입",
       ),
       child: Stack(
         children: [
@@ -56,13 +63,13 @@ class _KakaoRegisterScreenState extends State<KakaoRegisterScreen> {
                   const SizedBox(height: 24.0),
 
                   const Text(
-                    '휴대폰번호와 출생연도는\n“본인인증” 및 “중복참여방지”에\n가장 중요한 기초데이터 입니다.',
+                    '휴대폰 번호와 출생연도는\n“본인인증” 및 “중복참여방지”에\n가장 중요한 기초 데이터 입니다.',
                     style: descriptionGreyTextStyle,
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 24.0),
                   const Text(
-                    '휴대전화번호와 출생연도를\n정확히 입력해 주세요.',
+                    '휴대폰 번호와 출생연도를\n정확히 입력해 주세요.',
                     style: descriptionGreyTextStyle,
                     textAlign: TextAlign.center,
                   ),
@@ -155,16 +162,31 @@ class _KakaoRegisterScreenState extends State<KakaoRegisterScreen> {
                             phoneText != null &&
                             phoneText!.isNotEmpty
                         ? () async {
-                            bool isSuccessKakaoSignUp =
-                                await _userRepository.kakaoSignUp(
-                              phone: phoneText!,
-                              gender: gender!,
-                              birthday: convertDateTimeToDateString(
-                                  datetime: birthday),
-                              region: location!,
-                            );
+                            late bool isSuccessSignUp;
 
-                            if (isSuccessKakaoSignUp) {
+                            if (widget.isKakao) {
+                              isSuccessSignUp =
+                                  await _userRepository.kakaoSignUp(
+                                phone: phoneText!,
+                                gender: gender!,
+                                birthday: convertDateTimeToDateString(
+                                  datetime: birthday,
+                                ),
+                                region: location!,
+                              );
+                            } else {
+                              isSuccessSignUp =
+                                  await _userRepository.appleSignUp(
+                                phone: phoneText!,
+                                gender: gender!,
+                                birthday: convertDateTimeToDateString(
+                                  datetime: birthday,
+                                ),
+                                region: location!,
+                              );
+                            }
+
+                            if (isSuccessSignUp) {
                               Navigator.of(context).pushNamedAndRemoveUntil(
                                 RouteNames.root,
                                 (route) => false,
@@ -173,7 +195,8 @@ class _KakaoRegisterScreenState extends State<KakaoRegisterScreen> {
                               Navigator.of(context).pop();
                               showCustomToast(
                                 context,
-                                msg: "계정 문제로 인해 \n카카오로 시작할 수 없습니다.",
+                                msg:
+                                    "계정 문제로 인해 \n${widget.isKakao ? '카카오' : '애플'}로 시작할 수 없습니다.",
                               );
                             }
                           }

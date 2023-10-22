@@ -25,8 +25,8 @@ import 'package:true_counter/user/view/find_email_screen.dart';
 import 'package:true_counter/user/view/find_password_change_screen.dart';
 import 'package:true_counter/user/view/find_password_completion_screen.dart';
 import 'package:true_counter/user/view/find_password_screen.dart';
-import 'package:true_counter/user/view/kakao_register_screen.dart';
 import 'package:true_counter/user/view/on_boarding_screen.dart';
+import 'package:true_counter/user/view/sns_register_screen.dart';
 import 'package:true_counter/user/view/terms_providing_info_screen.dart';
 import 'package:true_counter/user/view/terms_screen.dart';
 
@@ -49,7 +49,7 @@ class RouteNames {
   static const String emailRegisterCompletion = '/email/register/completion';
 
   // kakao sign up
-  static const String kakaoRegister = '/kakao/register';
+  static const String snsRegister = '/kakao/register';
 
   // root tab
   static const String root = '/root';
@@ -115,7 +115,11 @@ Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
   RouteNames.findPasswordCompletion: (_) => FindPasswordCompletionScreen(),
 
   // kakao
-  RouteNames.kakaoRegister: (_) => KakaoRegisterScreen(),
+  RouteNames.snsRegister: (context) {
+    final args =
+        ModalRoute.of(context)?.settings.arguments as ScreenArguments<bool>;
+    return SnsRegisterScreen(isKakao: args.data);
+  },
 
   // root tab
   RouteNames.root: (_) => RootTab(),

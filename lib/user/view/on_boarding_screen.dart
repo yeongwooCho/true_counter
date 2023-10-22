@@ -2,12 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:true_counter/common/const/button_style.dart';
 import 'package:true_counter/common/const/colors.dart';
 import 'package:true_counter/common/const/text_style.dart';
 import 'package:true_counter/common/layout/default_appbar.dart';
 import 'package:true_counter/common/layout/default_layout.dart';
+import 'package:true_counter/common/model/screen_arguments.dart';
 import 'package:true_counter/common/variable/routes.dart';
 import 'package:true_counter/user/model/user_model.dart';
 import 'package:true_counter/user/repository/user_repository.dart';
@@ -118,7 +118,12 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                             (route) => false,
                       );
                     } else {
-                      Navigator.of(context).pushNamed(RouteNames.kakaoRegister);
+                      Navigator.of(context).pushNamed(
+                        RouteNames.snsRegister,
+                        arguments: ScreenArguments<bool>(
+                          data: true
+                        ),
+                      );
                     }
                   },
                   style: kakaoLoginButtonStyle,
@@ -133,23 +138,39 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 ),
                 if (Platform.isIOS) const SizedBox(height: 16.0),
                 if (Platform.isIOS)
-                  SignInWithAppleButton(
-                    text: 'Apple로 시작하기',
+                  ElevatedButton(
                     onPressed: () async {
-                      final credential =
-                          await SignInWithApple.getAppleIDCredential(
-                        scopes: [
-                          AppleIDAuthorizationScopes.email,
-                          AppleIDAuthorizationScopes.fullName,
-                        ],
-                      );
-                      print('여기 실행됨?');
-                      print(credential);
-                      print('여기 실행됨?');
-
-                      // Now send the credential (especially `credential.authorizationCode`) to your server to create a session
-                      // after they have been validated with Apple (see `Integration` section for more information on how to do this)
+                      final bool isSuccessAppleSignIn =
+                          await _userRepository.appleSignIn();
+                      if (isSuccessAppleSignIn) {
+                        Navigator.of(context).pushNamedAndRemoveUntil(
+                          RouteNames.root,
+                          (route) => false,
+                        );
+                      } else {
+                        Navigator.of(context).pushNamed(
+                          RouteNames.snsRegister,
+                          arguments: ScreenArguments<bool>(
+                            data: false,
+                          ),
+                        );
+                      }
                     },
+                    style: appleLoginButtonStyle,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(
+                          'asset/img/sns/apple.svg',
+                          colorFilter: const ColorFilter.mode(
+                            WHITE_TEXT_COLOR,
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        const Text('Apple로 시작하기'),
+                      ],
+                    ),
                   ),
                 const SizedBox(height: 16.0),
                 TextButton(

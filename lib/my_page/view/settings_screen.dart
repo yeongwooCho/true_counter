@@ -38,7 +38,8 @@ class SettingsScreen extends StatelessWidget {
                     style: headTitleTextStyle,
                   ),
                   const SizedBox(height: 24.0),
-                  if (userModel.email.isNotEmpty)
+                  if (userModel.email.isNotEmpty &&
+                      userModel.email.contains('0'))
                     renderDescriptionRow(
                       title: '이메일',
                       description: userModel.email,

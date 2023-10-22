@@ -13,12 +13,16 @@ import 'package:true_counter/user/model/enum/sign_up_type.dart';
 import 'package:true_counter/user/model/kakao_request_model.dart';
 import 'package:true_counter/user/model/token_model.dart';
 import 'package:true_counter/user/model/user_model.dart';
+import 'package:true_counter/user/repository/apple_auth_repository.dart';
 import 'package:true_counter/user/repository/kakao_auth_repository.dart';
 import 'package:true_counter/user/repository/user_repository_interface.dart';
 
 class UserRepository extends UserRepositoryInterface {
   final _dio = BaseDio().buildDio();
   final KakaoAuthRepository _kakaoAuthRepository = KakaoAuthRepository();
+  final AppleAuthRepository _appleAuthRepository = AppleAuthRepository();
+
+  // Firebase Auth 에 다음 두 가지가 존재한다. // AppleAuthCredential, AppleAuthProvider
 
   @override
   Future<bool> duplicateEmail({
@@ -419,15 +423,61 @@ class UserRepository extends UserRepositoryInterface {
   }
 
   @override
-  Future<bool> appleSignIn() {
-    // TODO: implement appleSignIn
-    throw UnimplementedError();
+  Future<bool> appleSignIn() async {
+    try {
+      print('애플 로그인 시작');
+
+      final String? email = await _appleAuthRepository.appleLogin();
+      if (email == null) {
+        return false;
+      }
+
+      String password = getApplePassword(userInfo: email);
+
+      final bool isSuccessSignIn = await signIn(
+        email: email,
+        password: password,
+        signInType: SignUpType.apple,
+      );
+      if (!isSuccessSignIn) {
+        secretEmail = email;
+      }
+      return isSuccessSignIn;
+    } catch (error) {
+      debugPrint('UserRepository appleSignIn Error: ${error.toString()}');
+      return false;
+    }
   }
 
   @override
-  Future<bool> appleSignUp() {
-    // TODO: implement appleSignUp
-    throw UnimplementedError();
+  Future<bool> appleSignUp({
+    required String phone,
+    required bool gender,
+    required String birthday,
+    required String region,
+  }) async {
+    try {
+      final String email = secretEmail;
+      secretEmail = '';
+      final String password = getApplePassword(userInfo: email);
+      print("애플 회원가입");
+      print(email);
+      print(password);
+
+      final bool isSuccessSignIn = await signUp(
+        email: email,
+        password: password,
+        phone: phone,
+        birthday: birthday,
+        gender: gender,
+        region: region,
+        signUpType: SignUpType.apple,
+      );
+      return isSuccessSignIn;
+    } catch (error) {
+      debugPrint('UserRepository kakaoSignUp Error: ${error.toString()}');
+      return false;
+    }
   }
 
   @override

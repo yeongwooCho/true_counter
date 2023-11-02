@@ -78,7 +78,7 @@ class _TermsScreenState extends State<TermsScreen> {
                             '전체 약관에 동의합니다.',
                             style: isCheckTotalContainer
                                 ? bodyBoldWhiteTextStyle
-                                : bodyTitleBoldTextStyle,
+                                : bodyBoldTextStyle,
                           )
                         ],
                       ),

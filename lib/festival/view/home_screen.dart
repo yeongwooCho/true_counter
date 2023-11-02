@@ -37,15 +37,15 @@ class _HomeScreenState extends State<HomeScreen> {
       appbar: DefaultAppBar(
         title: '트루카운터',
         action: [
-          IconButton(
-            onPressed: () {
-              // TODO: 스토어 공유 연결
-            },
-            icon: const Icon(
-              Icons.share_outlined,
-              size: 32.0,
-            ),
-          ),
+          // IconButton(
+          //   onPressed: () {
+          //     // TODO: 스토어 공유 연결
+          //   },
+          //   icon: const Icon(
+          //     Icons.share_outlined,
+          //     size: 32.0,
+          //   ),
+          // ),
           IconButton(
             onPressed: () {
               Navigator.pushNamed(

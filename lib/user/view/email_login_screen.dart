@@ -200,8 +200,9 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
 
       if (isSuccessSignIn) {
         // TODO: 로그인 제어
-        Navigator.of(context).pushNamed(
+        Navigator.of(context).pushNamedAndRemoveUntil(
           RouteNames.root,
+          (route) => false,
         );
       } else {
         showCustomToast(

@@ -14,6 +14,9 @@ import 'package:true_counter/festival/model/festival_model.dart';
 import 'package:true_counter/festival/provider/festival_provider.dart';
 import 'package:true_counter/festival_list/component/custom_container_button.dart';
 
+import '../../common/util/custom_toast.dart';
+import '../../user/model/user_model.dart';
+
 class FestivalListScreen extends StatefulWidget {
   const FestivalListScreen({Key? key}) : super(key: key);
 
@@ -45,11 +48,16 @@ class _FestivalListScreenState extends State<FestivalListScreen> {
         title: '행사 리스트',
         action: [
           TextButton(
-            onPressed: () {
-              Navigator.of(context).pushNamed(
-                RouteNames.festivalRegister,
-              );
-            },
+            onPressed:
+                (UserModel.current == null || (UserModel.current!.isDummy))
+                    ? () {
+                        showCustomToast(context, msg: "로그인 후 이용 가능합니다.");
+                      }
+                    : () {
+                        Navigator.of(context).pushNamed(
+                          RouteNames.festivalRegister,
+                        );
+                      },
             child: const Text('행사 등록 신청'),
           ),
         ],

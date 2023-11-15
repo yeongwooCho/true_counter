@@ -39,20 +39,20 @@ class _SplashScreenState extends State<SplashScreen> {
               children: [
                 Text(
                   'TRUE COUNTER',
-                  style: appNameTextStyle.copyWith(
+                  style: MyTextStyle.appName.copyWith(
                     color: PRIMARY_COLOR,
                   ),
                 ),
                 const SizedBox(height: 36.0),
                 Text(
                   '실시간 참여자 수',
-                  style: headTitleTextStyle.copyWith(
+                  style: MyTextStyle.headTitle.copyWith(
                     color: SECONDARY_COLOR,
                   ),
                 ),
                 Text(
                   '집계 시스템',
-                  style: headTitleTextStyle.copyWith(
+                  style: MyTextStyle.headTitle.copyWith(
                     color: SECONDARY_COLOR,
                   ),
                 ),
@@ -60,7 +60,7 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
             Text(
               '당신의 참여가\n역사가 됩니다.',
-              style: bodyTitleBoldTextStyle.copyWith(
+              style: MyTextStyle.bodyTitleBold.copyWith(
                 color: DARK_GREY_COLOR,
               ),
             ),

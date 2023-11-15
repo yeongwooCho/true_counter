@@ -43,28 +43,28 @@ class IntroduceScreen extends StatelessWidget {
                     children: [
                       Text(
                         '트루카운터를 소개합니다.',
-                        style: headTitleTextStyle,
+                        style: MyTextStyle.headTitle,
                         textAlign: TextAlign.center,
                       ),
                       SizedBox(height: 16.0),
                       Text(
                         ' ◦ 트루카운터는 행사 취지에 공감하는 자발적 참여자의 실시간 인원 수를 객관적으로 보여줍니다.',
-                        style: descriptionTextStyle,
+                        style: MyTextStyle.descriptionRegular,
                       ),
                       SizedBox(height: 16.0),
                       Text(
                         ' ◦ 트루카운터는 익명성을 기초로 운영 되며 자동생성 닉네임으로 활동하게 됩니다. ',
-                        style: descriptionTextStyle,
+                        style: MyTextStyle.descriptionRegular,
                       ),
                       SizedBox(height: 16.0),
                       Text(
                         ' ◦ 트루카운터는 시민의 다양한 여론과 발전적 정책제안을 수렴합니다.',
-                        style: descriptionTextStyle,
+                        style: MyTextStyle.descriptionRegular,
                       ),
                       SizedBox(height: 16.0),
                       Text(
                         ' ◦ 트루카운터는 모든 시민이 함께 할 수 있는 커뮤니티 형성에 기여합니다.',
-                        style: descriptionTextStyle,
+                        style: MyTextStyle.descriptionRegular,
                       ),
                     ],
                   ),
@@ -92,23 +92,23 @@ class IntroduceScreen extends StatelessWidget {
                     children: [
                       const Text(
                         '트루카운터를 후원합니다.',
-                        style: headTitleTextStyle,
+                        style: MyTextStyle.headTitle,
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 16.0),
                       const Text(
                         ' ◦ 여러분의 후원이 트루카운터를 지속 가능하게 만듭니다.',
-                        style: descriptionTextStyle,
+                        style: MyTextStyle.descriptionRegular,
                       ),
                       const SizedBox(height: 16.0),
                       const Text(
                         ' ◦ 트루카운터는 왜곡 없는 정확한 데이터 제공으로 여러분의 후원에 보답하겠습니다.',
-                        style: descriptionTextStyle,
+                        style: MyTextStyle.descriptionRegular,
                       ),
                       const SizedBox(height: 16.0),
                       const Text(
                         ' ◦ 월 정기 및 단기 후원 계좌',
-                        style: descriptionTextStyle,
+                        style: MyTextStyle.descriptionRegular,
                       ),
                       const SizedBox(height: 16.0),
                       Row(
@@ -116,7 +116,7 @@ class IntroduceScreen extends StatelessWidget {
                         children: [
                           const Text(
                             '하나은행\n22591052381107\n예금주: 최승현',
-                            style: descriptionTextStyle,
+                            style: MyTextStyle.descriptionRegular,
                           ),
                           ElevatedButton(
                             onPressed: () {

@@ -55,7 +55,7 @@ class CustomTextFormField extends StatelessWidget {
         if (title != null)
           Text(
             title!,
-            style: bodyTitleBoldTextStyle,
+            style: MyTextStyle.bodyTitleBold,
           ),
         if (title != null) const SizedBox(height: 8.0),
         if (buttonText != null)
@@ -121,7 +121,7 @@ class CustomTextFormField extends StatelessWidget {
               hintText: hintText,
               suffixIcon: suffixIcon,
             ),
-            style: descriptionTextStyle,
+            style: MyTextStyle.descriptionRegular,
             maxLength: maxLength,
             maxLines: maxLines,
             textInputAction: textInputAction,

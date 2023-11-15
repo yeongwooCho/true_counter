@@ -29,7 +29,7 @@ class EmailRegisterCompletionScreen extends StatelessWidget {
                   SizedBox(height: 24.0),
                   Text(
                     '회원가입이 완료 되었습니다.',
-                    style: headTitleTextStyle,
+                    style: MyTextStyle.headTitle,
                   ),
                 ],
               ),

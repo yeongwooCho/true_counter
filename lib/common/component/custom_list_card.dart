@@ -32,13 +32,15 @@ class CustomListCard extends StatelessWidget {
                   children: [
                     Text(
                       title,
-                      style: bodyBoldTextStyle,
+                      style: MyTextStyle.bodyBold,
                       overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: 8.0),
                     Text(
                       description,
-                      style: descriptionGreyTextStyle,
+                      style: MyTextStyle.descriptionRegular.copyWith(
+                        color: DARK_GREY_COLOR,
+                      ),
                     ),
                   ],
                 ),

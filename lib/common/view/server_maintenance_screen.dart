@@ -25,18 +25,18 @@ class ServerMaintenanceScreen extends StatelessWidget {
             const SizedBox(height: 48.0),
             Text(
               '더 나은 서비스를 위해',
-              style: headTitleTextStyle,
+              style: MyTextStyle.headTitle,
               textAlign: TextAlign.center,
             ),
             Text(
               '서버를 점검하고 있습니다.',
-              style: headTitleTextStyle,
+              style: MyTextStyle.headTitle,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 32.0),
             Text(
               '잠시만 기다려 주세요.',
-              style: bodyTitleBoldTextStyle,
+              style: MyTextStyle.bodyTitleBold,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 48.0),

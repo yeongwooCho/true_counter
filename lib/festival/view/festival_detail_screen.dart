@@ -172,7 +172,7 @@ class _FestivalDetailScreenState extends State<FestivalDetailScreen> {
                 children: [
                   const Text(
                     '응원 댓글',
-                    style: headTitleTextStyle,
+                    style: MyTextStyle.headTitle,
                   ),
                   const SizedBox(height: 16.0),
                   _renderDescriptionContainer(),
@@ -294,12 +294,12 @@ class _FestivalDetailScreenState extends State<FestivalDetailScreen> {
       children: [
         Text(
           title,
-          style: bodyTitleBoldTextStyle,
+          style: MyTextStyle.bodyTitleBold,
         ),
         const SizedBox(height: 4.0),
         Text(
           description,
-          style: bodyRegularTextStyle,
+          style: MyTextStyle.bodyRegular,
         ),
       ],
     );
@@ -318,17 +318,17 @@ class _FestivalDetailScreenState extends State<FestivalDetailScreen> {
           children: [
             Text(
               "◦ 댓글 작성자는 ‘닉네임'으로만 표시됩니다.",
-              style: descriptionTextStyle,
+              style: MyTextStyle.descriptionRegular,
             ),
             SizedBox(height: 8.0),
             Text(
               '◦ 서로의 의견이 존중될 수 있도록 배려해 주시고, 타인에게 불쾌감을 줄 수 있는 표현 및 권리침해에 해당하는 내용에 주의 해주세요.',
-              style: descriptionTextStyle,
+              style: MyTextStyle.descriptionRegular,
             ),
             SizedBox(height: 8.0),
             Text(
               '◦ 작성한 댓글이 100명 이상에게 신고될 경우 자동 삭제됩니다.',
-              style: descriptionTextStyle,
+              style: MyTextStyle.descriptionRegular,
             ),
           ],
         ),

@@ -58,19 +58,23 @@ class _SnsRegisterScreenState extends State<SnsRegisterScreen> {
                   const SizedBox(height: 24.0),
                   const Text(
                     '트루카운터에서 사용할 추가\n계정 정보를 입력해 주세요.',
-                    style: headTitleTextStyle,
+                    style: MyTextStyle.headTitle,
                   ),
                   const SizedBox(height: 24.0),
 
-                  const Text(
+                  Text(
                     '휴대폰 번호와 출생연도는\n“본인인증” 및 “중복참여방지”에\n가장 중요한 기초 데이터 입니다.',
-                    style: descriptionGreyTextStyle,
+                    style: MyTextStyle.descriptionRegular.copyWith(
+                      color: DARK_GREY_COLOR,
+                    ),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 24.0),
-                  const Text(
+                  Text(
                     '휴대폰 번호와 출생연도를\n정확히 입력해 주세요.',
-                    style: descriptionGreyTextStyle,
+                    style: MyTextStyle.descriptionRegular.copyWith(
+                      color: DARK_GREY_COLOR,
+                    ),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 32.0),
@@ -104,7 +108,7 @@ class _SnsRegisterScreenState extends State<SnsRegisterScreen> {
                         width: 120.0,
                         child: Text(
                           '출생년도',
-                          style: bodyTitleBoldTextStyle,
+                          style: MyTextStyle.bodyTitleBold,
                         ),
                       ),
                       const SizedBox(width: 16.0),
@@ -135,7 +139,7 @@ class _SnsRegisterScreenState extends State<SnsRegisterScreen> {
                         width: 120.0,
                         child: Text(
                           '거주지역',
-                          style: bodyTitleBoldTextStyle,
+                          style: MyTextStyle.bodyTitleBold,
                         ),
                       ),
                       const SizedBox(width: 16.0),
@@ -255,7 +259,7 @@ class _SelectedGenderState extends State<_SelectedGender> {
           width: 120.0,
           child: Text(
             '성별 선택',
-            style: bodyTitleBoldTextStyle,
+            style: MyTextStyle.bodyTitleBold,
           ),
         ),
         const SizedBox(width: 16.0),
@@ -293,9 +297,7 @@ class _SelectedGenderState extends State<_SelectedGender> {
                         child: Center(
                           child: Text(
                             '여성',
-                            style: bodyMediumTextStyle.copyWith(
-                              fontSize: 16.0,
-                            ),
+                            style: MyTextStyle.descriptionMedium,
                           ),
                         ),
                       ),
@@ -334,9 +336,7 @@ class _SelectedGenderState extends State<_SelectedGender> {
                         child: Center(
                           child: Text(
                             '남성',
-                            style: bodyMediumTextStyle.copyWith(
-                              fontSize: 16.0,
-                            ),
+                            style: MyTextStyle.descriptionMedium,
                           ),
                         ),
                       ),

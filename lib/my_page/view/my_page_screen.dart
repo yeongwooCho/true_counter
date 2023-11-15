@@ -37,7 +37,7 @@ class _MyPageScreenState extends State<MyPageScreen> {
                           UserModel.current?.isDummy == true
                       ? '로그인 후 이용해주세요.'
                       : UserModel.current!.nickname,
-                  style: headTitleTextStyle,
+                  style: MyTextStyle.headTitle,
                 ),
                 IconButton(
                   onPressed: UserModel.current == null ||
@@ -116,9 +116,8 @@ class _MyPageScreenState extends State<MyPageScreen> {
                 child: SizedBox(
                   child: Text(
                     title,
-                    style: bodyMediumTextStyle,
+                    style: MyTextStyle.bodyMedium,
                     maxLines: 2,
-
                   ),
                 ),
               ),

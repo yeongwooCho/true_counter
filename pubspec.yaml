@@ -121,6 +121,24 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
+  fonts:
+    - family: Pretendard
+      fonts:
+        - asset: asset/fonts/Pretendard-Thin.otf
+          weight: 100
+        - asset: asset/fonts/Pretendard-Light.otf
+          weight: 300
+        - asset: asset/fonts/Pretendard-Regular.otf
+          weight: 400
+        - asset: asset/fonts/Pretendard-Medium.otf
+          weight: 500
+        - asset: asset/fonts/Pretendard-SemiBold.otf
+          weight: 600
+        - asset: asset/fonts/Pretendard-Bold.otf
+          weight: 700
+        - asset: asset/fonts/Pretendard-Black.otf
+          weight: 900
+
   # fonts:
   #   - family: Schyler
   #     fonts:

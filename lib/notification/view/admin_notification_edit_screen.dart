@@ -36,7 +36,7 @@ class _AdminNotificationEditScreenState
               const SizedBox(height: 24.0),
               const Text(
                 '관리자만 접근할 수 있습니다.\n공지할 항목을 등록해 주세요.',
-                style: headTitleTextStyle,
+                style: MyTextStyle.headTitle,
               ),
               const SizedBox(height: 48.0),
               CustomTextFormField(

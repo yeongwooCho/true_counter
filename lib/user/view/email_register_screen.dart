@@ -103,7 +103,7 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                     const SizedBox(height: 24.0),
                     const Text(
                       '트루카운터에서 사용할\n계정 정보를 입력해주세요.',
-                      style: headTitleTextStyle,
+                      style: MyTextStyle.headTitle,
                     ),
                     const SizedBox(height: 32.0),
                     Form(
@@ -370,7 +370,7 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                           width: 120.0,
                           child: Text(
                             '출생년도',
-                            style: bodyMediumTextStyle,
+                            style: MyTextStyle.bodyMedium,
                           ),
                         ),
                         const SizedBox(width: 16.0),
@@ -403,7 +403,7 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                           width: 120.0,
                           child: Text(
                             '거주지역',
-                            style: bodyMediumTextStyle,
+                            style: MyTextStyle.bodyMedium,
                           ),
                         ),
                         const SizedBox(width: 16.0),
@@ -519,7 +519,7 @@ class _SelectedGenderState extends State<_SelectedGender> {
           width: 120.0,
           child: Text(
             '성별 선택',
-            style: bodyMediumTextStyle,
+            style: MyTextStyle.bodyMedium,
           ),
         ),
         const SizedBox(width: 16.0),
@@ -557,9 +557,7 @@ class _SelectedGenderState extends State<_SelectedGender> {
                         child: Center(
                           child: Text(
                             '여성',
-                            style: bodyMediumTextStyle.copyWith(
-                              fontSize: 16.0,
-                            ),
+                            style: MyTextStyle.descriptionMedium,
                           ),
                         ),
                       ),
@@ -598,9 +596,7 @@ class _SelectedGenderState extends State<_SelectedGender> {
                         child: Center(
                           child: Text(
                             '남성',
-                            style: bodyMediumTextStyle.copyWith(
-                              fontSize: 16.0,
-                            ),
+                            style: MyTextStyle.descriptionMedium,
                           ),
                         ),
                       ),

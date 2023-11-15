@@ -37,7 +37,9 @@ class _CustomDropDownButtonState extends State<CustomDropDownButton> {
         menuMaxHeight: widget.menuMaxHeight,
         isExpanded: true,
         underline: const SizedBox(height: 1.0),
-        style: descriptionTextStyle,
+        style: MyTextStyle.bodyMedium.copyWith(
+          color: DEFAULT_TEXT_COLOR,
+        ),
         value: widget.defaultValue,
         items: widget.dropdownList.map((String item) {
           return DropdownMenuItem<String>(

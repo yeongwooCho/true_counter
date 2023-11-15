@@ -34,9 +34,8 @@ class _ChatScreenState extends State<ChatScreen> {
                 const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
             child: Text(
               '첫 댓글을 작성 해보세요!',
-              style: bodyMediumTextStyle.copyWith(
+              style: MyTextStyle.bodyRegular.copyWith(
                 color: DARK_GREY_COLOR,
-                fontWeight: FontWeight.w400,
               ),
               textAlign: TextAlign.center,
             ),

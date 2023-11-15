@@ -43,7 +43,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               children: [
                 Text(
                   '둘러보기',
-                  style: bodyBoldTextStyle.copyWith(
+                  style: MyTextStyle.bodyBold.copyWith(
                     color: DARK_GREY_COLOR,
                   ),
                 ),
@@ -66,38 +66,38 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               children: [
                 Text(
                   '당신의 참여가 역사가 됩니다.',
-                  style: bodyTitleBoldTextStyle.copyWith(
+                  style: MyTextStyle.bodyTitleBold.copyWith(
                     color: DARK_GREY_COLOR,
                   ),
                 ),
                 Text(
                   'TRUE COUNTER',
-                  style: appNameTextStyle.copyWith(
+                  style: MyTextStyle.appName.copyWith(
                     color: PRIMARY_COLOR,
                   ),
                 ),
                 const SizedBox(height: 36.0),
                 Text(
                   '실시간 참여자 수',
-                  style: headTitleTextStyle.copyWith(
+                  style: MyTextStyle.headTitle.copyWith(
                     color: SECONDARY_COLOR,
                   ),
                 ),
                 Text(
                   '집계 시스템',
-                  style: headTitleTextStyle.copyWith(
+                  style: MyTextStyle.headTitle.copyWith(
                     color: SECONDARY_COLOR,
                   ),
                 ),
                 const SizedBox(height: 24.0),
                 const Text(
                   '트루카운터는 행사 취지에 공감하고',
-                  style: descriptionTextStyle,
+                  style: MyTextStyle.descriptionRegular,
                   textAlign: TextAlign.center,
                 ),
                 const Text(
                   '행사장 반경 안에 있는\n누구나 참여 가능합니다.',
-                  style: descriptionTextStyle,
+                  style: MyTextStyle.descriptionRegular,
                   textAlign: TextAlign.center,
                 ),
               ],
@@ -191,7 +191,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     ),
                     child: Text(
                       '이메일로 로그인하기',
-                      style: bodyMediumTextStyle.copyWith(
+                      style: MyTextStyle.bodyMedium.copyWith(
                         color: DARK_GREY_COLOR,
                       ),
                     ),

@@ -93,7 +93,9 @@ class _CustomChartState extends State<CustomChart> {
         }
         return Text(
           title,
-          style: smallGreyTextStyle,
+          style: MyTextStyle.descriptionRegular.copyWith(
+            color: DARK_GREY_COLOR,
+          ),
           textAlign: TextAlign.center,
         );
       },
@@ -116,7 +118,9 @@ class _CustomChartState extends State<CustomChart> {
         }
         return Text(
           title,
-          style: smallGreyTextStyle,
+          style: MyTextStyle.descriptionRegular.copyWith(
+            color: DARK_GREY_COLOR,
+          ),
         );
       },
     );
@@ -138,7 +142,7 @@ class _CustomChartState extends State<CustomChart> {
           // drawBelowEverything: true,
           axisNameWidget: Text(
             '행사 지속 시간',
-            style: smallGreyTextStyle.copyWith(
+            style: MyTextStyle.descriptionRegular.copyWith(
               color: WHITE_TEXT_COLOR,
             ),
           ),
@@ -148,7 +152,7 @@ class _CustomChartState extends State<CustomChart> {
           // drawBelowEverything: true,
           axisNameWidget: Text(
             '누적인원',
-            style: smallGreyTextStyle.copyWith(
+            style: MyTextStyle.descriptionRegular.copyWith(
               color: WHITE_TEXT_COLOR,
             ),
           ),

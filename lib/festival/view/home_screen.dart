@@ -74,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     padding: EdgeInsets.only(left: 4.0),
                     child: Text(
                       '오늘 행사',
-                      style: headTitleTextStyle,
+                      style: MyTextStyle.headTitle,
                     ),
                   ),
                   SizedBox(
@@ -117,7 +117,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: EdgeInsets.only(left: 8.0),
                 child: Text(
                   '종료된 행사 (최근 10개)',
-                  style: headTitleTextStyle,
+                  style: MyTextStyle.headTitle,
                 ),
               ),
               const SizedBox(height: 24.0),
@@ -161,7 +161,7 @@ class CustomListView extends StatelessWidget {
             child: Center(
               child: Text(
                 emptyMessage,
-                style: bodyTitleBoldTextStyle.copyWith(
+                style: MyTextStyle.bodyTitleBold.copyWith(
                   color: DARK_GREY_COLOR,
                 ),
                 textAlign: TextAlign.center,

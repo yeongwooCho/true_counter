@@ -31,7 +31,7 @@ class FindPasswordCompletionScreen extends StatelessWidget {
                   SizedBox(height: 24.0),
                   Text(
                     '비밀번호가 정상적으로\n변경 되었습니다.',
-                    style: headTitleTextStyle,
+                    style: MyTextStyle.headTitle,
                     textAlign: TextAlign.center,
                   ),
                 ],

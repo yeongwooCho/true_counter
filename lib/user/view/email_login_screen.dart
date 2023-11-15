@@ -96,7 +96,7 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                   children: [
                     const Text(
                       '자동 로그인',
-                      style: bodyBoldTextStyle,
+                      style: MyTextStyle.bodyBold,
                     ),
                     const SizedBox(width: 6.0),
                     CupertinoSwitch(
@@ -128,9 +128,11 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                             RouteNames.terms,
                           );
                         },
-                        child: const Text(
+                        child: Text(
                           '회원가입',
-                          style: descriptionGreyTextStyle,
+                          style: MyTextStyle.descriptionRegular.copyWith(
+                            color: DARK_GREY_COLOR,
+                          ),
                         ),
                       ),
                     ),
@@ -144,9 +146,11 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                         onPressed: () {
                           Navigator.of(context).pushNamed(RouteNames.findEmail);
                         },
-                        child: const Text(
+                        child: Text(
                           '이메일 찾기',
-                          style: descriptionGreyTextStyle,
+                          style: MyTextStyle.descriptionRegular.copyWith(
+                            color: DARK_GREY_COLOR,
+                          ),
                         ),
                       ),
                     ),
@@ -161,9 +165,11 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                           Navigator.of(context)
                               .pushNamed(RouteNames.findPassword);
                         },
-                        child: const Text(
+                        child: Text(
                           '비밀번호 찾기',
-                          style: descriptionGreyTextStyle,
+                          style: MyTextStyle.descriptionRegular.copyWith(
+                            color: DARK_GREY_COLOR,
+                          ),
                         ),
                       ),
                     ),
@@ -224,38 +230,38 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
         ),
         Text(
           '당신의 참여가 역사가 됩니다.',
-          style: bodyTitleBoldTextStyle.copyWith(
+          style: MyTextStyle.bodyTitleBold.copyWith(
             color: DARK_GREY_COLOR,
           ),
         ),
         Text(
           'TRUE COUNTER',
-          style: appNameTextStyle.copyWith(
+          style: MyTextStyle.appName.copyWith(
             color: PRIMARY_COLOR,
           ),
         ),
         const SizedBox(height: 36.0),
         Text(
           '실시간 참여자 수',
-          style: headTitleTextStyle.copyWith(
+          style: MyTextStyle.headTitle.copyWith(
             color: SECONDARY_COLOR,
           ),
         ),
         Text(
           '집계 시스템',
-          style: headTitleTextStyle.copyWith(
+          style: MyTextStyle.headTitle.copyWith(
             color: SECONDARY_COLOR,
           ),
         ),
         const SizedBox(height: 24.0),
         const Text(
           '트루카운터는 행사 취지에 공감하고',
-          style: descriptionTextStyle,
+          style: MyTextStyle.descriptionRegular,
           textAlign: TextAlign.center,
         ),
         const Text(
           '행사장 반경 안에 있는\n누구나 참여 가능합니다.',
-          style: descriptionTextStyle,
+          style: MyTextStyle.descriptionRegular,
           textAlign: TextAlign.center,
         ),
       ],

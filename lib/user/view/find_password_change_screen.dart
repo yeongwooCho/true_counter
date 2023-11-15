@@ -51,7 +51,7 @@ class _FindPasswordChangeScreenState extends State<FindPasswordChangeScreen> {
                 const SizedBox(height: 24.0),
                 const Text(
                   '새로운 비밀번호를\n입력해 주세요.',
-                  style: headTitleTextStyle,
+                  style: MyTextStyle.headTitle,
                 ),
                 const SizedBox(height: 48.0),
                 CustomTextFormField(

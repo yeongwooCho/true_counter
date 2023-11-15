@@ -33,7 +33,7 @@ class FirstChat extends StatelessWidget {
             children: [
               Text(
                 chat.nickName,
-                style: bodyTitleBoldTextStyle,
+                style: MyTextStyle.bodyTitleBold,
               ),
               Container(
                 height: 32.0,
@@ -49,7 +49,7 @@ class FirstChat extends StatelessWidget {
                       },
                       child: Text(
                         '댓글',
-                        style: descriptionTextStyle.copyWith(
+                        style: MyTextStyle.descriptionRegular.copyWith(
                           color: WHITE_TEXT_COLOR,
                         ),
                       ),
@@ -79,7 +79,7 @@ class FirstChat extends StatelessWidget {
                       menuMaxHeight: 200.0,
                       isExpanded: false,
                       underline: const SizedBox(height: 1.0),
-                      style: descriptionTextStyle,
+                      style: MyTextStyle.descriptionMedium,
                       value: "",
                       items: ["", '삭제', '신고'].map((String item) {
                         if (item == "") {
@@ -117,9 +117,8 @@ class FirstChat extends StatelessWidget {
           const SizedBox(height: 12.0),
           Text(
             chat.content,
-            style: bodyMediumTextStyle.copyWith(
+            style: MyTextStyle.bodyRegular.copyWith(
               color: DARK_GREY_COLOR,
-              fontWeight: FontWeight.w400,
             ),
           ),
           const SizedBox(height: 12.0),
@@ -127,7 +126,7 @@ class FirstChat extends StatelessWidget {
             children: [
               Text(
                 convertDateTimeToMinute(datetime: chat.createdAt),
-                style: descriptionTextStyle,
+                style: MyTextStyle.descriptionRegular,
               ),
               const SizedBox(width: 16.0),
               const Icon(
@@ -138,9 +137,9 @@ class FirstChat extends StatelessWidget {
               const SizedBox(width: 4.0),
               Text(
                 chat.chatLike.toString(),
-                style: descriptionTextStyle.copyWith(
+                style: MyTextStyle.descriptionRegular.copyWith(
                   color: ERROR_COLOR,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ],

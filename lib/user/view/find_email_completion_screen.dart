@@ -38,7 +38,7 @@ class FindEmailCompletionScreen extends StatelessWidget {
                   const SizedBox(height: 24.0),
                   Text(
                     '회원님의 이메일은\n$email\n입니다.',
-                    style: headTitleTextStyle,
+                    style: MyTextStyle.headTitle,
                     textAlign: TextAlign.center,
                   ),
                 ],

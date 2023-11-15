@@ -20,7 +20,7 @@ void showCustomToast(
     ),
     child: Text(
       msg,
-      style: bodyBoldTextStyle.copyWith(
+      style: MyTextStyle.bodyBold.copyWith(
         color: foregroundColor,
       ),
       textAlign: TextAlign.center,

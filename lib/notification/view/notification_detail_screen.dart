@@ -27,12 +27,12 @@ class NotificationDetailScreen extends StatelessWidget {
           children: [
             Text(
               notificationModel.title,
-              style: headTitleTextStyle,
+              style: MyTextStyle.headTitle,
             ),
             const SizedBox(height: 16.0),
             Text(
               "등록 일자: ${convertDateTimeToMinute(datetime: notificationModel.createdAt)}",
-              style: bodyBoldTextStyle.copyWith(
+              style: MyTextStyle.bodyBold.copyWith(
                 color: DARK_GREY_COLOR,
               ),
             ),
@@ -41,7 +41,7 @@ class NotificationDetailScreen extends StatelessWidget {
             const SizedBox(height: 16.0),
             Text(
               notificationModel.content,
-              style: bodyMediumTextStyle,
+              style: MyTextStyle.bodyMedium,
             ),
           ],
         ),

@@ -48,8 +48,8 @@ class CustomContainerButton extends StatelessWidget {
           padding: EdgeInsets.all(textPadding),
           child: Text(
             title,
-            style: bodyBoldTextStyle.copyWith(
-              fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+            style: MyTextStyle.bodyBold.copyWith(
+              fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
               color:
                   isSelected ? activeForegroundColor : disableForegroundColor,
             ),

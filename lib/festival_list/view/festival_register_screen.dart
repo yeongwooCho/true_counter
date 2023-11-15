@@ -131,7 +131,7 @@ class _FestivalRegisterScreenState extends State<FestivalRegisterScreen> {
               const SizedBox(height: 8.0),
               const Text(
                 '행사장 위치',
-                style: bodyTitleBoldTextStyle,
+                style: MyTextStyle.bodyTitleBold,
               ),
               const SizedBox(height: 8.0),
               CustomTextFormField(
@@ -148,7 +148,7 @@ class _FestivalRegisterScreenState extends State<FestivalRegisterScreen> {
               const SizedBox(height: 24.0),
               const Text(
                 '참여 가능한 반경',
-                style: bodyTitleBoldTextStyle,
+                style: MyTextStyle.bodyTitleBold,
               ),
               const SizedBox(height: 8.0),
               _RadiusScope(
@@ -258,12 +258,12 @@ class _FestivalRegisterScreenState extends State<FestivalRegisterScreen> {
           children: [
             Text(
               '◦ 행사 등록 신청 전에 행사리스트에서 동일한 행사가 있는지 먼저 확인해주세요.',
-              style: descriptionTextStyle,
+              style: MyTextStyle.descriptionRegular,
             ),
             SizedBox(height: 8.0),
             Text(
               '◦ 행사 등록 신청은 무분별한 중복 등록 방지를 위한 과정입니다.',
-              style: descriptionTextStyle,
+              style: MyTextStyle.descriptionRegular,
             ),
           ],
         ),
@@ -411,7 +411,7 @@ class _FestivalDurationState extends State<_FestivalDuration> {
       children: [
         const Text(
           '행사 기간',
-          style: bodyTitleBoldTextStyle,
+          style: MyTextStyle.bodyTitleBold,
         ),
         const SizedBox(height: 8.0),
         Row(
@@ -437,15 +437,16 @@ class _FestivalDurationState extends State<_FestivalDuration> {
                       horizontal: 12.0,
                     ),
                     child: startAt == null
-                        ? const Row(
+                        ? Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
                                 '행사 시작 일자',
-                                style: descriptionGreyTextStyle,
+                                style: MyTextStyle.descriptionRegular
+                                    .copyWith(color: DARK_GREY_COLOR),
                               ),
-                              SizedBox(width: 4.0),
-                              Icon(
+                              const SizedBox(width: 4.0),
+                              const Icon(
                                 Icons.expand_more_rounded,
                                 color: DARK_GREY_COLOR,
                               ),
@@ -453,7 +454,7 @@ class _FestivalDurationState extends State<_FestivalDuration> {
                           )
                         : Text(
                             convertDateTimeToMinute(datetime: startAt!),
-                            style: descriptionTextStyle,
+                            style: MyTextStyle.descriptionRegular,
                             textAlign: TextAlign.center,
                           ),
                   ),
@@ -485,15 +486,17 @@ class _FestivalDurationState extends State<_FestivalDuration> {
                       horizontal: 12.0,
                     ),
                     child: endAt == null
-                        ? const Row(
+                        ? Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
                                 '행사 끝 일자',
-                                style: descriptionGreyTextStyle,
+                                style: MyTextStyle.descriptionRegular.copyWith(
+                                  color: DARK_GREY_COLOR,
+                                ),
                               ),
-                              SizedBox(width: 4.0),
-                              Icon(
+                              const SizedBox(width: 4.0),
+                              const Icon(
                                 Icons.expand_more_rounded,
                                 color: DARK_GREY_COLOR,
                               ),
@@ -501,7 +504,7 @@ class _FestivalDurationState extends State<_FestivalDuration> {
                           )
                         : Text(
                             convertDateTimeToMinute(datetime: endAt!),
-                            style: descriptionTextStyle,
+                            style: MyTextStyle.descriptionRegular,
                             textAlign: TextAlign.center,
                           ),
                   ),

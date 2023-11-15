@@ -10,7 +10,9 @@ ButtonStyle defaultButtonStyle = ElevatedButton.styleFrom(
   shape: RoundedRectangleBorder(
     borderRadius: BorderRadius.circular(8.0),
   ),
-  textStyle: bodyBoldWhiteTextStyle,
+  textStyle: MyTextStyle.bodyBold.copyWith(
+    color: WHITE_TEXT_COLOR,
+  ),
 );
 
 ButtonStyle secondButtonStyle = ElevatedButton.styleFrom(
@@ -25,7 +27,9 @@ ButtonStyle secondButtonStyle = ElevatedButton.styleFrom(
     ),
     borderRadius: BorderRadius.circular(8.0),
   ),
-  textStyle: bodyBoldWhiteTextStyle,
+  textStyle: MyTextStyle.bodyBold.copyWith(
+    color: WHITE_TEXT_COLOR,
+  ),
 );
 
 ButtonStyle thirdButtonStyle = ElevatedButton.styleFrom(
@@ -40,7 +44,9 @@ ButtonStyle thirdButtonStyle = ElevatedButton.styleFrom(
     ),
     borderRadius: BorderRadius.circular(8.0),
   ),
-  textStyle: bodyBoldWhiteTextStyle,
+  textStyle: MyTextStyle.bodyBold.copyWith(
+    color: WHITE_TEXT_COLOR,
+  ),
 );
 
 ButtonStyle kakaoLoginButtonStyle = ElevatedButton.styleFrom(
@@ -56,7 +62,7 @@ ButtonStyle kakaoLoginButtonStyle = ElevatedButton.styleFrom(
     borderRadius: BorderRadius.circular(12.0),
   ),
   minimumSize: const Size(100, 50),
-  textStyle: bodyBoldWhiteTextStyle.copyWith(
+  textStyle: MyTextStyle.bodyBold.copyWith(
     color: KAKAO_TEXT_COLOR,
   ),
 );
@@ -69,7 +75,7 @@ ButtonStyle appleLoginButtonStyle = ElevatedButton.styleFrom(
     borderRadius: BorderRadius.circular(12.0),
   ),
   minimumSize: const Size(100, 50),
-  textStyle: bodyBoldWhiteTextStyle.copyWith(
+  textStyle: MyTextStyle.bodyBold.copyWith(
     color: KAKAO_TEXT_COLOR,
   ),
 );
@@ -87,5 +93,7 @@ ButtonStyle festivalParticipateButtonStyle = ElevatedButton.styleFrom(
   shape: RoundedRectangleBorder(
     borderRadius: BorderRadius.circular(16.0),
   ),
-  textStyle: bodyBoldWhiteTextStyle,
+  textStyle: MyTextStyle.bodyBold.copyWith(
+    color: WHITE_TEXT_COLOR,
+  ),
 );

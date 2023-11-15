@@ -1,62 +1,66 @@
 import 'package:flutter/material.dart';
-import 'package:true_counter/common/const/colors.dart';
 
-const appNameTextStyle = TextStyle(
-  fontSize: 36.0,
-  fontWeight: FontWeight.bold,
-  color: DEFAULT_TEXT_COLOR,
-);
+class MyTextStyle {
+  static const appName = TextStyle(
+    fontSize: 36.0,
+    fontWeight: FontWeight.w600,
+    letterSpacing: -1.025,
+    height: 1.2,
+  );
 
-const headTitleTextStyle = TextStyle(
-  fontSize: 24.0,
-  fontWeight: FontWeight.bold,
-  color: DEFAULT_TEXT_COLOR,
-);
+  static const headTitle = TextStyle(
+    fontSize: 24.0,
+    fontWeight: FontWeight.w600,
+    letterSpacing: -1.025,
+    height: 1.2,
+  );
 
-const bodyTitleBoldTextStyle = TextStyle(
-  fontSize: 20.0,
-  fontWeight: FontWeight.bold,
-  color: DEFAULT_TEXT_COLOR,
-);
+  static const bodyTitleBold = TextStyle(
+    fontSize: 20.0,
+    fontWeight: FontWeight.w600,
+    letterSpacing: -1.025,
+    height: 1.2,
+  );
 
-const bodyBoldTextStyle = TextStyle(
-  fontSize: 18.0,
-  fontWeight: FontWeight.bold,
-  color: DEFAULT_TEXT_COLOR,
-);
+  static const bodyBold = TextStyle(
+    fontSize: 18.0,
+    fontWeight: FontWeight.w600,
+    letterSpacing: -1.025,
+    height: 1.2,
+  );
 
-const bodyBoldWhiteTextStyle = TextStyle(
-  fontSize: 18.0,
-  fontWeight: FontWeight.bold,
-  color: WHITE_TEXT_COLOR,
-);
+  static const bodyMedium = TextStyle(
+    fontSize: 18.0,
+    fontWeight: FontWeight.w500,
+    letterSpacing: -1.025,
+    height: 1.2,
+  );
 
-const bodyMediumTextStyle = TextStyle(
-  fontSize: 18.0,
-  fontWeight: FontWeight.w500,
-  color: DEFAULT_TEXT_COLOR,
-);
+  static const bodyRegular = TextStyle(
+    fontSize: 18.0,
+    fontWeight: FontWeight.w400,
+    letterSpacing: -1.025,
+    height: 1.2,
+  );
 
-const bodyRegularTextStyle = TextStyle(
-  fontSize: 18.0,
-  fontWeight: FontWeight.w400,
-  color: DEFAULT_TEXT_COLOR,
-);
+  static const descriptionBold = TextStyle(
+    fontSize: 16.0,
+    fontWeight: FontWeight.w600,
+    letterSpacing: -1.025,
+    height: 1.2,
+  );
 
-const descriptionTextStyle = TextStyle(
-  fontSize: 16.0,
-  fontWeight: FontWeight.w400,
-  color: DEFAULT_TEXT_COLOR,
-);
+  static const descriptionMedium = TextStyle(
+    fontSize: 16.0,
+    fontWeight: FontWeight.w500,
+    letterSpacing: -1.025,
+    height: 1.2,
+  );
 
-const descriptionGreyTextStyle = TextStyle(
-  fontSize: 16.0,
-  fontWeight: FontWeight.w400,
-  color: DARK_GREY_COLOR,
-);
-
-const smallGreyTextStyle = TextStyle(
-  fontSize: 14.0,
-  fontWeight: FontWeight.w300,
-  color: DARK_GREY_COLOR,
-);
+  static const descriptionRegular = TextStyle(
+    fontSize: 16.0,
+    fontWeight: FontWeight.w400,
+    letterSpacing: -1.025,
+    height: 1.2,
+  );
+}

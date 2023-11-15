@@ -37,7 +37,7 @@ class _TermsScreenState extends State<TermsScreen> {
               children: [
                 const Text(
                   '트루카운터 서비스\n이용약관에 동의해주세요.',
-                  style: headTitleTextStyle,
+                  style: MyTextStyle.headTitle,
                 ),
                 const SizedBox(height: 20.0),
                 GestureDetector(
@@ -77,8 +77,10 @@ class _TermsScreenState extends State<TermsScreen> {
                           Text(
                             '전체 약관에 동의합니다.',
                             style: isCheckTotalContainer
-                                ? bodyBoldWhiteTextStyle
-                                : bodyBoldTextStyle,
+                                ? MyTextStyle.bodyBold.copyWith(
+                                    color: WHITE_TEXT_COLOR,
+                                  )
+                                : MyTextStyle.bodyBold,
                           )
                         ],
                       ),
@@ -155,9 +157,7 @@ class CustomTerm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textStyle = bodyBoldTextStyle.copyWith(
-      fontSize: 16.0,
-    );
+    final textStyle = MyTextStyle.descriptionBold;
     return Container(
       color: BACKGROUND_COLOR,
       height: 50.0,

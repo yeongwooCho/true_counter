@@ -45,30 +45,36 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
                 const SizedBox(height: 24.0),
                 const Text(
                   '회원 탈퇴 시\n아래의 주의사항을 꼭 읽어주세요.',
-                  style: headTitleTextStyle,
+                  style: MyTextStyle.headTitle,
                 ),
                 const SizedBox(height: 24.0),
-                const Padding(
+                Padding(
                   padding: EdgeInsets.symmetric(horizontal: 8.0),
                   child: Text(
                     '◦ 탈퇴 시 회원님의 휴대전화 정보를 포함한 모든 개인 정보는 7일 이후 삭제 됩니다.',
-                    style: descriptionGreyTextStyle,
+                    style: MyTextStyle.descriptionRegular.copyWith(
+                      color: DARK_GREY_COLOR,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 16.0),
-                const Padding(
+                Padding(
                   padding: EdgeInsets.symmetric(horizontal: 8.0),
                   child: Text(
                     '◦ 중복 카운팅 방지를 위해 재 가입은 7일 이후 신규 가입이 가능 합니다.',
-                    style: descriptionGreyTextStyle,
+                    style: MyTextStyle.descriptionRegular.copyWith(
+                      color: DARK_GREY_COLOR,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 16.0),
-                const Padding(
+                Padding(
                   padding: EdgeInsets.symmetric(horizontal: 8.0),
                   child: Text(
                     '◦ 기존에 참여한 카운터 정보는 유지됩니다.',
-                    style: descriptionGreyTextStyle,
+                    style: MyTextStyle.descriptionRegular.copyWith(
+                      color: DARK_GREY_COLOR,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 36.0),
@@ -95,7 +101,7 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
                         const SizedBox(width: 16.0),
                         const Text(
                           '위 사실을 모두 확인 하였습니다.',
-                          style: bodyBoldTextStyle,
+                          style: MyTextStyle.bodyBold,
                         ),
                       ],
                     ),

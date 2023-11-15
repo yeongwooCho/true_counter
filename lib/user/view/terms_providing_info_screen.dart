@@ -20,7 +20,7 @@ class TermsProvidingInfoScreen extends StatelessWidget {
           children: [
             Text(
               '트루 카운터 정보 제공 동의 약관',
-              style: bodyMediumTextStyle.copyWith(
+              style: MyTextStyle.bodyMedium.copyWith(
                 color: DARK_GREY_COLOR,
               ),
             ),
@@ -45,8 +45,10 @@ class TermsProvidingInfoScreen extends StatelessWidget {
 
 ◦  회원님의 정보는 본인 동의없이 제 3자에게 제공되지 않습니다.
             ''',
-              style: bodyMediumTextStyle.copyWith(
-                  color: DARK_GREY_COLOR, fontWeight: FontWeight.w300),
+              style: MyTextStyle.bodyRegular.copyWith(
+                color: DARK_GREY_COLOR,
+                fontWeight: FontWeight.w300,
+              ),
             ),
           ],
         ),

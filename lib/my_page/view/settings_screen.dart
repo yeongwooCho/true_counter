@@ -34,7 +34,7 @@ class SettingsScreen extends StatelessWidget {
                 children: [
                   const Text(
                     '계정 정보',
-                    style: headTitleTextStyle,
+                    style: MyTextStyle.headTitle,
                   ),
                   const SizedBox(height: 24.0),
                   if (userModel.email.isNotEmpty &&
@@ -84,7 +84,7 @@ class SettingsScreen extends StatelessWidget {
                 children: [
                   const Text(
                     '계정 관리',
-                    style: headTitleTextStyle,
+                    style: MyTextStyle.headTitle,
                   ),
                   const SizedBox(height: 16.0),
                   TextButton(
@@ -114,7 +114,7 @@ class SettingsScreen extends StatelessWidget {
                       children: [
                         Text(
                           '로그아웃',
-                          style: bodyMediumTextStyle,
+                          style: MyTextStyle.bodyMedium,
                           textAlign: TextAlign.start,
                         ),
                       ],
@@ -131,7 +131,7 @@ class SettingsScreen extends StatelessWidget {
                       children: [
                         Text(
                           '회원탈퇴',
-                          style: bodyMediumTextStyle,
+                          style: MyTextStyle.bodyMedium,
                           textAlign: TextAlign.start,
                         ),
                         Icon(
@@ -163,11 +163,11 @@ class SettingsScreen extends StatelessWidget {
         children: [
           Text(
             title,
-            style: bodyMediumTextStyle,
+            style: MyTextStyle.bodyMedium,
           ),
           Text(
             description,
-            style: descriptionTextStyle,
+            style: MyTextStyle.descriptionRegular,
           ),
         ],
       ),

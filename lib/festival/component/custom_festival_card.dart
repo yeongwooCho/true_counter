@@ -57,7 +57,7 @@ class CustomFestivalCard extends StatelessWidget {
                   padding: EdgeInsets.symmetric(vertical: 8.0),
                   child: Text(
                     '예정된 행사 입니다.',
-                    style: bodyTitleBoldTextStyle,
+                    style: MyTextStyle.bodyTitleBold,
                     textAlign: TextAlign.center,
                   ),
                 )
@@ -69,7 +69,7 @@ class CustomFestivalCard extends StatelessWidget {
                         Expanded(
                           child: Text(
                             "[${festivalModel.region}] ${festivalModel.title}",
-                            style: bodyTitleBoldTextStyle,
+                            style: MyTextStyle.bodyTitleBold,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -90,7 +90,7 @@ class CustomFestivalCard extends StatelessWidget {
                                           return AlertDialog(
                                             icon: const Text(
                                               '행사 참여하기',
-                                              style: bodyTitleBoldTextStyle,
+                                              style: MyTextStyle.bodyTitleBold,
                                             ),
                                             title: Column(
                                               crossAxisAlignment:
@@ -99,19 +99,22 @@ class CustomFestivalCard extends StatelessWidget {
                                                 const Text(
                                                   '행사명',
                                                   textAlign: TextAlign.start,
-                                                  style: bodyBoldTextStyle,
+                                                  style:
+                                                      MyTextStyle.bodyTitleBold,
                                                 ),
                                                 const SizedBox(height: 4.0),
                                                 Text(
                                                   '[${festivalModel.region}] ${festivalModel.title}',
                                                   textAlign: TextAlign.start,
-                                                  style: descriptionTextStyle,
+                                                  style: MyTextStyle
+                                                      .descriptionRegular,
                                                 ),
                                               ],
                                             ),
                                             content: Text(
                                               '행사 참여자로 카운팅 되기 위해서는 회원님이 행사장 반경 ${convertRadiusToString(radius: festivalModel.radius)} 안에 있어야 합니다.',
-                                              style: descriptionTextStyle,
+                                              style: MyTextStyle
+                                                  .descriptionRegular,
                                             ),
                                             actions: [
                                               TextButton(
@@ -215,16 +218,13 @@ class CustomFestivalCard extends StatelessWidget {
                       children: [
                         Text(
                           '누적인원: ',
-                          style: bodyRegularTextStyle.copyWith(
-                              color: PRIMARY_COLOR
-                          ),
+                          style: MyTextStyle.bodyRegular
+                              .copyWith(color: PRIMARY_COLOR),
                         ),
                         Text(
                           '${convertIntToMoneyString(number: festivalModel.cumulativeParticipantCount)} 명',
-                          style: bodyBoldTextStyle.copyWith(
-                              fontWeight: FontWeight.bold,
-                              color: PRIMARY_COLOR
-                          ),
+                          style: MyTextStyle.bodyBold
+                              .copyWith(color: PRIMARY_COLOR),
                         ),
                       ],
                     ),
@@ -232,7 +232,7 @@ class CustomFestivalCard extends StatelessWidget {
                       children: [
                         Text(
                           '참여반경: ',
-                          style: bodyRegularTextStyle.copyWith(
+                          style: MyTextStyle.bodyRegular.copyWith(
                             color: PRIMARY_COLOR,
                           ),
 
@@ -241,9 +241,8 @@ class CustomFestivalCard extends StatelessWidget {
                           convertRadiusToString(
                             radius: festivalModel.radius,
                           ),
-                          style: bodyBoldTextStyle.copyWith(
-                            color: PRIMARY_COLOR
-                          ),
+                          style: MyTextStyle.bodyBold
+                              .copyWith(color: PRIMARY_COLOR),
                         ),
                       ],
                     ),

@@ -32,7 +32,7 @@ class _DefaultAppBarState extends State<DefaultAppBar> {
         widget.title,
         style: const TextStyle(
           fontSize: 18.0,
-          fontWeight: FontWeight.bold,
+          fontWeight: FontWeight.w600,
           color: DEFAULT_TEXT_COLOR,
         ),
       ),

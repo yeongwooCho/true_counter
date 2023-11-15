@@ -46,7 +46,7 @@ class CustomBottomSheet extends StatelessWidget {
                   style: secondButtonStyle,
                   child: Text(
                     'asdfasdf',
-                    style: bodyMediumTextStyle,
+                    style: MyTextStyle.bodyMedium,
                   ),
                 ),
               ],

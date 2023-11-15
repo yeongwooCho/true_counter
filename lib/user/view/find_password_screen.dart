@@ -72,7 +72,7 @@ class _FindPasswordScreenState extends State<FindPasswordScreen> {
               const SizedBox(height: 24.0),
               const Text(
                 '비밀번호 찾기를 위해\n휴대폰 인증을 해주세요.',
-                style: headTitleTextStyle,
+                style: MyTextStyle.headTitle,
               ),
               const SizedBox(height: 48.0),
               Form(
@@ -193,7 +193,7 @@ class _FindPasswordScreenState extends State<FindPasswordScreen> {
                     width: 120.0,
                     child: Text(
                       '출생년도',
-                      style: bodyTitleBoldTextStyle,
+                      style: MyTextStyle.bodyTitleBold,
                     ),
                   ),
                   const SizedBox(width: 16.0),

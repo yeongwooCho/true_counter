@@ -6,7 +6,6 @@ import 'package:true_counter/common/layout/default_layout.dart';
 import 'package:true_counter/common/variable/routes.dart';
 import 'package:true_counter/festival/provider/festival_provider.dart';
 import 'package:true_counter/notification/provider/notification_provider.dart';
-import 'package:true_counter/user/model/enum/sign_up_type.dart';
 import 'package:true_counter/user/repository/user_repository.dart';
 import 'package:true_counter/user/repository/user_repository_interface.dart';
 
@@ -72,6 +71,13 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void initSplash() async {
+    final isHealthCheck = await _userRepository.healthCheck();
+    if (!isHealthCheck) {
+      Navigator.of(context).pushNamedAndRemoveUntil(
+        RouteNames.healthCheck,
+        (route) => false,
+      );
+    }
     // _userRepository.signUp(
     //   email: "asd123@naver.com",
     //   password: "dud9480!",

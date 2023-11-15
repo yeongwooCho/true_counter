@@ -1,6 +1,8 @@
 import 'package:true_counter/user/model/enum/sign_up_type.dart';
 
 abstract class UserRepositoryInterface {
+  Future<bool> healthCheck();
+
   Future<bool> duplicateEmail({
     required String email,
   });

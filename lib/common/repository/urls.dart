@@ -3,6 +3,9 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 class Url {
   static String baseUrl = dotenv.env['BASE_URL']!;
 
+  // health-check
+  static String healthCheck = '$baseUrl/actuator/health';
+
   // user
   static String duplicateEmail = "$baseUrl/auth/email-duplicate";
   static String duplicatePhone = "$baseUrl/auth/phone-duplicate";

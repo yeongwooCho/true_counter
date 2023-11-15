@@ -25,6 +25,16 @@ class UserRepository extends UserRepositoryInterface {
   // Firebase Auth 에 다음 두 가지가 존재한다. // AppleAuthCredential, AppleAuthProvider
 
   @override
+  Future<bool> healthCheck() async {
+    try {
+      await _dio.get(Url.healthCheck);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  @override
   Future<bool> duplicateEmail({
     required String email,
   }) async {

@@ -4,6 +4,7 @@ import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 import 'package:provider/provider.dart';
 import 'package:true_counter/common/model/screen_arguments.dart';
 import 'package:true_counter/common/view/root_tab.dart';
+import 'package:true_counter/common/view/server_maintenance_screen.dart';
 import 'package:true_counter/festival/model/festival_model.dart';
 import 'package:true_counter/festival/provider/festival_provider.dart';
 import 'package:true_counter/festival/view/festival_detail_screen.dart';
@@ -33,6 +34,7 @@ import 'package:true_counter/user/view/terms_screen.dart';
 class RouteNames {
   // initial
   static const String splash = '/';
+  static const String healthCheck = '/health/check';
 
   // onBoarding, login, register, findID, passwordReset
   static const String onBoarding = '/onBoarding';
@@ -97,6 +99,9 @@ Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
   //   }
   //   return CompletionScreen(title: title);
   // },
+
+  // healthCheck
+  RouteNames.healthCheck: (_) => ServerMaintenanceScreen(),
 
   // onBoarding, login, register, findID, passwordReset
   RouteNames.onBoarding: (_) => OnBoardingScreen(),

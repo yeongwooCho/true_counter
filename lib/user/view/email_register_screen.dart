@@ -435,6 +435,9 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                           formKey.currentState != null &&
                           formKey.currentState!.validate()
                       ? () async {
+                          setState(() {
+                            isLoading = true;
+                          });
                           final isSuccessSignIn = await _userRepository.signUp(
                             email: emailText!,
                             password: passwordText!,
@@ -446,6 +449,9 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
                             region: location!,
                             signUpType: SignUpType.email,
                           );
+                          setState(() {
+                            isLoading = false;
+                          });
 
                           if (isSuccessSignIn) {
                             Navigator.of(context).pushNamedAndRemoveUntil(

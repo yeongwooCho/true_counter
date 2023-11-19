@@ -16,18 +16,38 @@ class MyPageScreen extends StatefulWidget {
 }
 
 class _MyPageScreenState extends State<MyPageScreen> {
+  int count = 0;
+
   @override
   Widget build(BuildContext context) {
+    count = 0;
     return DefaultLayout(
-      appbar: const DefaultAppBar(
-        title: '마이페이지',
-      ),
+      appbar: const DefaultAppBar(title: '마이페이지'),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const SizedBox(height: 24.0),
+            GestureDetector(
+              onDoubleTap: () {
+                count++;
+                if (count > 10) {
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                    RouteNames.onBoarding,
+                    (route) => false,
+                  );
+                }
+              },
+              child: Row(
+                children: [
+                  Container(
+                    color: EMPTY_COLOR,
+                    height: 24.0,
+                    width: 24.0,
+                  ),
+                ],
+              ),
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -41,15 +61,15 @@ class _MyPageScreenState extends State<MyPageScreen> {
                 ),
                 IconButton(
                   onPressed: UserModel.current == null ||
-                          UserModel.current?.isDummy == true
+                      UserModel.current?.isDummy == true
                       ? null
                       : () {
-                          Navigator.of(context).pushNamed(
-                            RouteNames.settings,
-                            arguments:
-                                ScreenArguments(data: UserModel.current!),
-                          );
-                        },
+                    Navigator.of(context).pushNamed(
+                      RouteNames.settings,
+                      arguments:
+                      ScreenArguments(data: UserModel.current!),
+                    );
+                  },
                   icon: const Icon(
                     Icons.settings_outlined,
                     size: 32.0,
@@ -76,10 +96,10 @@ class _MyPageScreenState extends State<MyPageScreen> {
                 showCustomToast(context, msg: "로그인 후 이용 가능합니다.");
                     }
                   : () {
-                      Navigator.of(context).pushNamed(
-                        RouteNames.myParticipation,
-                      );
-                    },
+                Navigator.of(context).pushNamed(
+                  RouteNames.myParticipation,
+                );
+              },
             ),
           ],
         ),

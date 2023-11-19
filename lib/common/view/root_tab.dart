@@ -59,6 +59,7 @@ class _RootTabState extends State<RootTab> with TickerProviderStateMixin {
       ),
       child: Center(
         child: TabBarView(
+          physics: const NeverScrollableScrollPhysics(),
           controller: controller,
           children: [
             FestivalListScreen(),

@@ -225,7 +225,7 @@ class _FestivalRegisterScreenState extends State<FestivalRegisterScreen> {
                           region: region!,
                           startAt: startAt!,
                           endAt: endAt!,
-                          isValid: true,
+                          isValid: false,
                         );
 
                         showCustomToast(

@@ -22,10 +22,12 @@ class OnBoardingScreen extends StatefulWidget {
 
 class _OnBoardingScreenState extends State<OnBoardingScreen> {
   final UserRepositoryInterface _userRepository = UserRepository();
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(
+      isLoading: isLoading,
       appbar: DefaultAppBar(
         title: '',
         elevation: 0.0,
@@ -106,23 +108,28 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               children: [
                 ElevatedButton(
                   onPressed: () async {
+                    setState(() {
+                      isLoading = true;
+                    });
                     // TODO: 카카오 로그인 구현
                     print('카카오 로그인 버튼 누름');
 
                     final bool isSuccessKakaoSignIn =
-                    await _userRepository.kakaoSignIn();
+                        await _userRepository.kakaoSignIn();
+
+                    setState(() {
+                      isLoading = false;
+                    });
 
                     if (isSuccessKakaoSignIn) {
                       Navigator.of(context).pushNamedAndRemoveUntil(
                         RouteNames.root,
-                            (route) => false,
+                        (route) => false,
                       );
                     } else {
                       Navigator.of(context).pushNamed(
                         RouteNames.snsRegister,
-                        arguments: ScreenArguments<bool>(
-                          data: true
-                        ),
+                        arguments: ScreenArguments<bool>(data: true),
                       );
                     }
                   },
@@ -140,8 +147,15 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 if (Platform.isIOS)
                   ElevatedButton(
                     onPressed: () async {
+                      setState(() {
+                        isLoading = true;
+                      });
                       final bool isSuccessAppleSignIn =
                           await _userRepository.appleSignIn();
+
+                      setState(() {
+                        isLoading = true;
+                      });
                       if (isSuccessAppleSignIn) {
                         Navigator.of(context).pushNamedAndRemoveUntil(
                           RouteNames.root,

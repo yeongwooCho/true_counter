@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:true_counter/common/component/custom_drop_down_button.dart';
-import 'package:true_counter/common/component/custom_loading.dart';
 import 'package:true_counter/common/component/custom_text_form_field.dart';
 import 'package:true_counter/common/const/button_style.dart';
 import 'package:true_counter/common/const/colors.dart';
@@ -88,397 +87,386 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
       appbar: const DefaultAppBar(
         title: '회원가입',
       ),
-      child: Stack(
-        children: [
-          SingleChildScrollView(
-            child: Form(
-              key: formKey,
-              autovalidateMode: AutovalidateMode.always,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 16.0, vertical: 24.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    const SizedBox(height: 24.0),
-                    const Text(
-                      '트루카운터에서 사용할\n계정 정보를 입력해주세요.',
-                      style: MyTextStyle.headTitle,
-                    ),
-                    const SizedBox(height: 32.0),
-                    Form(
-                      key: emailFormKey,
-                      autovalidateMode: AutovalidateMode.always,
-                      child: CustomTextFormField(
-                        onChanged: (String? value) {
-                          emailText = value;
-                          setState(() {});
-                        },
-                        onSaved: (String? value) {
-                          emailText = value;
-                        },
-                        validator: TextValidator.emailValidator,
-                        focusNode: emailFocus,
-                        onEditingComplete: () {
-                          if (formKey.currentState!.validate()) {
-                            passwordFocus?.requestFocus();
-                          } else {
-                            emailFocus?.requestFocus();
+      child: SingleChildScrollView(
+        child: Form(
+          key: formKey,
+          autovalidateMode: AutovalidateMode.always,
+          child: Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(height: 24.0),
+                const Text(
+                  '트루카운터에서 사용할\n계정 정보를 입력해주세요.',
+                  style: MyTextStyle.headTitle,
+                ),
+                const SizedBox(height: 32.0),
+                Form(
+                  key: emailFormKey,
+                  autovalidateMode: AutovalidateMode.always,
+                  child: CustomTextFormField(
+                    onChanged: (String? value) {
+                      emailText = value;
+                      setState(() {});
+                    },
+                    onSaved: (String? value) {
+                      emailText = value;
+                    },
+                    validator: TextValidator.emailValidator,
+                    focusNode: emailFocus,
+                    onEditingComplete: () {
+                      if (formKey.currentState!.validate()) {
+                        passwordFocus?.requestFocus();
+                      } else {
+                        emailFocus?.requestFocus();
+                      }
+                    },
+                    title: '이메일',
+                    hintText: '예) abc@true.com',
+                    buttonText: '중복확인',
+                    textInputType: TextInputType.emailAddress,
+                    onPressedButton: !isValidEmail &&
+                            emailText != null &&
+                            emailText!.isNotEmpty &&
+                            (emailFormKey.currentState != null &&
+                                emailFormKey.currentState!.validate())
+                        ? () async {
+                            setState(() {
+                              isLoading = true;
+                            });
+                            final bool isFail = await _userRepository
+                                .duplicateEmail(email: emailText!);
+                            setState(() {
+                              isLoading = false;
+                            });
+                            if (!isFail) {
+                              // 사용 가능한 이메일일 경우
+                              setState(() {
+                                isValidEmail = true;
+                                passwordFocus?.requestFocus();
+                              });
+                            } else {
+                              showCustomToast(
+                                context,
+                                msg: '중복된 이메일이 존재합니다.',
+                              );
+                            }
                           }
-                        },
-                        title: '이메일',
-                        hintText: '예) abc@true.com',
-                        buttonText: '중복확인',
-                        textInputType: TextInputType.emailAddress,
-                        onPressedButton: !isValidEmail &&
-                                emailText != null &&
-                                emailText!.isNotEmpty &&
-                                (emailFormKey.currentState != null &&
-                                    emailFormKey.currentState!.validate())
-                            ? () async {
-                                setState(() {
-                                  isLoading = true;
-                                });
-                                final bool isFail = await _userRepository
-                                    .duplicateEmail(email: emailText!);
-                                setState(() {
-                                  isLoading = false;
-                                });
-                                if (!isFail) {
-                                  // 사용 가능한 이메일일 경우
-                                  setState(() {
-                                    isValidEmail = true;
-                                    passwordFocus?.requestFocus();
-                                  });
-                                } else {
-                                  showCustomToast(
-                                    context,
-                                    msg: '중복된 이메일이 존재합니다.',
-                                  );
-                                }
-                              }
-                            : null,
-                        enabled: isValidEmail ? false : true,
-                      ),
+                        : null,
+                    enabled: isValidEmail ? false : true,
+                  ),
+                ),
+                const SizedBox(height: 16.0),
+                CustomTextFormField(
+                  obscureText: !isVisiblePassword,
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      isVisiblePassword = !isVisiblePassword;
+                      setState(() {});
+                    },
+                    icon: Icon(
+                      isVisiblePassword
+                          ? Icons.visibility_rounded
+                          : Icons.visibility_off_rounded,
+                      color: DEFAULT_TEXT_COLOR,
                     ),
-                    const SizedBox(height: 16.0),
-                    CustomTextFormField(
-                      obscureText: !isVisiblePassword,
-                      suffixIcon: IconButton(
-                        onPressed: () {
-                          isVisiblePassword = !isVisiblePassword;
-                          setState(() {});
-                        },
-                        icon: Icon(
-                          isVisiblePassword
-                              ? Icons.visibility_rounded
-                              : Icons.visibility_off_rounded,
-                          color: DEFAULT_TEXT_COLOR,
-                        ),
-                      ),
-                      onChanged: (String? value) {
-                        passwordText = value;
-                      },
-                      onSaved: (String? value) {
-                        passwordText = value;
-                      },
-                      validator: TextValidator.passwordValidator,
-                      focusNode: passwordFocus,
-                      onEditingComplete: () {
-                        if (formKey.currentState != null &&
-                            formKey.currentState!.validate()) {
-                          passwordCheckFocus?.requestFocus();
-                        } else {
-                          passwordFocus?.requestFocus();
-                        }
-                      },
-                      title: '비밀번호',
-                      hintText: '영문, 숫자, 특수문자 포함 8~15자',
-                      textInputType: TextInputType.visiblePassword,
+                  ),
+                  onChanged: (String? value) {
+                    passwordText = value;
+                  },
+                  onSaved: (String? value) {
+                    passwordText = value;
+                  },
+                  validator: TextValidator.passwordValidator,
+                  focusNode: passwordFocus,
+                  onEditingComplete: () {
+                    if (formKey.currentState != null &&
+                        formKey.currentState!.validate()) {
+                      passwordCheckFocus?.requestFocus();
+                    } else {
+                      passwordFocus?.requestFocus();
+                    }
+                  },
+                  title: '비밀번호',
+                  hintText: '영문, 숫자, 특수문자 포함 8~15자',
+                  textInputType: TextInputType.visiblePassword,
+                ),
+                const SizedBox(height: 16.0),
+                CustomTextFormField(
+                  obscureText: !isVisiblePasswordCheck,
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      isVisiblePasswordCheck = !isVisiblePasswordCheck;
+                      setState(() {});
+                    },
+                    icon: Icon(
+                      isVisiblePasswordCheck
+                          ? Icons.visibility_rounded
+                          : Icons.visibility_off_rounded,
+                      color: DEFAULT_TEXT_COLOR,
                     ),
-                    const SizedBox(height: 16.0),
-                    CustomTextFormField(
-                      obscureText: !isVisiblePasswordCheck,
-                      suffixIcon: IconButton(
-                        onPressed: () {
-                          isVisiblePasswordCheck = !isVisiblePasswordCheck;
-                          setState(() {});
-                        },
-                        icon: Icon(
-                          isVisiblePasswordCheck
-                              ? Icons.visibility_rounded
-                              : Icons.visibility_off_rounded,
-                          color: DEFAULT_TEXT_COLOR,
-                        ),
-                      ),
-                      onChanged: (String? value) {
-                        passwordCheckText = value;
-                      },
-                      onSaved: (String? value) {
-                        passwordCheckText = value;
-                      },
-                      validator: (String? value) {
-                        return TextValidator.passwordCheckValidator(
-                            passwordText, value);
-                      },
-                      focusNode: passwordCheckFocus,
-                      onEditingComplete: () {
-                        if (isValidCertification) {
-                          passwordCheckFocus?.unfocus();
-                          return;
-                        }
-                        if (formKey.currentState != null &&
-                            formKey.currentState!.validate()) {
-                          phoneFocus?.requestFocus();
-                        } else {
-                          passwordCheckFocus?.requestFocus();
-                        }
-                      },
-                      title: '비밀번호 확인',
-                      hintText: '영문, 숫자, 특수문자 포함 8~15자',
-                      textInputType: TextInputType.visiblePassword,
-                    ),
-                    const SizedBox(height: 16.0),
-                    Form(
-                      key: phoneFormKey,
-                      autovalidateMode: AutovalidateMode.always,
-                      child: CustomTextFormField(
-                        onChanged: (String? value) {
-                          phoneText = value;
-                          setState(() {});
-                        },
-                        onSaved: (String? value) {
-                          phoneText = value;
-                        },
-                        validator: TextValidator.phoneValidator,
-                        focusNode: phoneFocus,
-                        onEditingComplete: () {
-                          if (phoneFormKey.currentState != null &&
-                              phoneFormKey.currentState!.validate()) {
-                            phoneFocus?.unfocus();
-                          }
-                        },
-                        title: '휴대폰 번호',
-                        hintText: '예) 01012341234',
-                        buttonText: isValidCertification ? '인증 완료' : '인증번호 받기',
-                        onPressedButton: isValidCertification ||
-                                phoneText == null ||
-                                phoneText!.isEmpty ||
-                                !phoneFormKey.currentState!.validate()
+                  ),
+                  onChanged: (String? value) {
+                    passwordCheckText = value;
+                  },
+                  onSaved: (String? value) {
+                    passwordCheckText = value;
+                  },
+                  validator: (String? value) {
+                    return TextValidator.passwordCheckValidator(
+                        passwordText, value);
+                  },
+                  focusNode: passwordCheckFocus,
+                  onEditingComplete: () {
+                    if (isValidCertification) {
+                      passwordCheckFocus?.unfocus();
+                      return;
+                    }
+                    if (formKey.currentState != null &&
+                        formKey.currentState!.validate()) {
+                      phoneFocus?.requestFocus();
+                    } else {
+                      passwordCheckFocus?.requestFocus();
+                    }
+                  },
+                  title: '비밀번호 확인',
+                  hintText: '영문, 숫자, 특수문자 포함 8~15자',
+                  textInputType: TextInputType.visiblePassword,
+                ),
+                const SizedBox(height: 16.0),
+                Form(
+                  key: phoneFormKey,
+                  autovalidateMode: AutovalidateMode.always,
+                  child: CustomTextFormField(
+                    onChanged: (String? value) {
+                      phoneText = value;
+                      setState(() {});
+                    },
+                    onSaved: (String? value) {
+                      phoneText = value;
+                    },
+                    validator: TextValidator.phoneValidator,
+                    focusNode: phoneFocus,
+                    onEditingComplete: () {
+                      if (phoneFormKey.currentState != null &&
+                          phoneFormKey.currentState!.validate()) {
+                        phoneFocus?.unfocus();
+                      }
+                    },
+                    title: '휴대폰 번호',
+                    hintText: '예) 01012341234',
+                    buttonText: isValidCertification ? '인증 완료' : '인증번호 받기',
+                    onPressedButton: isValidCertification ||
+                            phoneText == null ||
+                            phoneText!.isEmpty ||
+                            !phoneFormKey.currentState!.validate()
+                        ? null
+                        : () async {
+                            setState(() {
+                              isLoading = true;
+                            });
+
+                            final isDuplicate =
+                                await _userRepository.duplicatePhone(
+                              phone: phoneText!,
+                            );
+                            if (isDuplicate) {
+                              showCustomToast(
+                                context,
+                                msg: "중복된 번호를 가진\n계정이 존재합니다.",
+                              );
+                              setState(() {
+                                isLoading = false;
+                              });
+                              return;
+                            }
+
+                            // isLoading = true;
+                            isRequestCertification = true;
+                            setState(() {});
+
+                            if (isRequestCertification) {
+                              certificationFocus?.requestFocus();
+                            } else {
+                              phoneFocus?.requestFocus();
+                            }
+
+                            // TODO: 휴대폰 번호에 인증코드 전송번호 전달
+                            await _firebasePhoneAuthUtil.requestSmsCode(
+                              context: context,
+                              phone: phoneText!,
+                            );
+
+                            isLoading = false;
+                            setState(() {});
+                          },
+                    textInputType: TextInputType.number,
+                    enabled: isValidCertification ? false : true,
+                  ),
+                ),
+                const SizedBox(height: 4.0),
+                if (isRequestCertification && !isValidCertification)
+                  CustomTextFormField(
+                    onChanged: (String? value) {
+                      certificationText = value;
+                      setState(() {});
+                    },
+                    onSaved: (String? value) {
+                      certificationText = value;
+                    },
+                    validator: (String? value) {
+                      return null;
+                    },
+                    focusNode: certificationFocus,
+                    hintText: '인증번호 입력',
+                    buttonText: '인증번호 확인',
+                    onPressedButton:
+                        isValidCertification || certificationText == null
                             ? null
                             : () async {
-                                setState(() {
-                                  isLoading = true;
-                                });
-
-                                final isDuplicate =
-                                    await _userRepository.duplicatePhone(
-                                  phone: phoneText!,
-                                );
-                                if (isDuplicate) {
-                                  showCustomToast(
-                                    context,
-                                    msg: "중복된 번호를 가진\n계정이 존재합니다.",
-                                  );
-                                  setState(() {
-                                    isLoading = false;
-                                  });
-                                  return;
-                                }
-
-                                // isLoading = true;
-                                isRequestCertification = true;
+                                isLoading = true;
                                 setState(() {});
 
-                                if (isRequestCertification) {
-                                  certificationFocus?.requestFocus();
-                                } else {
-                                  phoneFocus?.requestFocus();
-                                }
-
-                                // TODO: 휴대폰 번호에 인증코드 전송번호 전달
-                                await _firebasePhoneAuthUtil.requestSmsCode(
-                                  context: context,
-                                  phone: phoneText!,
+                                bool isVerified =
+                                    await _firebasePhoneAuthUtil.verifyUser(
+                                  smsCode: certificationText!,
                                 );
 
                                 isLoading = false;
                                 setState(() {});
+
+                                // TODO: 인증번호가 일치하는지 확인
+                                if (isVerified) {
+                                  isValidCertification = true;
+                                  certificationFocus?.unfocus();
+                                  showCustomToast(
+                                    context,
+                                    msg: '인증번호가 정상적으로 확인되었습니다.',
+                                  );
+                                  setState(() {});
+                                } else {
+                                  showCustomToast(
+                                    context,
+                                    msg: '인증번호가 일치하지 않습니다.',
+                                  );
+                                }
                               },
-                        textInputType: TextInputType.number,
-                        enabled: isValidCertification ? false : true,
+                    enabled: isValidCertification ? false : true,
+                  ),
+                const SizedBox(height: 16.0),
+                _SelectedGender(
+                  gender: gender,
+                  onTap: onGenderSelected,
+                ),
+                const SizedBox(height: 16.0),
+                Row(
+                  children: [
+                    const SizedBox(
+                      width: 120.0,
+                      child: Text(
+                        '출생년도',
+                        style: MyTextStyle.bodyMedium,
                       ),
                     ),
-                    const SizedBox(height: 4.0),
-                    if (isRequestCertification && !isValidCertification)
-                      CustomTextFormField(
+                    const SizedBox(width: 16.0),
+                    Expanded(
+                      child: CustomDropDownButton(
+                        dropdownList: List<String>.generate(100, (index) {
+                          return "${now.year - index} 년";
+                        }),
+                        defaultValue: birthday == null
+                            ? "${now.year} 년"
+                            : "${birthday!.year} 년",
                         onChanged: (String? value) {
-                          certificationText = value;
+                          if (value == null) {
+                            return;
+                          }
+                          int selectedYear = int.parse(value.split(' ').first);
+                          birthday =
+                              convertBirthdayDateTime(year: selectedYear);
+
                           setState(() {});
                         },
-                        onSaved: (String? value) {
-                          certificationText = value;
-                        },
-                        validator: (String? value) {
-                          return null;
-                        },
-                        focusNode: certificationFocus,
-                        hintText: '인증번호 입력',
-                        buttonText: '인증번호 확인',
-                        onPressedButton:
-                            isValidCertification || certificationText == null
-                                ? null
-                                : () async {
-                                    isLoading = true;
-                                    setState(() {});
-
-                                    bool isVerified =
-                                        await _firebasePhoneAuthUtil.verifyUser(
-                                      smsCode: certificationText!,
-                                    );
-
-                                    isLoading = false;
-                                    setState(() {});
-
-                                    // TODO: 인증번호가 일치하는지 확인
-                                    if (isVerified) {
-                                      isValidCertification = true;
-                                      certificationFocus?.unfocus();
-                                      showCustomToast(
-                                        context,
-                                        msg: '인증번호가 정상적으로 확인되었습니다.',
-                                      );
-                                      setState(() {});
-                                    } else {
-                                      showCustomToast(
-                                        context,
-                                        msg: '인증번호가 일치하지 않습니다.',
-                                      );
-                                    }
-                                  },
-                        enabled: isValidCertification ? false : true,
                       ),
-                    const SizedBox(height: 16.0),
-                    _SelectedGender(
-                      gender: gender,
-                      onTap: onGenderSelected,
                     ),
-                    const SizedBox(height: 16.0),
-                    Row(
-                      children: [
-                        const SizedBox(
-                          width: 120.0,
-                          child: Text(
-                            '출생년도',
-                            style: MyTextStyle.bodyMedium,
-                          ),
-                        ),
-                        const SizedBox(width: 16.0),
-                        Expanded(
-                          child: CustomDropDownButton(
-                            dropdownList: List<String>.generate(100, (index) {
-                              return "${now.year - index} 년";
-                            }),
-                            defaultValue: birthday == null
-                                ? "${now.year} 년"
-                                : "${birthday!.year} 년",
-                            onChanged: (String? value) {
-                              if (value == null) {
-                                return;
-                              }
-                              int selectedYear =
-                                  int.parse(value.split(' ').first);
-                              birthday = convertBirthdayDateTime(year: selectedYear);
-
-                              setState(() {});
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 16.0),
-                    Row(
-                      children: [
-                        const SizedBox(
-                          width: 120.0,
-                          child: Text(
-                            '거주지역',
-                            style: MyTextStyle.bodyMedium,
-                          ),
-                        ),
-                        const SizedBox(width: 16.0),
-                        Expanded(
-                          child: CustomDropDownButton(
-                            dropdownList: registerLocation,
-                            defaultValue: location == null ? '선택' : location!,
-                            onChanged: (String? value) {
-                              location = value;
-                              setState(() {});
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 32.0),
-                    ElevatedButton(
-                      onPressed: emailText != null &&
-                              emailText!.isNotEmpty &&
-                              isValidEmail == true &&
-                              passwordText != null &&
-                              passwordText!.isNotEmpty &&
-                              passwordCheckText != null &&
-                              passwordCheckText!.isNotEmpty &&
-                              isRequestCertification &&
-                              isValidCertification &&
-                              gender != null &&
-                              birthday != null &&
-                              location != null &&
-                              location!.isNotEmpty &&
-                              location != '선택' &&
-                              formKey.currentState != null &&
-                              formKey.currentState!.validate()
-                          ? () async {
-                              final isSuccessSignIn =
-                                  await _userRepository.signUp(
-                                email: emailText!,
-                                password: passwordText!,
-                                phone: phoneText!,
-                                birthday: convertDateTimeToDateString(
-                                  datetime: birthday!,
-                                ),
-                                gender: gender!,
-                                region: location!,
-                                signUpType: SignUpType.email,
-                              );
-
-                              if (isSuccessSignIn) {
-                                Navigator.of(context).pushNamedAndRemoveUntil(
-                                  RouteNames.emailRegisterCompletion,
-                                  (route) => false,
-                                );
-                              } else {
-                                showCustomToast(
-                                  context,
-                                  msg: '오류 메세지 입니다.',
-                                );
-                              }
-                            }
-                          : null,
-                      style: defaultButtonStyle,
-                      child: const Text('회원가입 완료'),
-                    )
                   ],
                 ),
-              ),
+                const SizedBox(height: 16.0),
+                Row(
+                  children: [
+                    const SizedBox(
+                      width: 120.0,
+                      child: Text(
+                        '거주지역',
+                        style: MyTextStyle.bodyMedium,
+                      ),
+                    ),
+                    const SizedBox(width: 16.0),
+                    Expanded(
+                      child: CustomDropDownButton(
+                        dropdownList: registerLocation,
+                        defaultValue: location == null ? '선택' : location!,
+                        onChanged: (String? value) {
+                          location = value;
+                          setState(() {});
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 32.0),
+                ElevatedButton(
+                  onPressed: emailText != null &&
+                          emailText!.isNotEmpty &&
+                          isValidEmail == true &&
+                          passwordText != null &&
+                          passwordText!.isNotEmpty &&
+                          passwordCheckText != null &&
+                          passwordCheckText!.isNotEmpty &&
+                          isRequestCertification &&
+                          isValidCertification &&
+                          gender != null &&
+                          birthday != null &&
+                          location != null &&
+                          location!.isNotEmpty &&
+                          location != '선택' &&
+                          formKey.currentState != null &&
+                          formKey.currentState!.validate()
+                      ? () async {
+                          final isSuccessSignIn = await _userRepository.signUp(
+                            email: emailText!,
+                            password: passwordText!,
+                            phone: phoneText!,
+                            birthday: convertDateTimeToDateString(
+                              datetime: birthday!,
+                            ),
+                            gender: gender!,
+                            region: location!,
+                            signUpType: SignUpType.email,
+                          );
+
+                          if (isSuccessSignIn) {
+                            Navigator.of(context).pushNamedAndRemoveUntil(
+                              RouteNames.emailRegisterCompletion,
+                              (route) => false,
+                            );
+                          } else {
+                            showCustomToast(
+                              context,
+                              msg: '오류 메세지 입니다.',
+                            );
+                          }
+                        }
+                      : null,
+                  style: defaultButtonStyle,
+                  child: const Text('회원가입 완료'),
+                )
+              ],
             ),
           ),
-          Positioned.fill(
-            child: Visibility(
-              visible: isLoading,
-              child: const CustomLoadingScreen(),
-            ),
-          )
-        ],
+        ),
       ),
     );
   }

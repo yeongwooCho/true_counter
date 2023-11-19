@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:true_counter/common/component/custom_drop_down_button.dart';
-import 'package:true_counter/common/component/custom_loading.dart';
 import 'package:true_counter/common/component/custom_text_form_field.dart';
 import 'package:true_counter/common/const/button_style.dart';
 import 'package:true_counter/common/const/colors.dart';
@@ -43,182 +42,173 @@ class _SnsRegisterScreenState extends State<SnsRegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(
+      isLoading: isLoading,
       appbar: DefaultAppBar(
         title: widget.isKakao ? "카카오로 회원가입" : "애플로 회원가입",
       ),
-      child: Stack(
-        children: [
-          SingleChildScrollView(
-            child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  const SizedBox(height: 24.0),
-                  const Text(
-                    '트루카운터에서 사용할 추가\n계정 정보를 입력해 주세요.',
-                    style: MyTextStyle.headTitle,
-                  ),
-                  const SizedBox(height: 24.0),
+      child: SingleChildScrollView(
+        child: Padding(
+          padding:
+              const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const SizedBox(height: 24.0),
+              const Text(
+                '트루카운터에서 사용할 추가\n계정 정보를 입력해 주세요.',
+                style: MyTextStyle.headTitle,
+              ),
+              const SizedBox(height: 24.0),
 
-                  Text(
-                    '휴대폰 번호와 출생연도는\n“본인인증” 및 “중복참여방지”에\n가장 중요한 기초 데이터 입니다.',
-                    style: MyTextStyle.descriptionRegular.copyWith(
-                      color: DARK_GREY_COLOR,
+              Text(
+                '휴대폰 번호와 출생연도는\n“본인인증” 및 “중복참여방지”에\n가장 중요한 기초 데이터 입니다.',
+                style: MyTextStyle.descriptionRegular.copyWith(
+                  color: DARK_GREY_COLOR,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 24.0),
+              Text(
+                '휴대폰 번호와 출생연도를\n정확히 입력해 주세요.',
+                style: MyTextStyle.descriptionRegular.copyWith(
+                  color: DARK_GREY_COLOR,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 32.0),
+              Form(
+                key: phoneFormKey,
+                autovalidateMode: AutovalidateMode.always,
+                child: CustomTextFormField(
+                  onChanged: (String? value) {
+                    phoneText = value;
+                    setState(() {});
+                  },
+                  onSaved: (String? value) {
+                    phoneText = value;
+                  },
+                  validator: TextValidator.phoneValidator,
+                  // focusNode: phoneFocus,
+                  title: '휴대폰 번호',
+                  hintText: '예) 01012341234',
+                  textInputType: TextInputType.number,
+                ),
+              ),
+              const SizedBox(height: 16.0),
+              _SelectedGender(
+                gender: gender,
+                onTap: onGenderSelected,
+              ),
+              const SizedBox(height: 16.0),
+              Row(
+                children: [
+                  const SizedBox(
+                    width: 120.0,
+                    child: Text(
+                      '출생년도',
+                      style: MyTextStyle.bodyTitleBold,
                     ),
-                    textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 24.0),
-                  Text(
-                    '휴대폰 번호와 출생연도를\n정확히 입력해 주세요.',
-                    style: MyTextStyle.descriptionRegular.copyWith(
-                      color: DARK_GREY_COLOR,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 32.0),
-                  Form(
-                    key: phoneFormKey,
-                    autovalidateMode: AutovalidateMode.always,
-                    child: CustomTextFormField(
+                  const SizedBox(width: 16.0),
+                  Expanded(
+                    child: CustomDropDownButton(
+                      dropdownList: List<String>.generate(100, (index) {
+                        return "${now.year - index} 년";
+                      }),
+                      defaultValue: "${birthday.year} 년",
                       onChanged: (String? value) {
-                        phoneText = value;
+                        if (value == null) {
+                          return;
+                        }
+                        int selectedYear =
+                            int.parse(value.split(' ').first);
+                        birthday =
+                            convertBirthdayDateTime(year: selectedYear);
                         setState(() {});
                       },
-                      onSaved: (String? value) {
-                        phoneText = value;
-                      },
-                      validator: TextValidator.phoneValidator,
-                      // focusNode: phoneFocus,
-                      title: '휴대폰 번호',
-                      hintText: '예) 01012341234',
-                      textInputType: TextInputType.number,
                     ),
                   ),
-                  const SizedBox(height: 16.0),
-                  _SelectedGender(
-                    gender: gender,
-                    onTap: onGenderSelected,
-                  ),
-                  const SizedBox(height: 16.0),
-                  Row(
-                    children: [
-                      const SizedBox(
-                        width: 120.0,
-                        child: Text(
-                          '출생년도',
-                          style: MyTextStyle.bodyTitleBold,
-                        ),
-                      ),
-                      const SizedBox(width: 16.0),
-                      Expanded(
-                        child: CustomDropDownButton(
-                          dropdownList: List<String>.generate(100, (index) {
-                            return "${now.year - index} 년";
-                          }),
-                          defaultValue: "${birthday.year} 년",
-                          onChanged: (String? value) {
-                            if (value == null) {
-                              return;
-                            }
-                            int selectedYear =
-                                int.parse(value.split(' ').first);
-                            birthday =
-                                convertBirthdayDateTime(year: selectedYear);
-                            setState(() {});
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16.0),
-                  Row(
-                    children: [
-                      const SizedBox(
-                        width: 120.0,
-                        child: Text(
-                          '거주지역',
-                          style: MyTextStyle.bodyTitleBold,
-                        ),
-                      ),
-                      const SizedBox(width: 16.0),
-                      Expanded(
-                        child: CustomDropDownButton(
-                          dropdownList: registerLocation,
-                          defaultValue: location == null ? '선택' : location!,
-                          onChanged: (String? value) {
-                            location = value;
-                            setState(() {});
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 32.0),
-                  ElevatedButton(
-                    onPressed: gender != null &&
-                            location != null &&
-                            location!.isNotEmpty &&
-                            location != '선택' &&
-                            phoneFormKey.currentState != null &&
-                            phoneFormKey.currentState!.validate() &&
-                            phoneText != null &&
-                            phoneText!.isNotEmpty
-                        ? () async {
-                            late bool isSuccessSignUp;
-
-                            if (widget.isKakao) {
-                              isSuccessSignUp =
-                                  await _userRepository.kakaoSignUp(
-                                phone: phoneText!,
-                                gender: gender!,
-                                birthday: convertDateTimeToDateString(
-                                  datetime: birthday,
-                                ),
-                                region: location!,
-                              );
-                            } else {
-                              isSuccessSignUp =
-                                  await _userRepository.appleSignUp(
-                                phone: phoneText!,
-                                gender: gender!,
-                                birthday: convertDateTimeToDateString(
-                                  datetime: birthday,
-                                ),
-                                region: location!,
-                              );
-                            }
-
-                            if (isSuccessSignUp) {
-                              Navigator.of(context).pushNamedAndRemoveUntil(
-                                RouteNames.root,
-                                (route) => false,
-                              );
-                            } else {
-                              Navigator.of(context).pop();
-                              showCustomToast(
-                                context,
-                                msg:
-                                    "계정 문제로 인해 \n${widget.isKakao ? '카카오' : '애플'}로 시작할 수 없습니다.",
-                              );
-                            }
-                          }
-                        : null,
-                    style: defaultButtonStyle,
-                    child: const Text('다음'),
-                  )
                 ],
               ),
-            ),
+              const SizedBox(height: 16.0),
+              Row(
+                children: [
+                  const SizedBox(
+                    width: 120.0,
+                    child: Text(
+                      '거주지역',
+                      style: MyTextStyle.bodyTitleBold,
+                    ),
+                  ),
+                  const SizedBox(width: 16.0),
+                  Expanded(
+                    child: CustomDropDownButton(
+                      dropdownList: registerLocation,
+                      defaultValue: location == null ? '선택' : location!,
+                      onChanged: (String? value) {
+                        location = value;
+                        setState(() {});
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 32.0),
+              ElevatedButton(
+                onPressed: gender != null &&
+                        location != null &&
+                        location!.isNotEmpty &&
+                        location != '선택' &&
+                        phoneFormKey.currentState != null &&
+                        phoneFormKey.currentState!.validate() &&
+                        phoneText != null &&
+                        phoneText!.isNotEmpty
+                    ? () async {
+                  late bool isSuccessSignUp;
+
+                        if (widget.isKakao) {
+                          isSuccessSignUp =
+                              await _userRepository.kakaoSignUp(
+                            phone: phoneText!,
+                            gender: gender!,
+                            birthday: convertDateTimeToDateString(
+                              datetime: birthday,
+                            ),
+                            region: location!,
+                          );
+                        } else {
+                          isSuccessSignUp =
+                              await _userRepository.appleSignUp(
+                            phone: phoneText!,
+                            gender: gender!,
+                            birthday: convertDateTimeToDateString(
+                              datetime: birthday,
+                            ),
+                            region: location!,
+                          );
+                        }
+
+                        if (isSuccessSignUp) {
+                          Navigator.of(context).pushNamedAndRemoveUntil(
+                            RouteNames.root,
+                            (route) => false,
+                          );
+                        } else {
+                          Navigator.of(context).pop();
+                          showCustomToast(
+                            context,
+                            msg:
+                                "계정 문제로 인해 \n${widget.isKakao ? '카카오' : '애플'}로 시작할 수 없습니다.",
+                          );
+                        }
+                      }
+                    : null,
+                style: defaultButtonStyle,
+                child: const Text('다음'),
+              )
+            ],
           ),
-          Positioned.fill(
-            child: Visibility(
-              visible: isLoading,
-              child: const CustomLoadingScreen(),
-            ),
-          )
-        ],
+        ),
       ),
     );
   }

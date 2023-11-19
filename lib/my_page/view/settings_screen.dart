@@ -109,12 +109,14 @@ class SettingsScreen extends StatelessWidget {
                         },
                       );
                     },
-                    child: const Row(
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
                           '로그아웃',
-                          style: MyTextStyle.bodyMedium,
+                          style: MyTextStyle.bodyMedium.copyWith(
+                            color: DEFAULT_TEXT_COLOR,
+                          ),
                           textAlign: TextAlign.start,
                         ),
                       ],
@@ -126,15 +128,17 @@ class SettingsScreen extends StatelessWidget {
                         RouteNames.withdraw,
                       );
                     },
-                    child: const Row(
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
                           '회원탈퇴',
-                          style: MyTextStyle.bodyMedium,
+                          style: MyTextStyle.bodyMedium.copyWith(
+                            color: DEFAULT_TEXT_COLOR,
+                          ),
                           textAlign: TextAlign.start,
                         ),
-                        Icon(
+                        const Icon(
                           Icons.chevron_right,
                           color: DEFAULT_TEXT_COLOR,
                           size: 32.0,

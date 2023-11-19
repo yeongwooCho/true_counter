@@ -20,6 +20,7 @@ import 'package:true_counter/notification/view/notification_detail_screen.dart';
 import 'package:true_counter/notification/view/notification_screen.dart';
 import 'package:true_counter/user/model/user_model.dart';
 import 'package:true_counter/user/view/email_login_screen.dart';
+import 'package:true_counter/user/view/email_register_completion_screen.dart';
 import 'package:true_counter/user/view/email_register_screen.dart';
 import 'package:true_counter/user/view/find_email_completion_screen.dart';
 import 'package:true_counter/user/view/find_email_screen.dart';
@@ -109,6 +110,7 @@ Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
   RouteNames.terms: (_) => TermsScreen(),
   RouteNames.termsProviding: (_) => TermsProvidingInfoScreen(),
   RouteNames.emailRegister: (_) => EmailRegisterScreen(),
+  RouteNames.emailRegisterCompletion: (_) => EmailRegisterCompletionScreen(),
   RouteNames.findEmail: (_) => FindEmailScreen(),
   RouteNames.findEmailCompletion: (context) {
     final args =

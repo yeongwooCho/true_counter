@@ -28,7 +28,7 @@ const List<String> registerLocation = [
 ];
 
 const List<String> homeLocation = [
-  '전체',
+  '전국',
   '서울',
   '부산',
   '대구',

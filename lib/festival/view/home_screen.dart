@@ -96,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(height: 16.0),
               CustomListView(
                 festivals: festivals.where((element) {
-                  if (location == '전체') {
+                  if (location == '전국') {
                     return element.startAt.isBefore(now) &&
                         element.endAt.isAfter(now);
                   } else {

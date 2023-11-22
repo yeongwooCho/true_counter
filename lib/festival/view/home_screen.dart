@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:true_counter/common/component/custom_drop_down_button.dart';
 import 'package:true_counter/common/const/colors.dart';
 import 'package:true_counter/common/const/data.dart';
@@ -27,6 +29,48 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {});
   }
 
+  void showActionSheet({
+    required BuildContext context,
+  }) {
+    showCupertinoModalPopup<void>(
+      context: context,
+      builder: (BuildContext context) => CupertinoActionSheet(
+        title: const Text(
+          '다운로드 링크 공유',
+          style: MyTextStyle.bodyTitleBold,
+        ),
+        message: const Text(
+          '상대방의 스마트폰에 맞는\n링크를 공유해 주세요.',
+          style: MyTextStyle.bodyRegular,
+        ),
+        actions: <CupertinoActionSheetAction>[
+          CupertinoActionSheetAction(
+            onPressed: () async {
+              const String packageName =
+                  'com.truecounter.true_counter'; // 여기에 앱의 패키지 이름을 넣으세요.
+              const String url =
+                  'https://play.google.com/store/apps/details?id=$packageName';
+
+              await Share.share(url);
+              Navigator.of(context).pop();
+            },
+            child: const Text('안드로이드 링크 공유'),
+          ),
+          CupertinoActionSheetAction(
+            onPressed: () async {
+              const String appId = '6470150534'; // 여기에 앱의 App Store ID를 넣으세요.
+              const String url = 'https://apps.apple.com/app/id$appId';
+
+              await Share.share(url);
+              Navigator.of(context).pop();
+            },
+            child: const Text('아이폰 링크 공유'),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final provider = context.watch<FestivalProvider>();
@@ -37,15 +81,15 @@ class _HomeScreenState extends State<HomeScreen> {
       appbar: DefaultAppBar(
         title: '트루카운터',
         action: [
-          // IconButton(
-          //   onPressed: () {
-          //     // TODO: 스토어 공유 연결
-          //   },
-          //   icon: const Icon(
-          //     Icons.share_outlined,
-          //     size: 32.0,
-          //   ),
-          // ),
+          IconButton(
+            onPressed: () async {
+              showActionSheet(context: context);
+            },
+            icon: const Icon(
+              Icons.share_outlined,
+              size: 32.0,
+            ),
+          ),
           IconButton(
             onPressed: () {
               Navigator.pushNamed(

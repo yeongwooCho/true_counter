@@ -51,6 +51,7 @@ dependencies:
   flutter_localizations: # intl 0.18.0 을 의존하고 있음
     sdk: flutter
   fl_chart: ^0.63.0
+  share_plus: ^7.2.1 # 공유하기
 
   # remedi_kopo: ^0.0.2  # 카카오 주소
   kpostal:  # 카카오 우편 번호

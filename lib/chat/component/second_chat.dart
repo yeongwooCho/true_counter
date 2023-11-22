@@ -94,14 +94,20 @@ class SecondChat extends StatelessWidget {
                                     value: item,
                                     child: const Icon(
                                       Icons.keyboard_arrow_down_rounded,
-                                      color: LIGHT_GREY_COLOR,
+                                      color: MIDDLE_GREY_COLOR,
                                     ),
                                   );
                                 }
                                 return DropdownMenuItem<String>(
                                   alignment: Alignment.center,
                                   value: item,
-                                  child: Text(item),
+                                  child: Text(
+                                    item,
+                                    style:
+                                        MyTextStyle.descriptionRegular.copyWith(
+                                      color: DEFAULT_TEXT_COLOR,
+                                    ),
+                                  ),
                                 );
                               }).toList(),
                               onChanged: (String? value) {

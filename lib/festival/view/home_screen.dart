@@ -143,6 +143,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   if (location == homeLocation.first) {
                     return element.startAt.isBefore(now) &&
                         element.endAt.isAfter(now);
+                  } else if (location == "전국") {
+                    return element.radius != 0.5 &&
+                        element.radius != 1.0 &&
+                        element.radius != 2.0 &&
+                        element.startAt.isBefore(now) &&
+                        element.endAt.isAfter(now);
                   } else {
                     return element.region == location &&
                         element.startAt.isBefore(now) &&

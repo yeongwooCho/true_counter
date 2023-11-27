@@ -28,6 +28,7 @@ const List<String> registerLocation = [
 ];
 
 const List<String> homeLocation = [
+  '참여지역(전체)',
   '전국',
   '서울',
   '부산',

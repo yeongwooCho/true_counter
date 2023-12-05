@@ -20,30 +20,33 @@ class NotificationDetailScreen extends StatelessWidget {
       appbar: const DefaultAppBar(
         title: '공지 상세보기',
       ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(
-              notificationModel.title,
-              style: MyTextStyle.headTitle,
-            ),
-            const SizedBox(height: 16.0),
-            Text(
-              "등록 일자: ${convertDateTimeToMinute(datetime: notificationModel.createdAt)}",
-              style: MyTextStyle.bodyBold.copyWith(
-                color: DARK_GREY_COLOR,
+      child: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                notificationModel.title,
+                style: MyTextStyle.headTitle,
               ),
-            ),
-            const SizedBox(height: 16.0),
-            const Divider(),
-            const SizedBox(height: 16.0),
-            Text(
-              notificationModel.content,
-              style: MyTextStyle.bodyMedium,
-            ),
-          ],
+              const SizedBox(height: 16.0),
+              Text(
+                "등록 일자: ${convertDateTimeToMinute(datetime: notificationModel.createdAt)}",
+                style: MyTextStyle.bodyBold.copyWith(
+                  color: DARK_GREY_COLOR,
+                ),
+              ),
+              const SizedBox(height: 16.0),
+              const Divider(),
+              const SizedBox(height: 16.0),
+              SelectableText(
+                notificationModel.content,
+                style: MyTextStyle.bodyMedium,
+              ),
+            ],
+          ),
         ),
       ),
     );

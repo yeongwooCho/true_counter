@@ -154,7 +154,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         element.startAt.isBefore(now) &&
                         element.endAt.isAfter(now);
                   }
-                }).toList(),
+                }).toList().reversed.toList(),
                 emptyMessage: '오늘의 행사는\n존재하지 않습니다',
                 setLoading: setLoading,
                 parentContext: context,
@@ -175,7 +175,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 festivals: festivals.where((element) {
                   return element.startAt.isBefore(now) &&
                       element.endAt.isBefore(now);
-                }).toList(),
+                }).toList().reversed.toList(),
                 emptyMessage: '최근 종료된 행사가\n존재하지 않습니다',
                 setLoading: setLoading,
                 parentContext: context,

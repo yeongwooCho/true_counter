@@ -82,7 +82,7 @@ class _FestivalListScreenState extends State<FestivalListScreen> {
                                 now.isAtSameMomentAs(festivalModel.startAt)) &&
                             (now.isBefore(festivalModel.endAt) ||
                                 now.isAtSameMomentAs(festivalModel.endAt));
-                      }).toList();
+                      }).toList().reversed.toList();
 
                       selectedItemIndex = 0;
                       setState(() {});
@@ -98,7 +98,7 @@ class _FestivalListScreenState extends State<FestivalListScreen> {
                       toBeFestivals = festivals.where((festivalModel) {
                         return festivalModel.startAt.isAfter(now) &&
                             festivalModel.endAt.isAfter(now);
-                      }).toList();
+                      }).toList().reversed.toList();
 
                       selectedItemIndex = 1;
                       setState(() {});
@@ -114,7 +114,7 @@ class _FestivalListScreenState extends State<FestivalListScreen> {
                       beenFestivals = festivals.where((festivalModel) {
                         return festivalModel.startAt.isBefore(now) &&
                             festivalModel.endAt.isBefore(now);
-                      }).toList();
+                      }).toList().reversed.toList();
 
                       selectedItemIndex = 2;
                       setState(() {});

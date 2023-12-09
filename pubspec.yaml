@@ -53,6 +53,7 @@ dependencies:
   fl_chart: ^0.63.0
 #  share_plus: ^7.2.1 # 공유하기
   share_plus: ^6.3.4
+  selectable_autolink_text: ^2.6.0
 
   # remedi_kopo: ^0.0.2  # 카카오 주소
   kpostal:  # 카카오 우편 번호

@@ -3,6 +3,7 @@ import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 import 'package:provider/provider.dart';
 import 'package:true_counter/chat/model/chat_model.dart';
 import 'package:true_counter/chat/view/chat_screen.dart';
+import 'package:true_counter/common/component/custom_auto_list_selectable_text.dart';
 import 'package:true_counter/common/component/custom_text_form_field.dart';
 import 'package:true_counter/common/const/button_style.dart';
 import 'package:true_counter/common/const/colors.dart';
@@ -292,13 +293,13 @@ class _FestivalDetailScreenState extends State<FestivalDetailScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(
-          title,
+        CustomSelectableUriText(
+          text: title,
           style: MyTextStyle.bodyTitleBold,
         ),
         const SizedBox(height: 4.0),
-        Text(
-          description,
+        CustomSelectableUriText(
+          text: description,
           style: MyTextStyle.bodyRegular,
         ),
       ],

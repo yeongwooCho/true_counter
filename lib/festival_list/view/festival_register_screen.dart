@@ -546,6 +546,10 @@ class _FestivalDurationState extends State<_FestivalDuration> {
                       value.year,
                       value.month,
                       value.day,
+                      00,
+                      00,
+                      01,
+                      0,
                     );
                   } else {
                     endAt = DateTime(
@@ -555,6 +559,7 @@ class _FestivalDurationState extends State<_FestivalDuration> {
                       23,
                       59,
                       59,
+                      0,
                     );
                   }
                   if (widget.callBackData != null) {

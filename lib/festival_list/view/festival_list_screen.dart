@@ -82,7 +82,15 @@ class _FestivalListScreenState extends State<FestivalListScreen> {
                                 now.isAtSameMomentAs(festivalModel.startAt)) &&
                             (now.isBefore(festivalModel.endAt) ||
                                 now.isAtSameMomentAs(festivalModel.endAt));
-                      }).toList().reversed.toList();
+                      }).toList();
+
+                      beingFestivals.sort((a,b) {
+                        if (a.endAt.isBefore(b.endAt) || a.endAt.isAtSameMomentAs(b.endAt)) {
+                          return 1;
+                        } else {
+                          return -1;
+                        }
+                      });
 
                       selectedItemIndex = 0;
                       setState(() {});
@@ -98,7 +106,15 @@ class _FestivalListScreenState extends State<FestivalListScreen> {
                       toBeFestivals = festivals.where((festivalModel) {
                         return festivalModel.startAt.isAfter(now) &&
                             festivalModel.endAt.isAfter(now);
-                      }).toList().reversed.toList();
+                      }).toList();
+
+                      toBeFestivals.sort((a,b) {
+                        if (a.endAt.isBefore(b.endAt) || a.endAt.isAtSameMomentAs(b.endAt)) {
+                          return 1;
+                        } else {
+                          return -1;
+                        }
+                      });
 
                       selectedItemIndex = 1;
                       setState(() {});
@@ -114,7 +130,15 @@ class _FestivalListScreenState extends State<FestivalListScreen> {
                       beenFestivals = festivals.where((festivalModel) {
                         return festivalModel.startAt.isBefore(now) &&
                             festivalModel.endAt.isBefore(now);
-                      }).toList().reversed.toList();
+                      }).toList();
+
+                      beenFestivals.sort((a,b) {
+                        if (a.endAt.isBefore(b.endAt) || a.endAt.isAtSameMomentAs(b.endAt)) {
+                          return 1;
+                        } else {
+                          return -1;
+                        }
+                      });
 
                       selectedItemIndex = 2;
                       setState(() {});

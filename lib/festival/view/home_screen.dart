@@ -76,6 +76,44 @@ class _HomeScreenState extends State<HomeScreen> {
     final provider = context.watch<FestivalProvider>();
     final festivals = provider.cacheList['total'] ?? [];
 
+    final List<FestivalModel> doingFestivals = festivals.where((element) {
+      if (location == homeLocation.first) {
+        return element.startAt.isBefore(now) &&
+            element.endAt.isAfter(now);
+      } else if (location == "전국") {
+        return element.radius != 0.5 &&
+            element.radius != 1.0 &&
+            element.radius != 2.0 &&
+            element.startAt.isBefore(now) &&
+            element.endAt.isAfter(now);
+      } else {
+        return element.region == location &&
+            element.startAt.isBefore(now) &&
+            element.endAt.isAfter(now);
+      }
+    }).toList();
+
+    final List<FestivalModel> doneFestivals = festivals.where((element) {
+      return element.startAt.isBefore(now) &&
+          element.endAt.isBefore(now);
+    }).toList();
+
+    doingFestivals.sort((a,b) {
+      if (a.endAt.isBefore(b.endAt) || a.endAt.isAtSameMomentAs(b.endAt)) {
+        return 1;
+      } else {
+        return -1;
+      }
+    });
+
+    doneFestivals.sort((a,b) {
+      if (a.endAt.isBefore(b.endAt) || a.endAt.isAtSameMomentAs(b.endAt)) {
+        return 1;
+      } else {
+        return -1;
+      }
+    });
+
     return DefaultLayout(
       isLoading: provider.cacheList['total'] == null || isLoading,
       appbar: DefaultAppBar(
@@ -139,22 +177,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               const SizedBox(height: 16.0),
               CustomListView(
-                festivals: festivals.where((element) {
-                  if (location == homeLocation.first) {
-                    return element.startAt.isBefore(now) &&
-                        element.endAt.isAfter(now);
-                  } else if (location == "전국") {
-                    return element.radius != 0.5 &&
-                        element.radius != 1.0 &&
-                        element.radius != 2.0 &&
-                        element.startAt.isBefore(now) &&
-                        element.endAt.isAfter(now);
-                  } else {
-                    return element.region == location &&
-                        element.startAt.isBefore(now) &&
-                        element.endAt.isAfter(now);
-                  }
-                }).toList().reversed.toList(),
+                festivals: doingFestivals,
                 emptyMessage: '오늘의 행사는\n존재하지 않습니다',
                 setLoading: setLoading,
                 parentContext: context,
@@ -172,10 +195,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               const SizedBox(height: 24.0),
               CustomListView(
-                festivals: festivals.where((element) {
-                  return element.startAt.isBefore(now) &&
-                      element.endAt.isBefore(now);
-                }).toList().reversed.toList(),
+                festivals: doneFestivals,
                 emptyMessage: '최근 종료된 행사가\n존재하지 않습니다',
                 setLoading: setLoading,
                 parentContext: context,
